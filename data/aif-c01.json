@@ -278,5 +278,565 @@
     ],
     "correct": 1,
     "explanation": "O modelo de Embedding (como o Titan Embeddings ou o Cohere Multilingual) atua especificamente na tradução da linguagem humana para a linguagem de máquina (matemática). Ele lê o texto do documento e converte-o numa matriz de números (embeddings/vetores), permitindo que a base de dados vetorial efetue as pesquisas de similaridade numérica na fase de RAG."
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Qual das seguintes opções descreve melhor o principal objetivo da Inteligência Artificial (IA)?",
+    "options": [
+      "Substituir completamente a inteligência humana em todas as tarefas.",
+      "Capacitar máquinas para simular a inteligência humana, raciocinar e aprender.",
+      "Criar robôs físicos para realizar tarefas repetitivas.",
+      "Apenas automatizar cálculos matemáticos complexos."
+    ],
+    "correct": 1,
+    "explanation": "A IA busca capacitar máquinas para simular a inteligência humana, permitindo-lhes raciocinar, aprender e resolver problemas, em vez de substituí-la completamente ou apenas realizar tarefas mecânicas.",
+    "id": 221
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "O que diferencia o Machine Learning (ML) da programação tradicional?",
+    "options": [
+      "ML usa linguagens de programação mais complexas.",
+      "ML exige que os dados sejam sempre processados manualmente.",
+      "ML permite que os sistemas aprendam com dados sem serem explicitamente programados para cada tarefa.",
+      "Programação tradicional não consegue lidar com grandes volumes de dados."
+    ],
+    "correct": 2,
+    "explanation": "No Machine Learning, os sistemas aprendem padrões a partir de dados e ajustam seu comportamento sem a necessidade de regras explícitas para cada cenário, ao contrário da programação tradicional onde cada regra é definida por um programador.",
+    "id": 222
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Em um contexto de Machine Learning, qual é a principal finalidade de um 'modelo'?",
+    "options": [
+      "Armazenar grandes volumes de dados brutos.",
+      "Representar o algoritmo que foi treinado para fazer previsões ou tomar decisões.",
+      "Executar apenas a interface de usuário de uma aplicação.",
+      "Gerenciar a infraestrutura de rede de um sistema."
+    ],
+    "correct": 1,
+    "explanation": "Um modelo de Machine Learning é o resultado de um processo de treinamento e encapsula o conhecimento aprendido a partir dos dados, sendo usado para fazer previsões ou tomar decisões sobre novos dados.",
+    "id": 223
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Qual dos seguintes é um exemplo de uma aplicação prática de Inteligência Artificial?",
+    "options": [
+      "Um aplicativo de calculadora básica.",
+      "Um processador de texto simples.",
+      "Um sistema de recomendação de produtos em um site de e-commerce.",
+      "Um editor de planilhas eletrônicas."
+    ],
+    "correct": 2,
+    "explanation": "Sistemas de recomendação de produtos utilizam IA para analisar o comportamento do usuário e dados de produtos para sugerir itens relevantes, um exemplo clássico de aplicação de IA.",
+    "id": 224
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "O que representa o termo 'inferência' em Machine Learning?",
+    "options": [
+      "A fase de coleta e preparação de dados para treinamento.",
+      "O processo de usar um modelo treinado para fazer previsões em novos dados.",
+      "A etapa de depuração de erros no código do modelo.",
+      "A avaliação da performance do modelo antes do treinamento."
+    ],
+    "correct": 1,
+    "explanation": "A inferência é o ato de usar um modelo de Machine Learning já treinado para aplicar seu conhecimento em dados nunca vistos antes e gerar previsões ou classificações.",
+    "id": 225
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Qual é a principal característica da IA Generativa?",
+    "options": [
+      "Apenas analisar dados existentes e classificá-los.",
+      "Capacidade de criar conteúdo novo e original, como texto, imagens ou áudio.",
+      "Otimizar o desempenho de hardware de computadores.",
+      "Gerenciar bancos de dados relacionais."
+    ],
+    "correct": 1,
+    "explanation": "A IA Generativa se distingue pela sua capacidade de gerar dados novos e originais, que são semelhantes aos dados de treinamento, mas não são cópias exatas.",
+    "id": 226
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Qual dos seguintes é um exemplo de aplicação da IA Generativa?",
+    "options": [
+      "Detectar spam em e-mails.",
+      "Gerar uma imagem original a partir de uma descrição de texto.",
+      "Traduzir texto de um idioma para outro.",
+      "Reconhecer objetos em uma foto."
+    ],
+    "correct": 1,
+    "explanation": "Gerar imagens a partir de descrições de texto (text-to-image) é uma aplicação clássica da IA Generativa, onde o modelo cria um conteúdo visual totalmente novo.",
+    "id": 227
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "O que são Large Language Models (LLMs) no contexto da IA Generativa?",
+    "options": [
+      "Modelos de IA pequenos usados para tarefas simples de tradução.",
+      "Modelos de IA treinados em grandes volumes de texto para entender e gerar linguagem humana.",
+      "Modelos de IA específicos para reconhecimento de fala em dispositivos móveis.",
+      "Modelos de IA que só podem processar linguagens de programação."
+    ],
+    "correct": 1,
+    "explanation": "LLMs são modelos de IA treinados em vastas quantidades de dados textuais para compreender, gerar e interagir com a linguagem humana de maneira sofisticada.",
+    "id": 228
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "No contexto da IA Generativa, o que é um 'prompt'?",
+    "options": [
+      "A saída gerada pelo modelo de IA.",
+      "A quantidade de dados usados para treinar o modelo.",
+      "Uma instrução ou entrada de texto fornecida a um modelo de IA para guiá-la na geração de conteúdo.",
+      "O algoritmo de treinamento usado para criar o modelo."
+    ],
+    "correct": 2,
+    "explanation": "Um prompt é a entrada ou instrução fornecida pelo usuário a um modelo generativo, que serve para guiar o modelo sobre o tipo de saída desejada.",
+    "id": 229
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Qual serviço da AWS permite aos desenvolvedores acessar e usar uma variedade de modelos de IA generativa (modelos fundamentais) por meio de uma API?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon Bedrock",
+      "Amazon RDS"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Bedrock é um serviço totalmente gerenciado que oferece acesso a modelos fundamentais (FMs) de IA Generativa de Amazon e startups de IA líderes via API, permitindo que os desenvolvedores criem aplicativos generativos de IA.",
+    "id": 230
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Por que a privacidade dos dados é uma preocupação importante na segurança da IA?",
+    "options": [
+      "Porque modelos de IA só podem ser treinados com dados públicos.",
+      "Porque dados sensíveis podem ser expostos ou inferidos por modelos de IA se não forem protegidos adequadamente.",
+      "Porque a privacidade afeta a velocidade de treinamento do modelo.",
+      "Porque dados privados não podem ser usados em nenhum sistema de IA."
+    ],
+    "correct": 1,
+    "explanation": "Modelos de IA são treinados com dados e, se esses dados contiverem informações sensíveis, há um risco de que essas informações sejam expostas, inferidas ou vazadas se não houver medidas de privacidade adequadas.",
+    "id": 231
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "O que significa 'viés' (bias) em um modelo de IA?",
+    "options": [
+      "A capacidade do modelo de operar em diferentes idiomas.",
+      "Uma preferência injusta ou desvantagem sistemática para certos grupos ou resultados, refletindo preconceitos nos dados de treinamento.",
+      "A velocidade com que o modelo faz previsões.",
+      "A complexidade matemática do algoritmo do modelo."
+    ],
+    "correct": 1,
+    "explanation": "Viés em um modelo de IA ocorre quando o modelo aprende e perpetua preconceitos presentes nos dados de treinamento, levando a resultados injustos ou discriminatórios para certos grupos.",
+    "id": 232
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Qual é uma consideração ética fundamental ao desenvolver e implantar sistemas de IA?",
+    "options": [
+      "Garantir que a IA seja a mais barata possível de implementar.",
+      "Priorizar sempre a conveniência do usuário acima de todas as outras preocupações.",
+      "Assegurar que o sistema de IA seja justo, transparente e não cause danos indevidos.",
+      "Desenvolver IA que possa operar sem qualquer intervenção humana."
+    ],
+    "correct": 2,
+    "explanation": "Considerações éticas na IA focam em garantir que a tecnologia seja desenvolvida e usada de forma responsável, promovendo a justiça, transparência e minimizando danos potenciais à sociedade.",
+    "id": 233
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Qual é o risco de treinar um modelo de IA com dados não verificados ou de baixa qualidade?",
+    "options": [
+      "O modelo se tornará muito rápido.",
+      "O modelo terá dificuldade em aprender padrões precisos e pode gerar previsões imprecisas ou tendenciosas.",
+      "O processo de treinamento consumirá menos recursos.",
+      "O modelo será mais fácil de implantar."
+    ],
+    "correct": 1,
+    "explanation": "Dados de baixa qualidade ou não verificados podem levar o modelo a aprender padrões incorretos, resultando em desempenho ruim, previsões imprecisas e, potencialmente, viés.",
+    "id": 234
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Um modelo de IA que é facilmente enganado por pequenas perturbações em seus dados de entrada, levando a classificações incorretas, está vulnerável a que tipo de ataque?",
+    "options": [
+      "Ataque de negação de serviço (DoS).",
+      "Ataque de phishing.",
+      "Ataque adversário.",
+      "Ataque de força bruta."
+    ],
+    "correct": 2,
+    "explanation": "Ataques adversários são projetados para enganar modelos de IA com pequenas, muitas vezes imperceptíveis, modificações nos dados de entrada, fazendo com que o modelo cometa erros de classificação.",
+    "id": 235
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual é geralmente a primeira etapa em um projeto de Machine Learning?",
+    "options": [
+      "Implantar o modelo em produção.",
+      "Coletar e preparar os dados.",
+      "Treinar o modelo.",
+      "Apresentar o modelo aos usuários finais."
+    ],
+    "correct": 1,
+    "explanation": "A coleta e preparação de dados é uma etapa crucial e geralmente a primeira, pois a qualidade e relevância dos dados impactam diretamente o desempenho do modelo.",
+    "id": 236
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual serviço da AWS é amplamente utilizado para armazenar grandes volumes de dados que serão usados para treinar modelos de Machine Learning?",
+    "options": [
+      "AWS Lambda",
+      "Amazon S3 (Simple Storage Service)",
+      "Amazon DynamoDB",
+      "Amazon SQS"
+    ],
+    "correct": 1,
+    "explanation": "Amazon S3 é um serviço de armazenamento de objetos altamente escalável e durável, ideal para armazenar datasets de treinamento de Machine Learning de qualquer tamanho.",
+    "id": 237
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual é o principal propósito do 'treinamento' de um modelo de Machine Learning?",
+    "options": [
+      "Remover o modelo da produção.",
+      "Ajustar os parâmetros internos do modelo usando dados para que ele possa aprender a fazer previsões ou identificar padrões.",
+      "Gerar a documentação do projeto.",
+      "Apenas visualizar os dados de entrada."
+    ],
+    "correct": 1,
+    "explanation": "O treinamento é o processo onde o modelo aprende com os dados, ajustando seus pesos e vieses para minimizar erros e otimizar seu desempenho em uma tarefa específica.",
+    "id": 238
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Após o treinamento, para onde um modelo de Machine Learning precisa ser movido para que possa ser usado por aplicações e usuários finais?",
+    "options": [
+      "Para a fase de coleta de dados.",
+      "Para a fase de depuração do código.",
+      "Para a implantação (produção).",
+      "Para a documentação de requisitos."
+    ],
+    "correct": 2,
+    "explanation": "Após o treinamento e validação, o modelo é implantado em um ambiente de produção para que possa receber novas entradas e fazer previsões ou tomar decisões em tempo real.",
+    "id": 239
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual serviço da AWS oferece recursos de inteligência artificial pré-treinados para análise de imagens e vídeos, como detecção de objetos e reconhecimento facial?",
+    "options": [
+      "Amazon SageMaker",
+      "Amazon Rekognition",
+      "AWS Glue",
+      "Amazon Athena"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Rekognition é um serviço de análise de imagem e vídeo baseado em IA da AWS que oferece capacidades pré-treinadas para diversas tarefas de visão computacional, sem a necessidade de construir um modelo do zero.",
+    "id": 240
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Qual é o principal objetivo da Inteligência Artificial (IA)?",
+    "options": [
+      "Processar transações financeiras.",
+      "Construir robôs físicos.",
+      "Permitir que as máquinas simulem e executem tarefas que normalmente exigem inteligência humana.",
+      "Executar cálculos matemáticos complexos em alta velocidade."
+    ],
+    "correct": 2,
+    "explanation": "O principal objetivo da Inteligência Artificial é desenvolver sistemas que possam simular e executar tarefas que normalmente requerem inteligência humana, como aprendizado, resolução de problemas e tomada de decisões.",
+    "id": 241
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "O que descreve melhor o Aprendizado de Máquina (Machine Learning - ML)?",
+    "options": [
+      "Um subcampo da IA que permite que os sistemas aprendam a partir de dados sem serem explicitamente programados.",
+      "A capacidade de um computador de se comunicar com outros computadores.",
+      "A criação de hardware físico para robôs.",
+      "Um método para armazenar grandes volumes de dados."
+    ],
+    "correct": 0,
+    "explanation": "Aprendizado de Máquina é um subcampo da Inteligência Artificial que se concentra em desenvolver algoritmos que permitem que os computadores aprendam padrões a partir de dados e façam previsões ou decisões sem serem explicitamente programados para cada tarefa.",
+    "id": 242
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Qual é a principal diferença entre aprendizado supervisionado e não supervisionado?",
+    "options": [
+      "Aprendizado supervisionado usa texto, enquanto não supervisionado usa imagens.",
+      "Aprendizado supervisionado usa dados rotulados, enquanto não supervisionado usa dados não rotulados.",
+      "Aprendizado supervisionado é mais rápido que o não supervisionado.",
+      "Aprendizado supervisionado não requer um modelo, enquanto o não supervisionado sim."
+    ],
+    "correct": 1,
+    "explanation": "No aprendizado supervisionado, o modelo é treinado em um conjunto de dados que contém entradas e saídas corretas (rótulos). No aprendizado não supervisionado, o modelo trabalha com dados sem rótulos e tenta encontrar padrões ou estruturas por conta própria.",
+    "id": 243
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Qual das seguintes tarefas é um exemplo de problema de classificação em Machine Learning?",
+    "options": [
+      "Prever o preço de uma casa.",
+      "Agrupar clientes em segmentos.",
+      "Identificar se uma imagem contém um gato ou um cachorro.",
+      "Gerar legendas para uma imagem."
+    ],
+    "correct": 2,
+    "explanation": "Classificação é uma tarefa de aprendizado supervisionado onde o modelo atribui uma categoria (rótulo) a um item de entrada. Identificar um gato ou um cachorro é um exemplo clássico de classificação binária.",
+    "id": 244
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "O que é um 'modelo' no contexto de Machine Learning?",
+    "options": [
+      "Um conjunto de dados brutos para treinamento.",
+      "A representação matemática ou algorítmica de um sistema aprendido a partir de dados.",
+      "O hardware físico onde o código é executado.",
+      "O software usado para visualizar resultados."
+    ],
+    "correct": 1,
+    "explanation": "No Machine Learning, um modelo é o resultado do processo de treinamento de um algoritmo em um conjunto de dados, representando a lógica ou os padrões aprendidos que podem ser usados para fazer previsões ou tomar decisões sobre novos dados.",
+    "id": 245
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Qual é o principal objetivo da IA Generativa?",
+    "options": [
+      "Classificar dados existentes em categorias predefinidas.",
+      "Analisar grandes volumes de dados para identificar tendências.",
+      "Criar novos dados (texto, imagens, áudio, etc.) que se assemelham aos dados de treinamento.",
+      "Prever valores numéricos futuros com base em dados históricos."
+    ],
+    "correct": 2,
+    "explanation": "A IA Generativa tem como objetivo principal gerar novos conteúdos originais, como texto, imagens, áudio e vídeo, que sejam realistas e coerentes com os dados nos quais o modelo foi treinado.",
+    "id": 246
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Qual tipo de modelo é mais comumente usado para gerar texto parecido com o humano a partir de um prompt?",
+    "options": [
+      "Modelos de Regressão Linear.",
+      "Máquinas de Vetor de Suporte (SVMs).",
+      "Grandes Modelos de Linguagem (LLMs).",
+      "Modelos de Agrupamento (Clustering)."
+    ],
+    "correct": 2,
+    "explanation": "Grandes Modelos de Linguagem (LLMs) são os mais conhecidos e eficazes para gerar texto coerente e contextualmente relevante em resposta a prompts, simulando a escrita humana.",
+    "id": 247
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Qual das seguintes é uma aplicação comum da IA Generativa em campos criativos?",
+    "options": [
+      "Previsão do tempo.",
+      "Geração de imagens e arte a partir de descrições textuais.",
+      "Otimização de rotas de entrega.",
+      "Detecção de fraudes financeiras."
+    ],
+    "correct": 1,
+    "explanation": "A IA Generativa é amplamente utilizada para criar novas formas de arte, design e conteúdo visual a partir de descrições textuais, revolucionando campos como design gráfico, publicidade e entretenimento.",
+    "id": 248
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "O que significa a sigla 'LLM' no contexto da IA Generativa?",
+    "options": [
+      "Large-Scale Learning Model (Modelo de Aprendizado em Grande Escala).",
+      "Local Language Module (Módulo de Idioma Local).",
+      "Large Language Model (Grande Modelo de Linguagem).",
+      "Logical Logic Machine (Máquina de Lógica Lógica)."
+    ],
+    "correct": 2,
+    "explanation": "LLM significa Large Language Model (Grande Modelo de Linguagem), referindo-se a modelos de IA que foram treinados em vastas quantidades de dados textuais para entender, gerar e responder a linguagem humana.",
+    "id": 249
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Qual serviço da AWS oferece capacidades para construir e escalar aplicações de IA Generativa com acesso a uma variedade de modelos básicos (foundation models)?",
+    "options": [
+      "Amazon S3.",
+      "Amazon EC2.",
+      "Amazon Bedrock.",
+      "Amazon RDS."
+    ],
+    "correct": 2,
+    "explanation": "Amazon Bedrock é um serviço totalmente gerenciado que facilita o acesso a modelos básicos (foundation models) de IA Generativa da Amazon e de empresas líderes de IA, permitindo construir e escalar aplicações generativas.",
+    "id": 250
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Por que a privacidade dos dados é uma preocupação importante ao desenvolver e implantar modelos de IA?",
+    "options": [
+      "Para garantir que os modelos sejam executados mais rapidamente.",
+      "Para evitar que dados sensíveis sejam expostos ou mal utilizados.",
+      "Para aumentar a complexidade dos modelos.",
+      "Para reduzir o custo de armazenamento de dados."
+    ],
+    "correct": 1,
+    "explanation": "A privacidade dos dados é crucial para proteger informações sensíveis e pessoais usadas no treinamento de modelos de IA, evitando violações de dados, uso indevido e garantindo a conformidade com regulamentações como GDPR ou LGPD.",
+    "id": 251
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "O que é 'viés de IA' (AI bias)?",
+    "options": [
+      "Um erro de software que faz com que o modelo falhe.",
+      "A tendência de um modelo de IA de gerar resultados sistematicamente injustos ou imprecisos devido a preconceitos nos dados de treinamento ou no design do algoritmo.",
+      "Um recurso que permite ao modelo de IA aprender mais rapidamente.",
+      "A preferência do modelo por um tipo específico de hardware."
+    ],
+    "correct": 1,
+    "explanation": "O viés de IA ocorre quando um modelo de IA produz resultados tendenciosos ou discriminatórios, geralmente porque os dados de treinamento eram tendenciosos ou o algoritmo foi projetado de forma a perpetuar preconceitos existentes na sociedade.",
+    "id": 252
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Qual das seguintes é uma prática fundamental para garantir a segurança dos dados usados em sistemas de IA?",
+    "options": [
+      "Compartilhar todos os dados publicamente.",
+      "Não criptografar dados sensíveis.",
+      "Implementar controles de acesso e criptografia de dados.",
+      "Usar os mesmos dados de treinamento para todos os modelos."
+    ],
+    "correct": 2,
+    "explanation": "A implementação de controles de acesso rigorosos (quem pode ver/modificar os dados) e a criptografia de dados (transformar os dados em um código secreto) são práticas essenciais para proteger a segurança e a confidencialidade dos dados em sistemas de IA.",
+    "id": 253
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Qual é um princípio chave da 'IA Responsável'?",
+    "options": [
+      "Maximizar o lucro a qualquer custo.",
+      "Garantir a transparência, a equidade e a responsabilidade nos sistemas de IA.",
+      "Usar apenas modelos de código aberto.",
+      "Desenvolver IA sem qualquer supervisão humana."
+    ],
+    "correct": 1,
+    "explanation": "A IA Responsável envolve garantir que os sistemas de IA sejam desenvolvidos e usados de maneira ética e segura, com ênfase na transparência, equidade (evitar preconceitos) e responsabilidade pelas suas ações e impactos.",
+    "id": 254
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Que tipo de ataque em IA tenta enganar um modelo fazendo pequenas alterações nos dados de entrada para causar uma previsão incorreta?",
+    "options": [
+      "Ataque de negação de serviço (DoS).",
+      "Ataque de phishing.",
+      "Ataque adversário (adversarial attack).",
+      "Ataque de força bruta."
+    ],
+    "correct": 2,
+    "explanation": "Ataques adversários envolvem a criação de entradas especialmente projetadas para enganar modelos de Machine Learning, geralmente fazendo pequenas e imperceptíveis modificações nos dados de entrada para forçar o modelo a fazer uma previsão incorreta.",
+    "id": 255
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual serviço da AWS é amplamente utilizado para construir, treinar e implantar modelos de Machine Learning em escala?",
+    "options": [
+      "Amazon S3.",
+      "Amazon EC2.",
+      "Amazon SageMaker.",
+      "Amazon DynamoDB."
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker é um serviço totalmente gerenciado que abrange o ciclo de vida completo do Machine Learning (ML), desde a preparação dos dados e construção de modelos até o treinamento, ajuste e implantação.",
+    "id": 256
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual é a primeira etapa crucial em um ciclo de vida típico de um projeto de Machine Learning?",
+    "options": [
+      "Implantar o modelo em produção.",
+      "Coletar e preparar os dados.",
+      "Treinar o modelo.",
+      "Avaliar o desempenho do modelo."
+    ],
+    "correct": 1,
+    "explanation": "Antes que qualquer modelo possa ser treinado, é essencial coletar os dados relevantes, limpá-los, transformá-los e prepará-los de forma adequada, pois a qualidade dos dados afeta diretamente o desempenho do modelo.",
+    "id": 257
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual serviço da AWS oferece recursos de IA pré-treinados para tarefas como reconhecimento de imagem e texto, sem a necessidade de construir ou treinar modelos do zero?",
+    "options": [
+      "Amazon Redshift.",
+      "Amazon SQS.",
+      "Serviços de IA da AWS (ex: Rekognition, Comprehend, Polly).",
+      "Amazon EKS."
+    ],
+    "correct": 2,
+    "explanation": "Os serviços de IA da AWS, como Amazon Rekognition (visão computacional), Amazon Comprehend (NLP) e Amazon Polly (text-to-speech), são pré-treinados e oferecem funcionalidades de IA prontas para uso, sem a necessidade de expertise em ML.",
+    "id": 258
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Qual é a principal finalidade da 'rotulagem de dados' (data labeling) em Machine Learning?",
+    "options": [
+      "Compactar dados para economizar espaço de armazenamento.",
+      "Atribuir rótulos ou categorias a dados brutos para que um modelo de aprendizado supervisionado possa ser treinado.",
+      "Remover dados duplicados de um conjunto de dados.",
+      "Criptografar dados para segurança."
+    ],
+    "correct": 1,
+    "explanation": "A rotulagem de dados é o processo de adicionar tags ou rótulos informativos aos dados brutos (como identificar objetos em uma imagem ou categorizar texto), tornando-os úteis para treinar modelos de Machine Learning supervisionado.",
+    "id": 259
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Após a implantação de um modelo de IA, qual é uma preocupação comum que pode afetar seu desempenho ao longo do tempo?",
+    "options": [
+      "Aumentar o custo de hardware indefinidamente.",
+      "O modelo se tornar irrelevante devido a mudanças nos dados do mundo real (deriva de modelo).",
+      "O modelo começar a exigir mais espaço de armazenamento.",
+      "A incapacidade do modelo de se conectar à internet."
+    ],
+    "correct": 1,
+    "explanation": "A deriva de modelo (model drift) ocorre quando o relacionamento entre os dados de entrada e a variável alvo muda ao longo do tempo. Isso faz com que as previsões do modelo implantado se tornem menos precisas à medida que as condições do mundo real mudam em relação aos dados nos quais ele foi treinado.",
+    "id": 260
   }
 ]

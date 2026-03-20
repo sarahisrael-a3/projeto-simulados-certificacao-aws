@@ -1,88 +1,108 @@
-require('dotenv').config(); // Carrega as variáveis de segurança do ficheiro .env
+require('dotenv').config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require("fs");
 const path = require("path");
 
-// 1. A CHAVE AGORA VEM DO FICHEIRO .ENV DE FORMA SEGURA
-const API_KEY = process.env.GEMINI_API_KEY; 
-
-// Validação de segurança: Impede o script de rodar se esquecer de configurar o .env
-if (!API_KEY) {
-    console.error("❌ ERRO: Chave API não encontrada! Certifique-se de que criou o ficheiro .env com a variável GEMINI_API_KEY.");
-    process.exit(1);
-}
-
+const API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-// 2. CONFIGURAÇÕES DO ALVO (Altere conforme o exame que quer gerar)
-const NOME_DO_FICHEIRO = "clf-c02.json";
-const EXAME_ALVO = "AWS Certified Cloud Practitioner (CLF-C02)";
-const DOMINIOS_VALIDOS = ["conceitos-cloud", "seguranca", "tecnologia", "faturamento"];
-const QUANTIDADE = 10; // Quantas questões gerar por execução
+// --- CONFIGURAÇÃO PRO ---
+const META_POR_NIVEL = 60;
+const TENTATIVAS_MAXIMAS = 3; // Se falhar, tenta de novo até 3 vezes
+const ESPERA_ENTRE_BLOCOS = 7000; // 7 segundos (evita o erro 429)
 
-async function gerarQuestoes() {
-    // Usamos o modelo Flash, que é super rápido e ótimo para JSON
-    const model = genAI.getGenerativeModel({ 
-        model: "gemini-2.5-flash", 
-        generationConfig: { responseMimeType: "application/json" }
-    });
+const EXAMES = [
+    { 
+        id: "clf-c02", 
+        nome: "AWS Certified Cloud Practitioner (CLF-C02)",
+        dominios: ["conceitos-cloud", "seguranca", "tecnologia", "faturamento"]
+    },
+    { 
+        id: "saa-c03", 
+        nome: "AWS Certified Solutions Architect – Associate (SAA-C03)",
+        dominios: ["design-resiliente", "design-performance", "seguranca-aplicacoes", "design-custo"]
+    },
+    { 
+        id: "aif-c01", 
+        nome: "AWS Certified AI Practitioner (AIF-C01)",
+        dominios: ["conceitos-ia", "ia-generativa", "seguranca-ia", "implementacao-ia"]
+    }
+];
 
-    const prompt = `Atue como um Arquiteto de Soluções AWS elaborando questões de exame.
-    Gere ${QUANTIDADE} questões técnicas inéditas de múltipla escolha para o exame ${EXAME_ALVO}.
+const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+async function iniciarAutomacao() {
+    console.log("\n🛠️  INICIANDO MOTOR DE GERAÇÃO RESILIENTE...");
     
-    Regras estritas:
-    1. Retorne APENAS um array JSON válido.
-    2. Os níveis de 'difficulty' permitidos são apenas: "easy", "medium" ou "hard".
-    3. Os valores de 'domain' permitidos são apenas: ${JSON.stringify(DOMINIOS_VALIDOS)}.
-    4. O campo 'correct' deve ser um número inteiro de 0 a 3, indicando o índice da resposta correta no array 'options'.
-    
-    Estrutura JSON obrigatória para cada objeto no array:
-    {
-      "id": 0,
-      "domain": "string",
-      "difficulty": "string",
-      "question": "texto da pergunta",
-      "options": ["A", "B", "C", "D"],
-      "correct": 0,
-      "explanation": "Explicação técnica detalhada do porquê a resposta está correta"
-    }`;
+    for (const exame of EXAMES) {
+        console.log(`\n📂 EXAME: ${exame.nome.toUpperCase()}`);
+        const caminho = path.join(__dirname, 'data', `${exame.id}.json`);
+        let banco = fs.existsSync(caminho) ? JSON.parse(fs.readFileSync(caminho, 'utf-8')) : [];
 
-    try {
-        console.log(`🤖 A pedir à IA para gerar ${QUANTIDADE} questões... Aguarde.`);
-        const result = await model.generateContent(prompt);
-        const responseText = result.response.text();
-        
-        // Converte o texto da IA para um Array JavaScript
-        const novasQuestoes = JSON.parse(responseText);
+        for (const nivel of ["easy", "medium", "hard"]) {
+            let atuais = banco.filter(q => q.difficulty === nivel).length;
+            
+            while (atuais < META_POR_NIVEL) {
+                const faltam = META_POR_NIVEL - atuais;
+                const lote = Math.min(15, faltam);
 
-        // 3. LER O BANCO DE DADOS ATUAL
-        const caminhoFicheiro = path.join(__dirname, 'data', NOME_DO_FICHEIRO);
-        let bancoDeDados = [];
-        
-        if (fs.existsSync(caminhoFicheiro)) {
-            const ficheiroAtual = fs.readFileSync(caminhoFicheiro, 'utf-8');
-            bancoDeDados = JSON.parse(ficheiroAtual);
+                console.log(`   [${nivel.toUpperCase()}] Progresso: ${atuais}/${META_POR_NIVEL} | Solicitando +${lote}...`);
+                
+                let sucesso = false;
+                let tentativas = 0;
+
+                while (!sucesso && tentativas < TENTATIVAS_MAXIMAS) {
+                    const novas = await pedirIA(exame, nivel, lote);
+                    
+                    if (novas && novas.length > 0) {
+                        let ultimoId = banco.length > 0 ? Math.max(...banco.map(q => q.id)) : 1000;
+                        novas.forEach(q => { q.id = ++ultimoId; banco.push(q); });
+                        
+                        fs.writeFileSync(caminho, JSON.stringify(banco, null, 2));
+                        atuais = banco.filter(q => q.difficulty === nivel).length;
+                        sucesso = true;
+                        console.log(`      ✅ Sucesso! (${novas.length} novas questões)`);
+                    } else {
+                        tentativas++;
+                        const tempoEspera = 10000 * tentativas;
+                        console.warn(`      ⚠️  Falha (Tentativa ${tentativas}/${TENTATIVAS_MAXIMAS}). Aguardando ${tempoEspera/1000}s...`);
+                        await sleep(tempoEspera);
+                    }
+                }
+
+                if (!sucesso) {
+                    console.error(`      ❌ Abortando nível ${nivel} após várias falhas. Pulando para o próximo.`);
+                    break;
+                }
+
+                await sleep(ESPERA_ENTRE_BLOCOS);
+            }
         }
+    }
+    console.log("\n🏆 PROCESSO FINALIZADO COM SUCESSO!");
+}
 
-        // 4. ATUALIZAR IDs PARA NÃO HAVER CONFLITOS
-        let ultimoId = bancoDeDados.length > 0 ? Math.max(...bancoDeDados.map(q => q.id)) : 1000;
-        
-        novasQuestoes.forEach(q => {
-            ultimoId++;
-            q.id = ultimoId;
+async function pedirIA(exame, nivel, quantidade) {
+    try {
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-1.5-flash", 
+            generationConfig: { responseMimeType: "application/json" } 
         });
 
-        // 5. JUNTAR E GUARDAR O FICHEIRO
-        const bancoAtualizado = [...bancoDeDados, ...novasQuestoes];
-        fs.writeFileSync(caminhoFicheiro, JSON.stringify(bancoAtualizado, null, 2));
-        
-        console.log(`✅ Sucesso! ${novasQuestoes.length} novas questões foram adicionadas ao ficheiro ${NOME_DO_FICHEIRO}.`);
-        console.log(`📊 O seu banco de dados agora tem um total de ${bancoAtualizado.length} questões.`);
+        const prompt = `Aja como Arquiteto AWS Sênior. Gere ${quantidade} questões de múltipla escolha INÉDITAS para o exame ${exame.nome}.
+        Dificuldade: "${nivel}". Domínios: ${JSON.stringify(exame.dominios)}.
+        As questões devem focar em cenários reais de empresas. Evite repetir perguntas anteriores.
+        Responda APENAS com um array JSON válido:
+        [{ "domain": "string", "difficulty": "${nivel}", "question": "string", "options": ["A", "B", "C", "D"], "correct": 0, "explanation": "string" }]`;
 
-    } catch (error) {
-        console.error("❌ Ocorreu um erro ao gerar as questões:", error);
+        const result = await model.generateContent(prompt);
+        const data = JSON.parse(result.response.text());
+        
+        // Validação básica de Schema
+        return Array.isArray(data) ? data : null;
+    } catch (e) {
+        return null;
     }
 }
 
-// Executa a função
-gerarQuestoes();
+iniciarAutomacao();
