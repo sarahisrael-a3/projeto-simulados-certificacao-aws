@@ -1,35 +1,64 @@
-const CACHE_NAME = 'aws-simulador-v1';
+const CACHE_NAME = 'aws-sim-cache-v2'; // Subimos a versão do cache!
 
-// Ficheiros e rotas que queremos guardar no cache do dispositivo
-const ASSETS_TO_CACHE = [
+// Removemos os .json daqui para não ficarem trancados para sempre
+const urlsToCache = [
   '/',
   '/index.html',
   '/style.css',
   '/app.js',
   '/data.js',
-  '/data/clf-c02.json',
-  '/data/saa-c03.json',
-  '/data/aif-c01.json'
+  '/manifest.json'
 ];
 
-// Instalação do Service Worker (Faz o download inicial)
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Cache aberto com sucesso!');
-        return cache.addAll(ASSETS_TO_CACHE);
+      .then(cache => {
+        return cache.addAll(urlsToCache);
       })
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
+  // Limpa caches antigos
+  const cacheAllowlist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheAllowlist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
   );
 });
 
-// Interceção de pedidos (Verifica se já existe offline antes de ir à net)
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
+  // LÓGICA MÁGICA: Se for um arquivo JSON de questões, tenta sempre a Rede Primeiro!
+  if (event.request.url.endsWith('.json') && !event.request.url.includes('manifest.json')) {
+      event.respondWith(
+          fetch(event.request).then(response => {
+              // Guarda a versão gerada pela IA no cache
+              const responseClone = response.clone();
+              caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+              return response;
+          }).catch(() => {
+              // Se estiver offline/sem internet, usa a versão do cache
+              return caches.match(event.request);
+          })
+      );
+      return;
+  }
+
+  // Para o resto do site (HTML, CSS), continua a usar Cache First para ser ultrarrápido
   event.respondWith(
     caches.match(event.request)
-      .then((cachedResponse) => {
-        // Se encontrou no cache (offline), devolve. Se não, faz fetch à rede.
-        return cachedResponse || fetch(event.request);
+      .then(response => {
+        if (response) return response;
+        return fetch(event.request);
       })
   );
 });
