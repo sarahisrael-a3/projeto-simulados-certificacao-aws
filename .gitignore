@@ -1,3 +1,5 @@
 # Segredos e Variáveis de Ambiente
 .env
 node_modules/
+dist/
+coverage/

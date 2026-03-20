@@ -121,6 +121,8 @@ async function startQuiz() {
   const difficulty = difficultySelect ? difficultySelect.value : 'all';
   const quizMode = document.getElementById('mode-study')?.checked ? 'study' : 'exam';
 
+  const startBtn = document.getElementById('btn-start-quiz');
+  
   const spinner = document.createElement('i');
   spinner.className = 'fa-solid fa-spinner fa-spin mr-2';
   startBtn.innerHTML = '';

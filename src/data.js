@@ -103,25 +103,6 @@ const studyResources = {
   ]
 };
 
-// Mapeia certificações para seus bancos de questões
-const questionBanks = {
-  'clf-c02': questionsClf,
-  'saa-c03': questionsSaa,
-  'aif-c01': questionsAif
-};
-
-/**
- * Obtém questões aleatórias para uma certificação específica
- * @param {string} certId - ID da certificação
- * @param {number} count - Número de questões desejadas
- * @returns {Array} Array de questões embaralhadas
- */
-function getRandomQuestions(certId, count) {
-  const bank = questionBanks[certId] || [];
-  const shuffled = [...bank].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, Math.min(count, shuffled.length));
-}
-
 /**
  * Obtém recursos de estudo para domínios específicos
  * @param {Array} domains - Array de IDs de domínios
