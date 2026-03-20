@@ -1,5 +1,5 @@
 // Importa as funções do nosso app.js
-const { shuffleArray, getWeakDomains, calculatePercentage } = require('./app.js');
+const { shuffleArray, getWeakDomains, calculatePercentage } = require('../src/app.js');
 
 describe('Testes das Funções Utilitárias', () => {
 

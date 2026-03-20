@@ -1,6 +1,6 @@
 module.exports = {
   mode: process.env.NODE_ENV || 'production',
-  entry: './app.js',
+  entry: './src/app.js',
   output: {
     filename: 'bundle.[contenthash:8].min.js',
     path: path.resolve(__dirname, 'dist'),
