@@ -20,7 +20,8 @@ let appState = {
   timerInterval: null,
   timeRemaining: 15 * 60,
   quizMode: 'exam',
-  flaggedQuestions: []
+  flaggedQuestions: [],
+  isPaused: false
 };
 
 const CONFIG = {
@@ -125,7 +126,6 @@ async function startQuiz() {
       return;
     }
 
-    // Baralha as questões escolhidas E as alternativas de cada uma
     appState.questions = shuffleArray(questionsData)
       .slice(0, Math.min(quantity, questionsData.length))
       .map(q => shuffleQuestionOptions(q));
@@ -136,6 +136,7 @@ async function startQuiz() {
     appState.answers = [];
     appState.flaggedQuestions = [];
     appState.quizMode = quizMode;
+    appState.isPaused = false;
     
     appState.domainScores = {};
     appState.currentCertification.domains.forEach(d => {
@@ -162,11 +163,12 @@ async function startMistakesQuiz() {
   const certId = document.getElementById('certification-select').value;
   const mistakesIds = JSON.parse(localStorage.getItem(`${CONFIG.STORAGE_KEY_PREFIX}mistakes_${certId}`) || "[]");
 
+  if (mistakesIds.length === 0) return;
+
   try {
     const response = await fetch(`data/${certId}.json`);
     const questionsData = await response.json();
     
-    // Baralha as questões erradas E as alternativas
     appState.questions = shuffleArray(questionsData.filter(q => mistakesIds.includes(q.id)))
       .map(q => shuffleQuestionOptions(q));
       
@@ -175,6 +177,7 @@ async function startMistakesQuiz() {
     appState.score = 0;
     appState.answers = [];
     appState.quizMode = 'study'; 
+    appState.isPaused = false;
     
     showScreen('quiz');
     reinitializeRadarChart();
@@ -188,6 +191,9 @@ async function startMistakesQuiz() {
 function loadQuestion() {
   const question = appState.questions[appState.currentQuestionIndex];
   if (!question) return;
+  
+  // Garante que o painel volta a aparecer se vier de uma pausa
+  document.getElementById('options-container').style.display = 'flex';
   
   document.getElementById('question-category').textContent = getDomainName(question.domain);
   document.getElementById('question-text').textContent = question.question;
@@ -216,20 +222,31 @@ function renderOptions(question) {
   const fragment = document.createDocumentFragment();
   
   question.options.forEach((option, index) => {
-    const card = document.createElement('div');
-    card.className = 'option-card p-4 rounded-lg flex items-start gap-3';
-    card.setAttribute('data-index', index);
-    card.innerHTML = `
-      <div class="flex-shrink-0 w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-gray-500">${String.fromCharCode(65 + index)}</div>
-      <div class="flex-grow text-gray-700">${option}</div>
-    `;
-    card.addEventListener('click', () => selectOption(index));
-    fragment.appendChild(card);
+    const optionCard = document.createElement('div');
+    optionCard.className = 'option-card p-4 rounded-lg flex items-start gap-3';
+    optionCard.setAttribute('data-index', index);
+    
+    const letterCircle = document.createElement('div');
+    letterCircle.className = 'flex-shrink-0 w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-gray-500 dark:text-gray-400';
+    letterCircle.textContent = String.fromCharCode(65 + index);
+    
+    // Uso de textContent evita que tags técnicas (ex: <S3>) desapareçam
+    const optionText = document.createElement('div');
+    optionText.className = 'flex-grow text-gray-700 dark:text-gray-200';
+    optionText.textContent = option;
+    
+    optionCard.appendChild(letterCircle);
+    optionCard.appendChild(optionText);
+    
+    optionCard.addEventListener('click', () => selectOption(index));
+    fragment.appendChild(optionCard);
   });
+  
   container.appendChild(fragment);
 }
 
 function selectOption(index) {
+  if (appState.isPaused) return; // Impede seleções durante a pausa
   document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
   const card = document.querySelector(`[data-index="${index}"]`);
   if (card) {
@@ -244,7 +261,7 @@ function submitAnswer() {
   const question = appState.questions[appState.currentQuestionIndex];
   const isCorrect = appState.selectedAnswer === question.correct;
   
-  // Salva os dados completos para a Revisão In-App funcionar
+  // Salva todos os dados necessários para a revisão final
   appState.answers.push({ 
     questionId: question.id, 
     domain: question.domain, 
@@ -301,8 +318,123 @@ function finishQuiz() {
   showScreen('results');
 }
 
+function cancelQuiz() {
+  if (confirm('Tem a certeza que deseja cancelar o simulado? O seu progresso não será guardado.')) {
+    stopTimer();
+    goHome();
+  }
+}
+
+function retakeQuiz() {
+  resetAppState();
+  startQuiz();
+}
+
 // ============================================================================
-// 5. PERSISTÊNCIA E LÓGICA DE ERROS
+// 5. TEMPORIZADOR E PAUSA
+// ============================================================================
+
+function startTimer() {
+  let timerDisplay = document.getElementById('timer-display');
+  if (!timerDisplay) {
+    const scoreDisplay = document.getElementById('score-display');
+    timerDisplay = document.createElement('div');
+    timerDisplay.id = 'timer-display';
+    timerDisplay.className = 'bg-gray-700 px-3 py-1 rounded-full flex items-center gap-2 transition-colors';
+    scoreDisplay.parentElement.insertBefore(timerDisplay, scoreDisplay);
+  }
+  
+  timerDisplay.innerHTML = `
+    <button id="btn-pause-timer" onclick="togglePause()" class="text-white hover:text-yellow-300 transition-colors outline-none mr-1" title="Pausar Simulado">
+      <i id="pause-icon" class="fa-solid fa-pause"></i>
+    </button>
+    <i class="fa-solid fa-clock text-blue-400"></i>
+    <span id="timer-text" class="min-w-[45px] inline-block text-right">15:00</span>
+  `;
+  
+  timerDisplay.classList.remove('hidden');
+  appState.isPaused = false;
+  appState.timerInterval = setInterval(timerTick, 1000);
+}
+
+function timerTick() {
+  appState.timeRemaining--;
+  
+  const minutes = Math.floor(appState.timeRemaining / 60);
+  const seconds = appState.timeRemaining % 60;
+  const timerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  
+  document.getElementById('timer-text').textContent = timerText;
+  const timerDisplay = document.getElementById('timer-display');
+  
+  if (appState.timeRemaining <= 120 && appState.timeRemaining > 0) {
+    timerDisplay.classList.add('bg-red-600', 'warning');
+    timerDisplay.classList.remove('bg-gray-700');
+  }
+  
+  if (appState.timeRemaining <= 0) {
+    stopTimer();
+    finishQuiz();
+  }
+}
+
+function stopTimer() {
+  if (appState.timerInterval) {
+    clearInterval(appState.timerInterval);
+    appState.timerInterval = null;
+  }
+  const timerDisplay = document.getElementById('timer-display');
+  if (timerDisplay) {
+    timerDisplay.classList.add('hidden');
+    timerDisplay.classList.remove('warning', 'bg-red-600');
+    timerDisplay.classList.add('bg-gray-700');
+  }
+}
+
+function togglePause() {
+  if (appState.quizMode !== 'exam' || appState.timeRemaining <= 0) return;
+  
+  appState.isPaused = !appState.isPaused;
+  const pauseIcon = document.getElementById('pause-icon');
+  const timerDisplay = document.getElementById('timer-display');
+  const questionText = document.getElementById('question-text');
+  const optionsContainer = document.getElementById('options-container');
+  const btnSubmit = document.getElementById('btn-submit');
+  
+  if (appState.isPaused) {
+    clearInterval(appState.timerInterval);
+    pauseIcon.classList.remove('fa-pause');
+    pauseIcon.classList.add('fa-play');
+    timerDisplay.classList.add('bg-yellow-600');
+    timerDisplay.classList.remove('bg-gray-700', 'bg-red-600');
+    
+    questionText.dataset.originalText = questionText.textContent;
+    questionText.innerHTML = '<i class="fa-solid fa-mug-hot text-orange-400 mr-2"></i> Simulado em Pausa';
+    optionsContainer.style.display = 'none';
+    if (btnSubmit) btnSubmit.style.display = 'none';
+    
+  } else {
+    appState.timerInterval = setInterval(timerTick, 1000);
+    pauseIcon.classList.remove('fa-play');
+    pauseIcon.classList.add('fa-pause');
+    timerDisplay.classList.remove('bg-yellow-600');
+    
+    if (appState.timeRemaining <= 120) {
+      timerDisplay.classList.add('bg-red-600');
+    } else {
+      timerDisplay.classList.add('bg-gray-700');
+    }
+    
+    questionText.textContent = questionText.dataset.originalText;
+    optionsContainer.style.display = 'flex';
+    if (btnSubmit && !btnSubmit.classList.contains('hidden')) {
+      btnSubmit.style.display = 'block';
+    }
+  }
+}
+
+// ============================================================================
+// 6. PERSISTÊNCIA E LÓGICA DE ERROS
 // ============================================================================
 
 function saveQuizResult() {
@@ -320,7 +452,7 @@ function saveQuizResult() {
   };
   
   localStorage.setItem(`${CONFIG.STORAGE_KEY_PREFIX}last_${certId}`, JSON.stringify(result));
-  updateMistakesDatabase(certId, result.answers); // Atualiza os erros
+  updateMistakesDatabase(certId, result.answers);
   
   const history = getQuizHistory();
   history.push(result);
@@ -348,17 +480,85 @@ function checkMistakes() {
   const mistakes = JSON.parse(localStorage.getItem(`${CONFIG.STORAGE_KEY_PREFIX}mistakes_${certId}`) || "[]");
   const btn = document.getElementById('btn-practice-mistakes');
   const count = document.getElementById('mistakes-count');
+  const btnClear = document.getElementById('btn-clear-mistakes');
   
   if (mistakes.length > 0 && btn && count) {
     btn.classList.remove('hidden');
+    if(btnClear) btnClear.classList.remove('hidden');
     count.textContent = mistakes.length;
   } else if (btn) {
     btn.classList.add('hidden');
+    if(btnClear) btnClear.classList.add('hidden');
   }
 }
 
+function clearMistakes() {
+  const certId = document.getElementById('certification-select').value;
+  if (confirm('Deseja limpar a sua lista de questões erradas para esta certificação?')) {
+    localStorage.removeItem(`${CONFIG.STORAGE_KEY_PREFIX}mistakes_${certId}`);
+    checkMistakes(); 
+  }
+}
+
+function loadLastScore() {
+  const certSelect = document.getElementById('certification-select');
+  const selectedCertId = certSelect ? certSelect.value : 'clf-c02';
+  try {
+    const data = localStorage.getItem(`${CONFIG.STORAGE_KEY_PREFIX}last_${selectedCertId}`);
+    const lastResult = data ? JSON.parse(data) : null;
+    const banner = document.getElementById('last-score-banner');
+    
+    if (lastResult && banner) {
+      banner.innerHTML = `<i class="fa-solid fa-history mr-2"></i> Última pontuação: <strong>${lastResult.percentage.toFixed(0)}%</strong> (${lastResult.score}/${lastResult.total}) - ${new Date(lastResult.date).toLocaleDateString('pt-PT')}`;
+      banner.classList.remove('hidden');
+    } else if (banner) {
+      banner.classList.add('hidden');
+    }
+  } catch(e) { console.error(e); }
+}
+
+function getQuizHistory() {
+  try {
+    const data = localStorage.getItem(`${CONFIG.STORAGE_KEY_PREFIX}history`);
+    return data ? JSON.parse(data) : [];
+  } catch (error) { return []; }
+}
+
+function updateHistoryDisplay() {
+  const historyList = document.getElementById('history-list');
+  if (!historyList) return;
+  
+  const history = getQuizHistory();
+  if (history.length === 0) {
+    historyList.innerHTML = '<p class="text-sm text-gray-500 italic">Nenhum simulado realizado ainda.</p>';
+    return;
+  }
+  
+  const recentHistory = history.slice(-5).reverse();
+  historyList.innerHTML = recentHistory.map(result => {
+    const date = new Date(result.date).toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit' });
+    const passed = result.percentage >= CONFIG.PASSING_SCORE;
+    const statusIcon = passed ? 'fa-check-circle text-green-500' : 'fa-times-circle text-red-500';
+    return `
+      <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700 last:border-0">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid ${statusIcon} text-xs"></i>
+          <span class="text-xs text-gray-600 dark:text-gray-400">${date}</span>
+        </div>
+        <span class="text-sm font-bold ${passed ? 'text-green-600' : 'text-gray-500'}">${result.percentage.toFixed(0)}%</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function clearHistory() {
+  if (!confirm('Deseja limpar todo o histórico de simulados?')) return;
+  localStorage.removeItem(`${CONFIG.STORAGE_KEY_PREFIX}history`);
+  updateHistoryDisplay();
+}
+
 // ============================================================================
-// 6. UI, GRÁFICOS E UTILITÁRIOS
+// 7. UI, GRÁFICOS E UTILITÁRIOS
 // ============================================================================
 
 function initializeRadarChart() {
@@ -367,7 +567,7 @@ function initializeRadarChart() {
   window.radarChartInstance = new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['Conceitos Cloud', 'Segurança', 'Tecnologia', 'Faturamento'],
+      labels: ['Conceitos', 'Segurança', 'Tecnologia', 'Faturamento'],
       datasets: [{
         label: 'Desempenho (%)',
         data: [0, 0, 0, 0],
@@ -398,6 +598,50 @@ function updateRadarChart() {
   window.radarChartInstance.update();
 }
 
+function updateDynamicInsight(customMessage = null) {
+  const insight = document.getElementById('dynamic-insight');
+  if (!insight) return;
+  if (customMessage) { insight.textContent = customMessage; return; }
+  if (appState.answers.length === 0) return;
+  
+  const pct = (appState.score / appState.answers.length) * 100;
+  let msg = '';
+  if (pct >= 80) msg = `Excelente! Você está com ${pct.toFixed(0)}% de acerto.`;
+  else if (pct >= 60) msg = `Bom desempenho! ${pct.toFixed(0)}% de acerto.`;
+  else msg = `Continue estudando! ${pct.toFixed(0)}% de acerto.`;
+  insight.textContent = msg;
+}
+
+function showResultsScreen() {
+  const total = appState.questions.length;
+  const pct = (appState.score / total) * 100;
+  document.getElementById('final-score-percent').textContent = `${pct.toFixed(0)}%`;
+  document.getElementById('final-correct').textContent = appState.score;
+  document.getElementById('final-incorrect').textContent = total - appState.score;
+  
+  const rec = document.getElementById('recommendation-text');
+  if(rec) {
+    rec.textContent = pct >= CONFIG.PASSING_SCORE 
+      ? `🎉 Parabéns! Você atingiu ${pct.toFixed(0)}% e está acima da nota de corte (${CONFIG.PASSING_SCORE}%).`
+      : `Você obteve ${pct.toFixed(0)}%, abaixo da nota de corte (${CONFIG.PASSING_SCORE}%). Revise o material.`;
+  }
+}
+
+function generatePerformanceReport() {
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) return alert('Ative pop-ups para gerar PDF.');
+  const total = appState.questions.length;
+  const pct = (appState.score / total) * 100;
+  const html = `<html><body style="font-family: sans-serif; padding: 40px; color: #333;">
+    <h1 style="color: #ff9900;">Relatório: ${appState.currentCertification.name}</h1>
+    <h2>Pontuação Final: ${pct.toFixed(0)}% (${appState.score}/${total})</h2>
+    <p>Data: ${new Date().toLocaleDateString()}</p>
+    <button onclick="window.print()" style="padding: 10px 20px; background: #ff9900; color: white; border: none; border-radius: 5px; cursor: pointer;">Imprimir PDF</button>
+  </body></html>`;
+  printWindow.document.write(html);
+  printWindow.document.close();
+}
+
 function initTheme() {
   const saved = localStorage.getItem('aws_sim_theme');
   if (saved === 'dark') document.documentElement.classList.add('dark');
@@ -414,70 +658,37 @@ function resetAppState() {
     currentCertification: null, questions: [], currentQuestionIndex: 0,
     selectedAnswer: null, answers: [], score: 0, domainScores: {},
     timerInterval: null, timeRemaining: CONFIG.QUIZ_DURATION,
-    quizMode: 'exam', flaggedQuestions: []
+    quizMode: 'exam', flaggedQuestions: [], isPaused: false
   };
 }
 
-// Auxiliares
 function shuffleArray(arr) { return [...arr].sort(() => Math.random() - 0.5); }
 function getDomainName(id) { 
   const domain = appState.currentCertification?.domains.find(d => d.id === id);
   return domain ? domain.name : id; 
 }
 function updateScoreDisplay() { 
-  document.getElementById('score-display').textContent = `${appState.score} / ${appState.answers.length}`; 
+  const disp = document.getElementById('score-display');
+  if(disp) disp.textContent = `${appState.score} / ${appState.answers.length}`; 
 }
 
-// ============================================================================
-// 7. TEMPORIZADOR (TIMER)
-// ============================================================================
-
-function startTimer() {
-  let timerDisplay = document.getElementById('timer-display');
-  if (!timerDisplay) {
-    const scoreDisplay = document.getElementById('score-display');
-    timerDisplay = document.createElement('div');
-    timerDisplay.id = 'timer-display';
-    timerDisplay.className = 'bg-gray-700 px-3 py-1 rounded-full flex items-center gap-2';
-    timerDisplay.innerHTML = '<i class="fa-solid fa-clock text-blue-400"></i><span id="timer-text">15:00</span>';
-    scoreDisplay.parentElement.insertBefore(timerDisplay, scoreDisplay);
-  }
-  
-  timerDisplay.classList.remove('hidden');
-  
-  appState.timerInterval = setInterval(() => {
-    appState.timeRemaining--;
-    
-    const minutes = Math.floor(appState.timeRemaining / 60);
-    const seconds = appState.timeRemaining % 60;
-    const timerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    
-    document.getElementById('timer-text').textContent = timerText;
-    
-    // Alerta visual quando restam 2 minutos
-    if (appState.timeRemaining <= 120 && appState.timeRemaining > 0) {
-      timerDisplay.classList.add('bg-red-600', 'warning');
-      timerDisplay.classList.remove('bg-gray-700');
-    }
-    
-    // Tempo esgotado
-    if (appState.timeRemaining <= 0) {
-      stopTimer();
-      finishQuiz();
-    }
-  }, 1000);
+function toggleFlag() {
+  const idx = appState.currentQuestionIndex;
+  const pos = appState.flaggedQuestions.indexOf(idx);
+  if (pos > -1) appState.flaggedQuestions.splice(pos, 1);
+  else appState.flaggedQuestions.push(idx);
+  updateFlagUI();
 }
 
-function stopTimer() {
-  if (appState.timerInterval) {
-    clearInterval(appState.timerInterval);
-    appState.timerInterval = null;
-  }
-  const timerDisplay = document.getElementById('timer-display');
-  if (timerDisplay) {
-    timerDisplay.classList.add('hidden');
-    timerDisplay.classList.remove('warning', 'bg-red-600');
-    timerDisplay.classList.add('bg-gray-700');
+function updateFlagUI() {
+  const btn = document.getElementById('btn-flag');
+  if (!btn) return;
+  if (appState.flaggedQuestions.includes(appState.currentQuestionIndex)) {
+    btn.classList.add('text-orange-500');
+    btn.classList.remove('text-gray-400');
+  } else {
+    btn.classList.add('text-gray-400');
+    btn.classList.remove('text-orange-500');
   }
 }
 
@@ -485,15 +696,16 @@ function stopTimer() {
 // 8. NOVAS FUNCIONALIDADES (BARALHAR OPÇÕES E REVISÃO IN-APP)
 // ============================================================================
 
-/**
- * Baralha as opções (A, B, C, D) de uma questão
- * e atualiza o índice da resposta correta para não perder a referência.
- */
 function shuffleQuestionOptions(question) {
-  let optionsWithTracker = question.options.map((opt, index) => ({
-    text: opt,
-    isOriginalCorrect: index === question.correct
-  }));
+  let optionsWithTracker = question.options.map((opt, index) => {
+    // Apaga as letras manuais ex: "A)", "b.", "C -", para evitar repetição
+    const cleanText = opt.replace(/^[a-eA-E][\.\)\-]\s*/, '');
+    
+    return {
+      text: cleanText,
+      isOriginalCorrect: index === question.correct
+    };
+  });
   
   optionsWithTracker = shuffleArray(optionsWithTracker);
   
@@ -504,16 +716,13 @@ function shuffleQuestionOptions(question) {
   };
 }
 
-/**
- * Gera a interface de revisão Pós-Simulado diretamente no ecrã
- */
 function toggleInAppReview() {
   const container = document.getElementById('in-app-review-container');
   const btn = document.getElementById('btn-toggle-review');
+  if(!container || !btn) return;
   
   if (container.classList.contains('hidden')) {
-    container.innerHTML = ''; // Limpa conteúdo anterior
-    
+    container.innerHTML = ''; 
     appState.answers.forEach((ans, idx) => {
       const isCorrect = ans.isCorrect;
       const statusColor = isCorrect ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-red-500 bg-red-50 dark:bg-red-900/20';
@@ -541,13 +750,5 @@ function toggleInAppReview() {
     container.classList.add('hidden');
     container.classList.remove('flex');
     btn.innerHTML = '<i class="fa-solid fa-list-check mr-2"></i> Rever Respostas do Simulado';
-  }
-}
-
-function clearMistakes() {
-  const certId = document.getElementById('certification-select').value;
-  if (confirm('Deseja limpar a sua lista de questões erradas para esta certificação?')) {
-    localStorage.removeItem(`${CONFIG.STORAGE_KEY_PREFIX}mistakes_${certId}`);
-    checkMistakes(); // Atualiza a UI
   }
 }
