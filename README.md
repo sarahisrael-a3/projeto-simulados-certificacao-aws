@@ -1,4 +1,3 @@
-
 # 🎓 Simulador IA - Certificações AWS
 
 [![Desenvolvido por](https://img.shields.io/badge/Desenvolvido%20por-Karla%20Renata-orange?style=for-the-badge&logoColor=white)](#-autor)
@@ -126,9 +125,11 @@ Para adicionar novas questões, não é mais necessário alterar o JavaScript. B
 - [x] Separação de dados em arquivos `.json` nativos (Fetch API)
 - [x] PWA (Progressive Web App) para acesso offline
 - [x] Otimização de Performance (DocumentFragment no DOM)
-- [ ] Filtro de questões por domínio específico
-- [ ] Modo escuro (Dark Mode)
-- [ ] Integração com backend / API de questões externas
+- [x] Automação de Banco de Dados com IA (Google Gemini)
+- [x] Blindagem de Chaves de API e Variáveis de Ambiente (.env)
+- [ ] Filtro de questões por domínio específico (Ex: S3, Lambda, IAM)
+- [ ] Modo escuro (Dark Mode) com persistência no LocalStorage
+- [ ] Deploy Automatizado na AWS (S3 + CloudFront + Route53)
 
 ## 📄 Licença
 
