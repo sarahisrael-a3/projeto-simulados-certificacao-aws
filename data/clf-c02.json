@@ -2,6 +2,7 @@
   {
     "id": 1,
     "domain": "conceitos-cloud",
+    "difficulty": "easy",
     "question": "Qual das seguintes opções descreve melhor o modelo de responsabilidade compartilhada da AWS?",
     "options": [
       "A AWS é responsável pela segurança NA nuvem, e o cliente é responsável pela segurança DA nuvem",
@@ -15,6 +16,7 @@
   {
     "id": 2,
     "domain": "tecnologia",
+    "difficulty": "medium",
     "question": "Uma empresa precisa de armazenamento de objetos escalável para backup de dados. Qual serviço AWS é mais adequado?",
     "options": [
       "Amazon EBS",
@@ -28,6 +30,7 @@
   {
     "id": 3,
     "domain": "seguranca",
+    "difficulty": "medium",
     "question": "Qual serviço AWS permite gerenciar chaves de encriptação e controlar o acesso a dados encriptados?",
     "options": [
       "AWS IAM",
@@ -41,6 +44,7 @@
   {
     "id": 4,
     "domain": "faturamento",
+    "difficulty": "easy",
     "question": "Qual ferramenta AWS permite visualizar e analisar os custos e uso da conta ao longo do tempo?",
     "options": [
       "AWS Budgets",
@@ -54,6 +58,7 @@
   {
     "id": 5,
     "domain": "conceitos-cloud",
+    "difficulty": "easy",
     "question": "Qual é o principal benefício da elasticidade na AWS Cloud?",
     "options": [
       "Redução de custos fixos de infraestrutura",
@@ -67,6 +72,7 @@
   {
     "id": 6,
     "domain": "tecnologia",
+    "difficulty": "medium",
     "question": "Qual serviço AWS fornece um sistema de nomes de domínio (DNS) escalável e de alta disponibilidade?",
     "options": [
       "Amazon CloudFront",
@@ -80,6 +86,7 @@
   {
     "id": 7,
     "domain": "seguranca",
+    "difficulty": "medium",
     "question": "Qual serviço AWS fornece proteção contra ataques DDoS?",
     "options": [
       "AWS WAF",
@@ -93,6 +100,7 @@
   {
     "id": 8,
     "domain": "faturamento",
+    "difficulty": "medium",
     "question": "Qual modelo de preços do Amazon EC2 oferece o maior desconto para cargas de trabalho previsíveis e de longo prazo?",
     "options": [
       "On-Demand Instances",
@@ -106,6 +114,7 @@
   {
     "id": 9,
     "domain": "tecnologia",
+    "difficulty": "medium",
     "question": "Qual serviço AWS permite executar código sem provisionar ou gerenciar servidores?",
     "options": [
       "Amazon EC2",
@@ -119,6 +128,7 @@
   {
     "id": 10,
     "domain": "conceitos-cloud",
+    "difficulty": "easy",
     "question": "Qual pilar do AWS Well-Architected Framework foca em executar sistemas para entregar valor de negócio?",
     "options": [
       "Excelência Operacional",
@@ -128,5 +138,285 @@
     ],
     "correct": 0,
     "explanation": "O pilar de Excelência Operacional concentra-se em executar e monitorizar sistemas para entregar valor de negócio e melhorar continuamente processos e procedimentos. Os outros pilares são: Segurança, Confiabilidade, Eficiência de Performance, Otimização de Custos e Sustentabilidade."
+  },
+  {
+    "id": 1001,
+    "domain": "seguranca",
+    "difficulty": "easy",
+    "question": "De acordo com o Modelo de Responsabilidade Partilhada da AWS, qual das seguintes tarefas é da exclusiva responsabilidade do cliente?",
+    "options": [
+      "Manutenção física dos datacenters",
+      "Atualização do sistema operativo host (hipervisor)",
+      "Atualização do sistema operativo convidado (guest OS) numa instância EC2",
+      "Substituição de discos rígidos defeituosos"
+    ],
+    "correct": 2,
+    "explanation": "No modelo de responsabilidade partilhada, a AWS é responsável pela segurança 'DA' nuvem (física, infraestrutura, hipervisor). O cliente é responsável pela segurança 'NA' nuvem, o que inclui gerir e aplicar patches no sistema operativo convidado (guest OS) das instâncias EC2."
+  },
+  {
+    "id": 1002,
+    "domain": "seguranca",
+    "difficulty": "easy",
+    "question": "Sob o Modelo de Responsabilidade Partilhada, quem é responsável por garantir a segurança física das instalações onde os dados residem?",
+    "options": [
+      "O cliente",
+      "A AWS",
+      "Responsabilidade partilhada igualmente entre a AWS e o cliente",
+      "O parceiro de auditoria externo"
+    ],
+    "correct": 1,
+    "explanation": "A AWS gere a segurança 'DA' nuvem, o que inclui a segurança física dos datacenters, hardware, redes e instalações onde os serviços da AWS operam."
+  },
+  {
+    "id": 1003,
+    "domain": "conceitos-cloud",
+    "difficulty": "easy",
+    "question": "Qual das perspetivas do AWS Cloud Adoption Framework (AWS CAF) se foca em avaliar as necessidades de formação, prontidão organizacional e gestão de mudanças?",
+    "options": [
+      "Perspetiva de Negócio",
+      "Perspetiva de Plataforma",
+      "Perspetiva de Pessoas (People)",
+      "Perspetiva de Operações"
+    ],
+    "correct": 2,
+    "explanation": "A Perspetiva de Pessoas (People) do AWS CAF foca-se na cultura, estrutura organizacional, liderança, competências e prontidão para a adoção da cloud, garantindo que as equipas estão preparadas para a transição."
+  },
+  {
+    "id": 1004,
+    "domain": "conceitos-cloud",
+    "difficulty": "easy",
+    "question": "Qual pilar do AWS Well-Architected Framework se concentra na capacidade de um sistema recuperar de interrupções de infraestrutura ou falhas de serviço?",
+    "options": [
+      "Confiabilidade (Reliability)",
+      "Segurança",
+      "Excelência Operacional",
+      "Eficiência de Performance"
+    ],
+    "correct": 0,
+    "explanation": "O pilar da Confiabilidade foca-se em garantir que uma carga de trabalho executa a sua função pretendida de forma correta e consistente, incluindo a capacidade de recuperar de falhas mitigando interrupções."
+  },
+  {
+    "id": 1005,
+    "domain": "faturamento",
+    "difficulty": "easy",
+    "question": "Que serviço da AWS permite definir alertas automáticos que o notificam quando os seus gastos ultrapassam um limite predefinido?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Pricing Calculator",
+      "AWS Budgets",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 2,
+    "explanation": "O AWS Budgets permite definir orçamentos personalizados e receber alertas por email ou SNS quando os custos ou a utilização excedem (ou estão previstos exceder) o limite definido."
+  },
+  {
+    "id": 1006,
+    "domain": "faturamento",
+    "difficulty": "easy",
+    "question": "Qual modelo de preços do Amazon EC2 permite obter a maior poupança para cargas de trabalho flexíveis que podem ser interrompidas a qualquer momento?",
+    "options": [
+      "On-Demand Instances",
+      "Reserved Instances",
+      "Dedicated Hosts",
+      "Spot Instances"
+    ],
+    "correct": 3,
+    "explanation": "As instâncias Spot permitem utilizar capacidade de computação não utilizada da AWS com descontos de até 90%. São ideais para cargas de trabalho tolerantes a falhas e flexíveis, pois a AWS pode recuperá-las com um aviso de 2 minutos."
+  },
+  {
+    "id": 1007,
+    "domain": "conceitos-cloud",
+    "difficulty": "easy",
+    "question": "O AWS Well-Architected Framework baseia-se num conjunto de pilares fundamentais. Quantos pilares compõem atualmente este framework?",
+    "options": [
+      "4 pilares",
+      "5 pilares",
+      "6 pilares",
+      "7 pilares"
+    ],
+    "correct": 2,
+    "explanation": "O AWS Well-Architected Framework é composto por 6 pilares: Excelência Operacional, Segurança, Confiabilidade, Eficiência de Performance, Otimização de Custos e Sustentabilidade (adicionado mais recentemente)."
+  },
+  {
+    "id": 1008,
+    "domain": "seguranca",
+    "difficulty": "medium",
+    "question": "Uma empresa migrou a sua base de dados para o Amazon RDS. No contexto da responsabilidade partilhada, quem é responsável pela aplicação de patches no sistema operativo subjacente a esta base de dados?",
+    "options": [
+      "A equipa de TI da empresa (Cliente)",
+      "A AWS, pois o RDS é um serviço gerido",
+      "O administrador da base de dados da empresa",
+      "A responsabilidade é partilhada e requer ação manual de ambas as partes"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon RDS é um serviço gerido (Managed Service). Diferente do EC2, onde o cliente gere o SO, no RDS a AWS abstrai essa camada e assume a responsabilidade de gerir, aplicar patches ao SO e manter o motor de base de dados subjacente."
+  },
+  {
+    "id": 1009,
+    "domain": "seguranca",
+    "difficulty": "medium",
+    "question": "Ao utilizar o Amazon EC2, a quem pertence a responsabilidade de configuring as regras de firewall de rede, conhecidas como Security Groups?",
+    "options": [
+      "À AWS, por padrão as instâncias são protegidas e bloqueadas",
+      "Ao cliente, que deve definir explicitamente o tráfego de entrada e saída",
+      "Ao AWS Shield, que gere as regras automaticamente contra ataques",
+      "Ao AWS WAF, que filtra todo o tráfego de rede"
+    ],
+    "correct": 1,
+    "explanation": "Embora a AWS forneça a funcionalidade de Security Groups, cabe ao cliente configurar corretamente as regras (Security in the Cloud). Por padrão, todo o tráfego de entrada é bloqueado, exigindo que o cliente abra as portas necessárias de forma intencional."
+  },
+  {
+    "id": 1010,
+    "domain": "tecnologia",
+    "difficulty": "medium",
+    "question": "Para cumprir os requisitos de auditoria do pilar de Segurança do Well-Architected, uma empresa precisa de monitorizar continuamente as alterações nas configurações dos seus recursos AWS. Que serviço deve ser ativado?",
+    "options": [
+      "Amazon CloudWatch",
+      "AWS CloudTrail",
+      "AWS Config",
+      "AWS Artifact"
+    ],
+    "correct": 2,
+    "explanation": "O AWS Config avalia, audita e regista continuamente as configurações dos recursos da AWS. Ele regista o histórico de alterações de configuração, sendo essencial para conformidade, auditoria e segurança contínua."
+  },
+  {
+    "id": 1011,
+    "domain": "faturamento",
+    "difficulty": "medium",
+    "question": "Uma startup validou o seu modelo de negócio e tem um consumo previsível de servidores para os próximos 3 anos. Qual a estratégia de faturação mais recomendada para otimizar os custos?",
+    "options": [
+      "Continuar a utilizar instâncias On-Demand para manter a flexibilidade",
+      "Adquirir Reserved Instances ou Savings Plans com compromisso de 3 anos",
+      "Mover toda a infraestrutura para Spot Instances",
+      "Utilizar instâncias de escalonamento automático (Auto Scaling) apenas à noite"
+    ],
+    "correct": 1,
+    "explanation": "Para cargas de trabalho estáveis e previsíveis a longo prazo, o compromisso de 1 ou 3 anos com Reserved Instances (RI) ou Compute Savings Plans oferece os maiores descontos (até 72% em comparação com On-Demand), sendo a escolha arquitetural ideal para otimização de custos."
+  },
+  {
+    "id": 1012,
+    "domain": "faturamento",
+    "difficulty": "medium",
+    "question": "Uma corporação criou múltiplas contas AWS para diferentes departamentos (RH, Vendas, TI). Que serviço deve utilizar para receber uma fatura única e centralizada para todas essas contas?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Consolidated Billing via AWS Organizations",
+      "AWS Budgets",
+      "Amazon Macie"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Organizations permite agrupar várias contas AWS e utilizar a funcionalidade de Faturação Consolidada (Consolidated Billing). Isto gera uma única fatura e permite combinar o uso de todas as contas para atingir descontos por volume (tiering)."
+  },
+  {
+    "id": 1013,
+    "domain": "conceitos-cloud",
+    "difficulty": "medium",
+    "question": "A equipa de TI está a atualizar os seus processos de gestão de incidentes e monitorização de performance para se adequarem ao novo ambiente cloud. Esta transição enquadra-se em que perspetiva do AWS CAF?",
+    "options": [
+      "Perspetiva de Negócio",
+      "Perspetiva de Governação",
+      "Perspetiva de Operações",
+      "Perspetiva de Plataforma"
+    ],
+    "correct": 2,
+    "explanation": "A Perspetiva de Operações do AWS CAF ajuda as organizações a executar, utilizar, gerir e evoluir cargas de trabalho na nuvem. Foca-se nas práticas diárias de TI, monitorização, gestão de incidentes e excelência operacional."
+  },
+  {
+    "id": 1014,
+    "domain": "conceitos-cloud",
+    "difficulty": "medium",
+    "question": "Um arquiteto decidiu refatorar uma aplicação baseada em EC2 para uma arquitetura serverless utilizando AWS Lambda, pagando apenas pelos milissegundos de execução e eliminando o custo de servidores inativos. Esta ação reflete primariamente que pilar do Well-Architected Framework?",
+    "options": [
+      "Segurança",
+      "Confiabilidade",
+      "Otimização de Custos",
+      "Excelência Operacional"
+    ],
+    "correct": 2,
+    "explanation": "Ao adotar um modelo serverless para evitar pagar por recursos inativos, o arquiteto está a aplicar diretamente o pilar de Otimização de Custos, que enfatiza o pagamento apenas pelos recursos estritamente necessários para entregar valor ao negócio."
+  },
+  {
+    "id": 1015,
+    "domain": "tecnologia",
+    "difficulty": "hard",
+    "question": "Numa arquitetura de base de dados global, a equipa implementou Amazon RDS Read Replicas para retirar a carga de leitura da base de dados primária e reduzir a latência para os utilizadores finais. Esta decisão técnica apoia principalmente qual pilar do Well-Architected Framework?",
+    "options": [
+      "Sustentabilidade",
+      "Eficiência de Performance",
+      "Otimização de Custos",
+      "Segurança"
+    ],
+    "correct": 1,
+    "explanation": "O pilar de Eficiência de Performance foca-se na alocação eficiente de recursos de computação. Utilizar Read Replicas descentraliza o tráfego de leitura, reduz gargalos na base de dados primária e entrega dados com menor latência, maximizando a eficiência da arquitetura."
+  },
+  {
+    "id": 1016,
+    "domain": "seguranca",
+    "difficulty": "hard",
+    "question": "Ao utilizar o Amazon S3, o modelo de responsabilidade partilhada exige que o cliente tome ações explícitas para garantir a proteção dos dados. Qual das seguintes opções reflete uma responsabilidade EXCLUSIVA do cliente no S3?",
+    "options": [
+      "Garantir a durabilidade de 99.999999911% dos dados armazenados",
+      "Configurar Bucket Policies e definir quem tem permissão para aceder aos objetos",
+      "Desativar discos rígidos físicos que tenham falhado no datacenter",
+      "Garantir o isolamento lógico das redes internas da infraestrutura do S3"
+    ],
+    "correct": 1,
+    "explanation": "A AWS garante a durabilidade, infraestrutura e isolamento físico/lógico subjacente do S3 (Segurança DA nuvem). Contudo, a gestão de acesso (IAM, Bucket Policies, ACLs) e a classificação dos dados a serem públicos ou privados são responsabilidade exclusiva do cliente (Segurança NA nuvem)."
+  },
+  {
+    "id": 1017,
+    "domain": "faturamento",
+    "difficulty": "hard",
+    "question": "Um arquiteto está a calcular os custos de transferência de dados de uma aplicação altamente interativa. Como é que a AWS cobra, regra geral, a transferência de dados?",
+    "options": [
+      "A transferência de dados de entrada (IN) é geralmente gratuita, mas a transferência de saída (OUT) para a internet é cobrada.",
+      "Tanto a transferência de entrada como a de saída são cobradas igualmente ao mesmo custo por GB.",
+      "A transferência de dados entre diferentes Availability Zones na mesma região é sempre gratuita.",
+      "A transferência de saída (OUT) é gratuita, enquanto a entrada (IN) é fortemente taxada para prevenir ataques DDoS."
+    ],
+    "correct": 0,
+    "explanation": "Um dos princípios fundamentais da faturação AWS é que não há custos para a entrada de dados (Data Transfer IN) para a cloud AWS. No entanto, a transferência de dados de saída (Data Transfer OUT) da AWS para a internet incorre em custos baseados no volume transferido."
+  },
+  {
+    "id": 1018,
+    "domain": "conceitos-cloud",
+    "difficulty": "hard",
+    "question": "O Chief Information Security Officer (CISO) quer garantir que os investimentos na cloud da empresa estão alinhados com as políticas rigorosas de mitigação de risco e conformidade regulatória. Que perspetiva do AWS CAF aborda esta preocupação a nível organizacional?",
+    "options": [
+      "Perspetiva de Segurança",
+      "Perspetiva de Governação",
+      "Perspetiva de Operações",
+      "Perspetiva de Negócio"
+    ],
+    "correct": 1,
+    "explanation": "A Perspetiva de Governação do AWS CAF foca-se em alinhar a estratégia de TI com a estratégia de negócio, maximizando o valor do negócio enquanto minimiza os riscos (Risk Management). Engloba a auditoria, políticas de conformidade e controlo financeiro/organizacional."
+  },
+  {
+    "id": 1019,
+    "domain": "faturamento",
+    "difficulty": "hard",
+    "question": "Uma empresa adota uma arquitetura híbrida utilizando Amazon EC2, AWS Fargate e funções AWS Lambda. Eles pretendem obter um grande desconto comprometendo-se com um gasto horário fixo (ex: $10/hora) durante 3 anos, mantendo a flexibilidade de mudar entre estes serviços. Que plano devem adquirir?",
+    "options": [
+      "EC2 Instance Savings Plans",
+      "Compute Savings Plans",
+      "Convertible Reserved Instances",
+      "AWS Free Tier estendido"
+    ],
+    "correct": 1,
+    "explanation": "Os Compute Savings Plans oferecem a maior flexibilidade de todas as opções de desconto. Aplicam-se automaticamente a qualquer uso de EC2, Fargate e Lambda, independentemente da região, família de instâncias ou sistema operativo, desde que o cliente cumpra o compromisso de gasto horário."
+  },
+  {
+    "id": 1020,
+    "domain": "conceitos-cloud",
+    "difficulty": "hard",
+    "question": "Uma equipa de desenvolvimento otimizou o código de uma aplicação em Python para reduzir o número de ciclos de CPU necessários, diminuindo assim o consumo de energia dos servidores subjacentes. A equipa também migrou para uma região AWS baseada primariamente em energias renováveis. Isto alinha-se com que pilar introduzido mais recentemente no Well-Architected Framework?",
+    "options": [
+      "Eficiência de Performance",
+      "Excelência Operacional",
+      "Sustentabilidade",
+      "Otimização de Custos"
+    ],
+    "correct": 2,
+    "explanation": "O pilar da Sustentabilidade (Sustainability) foca-se nos impactos ambientais, especialmente no consumo de energia e na eficiência. Otimizar código para reduzir o consumo de processamento e escolher regiões verdes são práticas recomendadas deste pilar para minimizar a pegada de carbono da arquitetura cloud."
   }
 ]

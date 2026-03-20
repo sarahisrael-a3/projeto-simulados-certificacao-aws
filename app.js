@@ -1,10 +1,8 @@
 /**
  * APP.JS - Lógica Principal da Aplicação
- * 
- * Gerencia o fluxo completo do simulador: seleção de certificação, quiz, 
+ * * Gerencia o fluxo completo do simulador: seleção de certificação, quiz, 
  * análise de desempenho, persistência de dados e geração de relatórios.
- * 
- * Arquitetura: Separação de responsabilidades com funções puras e estado centralizado.
+ * * Arquitetura: Separação de responsabilidades com funções puras e estado centralizado.
  */
 
 // ============================================================================
@@ -45,6 +43,7 @@ const CONFIG = {
  * Carrega dados persistidos e configura o gráfico radar
  */
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme(); // <--- Inicialização do Modo Escuro
   initializeRadarChart();
   loadLastScore();
   updateHistoryDisplay();
@@ -105,46 +104,62 @@ function goHome() {
 
 /**
  * Inicia um novo quiz (Versão Assíncrona via JSON)
- * Carrega questões, gere o Loading State e inicializa o timer
+ * Lê filtros de UI, carrega questões, gere o Loading State e inicializa o timer
  */
 async function startQuiz() {
-  // Captura as novas configurações da UI
-  const selectedCertId = document.getElementById('certification-select').value;
-  const quantity = parseInt(document.getElementById('question-quantity').value);
-  const difficulty = document.getElementById('difficulty-level').value;
-  const quizMode = document.getElementById('mode-study').checked ? 'study' : 'exam';
+  const certSelect = document.getElementById('certification-select');
+  const quantitySelect = document.getElementById('question-quantity');
+  const difficultySelect = document.getElementById('difficulty-level');
+  
+  const selectedCertId = certSelect ? certSelect.value : 'clf-c02';
+  const quantity = quantitySelect ? parseInt(quantitySelect.value) : CONFIG.QUESTIONS_PER_QUIZ;
+  const difficulty = difficultySelect ? difficultySelect.value : 'all';
+  const quizMode = document.getElementById('mode-study')?.checked ? 'study' : 'exam';
 
   const startBtn = document.getElementById('btn-start-quiz');
   
   try {
     startBtn.disabled = true;
-    startBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Sorteando questões...';
+    startBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>A preparar questões...';
 
+    // Fetch dinâmico baseado na certificação
     const response = await fetch(`data/${selectedCertId}.json`);
     if (!response.ok) throw new Error('Falha ao carregar banco de dados.');
     let questionsData = await response.json();
 
-    // 1. FILTRO DE DIFICULDADE (Se o campo existir no seu JSON)
+    // 1. Filtrar por dificuldade (caso exista a propriedade e não seja 'all')
     if (difficulty !== 'all') {
       questionsData = questionsData.filter(q => q.difficulty === difficulty);
     }
 
-    // 2. EMBARALHAMENTO REAL (Fisher-Yates) para evitar repetições
-    appState.questions = shuffleArray(questionsData).slice(0, Math.min(quantity, questionsData.length));
-
-    if (appState.questions.length === 0) {
+    // Validação de banco vazio após filtro
+    if (!questionsData || questionsData.length === 0) {
       alert('Nenhuma questão encontrada para este nível de dificuldade.');
       return;
     }
 
-    // Reinicializa o estado
+    // 2. Embaralhar e fatiar baseado na quantidade selecionada
+    appState.questions = shuffleArray(questionsData).slice(0, Math.min(quantity, questionsData.length));
+
+    // Reinicializa o estado global
     appState.currentCertification = certificationPaths[selectedCertId];
     appState.currentQuestionIndex = 0;
     appState.score = 0;
     appState.answers = [];
     appState.quizMode = quizMode;
-    appState.timeRemaining = CONFIG.QUIZ_DURATION;
+    
+    // Prepara o objeto de pontuação por domínios
+    appState.domainScores = {};
+    if (appState.currentCertification && appState.currentCertification.domains) {
+      appState.currentCertification.domains.forEach(d => {
+        appState.domainScores[d.id] = { total: 0, correct: 0 };
+      });
+    }
 
+    // Ajusta o tempo base dependendo do número de questões (ex: 1.5 min por questão)
+    appState.timeRemaining = quantity * 90; 
+
+    // Atualizações de UI
     showScreen('quiz');
     if (quizMode === 'exam') startTimer();
     reinitializeRadarChart();
@@ -152,13 +167,14 @@ async function startQuiz() {
     updateScoreDisplay();
 
   } catch (error) {
-    console.error(error);
-    alert('Erro ao iniciar. Tente recarregar a página.');
+    console.error('Erro ao iniciar simulado:', error);
+    alert('Erro ao iniciar. Por favor, tente recarregar a página.');
   } finally {
     startBtn.disabled = false;
     startBtn.innerHTML = 'Iniciar Simulação <i class="fa-solid fa-arrow-right ml-2"></i>';
   }
 }
+
 /**
  * Carrega e exibe a questão atual
  * SEGURANÇA: Usa textContent para prevenir XSS
@@ -308,6 +324,12 @@ function submitAnswer() {
   if (isCorrect) {
     appState.score++;
   }
+  
+  // Garante que o domínio existe antes de atualizar
+  if (!appState.domainScores[question.domain]) {
+      appState.domainScores[question.domain] = { total: 0, correct: 0 };
+  }
+  
   appState.domainScores[question.domain].total++;
   if (isCorrect) {
     appState.domainScores[question.domain].correct++;
@@ -365,10 +387,25 @@ function nextQuestion() {
  */
 function finishQuiz() {
   stopTimer();
-  saveQuizResult(); // Grava no localStorage
-  updateHistoryDisplay(); // ATUALIZA A LISTA NA TELA IMEDIATAMENTE
+  saveQuizResult(); // Grava no localStorage com try/catch seguro
+  // GARANTIA: Atualiza a lista lateral imediatamente na interface
+  updateHistoryDisplay(); 
+  
   showResultsScreen();
   showScreen('results');
+}
+
+/**
+ * Cancela o simulado atual mediante confirmação do utilizador.
+ * Reseta o estado e volta ao ecrã inicial sem gravar histórico.
+ */
+function cancelQuiz() {
+  const confirmed = confirm('Tem a certeza que deseja cancelar o simulado? O seu progresso não será guardado.');
+  
+  if (confirmed) {
+    stopTimer();
+    goHome();
+  }
 }
 
 /**
@@ -1315,4 +1352,56 @@ function shuffleArray(array) {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
+}
+
+// ============================================================================
+// GESTÃO DO MODO ESCURO (DARK MODE)
+// ============================================================================
+
+/**
+ * Alterna entre o Modo Claro e Escuro, alterando ícones e guardando no localStorage
+ */
+function toggleDarkMode() {
+  const htmlEl = document.documentElement;
+  const themeIcon = document.getElementById('theme-icon');
+  const isDark = htmlEl.classList.toggle('dark');
+  
+  if (isDark) {
+    localStorage.setItem('aws_sim_theme', 'dark');
+    themeIcon.classList.remove('fa-moon');
+    themeIcon.classList.add('fa-sun', 'text-yellow-400');
+  } else {
+    localStorage.setItem('aws_sim_theme', 'light');
+    themeIcon.classList.remove('fa-sun', 'text-yellow-400');
+    themeIcon.classList.add('fa-moon');
+  }
+
+  // Dica UX: Atualiza a cor da fonte do gráfico Radar do Chart.js para manter a legibilidade
+  if (window.radarChartInstance) {
+    const textColor = isDark ? '#e6edf3' : '#232f3e';
+    const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+    
+    window.radarChartInstance.options.scales.r.pointLabels.color = textColor;
+    window.radarChartInstance.options.scales.r.grid.color = gridColor;
+    window.radarChartInstance.options.scales.r.angleLines.color = gridColor;
+    window.radarChartInstance.update();
+  }
+}
+
+/**
+ * Recupera o tema preferido do utilizador no carregamento da página
+ */
+function initTheme() {
+  const savedTheme = localStorage.getItem('aws_sim_theme');
+  // Verifica também a preferência do sistema operativo do utilizador
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    document.documentElement.classList.add('dark');
+    const themeIcon = document.getElementById('theme-icon');
+    if (themeIcon) {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun', 'text-yellow-400');
+    }
+  }
 }

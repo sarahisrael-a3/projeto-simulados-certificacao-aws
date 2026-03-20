@@ -404,3 +404,227 @@ body {
     transform: rotate(360deg);
   }
 }
+/* ============================================================================
+   MODO ESCURO (DARK MODE)
+   ============================================================================ */
+
+:root {
+  --bg-main: var(--aws-light-gray);
+  --text-main: var(--aws-dark);
+  --bg-card: #ffffff;
+  --border-color: #e5e7eb; /* gray-200 */
+}
+
+/* Redefinição de variáveis no contexto dark */
+.dark {
+  --bg-main: #161b22;
+  --text-main: #e6edf3;
+  --bg-card: #0d1117;
+  --border-color: #30363d;
+}
+
+/* Aplicação Global e Override das classes utilitárias do Tailwind no modo escuro */
+.dark body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+.dark .bg-white, 
+.dark .bg-gray-50, 
+.dark .bg-gray-100 {
+  background-color: var(--bg-card) !important;
+}
+
+.dark .text-gray-500, 
+.dark .text-gray-600, 
+.dark .text-gray-700, 
+.dark .text-gray-800, 
+.dark .aws-text-dark {
+  color: var(--text-main) !important;
+}
+
+.dark .border-gray-100, 
+.dark .border-gray-200, 
+.dark .border-gray-300 {
+  border-color: var(--border-color) !important;
+}
+
+/* Ajustes específicos de UI/UX para os cards de opções no modo escuro */
+.dark .option-card {
+  background-color: var(--bg-card);
+}
+
+.dark .option-card:hover:not(.disabled) {
+  background-color: #1a2332 !important; /* Ligeiro destaque */
+  border-color: var(--aws-orange) !important;
+}
+
+.dark .option-card.selected {
+  background-color: #1a2332 !important;
+  border-color: var(--aws-orange) !important;
+  box-shadow: 0 4px 6px -1px rgba(255, 153, 0, 0.4);
+}
+
+/* Garantir que o foco acessível do Tailwind (Laranja AWS) permanece super visível */
+.dark *:focus-visible {
+  outline: 2px solid var(--aws-orange) !important;
+  outline-offset: 2px !important;
+}
+
+/* ============================================================================
+   1. ADAPTAÇÃO DE TEXTOS E ELEMENTOS PARA O MODO ESCURO
+   ============================================================================ */
+
+.dark {
+  --bg-main: #0f172a; /* Azul muito escuro (Slate 900) */
+  --bg-card: #1e293b; /* Fundo dos cards (Slate 800) */
+  --text-main: #f8fafc; /* Texto principal quase branco */
+  --text-muted: #cbd5e1; /* Texto secundário cinza claro */
+  --border-color: #334155; /* Bordas suaves */
+}
+
+/* Força o fundo da página inteira */
+.dark body {
+  background-color: var(--bg-main) !important;
+  color: var(--text-main) !important;
+}
+
+/* Adaptação de Fundos Claros do Tailwind para Escuros */
+.dark .bg-white, 
+.dark .bg-gray-50, 
+.dark .bg-gray-100, 
+.dark .bg-gray-200 {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* ADAPTAÇÃO DE TEXTOS: Transforma os textos pretos/cinzas em brancos/claros */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+.dark .aws-text-dark,
+.dark .text-gray-900, .dark .text-gray-800, .dark .text-gray-700 {
+  color: var(--text-main) !important;
+}
+
+/* Textos secundários (parágrafos e descrições) */
+.dark p, .dark span, .dark div, .dark label,
+.dark .text-gray-600, .dark .text-gray-500, .dark .text-gray-400 {
+  color: var(--text-muted) !important;
+}
+
+/* Adaptação dos Cards de Opções no Quiz */
+.dark .option-card {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.dark .option-card:hover:not(.disabled) {
+  background-color: #334155 !important;
+  border-color: var(--aws-orange) !important;
+}
+
+.dark .option-card.selected {
+  background-color: #334155 !important;
+  border-color: var(--aws-orange) !important;
+  box-shadow: 0 4px 6px -1px rgba(255, 153, 0, 0.4);
+}
+
+/* Adaptação dos Inputs e Selects */
+.dark select, .dark input {
+  background-color: #0f172a !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Header escuro no topo */
+.dark header.aws-bg-dark {
+  background-color: #020617 !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+
+/* ============================================================================
+   2. RECURSIVIDADE DE MÍDIAS (RESPONSIVIDADE / MEDIA QUERIES)
+   ============================================================================ */
+
+/* Telas Pequenas (Smartphones - até 640px) */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px; /* Reduz ligeiramente a fonte geral */
+  }
+  
+  /* Reduz os espaçamentos internos para ganhar espaço de ecrã */
+  #screen-start, #screen-quiz, #screen-results {
+    padding: 1.25rem !important; 
+  }
+  
+  /* Ajusta o tamanho dos títulos */
+  h2.text-3xl {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+  }
+  
+  /* Empilha os botões do quiz (Cancelar, Próxima, etc.) verticalmente em celulares */
+  .mt-auto.pt-6.flex {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem !important;
+  }
+  
+  .mt-auto.pt-6.flex button {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  /* Reduz o tamanho do gráfico radar para caber na tela do celular */
+  .chart-container {
+    height: 250px !important;
+  }
+}
+
+/* Telas Médias (Tablets - 641px a 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .chart-container {
+    height: 300px !important;
+  }
+  
+  #screen-start {
+    padding: 2rem !important;
+  }
+}
+
+/* Telas Grandes (Desktops - Acima de 1024px) */
+@media (min-width: 1025px) {
+  .chart-container {
+    height: 350px !important;
+  }
+  
+  /* Dá mais respiro aos cards de opção em monitores grandes */
+  .option-card {
+    padding: 1.25rem !important;
+  }
+}
+
+/* Substitui o fundo claro por um fundo escuro translúcido com a cor do tema */
+.dark .peer:checked ~ .peer-checked\:bg-orange-50 {
+  background-color: rgba(255, 153, 0, 0.15) !important; /* Translúcido Laranja */
+  border-color: var(--aws-orange) !important;
+  box-shadow: 0 4px 6px -1px rgba(255, 153, 0, 0.2);
+}
+
+.dark .peer:checked ~ .peer-checked\:bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.15) !important; /* Translúcido Azul */
+  border-color: var(--info-blue) !important;
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+}
+
+/* Garante que o hover dos cards não selecionados fica suave no modo escuro */
+.dark .peer:not(:checked) ~ .hover\:border-gray-400:hover {
+  background-color: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+/* Garante que os textos dentro do card selecionado brilham em branco no dark mode */
+.dark .peer:checked ~ div .font-bold.text-gray-700 {
+  color: #ffffff !important;
+}

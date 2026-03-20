@@ -1,41 +1,282 @@
 [
   {
-    "id": 101,
-    "domain": "design-resiliente",
-    "question": "Uma aplicação web precisa de alta disponibilidade em múltiplas Availability Zones. Qual combinação de serviços AWS é mais apropriada?",
+    "id": 2001,
+    "domain": "amazon-bedrock",
+    "difficulty": "easy",
+    "question": "O que é o Amazon Bedrock?",
     "options": [
-      "Amazon EC2 com Auto Scaling Group e Application Load Balancer",
-      "Amazon EC2 com Elastic IP",
-      "AWS Lambda com API Gateway",
-      "Amazon Lightsail"
+      "Um serviço de base de dados relacional otimizado para Machine Learning",
+      "Um serviço totalmente gerido que oferece acesso a Foundation Models (FMs) de alto desempenho através de uma única API",
+      "Uma infraestrutura de hardware dedicada para treinar modelos de IA do zero",
+      "Um ambiente de desenvolvimento integrado (IDE) exclusivo para cientistas de dados"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Bedrock é um serviço totalmente gerido que disponibiliza Foundation Models (FMs) de empresas líderes (como Anthropic, Cohere, Meta, Mistral AI e Amazon) através de uma API unificada, permitindo construir e escalar aplicações de IA generativa facilmente."
+  },
+  {
+    "id": 2002,
+    "domain": "prompt-engineering",
+    "difficulty": "easy",
+    "question": "Na engenharia de prompts (Prompt Engineering), o que significa a técnica 'Few-Shot Prompting'?",
+    "options": [
+      "Fornecer ao modelo apenas uma instrução direta sem qualquer contexto adicional",
+      "Pedir ao modelo para gerar a resposta em poucos segundos",
+      "Incluir alguns exemplos de pares de pergunta/resposta no prompt para orientar o formato e o estilo da resposta do modelo",
+      "Limitar a resposta do modelo a um número muito reduzido de palavras"
+    ],
+    "correct": 2,
+    "explanation": "O 'Few-Shot Prompting' envolve fornecer ao LLM (Large Language Model) alguns exemplos concretos (shots) dentro do próprio prompt. Isto ajuda o modelo a compreender o padrão, o formato e o tom desejados antes de gerar a resposta final."
+  },
+  {
+    "id": 2003,
+    "domain": "fundamentos-ia",
+    "difficulty": "easy",
+    "question": "Qual é o principal objetivo da arquitetura RAG (Retrieval-Augmented Generation)?",
+    "options": [
+      "Treinar um Foundation Model do zero utilizando os dados privados da empresa",
+      "Reduzir o tamanho do modelo de IA para que possa correr em dispositivos móveis",
+      "Gerar imagens de alta qualidade a partir de descrições em texto",
+      "Melhorar a precisão das respostas de um LLM fornecendo-lhe factos e dados externos recuperados de uma base de conhecimento privada"
+    ],
+    "correct": 3,
+    "explanation": "O RAG enriquece os prompts de um LLM com dados atualizados e específicos do domínio (recuperados de uma base de dados externa). Isto evita a necessidade de retreinar o modelo e reduz drasticamente as alucinações, pois o modelo baseia as suas respostas nos documentos recuperados."
+  },
+  {
+    "id": 2004,
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Que funcionalidade do Amazon Bedrock permite implementar salvaguardas personalizadas para bloquear conteúdos tóxicos, filtrar PII (Informação Pessoalmente Identificável) e evitar que o modelo responda a tópicos indesejados?",
+    "options": [
+      "Amazon Macie",
+      "AWS IAM Policies",
+      "Guardrails for Amazon Bedrock",
+      "Knowledge Bases for Amazon Bedrock"
+    ],
+    "correct": 2,
+    "explanation": "Os Guardrails for Amazon Bedrock permitem definir políticas de segurança e privacidade consistentes em diferentes Foundation Models. Eles filtram PII, bloqueiam discursos de ódio ou perigosos e negam respostas sobre tópicos restritos definidos pela empresa."
+  },
+  {
+    "id": 2005,
+    "domain": "amazon-bedrock",
+    "difficulty": "easy",
+    "question": "Qual componente do Amazon Bedrock é capaz de planear e executar tarefas de múltiplas etapas (como fazer o cancelamento de uma reserva), interagindo de forma autónoma com as APIs da sua empresa?",
+    "options": [
+      "Agents for Amazon Bedrock",
+      "Bedrock Model Evaluation",
+      "Amazon Q Developer",
+      "Bedrock Provisioned Throughput"
     ],
     "correct": 0,
-    "explanation": "Auto Scaling Group distribui instâncias EC2 em múltiplas AZs automaticamente, enquanto o Application Load Balancer distribui o tráfego entre elas, garantindo alta disponibilidade e resiliência a falhas de zona."
+    "explanation": "Os Agents for Amazon Bedrock podem executar ações complexas. Eles dividem a solicitação do utilizador em etapas lógicas, orquestram a interação com Foundation Models e invocam as APIs corporativas (através de funções Lambda) para concluir a tarefa de forma autónoma."
   },
   {
-    "id": 102,
-    "domain": "design-performante",
-    "question": "Uma aplicação global precisa de baixa latência para utilizadores em diferentes continentes. Qual serviço AWS deve ser implementado?",
+    "id": 2006,
+    "domain": "prompt-engineering",
+    "difficulty": "easy",
+    "question": "Ao configurar os parâmetros de inferência de um LLM, o que acontece se definir a 'Temperature' (Temperatura) com um valor próximo de 0 (ex: 0.1)?",
     "options": [
-      "Amazon S3 Transfer Acceleration",
-      "Amazon CloudFront",
-      "AWS Global Accelerator",
-      "Amazon Route 53 com roteamento geográfico"
+      "A resposta do modelo será mais criativa, aleatória e diversificada",
+      "A resposta do modelo será mais determinística, focada e previsível",
+      "O modelo irá gerar respostas significativamente mais longas",
+      "O modelo irá ignorar os filtros de segurança e Guardrails"
     ],
     "correct": 1,
-    "explanation": "Amazon CloudFront é a CDN da AWS que distribui conteúdo através de edge locations globais, reduzindo significativamente a latência para utilizadores em qualquer parte do mundo através de cache de conteúdo próximo aos utilizadores finais."
+    "explanation": "A Temperatura controla a aleatoriedade das respostas. Um valor baixo (próximo de 0) torna o modelo muito determinístico, escolhendo quase sempre as palavras mais prováveis (ideal para código ou factos). Um valor alto aumenta a criatividade."
   },
   {
-    "id": 103,
-    "domain": "design-seguro",
-    "question": "Uma empresa precisa garantir que dados sensíveis em S3 sejam encriptados em repouso e em trânsito. Qual é a melhor abordagem?",
+    "id": 2007,
+    "domain": "fundamentos-ia",
+    "difficulty": "easy",
+    "question": "No contexto de aplicações de IA Generativa e RAG, para que serve uma Base de Dados Vetorial (Vector Database)?",
     "options": [
-      "Ativar apenas HTTPS para acesso aos objetos",
-      "Usar S3 Server-Side Encryption (SSE) e forçar HTTPS através de bucket policy",
-      "Encriptar dados manualmente antes do upload",
-      "Usar apenas IAM policies para controlar acesso"
+      "Para armazenar passwords e chaves API de forma encriptada",
+      "Para gerir tabelas relacionais com dados transacionais estruturados",
+      "Para armazenar embeddings (representações numéricas de texto) e permitir pesquisas semânticas baseadas no significado",
+      "Para monitorizar o custo exato gerado por cada chamada ao LLM"
+    ],
+    "correct": 2,
+    "explanation": "As Vector Databases (como o Amazon OpenSearch Serverless) armazenam dados em forma de vetores de alta dimensionalidade (embeddings). Isto permite procurar informações não por palavras exatas, mas sim por similaridade de significado (pesquisa semântica)."
+  },
+  {
+    "id": 2008,
+    "domain": "prompt-engineering",
+    "difficulty": "medium",
+    "question": "Uma aplicação de apoio ao cliente está a alucinar (inventar respostas) quando lhe perguntam sobre produtos que a empresa não vende. Qual é a estratégia de prompt mais simples e eficaz para mitigar isto?",
+    "options": [
+      "Aumentar a Temperature para 1.0 para que o modelo seja mais sincero",
+      "Adicionar ao System Prompt uma instrução explícita: 'Se não souberes a resposta baseada no contexto fornecido, diz apenas \"Não sei\"'",
+      "Utilizar Few-Shot Prompting incluindo apenas exemplos de produtos que a empresa vende",
+      "Alterar o Foundation Model para um modelo focado exclusivamente na geração de código"
     ],
     "correct": 1,
-    "explanation": "A combinação de SSE (encriptação em repouso) com bucket policy que força HTTPS (encriptação em trânsito) garante proteção completa dos dados. SSE-S3, SSE-KMS ou SSE-C podem ser usados conforme os requisitos de gestão de chaves."
+    "explanation": "A forma mais simples de combater alucinações (hallucinations) é limitar o âmbito de atuação do modelo através de diretrizes rigorosas no System Prompt (Grounding), instruindo-o explicitamente a admitir desconhecimento em vez de tentar adivinhar."
+  },
+  {
+    "id": 2009,
+    "domain": "amazon-bedrock",
+    "difficulty": "medium",
+    "question": "A sua empresa tem milhares de manuais em PDF guardados no Amazon S3. O objetivo é criar um chatbot capaz de responder a perguntas dos funcionários com base apenas nesses PDFs. Qual funcionalidade do Bedrock oferece uma solução end-to-end (arquitetura RAG gerenciada) para este cenário?",
+    "options": [
+      "Custom Model Import",
+      "Knowledge Bases for Amazon Bedrock",
+      "Model Fine-Tuning no Amazon SageMaker",
+      "Amazon Bedrock Provisioned Throughput"
+    ],
+    "correct": 1,
+    "explanation": "As Knowledge Bases for Amazon Bedrock gerem de forma totalmente automatizada o pipeline de RAG. Elas conectam-se ao seu S3, transformam o texto em embeddings, armazenam-nos numa base de dados vetorial (ex: OpenSearch) e automatizam a recuperação de dados durante a interação com o modelo."
+  },
+  {
+    "id": 2010,
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Uma seguradora quer utilizar o Amazon Bedrock para resumir as reclamações dos clientes. No entanto, é crítico que números de cartões de crédito e moradas sejam mascarados (redacted) antes que a resposta seja apresentada ao utilizador final. Como implementar isto de forma nativa?",
+    "options": [
+      "Utilizar o AWS KMS para encriptar todo o tráfego da API do Bedrock",
+      "Escrever um script Lambda complexo usando Expressões Regulares (Regex) para analisar a saída do modelo",
+      "Configurar os Guardrails for Amazon Bedrock com políticas de filtragem de PII definidas para mascarar (Redact) informações sensíveis",
+      "Modificar o prompt pedindo ao LLM que por favor não mostre dados privados"
+    ],
+    "correct": 2,
+    "explanation": "Os Guardrails for Amazon Bedrock possuem funcionalidades nativas de deteção de PII. Podem ser configurados para intercetar o output do modelo e mascarar (redact) informações sensíveis (substituindo-as por tags como [CREDIT_CARD]) antes de devolver a resposta à aplicação."
+  },
+  {
+    "id": 2011,
+    "domain": "amazon-bedrock",
+    "difficulty": "medium",
+    "question": "Ao desenvolver Agents for Amazon Bedrock, como é que o agente sabe quais as funcionalidades (APIs) da sua empresa que estão disponíveis para serem invocadas para resolver o pedido de um utilizador?",
+    "options": [
+      "O agente lê automaticamente o código-fonte dos serviços AWS associados à conta",
+      "Através da configuração de Action Groups, que contêm esquemas de API (formato OpenAPI) descrevendo os parâmetros e a utilidade de cada API",
+      "Ao analisar o tráfego de rede e identificar endpoints HTTP ativos",
+      "As APIs têm de ser descritas uma a uma diretamente na caixa de texto do System Prompt do agente"
+    ],
+    "correct": 1,
+    "explanation": "Nos Agents for Amazon Bedrock, os 'Action Groups' conectam o agente às suas APIs. Define-se as capacidades usando um esquema OpenAPI (JSON/YAML). O agente analisa este esquema para entender quando invocar uma determinada API e quais os parâmetros que deve extrair do prompt do utilizador."
+  },
+  {
+    "id": 2012,
+    "domain": "prompt-engineering",
+    "difficulty": "medium",
+    "question": "Ao afinar os parâmetros de um LLM no Amazon Bedrock, ajustou-se o valor de 'Top P' para 0.9. O que significa este ajuste na prática?",
+    "options": [
+      "O modelo irá penalizar palavras repetidas, reduzindo a sua probabilidade em 90%",
+      "O modelo limitará a sua seleção de próximas palavras apenas àquelas cuja soma das probabilidades (cumulativa) seja igual ou inferior a 90%",
+      "Aplica um limite fixo para que o modelo só possa gerar respostas que contenham 90% das palavras exatas encontradas no contexto",
+      "Ignora 10% do prompt original para otimizar o consumo de tokens"
+    ],
+    "correct": 1,
+    "explanation": "O parâmetro 'Top P' (Nucleus Sampling) altera o leque de palavras candidatas. Um valor de 0.9 significa que o modelo irá considerar apenas o subconjunto de palavras mais prováveis que, somadas, atinjam 90% de probabilidade, cortando a 'cauda longa' de palavras muito raras ou absurdas."
+  },
+  {
+    "id": 2013,
+    "domain": "fundamentos-ia",
+    "difficulty": "medium",
+    "question": "Qual é a sequência correta de eventos num fluxo de trabalho clássico de RAG (Retrieval-Augmented Generation)?",
+    "options": [
+      "1) Treinar o LLM com os dados do utilizador. 2) Gerar a resposta. 3) Guardar no Vector DB.",
+      "1) O utilizador faz a pergunta. 2) A pergunta é convertida num vetor. 3) Pesquisa-se no Vector DB dados semelhantes. 4) O contexto recuperado + a pergunta original são enviados ao LLM. 5) O LLM gera a resposta.",
+      "1) Enviar a pergunta ao LLM. 2) O LLM faz um query SQL à base de dados relacional. 3) O LLM formata o output.",
+      "1) Fazer o Fine-tuning do modelo. 2) Validar com métricas BLEU. 3) Iniciar o Agent."
+    ],
+    "correct": 1,
+    "explanation": "O fluxo de RAG em tempo de execução consiste em: (1) Receber o prompt; (2) Fazer o Embedding do prompt; (3) Recuperar documentos relevantes do Vector DB através de pesquisa semântica; (4) Aumentar (Augment) o prompt original adicionando esses documentos como contexto; (5) O LLM gerar a resposta final fundamentada."
+  },
+  {
+    "id": 2014,
+    "domain": "amazon-bedrock",
+    "difficulty": "medium",
+    "question": "Uma empresa precisa de escolher o melhor Foundation Model no Amazon Bedrock para a sua aplicação de sumarização. Como podem realizar esta avaliação de forma estruturada no serviço?",
+    "options": [
+      "Usar o Amazon SageMaker Clarify e construir scripts de avaliação do zero",
+      "Utilizar a funcionalidade Model Evaluation do Bedrock, que suporta tanto avaliações automáticas baseadas em métricas pré-definidas, como avaliações manuais (Human-in-the-loop)",
+      "Pedir ao suporte da AWS para executar os testes e enviar um relatório PDF",
+      "Executar dois modelos em paralelo e deixar a AWS escolher o mais rápido automaticamente"
+    ],
+    "correct": 1,
+    "explanation": "A funcionalidade de Model Evaluation (Avaliação de Modelos) no Amazon Bedrock permite comparar diferentes modelos. Pode escolher avaliações automáticas (para tarefas como sumarização, usando datasets standard) ou criar avaliações com humanos (fornecendo à sua equipa de QA uma UI para classificar as respostas do modelo)."
+  },
+  {
+    "id": 2015,
+    "domain": "fundamentos-ia",
+    "difficulty": "hard",
+    "question": "Um Arquiteto IA tem de criar um assistente virtual para uma seguradora. A seguradora atualiza os seus contratos e termos legais diariamente. O assistente tem de responder usando apenas os termos mais recentes e com o vocabulário e o tom formal específicos da marca. Qual é a estratégia arquitetural recomendada?",
+    "options": [
+      "Fazer Fine-Tuning de um Foundation Model todos os dias com os novos contratos.",
+      "Utilizar exclusivamente Fine-Tuning para ensinar os factos dos contratos, pois o RAG tem latência alta.",
+      "Utilizar RAG (Knowledge Bases) para recuperar os contratos atualizados dinamicamente, e fornecer exemplos do 'tom de voz' desejado (Few-Shot) no System Prompt.",
+      "Treinar o LLM do zero (Pre-training) na infraestrutura local."
+    ],
+    "correct": 2,
+    "explanation": "O Fine-Tuning é útil para alterar o 'estilo' ou o comportamento de um modelo, mas é muito ineficiente para memorizar conhecimento atualizado frequentemente. O RAG é perfeito para incorporar factos que mudam diariamente (inserindo os contratos novos no Vector DB sem necessitar de treinar nada). O tom formal pode ser facilmente forçado através de System Prompts bem estruturados."
+  },
+  {
+    "id": 2016,
+    "domain": "amazon-bedrock",
+    "difficulty": "hard",
+    "question": "Ao utilizar as Knowledge Bases for Amazon Bedrock integradas com o Amazon OpenSearch Serverless como base de dados vetorial, que processo decorre em background durante a ingestão de documentos (Data Ingestion)?",
+    "options": [
+      "O OpenSearch Serverless lê os ficheiros S3 diretamente e cria os embeddings de forma autónoma através de plugins internos",
+      "A Knowledge Base lê os documentos no S3, divide-os em pequenos blocos de texto (Chunking), invoca um modelo de Embeddings (ex: Titan) para os converter em vetores, e envia esses vetores para o OpenSearch",
+      "Os ficheiros são convertidos para tabelas SQL e carregados no Amazon RDS",
+      "O Amazon S3 invoca funções Lambda que traduzem o documento para inglês e o enviam para o Foundation Model"
+    ],
+    "correct": 1,
+    "explanation": "Durante a ingestão, a Knowledge Base automatiza a extração do texto do S3, aplica técnicas de 'Chunking' (partir o documento em pedaços lógicos), invoca um modelo de Embedding (como o Amazon Titan Embeddings) para transformar cada chunk num array de números (vetores), e guarda o texto original e o vetor respetivo no index do OpenSearch Serverless."
+  },
+  {
+    "id": 2017,
+    "domain": "seguranca-ia",
+    "difficulty": "hard",
+    "question": "Para garantir que o seu chatbot de recursos humanos nunca aborda temas relacionados com política ou aconselhamento financeiro, configurou 'Denied Topics' nos Guardrails for Amazon Bedrock. Se o utilizador perguntar de forma insistente sobre investimentos em ações, como funciona o mecanismo de bloqueio na arquitetura do Bedrock?",
+    "options": [
+      "O Bedrock processa a resposta, envia para a aplicação, e a aplicação (cliente) deve decidir se a exibe",
+      "Os Guardrails analisam independentemente o prompt do utilizador e a resposta do modelo usando classificadores de ML. Se detetarem violação, intercetam o tráfego e devolvem uma mensagem genérica predefinida, impedindo a visualização da resposta gerada",
+      "O Foundation Model sofre um 'crash' intencional e devolve o erro HTTP 500",
+      "Apenas o prompt do utilizador é verificado; as respostas geradas pelos LLMs são assumidas como intrinsecamente seguras"
+    ],
+    "correct": 1,
+    "explanation": "Os Guardrails funcionam como uma camada intermédia de segurança forte. Eles verificam TANTO a entrada do utilizador (Input) como a saída gerada pelo modelo (Output). Se o classificador identificar que um Tópico Negado (Denied Topic) foi abordado em qualquer um dos sentidos, o Guardrail bloqueia a interação e devolve uma resposta de recusa pré-configurada pelo administrador."
+  },
+  {
+    "id": 2018,
+    "domain": "prompt-engineering",
+    "difficulty": "hard",
+    "question": "Uma aplicação de análise financeira está a utilizar um LLM para analisar demonstrações de resultados, mas o modelo está a saltar passos cruciais de cálculo e a errar as conclusões finais. Que técnica avançada de Prompt Engineering deveria ser implementada para forçar a precisão lógica?",
+    "options": [
+      "Zero-Shot Prompting com Temperature máxima",
+      "Chain-of-Thought (CoT) Prompting",
+      "Negative Prompting (dizer ao modelo o que não fazer)",
+      "Reduzir o parâmetro Max Tokens para 50"
+    ],
+    "correct": 1,
+    "explanation": "A técnica de 'Chain-of-Thought' (Corrente de Pensamento) incentiva o LLM a raciocinar passo-a-passo. Ao incluir a instrução 'Pensa passo-a-passo antes de dar a resposta final' (ou fornecendo um exemplo onde os passos lógicos estão discriminados), o modelo processa o problema em pequenas partes sequenciais, o que reduz drasticamente falhas de lógica em tarefas matemáticas ou analíticas complexas."
+  },
+  {
+    "id": 2019,
+    "domain": "amazon-bedrock",
+    "difficulty": "hard",
+    "question": "Um banco global vai lançar o seu assistente de IA para clientes e antecipa um volume massivo e sustentado de requests à API do Amazon Bedrock durante o horário laboral, exigindo uma latência garantida e sem throttling. Qual modelo de capacidade do Amazon Bedrock deve ser utilizado?",
+    "options": [
+      "On-Demand Throughput",
+      "Spot Instances Provisioning",
+      "Provisioned Throughput (Rendimento Provisionado)",
+      "Bedrock Serverless Auto Scaling"
+    ],
+    "correct": 2,
+    "explanation": "O modelo On-Demand é excelente para workloads variáveis, mas não oferece garantias rígidas de throughput num ambiente de volume extremo. O Provisioned Throughput permite aos clientes adquirir capacidade dedicada (em Model Units) para FMs base ou modelos Customizados (Fine-tuned), garantindo previsibilidade de custos, taxa de transferência garantida e latência consistente."
+  },
+  {
+    "id": 2020,
+    "domain": "fundamentos-ia",
+    "difficulty": "hard",
+    "question": "A equipa técnica está a passar relatórios com 100 páginas (cerca de 80.000 tokens) diretamente como contexto num único prompt para o Claude 3 no Bedrock. Estão a verificar que o modelo ignora factos cruciais que se encontram no meio do documento. Como se denomina este fenómeno na IA Generativa?",
+    "options": [
+      "Fenómeno 'Lost in the middle' (Perdido no meio)",
+      "Catastrophic Forgetting (Esquecimento Catastrófico)",
+      "Gradient Vanishing (Desaparecimento do Gradiente)",
+      "Token Overflow (Estouro de Tokens)"
+    ],
+    "correct": 0,
+    "explanation": "Estudos sobre Large Language Models demonstram o fenómeno 'Lost in the middle': quando alimentados com um contexto massivo, os LLMs têm excelente capacidade para reter factos localizados no INÍCIO ou no FIM do prompt, mas tendem a ignorar a informação situada a meio do contexto. Implementar estratégias RAG que injetem apenas os blocos rigorosamente relevantes é a arquitetura ideal para mitigar este problema."
   }
 ]
