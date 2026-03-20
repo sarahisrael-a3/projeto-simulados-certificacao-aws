@@ -13,6 +13,8 @@
     
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff9900">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -92,7 +94,7 @@
                     <div class="flex items-center gap-2"><i class="fa-solid fa-rotate text-purple-500" aria-hidden="true"></i> Questões diferentes a cada vez</div>
                     <div class="flex items-center gap-2"><i class="fa-solid fa-lightbulb aws-text-orange" aria-hidden="true"></i> Explicações Detalhadas</div>
                 </div>
-                <button onclick="startQuiz()" class="aws-bg-orange hover:bg-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all hover:shadow-lg transform hover:-translate-y-1" aria-label="Iniciar simulação">
+                <button id="btn-start-quiz" onclick="startQuiz()" class="aws-bg-orange hover:bg-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all hover:shadow-lg transform hover:-translate-y-1" aria-label="Iniciar simulação">
                     Iniciar Simulação <i class="fa-solid fa-arrow-right ml-2" aria-hidden="true"></i>
                 </button>
             </div>
@@ -205,5 +207,14 @@
     <!-- Scripts -->
     <script src="data.js"></script>
     <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('PWA Service Worker registado com sucesso!'))
+                    .catch(err => console.error('Erro ao registar o Service Worker:', err));
+            });
+        }
+    </script>
 </body>
 </html>

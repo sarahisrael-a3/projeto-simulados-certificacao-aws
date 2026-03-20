@@ -104,66 +104,79 @@ function goHome() {
 // ============================================================================
 
 /**
- * Inicia um novo quiz
- * Carrega questões aleatórias e inicializa o timer (se modo exame)
- * SEGURANÇA: Valida inputs do utilizador e existência de questões
+ * Inicia um novo quiz (Versão Assíncrona via JSON)
+ * Carrega questões, gere o Loading State e inicializa o timer
  */
-function startQuiz() {
-  // Captura seleção de certificação do dropdown
+async function startQuiz() {
   const certSelect = document.getElementById('certification-select');
   const selectedCertId = certSelect ? certSelect.value : 'clf-c02';
   
-  // Captura modo de simulação (exame ou estudo)
-  const modeExam = document.getElementById('mode-exam');
   const modeStudy = document.getElementById('mode-study');
   const quizMode = modeStudy && modeStudy.checked ? 'study' : 'exam';
   
-  // VALIDAÇÃO: Verifica se a certificação existe
   if (!certificationPaths[selectedCertId]) {
-    alert('Erro: Certificação selecionada não encontrada. Por favor, recarregue a página.');
-    console.error(`Certificação inválida: ${selectedCertId}`);
+    alert('Erro: Certificação não encontrada.');
     return;
   }
-  
-  // Carrega certificação e questões
-  appState.currentCertification = certificationPaths[selectedCertId];
-  appState.questions = getRandomQuestions(selectedCertId, CONFIG.QUESTIONS_PER_QUIZ);
-  
-  // VALIDAÇÃO CRÍTICA: Verifica se há questões disponíveis
-  if (!appState.questions || appState.questions.length === 0) {
-    alert(`Erro: Nenhuma questão disponível para ${appState.currentCertification.name}. Por favor, contacte o administrador.`);
-    console.error(`Banco de questões vazio para: ${selectedCertId}`);
-    return;
-  }
-  
-  // Inicializa estado do quiz
-  appState.currentQuestionIndex = 0;
-  appState.answers = [];
-  appState.score = 0;
-  appState.domainScores = {};
-  appState.quizStartTime = Date.now();
-  appState.timeRemaining = CONFIG.QUIZ_DURATION;
-  appState.quizMode = quizMode;
-  
-  // Inicializa pontuações por domínio
-  appState.currentCertification.domains.forEach(domain => {
-    appState.domainScores[domain.id] = { correct: 0, total: 0 };
-  });
-  
-  showScreen('quiz');
-  
-  // Inicia timer APENAS se for modo exame
-  if (quizMode === 'exam') {
-    startTimer();
-  }
-  
-  // Reconfigura gráfico radar com domínios da certificação selecionada
-  reinitializeRadarChart();
-  
-  loadQuestion();
-  updateScoreDisplay();
-}
 
+  // Elementos UI para o estado de Loading
+  const startBtn = document.getElementById('btn-start-quiz');
+  const originalBtnText = startBtn.innerHTML;
+
+  try {
+    // 1. Ativar Estado de Loading
+    startBtn.disabled = true;
+    startBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>A carregar questões...';
+    startBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+    // 2. Fazer o Fetch do ficheiro JSON (assumindo que estão na pasta data/)
+    const response = await fetch(`data/${selectedCertId}.json`);
+    
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+    
+    const questionsData = await response.json();
+
+    // 3. Validação dos dados recebidos
+    if (!Array.isArray(questionsData) || questionsData.length === 0) {
+      throw new Error('O banco de questões está vazio ou num formato inválido.');
+    }
+
+    // 4. Inicializar o Estado da Aplicação
+    appState.currentCertification = certificationPaths[selectedCertId];
+    // Usa as perguntas do JSON, embaralha e corta para a quantidade desejada
+    appState.questions = shuffleArray(questionsData).slice(0, CONFIG.QUESTIONS_PER_QUIZ);
+    appState.currentQuestionIndex = 0;
+    appState.answers = [];
+    appState.score = 0;
+    appState.domainScores = {};
+    appState.quizStartTime = Date.now();
+    appState.timeRemaining = CONFIG.QUIZ_DURATION;
+    appState.quizMode = quizMode;
+    
+    appState.currentCertification.domains.forEach(domain => {
+      appState.domainScores[domain.id] = { correct: 0, total: 0 };
+    });
+    
+    // 5. Mudar Ecrãs e Iniciar
+    showScreen('quiz');
+    if (quizMode === 'exam') startTimer();
+    reinitializeRadarChart();
+    loadQuestion();
+    updateScoreDisplay();
+
+  } catch (error) {
+    // Tratamento de Erros Seguro
+    console.error('Erro ao iniciar o simulado:', error);
+    alert('Não foi possível carregar as questões. Verifique a sua ligação à internet e tente novamente.');
+  } finally {
+    // 6. Remover Estado de Loading (ocorre independentemente de dar erro ou sucesso)
+    startBtn.disabled = false;
+    startBtn.innerHTML = originalBtnText;
+    startBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+  }
+}
 /**
  * Carrega e exibe a questão atual
  * SEGURANÇA: Usa textContent para prevenir XSS
