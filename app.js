@@ -112,6 +112,10 @@ async function startQuiz() {
   const quantitySelect = document.getElementById('question-quantity');
   const difficultySelect = document.getElementById('difficulty-level');
   
+  // Captura o valor do filtro de tópico/pesquisa
+  const topicFilterInput = document.getElementById('topic-filter');
+  const filterText = topicFilterInput ? topicFilterInput.value.toLowerCase().trim() : '';
+  
   const selectedCertId = certSelect ? certSelect.value : 'clf-c02';
   const quantity = quantitySelect ? parseInt(quantitySelect.value) : CONFIG.QUESTIONS_PER_QUIZ;
   const difficulty = difficultySelect ? difficultySelect.value : 'all';
@@ -123,40 +127,49 @@ async function startQuiz() {
     startBtn.disabled = true;
     startBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>A preparar questões...';
 
-    // Fetch dinâmico baseado na certificação
     const response = await fetch(`data/${selectedCertId}.json`);
     if (!response.ok) throw new Error('Falha ao carregar banco de dados.');
     let questionsData = await response.json();
 
-    // 1. Filtrar por dificuldade (caso exista a propriedade e não seja 'all')
+    // 1. Filtrar por dificuldade
     if (difficulty !== 'all') {
       questionsData = questionsData.filter(q => q.difficulty === difficulty);
     }
 
-    // Validação de banco vazio após filtro
+    // 🔵 NOVO: Filtrar por Tópico (S3, Lambda, VPC, etc.)
+    if (filterText) {
+      questionsData = questionsData.filter(q => 
+        q.question.toLowerCase().includes(filterText) || 
+        q.domain.toLowerCase().includes(filterText) ||
+        (q.explanation && q.explanation.toLowerCase().includes(filterText))
+      );
+    }
+
+    // Validação de banco vazio após os filtros (Dificuldade + Tópico)
     if (!questionsData || questionsData.length === 0) {
-      alert('Nenhuma questão encontrada para este nível de dificuldade.');
+      const msgErro = filterText 
+        ? `Nenhuma questão encontrada para o termo "${filterText}" nesta categoria.`
+        : 'Nenhuma questão encontrada para este nível de dificuldade.';
+      alert(msgErro);
       return;
     }
 
     // 2. Embaralhar e fatiar baseado na quantidade selecionada
     appState.questions = shuffleArray(questionsData).slice(0, Math.min(quantity, questionsData.length));
 
-    // NOVA LÓGICA: Avisar o utilizador se o banco tiver menos questões do que ele pediu
-    if (appState.questions.length < quantity && difficulty !== 'all') {
-      const diffName = difficulty === 'easy' ? 'Iniciante' : difficulty === 'medium' ? 'Intermediário' : 'Especialista';
-      alert(`Aviso: O banco de dados possui apenas ${appState.questions.length} questões cadastradas para o nível "${diffName}". O simulado foi ajustado automaticamente.`);
+    // Aviso de ajuste automático (caso o filtro resulte em menos questões do que o pedido)
+    if (appState.questions.length < quantity) {
+      alert(`Aviso: Encontrámos apenas ${appState.questions.length} questões que correspondem aos seus filtros. O simulado foi ajustado.`);
     }
-    
-    // Reinicializa o estado global
+
+    // --- Reinicialização do estado global (mantém-se igual) ---
     appState.currentCertification = certificationPaths[selectedCertId];
     appState.currentQuestionIndex = 0;
     appState.score = 0;
     appState.answers = [];
-    appState.flaggedQuestions = []; // Reset das marcações
+    appState.flaggedQuestions = [];
     appState.quizMode = quizMode;
     
-    // Prepara o objeto de pontuação por domínios
     appState.domainScores = {};
     if (appState.currentCertification && appState.currentCertification.domains) {
       appState.currentCertification.domains.forEach(d => {
@@ -164,10 +177,8 @@ async function startQuiz() {
       });
     }
 
-    // Ajusta o tempo base dependendo do número de questões (ex: 1.5 min por questão)
     appState.timeRemaining = quantity * 90; 
 
-    // Atualizações de UI
     showScreen('quiz');
     if (quizMode === 'exam') startTimer();
     reinitializeRadarChart();

@@ -114,6 +114,23 @@
                     </div>
                 </div>
                 
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Filtro por Tópico (Opcional):
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input 
+                            type="text" 
+                            id="topic-filter" 
+                            placeholder="Ex: S3, Lambda, VPC..." 
+                            class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-aws-orange outline-none transition-all"
+                        >
+                    </div>
+                </div>
+
                 <div id="last-score-banner" class="hidden bg-blue-50 border border-blue-200 rounded-lg px-6 py-3 mb-6 text-sm text-blue-800 font-semibold" role="status"></div>
                 <div class="grid grid-cols-2 gap-4 mb-8 w-full max-w-md text-left text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-100">
                     <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500" aria-hidden="true"></i> 40+ Questões no banco</div>
