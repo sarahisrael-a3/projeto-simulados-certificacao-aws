@@ -1,0 +1,25 @@
+{
+  "name": "projeto-simulados-certificacao-aws",
+  "version": "1.0.0",
+  "description": "[![Desenvolvido por](https://img.shields.io/badge/Desenvolvido%20por-Karla%20Renata-orange?style=for-the-badge&logoColor=white)](#-autor) [![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)](#) [![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](#) [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](#)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karlarenatadev/projeto-simulados-certificacao-aws.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/karlarenatadev/projeto-simulados-certificacao-aws/issues"
+  },
+  "homepage": "https://github.com/karlarenatadev/projeto-simulados-certificacao-aws#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.3.1"
+  }
+}

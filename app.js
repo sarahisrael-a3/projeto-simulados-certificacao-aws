@@ -142,6 +142,12 @@ async function startQuiz() {
     // 2. Embaralhar e fatiar baseado na quantidade selecionada
     appState.questions = shuffleArray(questionsData).slice(0, Math.min(quantity, questionsData.length));
 
+    // NOVA LÓGICA: Avisar o utilizador se o banco tiver menos questões do que ele pediu
+    if (appState.questions.length < quantity && difficulty !== 'all') {
+      const diffName = difficulty === 'easy' ? 'Iniciante' : difficulty === 'medium' ? 'Intermediário' : 'Especialista';
+      alert(`Aviso: O banco de dados possui apenas ${appState.questions.length} questões cadastradas para o nível "${diffName}". O simulado foi ajustado automaticamente.`);
+    }
+    
     // Reinicializa o estado global
     appState.currentCertification = certificationPaths[selectedCertId];
     appState.currentQuestionIndex = 0;
