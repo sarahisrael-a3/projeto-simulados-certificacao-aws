@@ -40,8 +40,9 @@ async function iniciarAutomacao() {
         const caminho = path.join(__dirname, '../src/data', `${exame.id}.json`);
         
         // Garante que o diretório data existe
-        if (!fs.existsSync(path.join(__dirname, 'data'))) {
-            fs.mkdirSync(path.join(__dirname, 'data'));
+        const dirData = path.join(__dirname, '../src/data');
+        if (!fs.existsSync(dirData)) {
+            fs.mkdirSync(dirData, { recursive: true });
         }
 
         let banco = fs.existsSync(caminho) ? JSON.parse(fs.readFileSync(caminho, 'utf-8')) : [];
