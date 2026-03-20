@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeRadarChart();
   loadLastScore();
   updateHistoryDisplay();
-  checkMistakes(); // Verifica erros ao carregar a página
+  checkMistakes();
+  renderGamification();
   
   const certSelect = document.getElementById('certification-select');
   if (certSelect) {
@@ -454,6 +455,8 @@ function saveQuizResult() {
   localStorage.setItem(`${CONFIG.STORAGE_KEY_PREFIX}last_${certId}`, JSON.stringify(result));
   updateMistakesDatabase(certId, result.answers);
   
+  updateGamification(result);
+  
   const history = getQuizHistory();
   history.push(result);
   if (history.length > 10) history.shift();
@@ -750,5 +753,114 @@ function toggleInAppReview() {
     container.classList.add('hidden');
     container.classList.remove('flex');
     btn.innerHTML = '<i class="fa-solid fa-list-check mr-2"></i> Rever Respostas do Simulado';
+  }
+}
+
+// ============================================================================
+// 9. SISTEMA DE GAMIFICAÇÃO (STREAKS E CONQUISTAS)
+// ============================================================================
+
+function updateGamification(result) {
+  // Carrega os dados atuais ou cria um perfil novo
+  let gami = JSON.parse(localStorage.getItem(`${CONFIG.STORAGE_KEY_PREFIX}gamification`) || '{"lastDate":null,"streak":0,"todayCount":0,"badges":[]}');
+  
+  // Extrai apenas a data de hoje (YYYY-MM-DD)
+  const today = new Date().toISOString().split('T')[0]; 
+  let newBadges = [];
+
+  // 1. LÓGICA DE OFENSIVA (STREAK)
+  if (gami.lastDate === today) {
+    gami.todayCount++; // Fez mais de um simulado hoje
+  } else {
+    if (gami.lastDate) {
+      // Verifica se a última vez foi exatamente ontem
+      const lastDateObj = new Date(gami.lastDate);
+      const todayObj = new Date(today);
+      const diffTime = Math.abs(todayObj - lastDateObj);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 1) {
+        gami.streak++; // Subiu a ofensiva!
+      } else {
+        gami.streak = 1; // Falhou um dia, recomeça do 1
+      }
+    } else {
+      gami.streak = 1; // Primeiro dia de sempre
+    }
+    gami.todayCount = 1;
+    gami.lastDate = today;
+  }
+
+  // 2. LÓGICA DE MEDALHAS (BADGES)
+  const addBadge = (id, name, icon, color) => {
+    if (!gami.badges.find(b => b.id === id)) {
+      gami.badges.push({ id, name, icon, color });
+      newBadges.push(name);
+    }
+  };
+
+  // Avaliar Conquistas:
+  addBadge('first_step', 'Primeiro Passo', 'fa-shoe-prints', 'blue');
+  
+  if (gami.todayCount >= 3) {
+    addBadge('marathon', 'Maratonista', 'fa-person-running', 'purple');
+  }
+  
+  if (result.percentage === 100) {
+    addBadge('perfect', 'Gabarito', 'fa-star', 'yellow');
+  }
+  
+  if (gami.streak >= 3) {
+    addBadge('streak_3', 'Em Chamas (3 Dias)', 'fa-fire-flame-curved', 'orange');
+  }
+  
+  // Medalhas de Domínio (Ex: Acertar 100% nas questões de Segurança)
+  Object.entries(result.domainScores).forEach(([domainId, scores]) => {
+    if (scores.total >= 3 && scores.correct === scores.total) {
+      // Pega a primeira palavra do nome do domínio
+      const shortName = getDomainName(domainId).split(' ')[0];
+      addBadge(`master_${domainId}`, `Mestre: ${shortName}`, 'fa-crown', 'green');
+    }
+  });
+
+  // Salva no localStorage e atualiza a interface
+  localStorage.setItem(`${CONFIG.STORAGE_KEY_PREFIX}gamification`, JSON.stringify(gami));
+  renderGamification();
+
+  // Se ganhou medalhas novas, lança um alerta após 1 segundo
+  if (newBadges.length > 0) {
+    setTimeout(() => {
+      alert(`🏆 PARABÉNS! Nova Conquista Desbloqueada!\n\nGanhaste a(s) medalha(s): ${newBadges.join(', ')}`);
+    }, 1000);
+  }
+}
+
+function renderGamification() {
+  const gamiData = localStorage.getItem(`${CONFIG.STORAGE_KEY_PREFIX}gamification`);
+  if (!gamiData) return;
+  
+  const gami = JSON.parse(gamiData);
+  
+  // Atualiza o número do foguinho
+  const streakCounter = document.getElementById('streak-counter');
+  if (streakCounter) streakCounter.textContent = gami.streak;
+  
+  // Atualiza as medalhas visuais
+  const container = document.getElementById('badges-container');
+  if (container && gami.badges.length > 0) {
+    // Mapa de cores para Tailwind
+    const colors = {
+      blue: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800',
+      purple: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800',
+      yellow: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800',
+      orange: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-800',
+      green: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800'
+    };
+
+    container.innerHTML = gami.badges.map(b => `
+      <div class="flex items-center gap-1.5 ${colors[b.color]} px-2.5 py-1 rounded-md border text-xs font-bold shadow-sm transition-transform hover:scale-105 cursor-default" title="${b.name}">
+        <i class="fa-solid ${b.icon}"></i> <span>${b.name}</span>
+      </div>
+    `).join('');
   }
 }

@@ -1230,5 +1230,425 @@
     "correct": 1,
     "explanation": "Amazon SageMaker Serverless Inference é ideal para workloads com padrões de inferência intermitentes ou infrequentes. Ele dimensiona automaticamente de zero a centenas de instâncias em milissegundos e você paga apenas pela duração do tempo de execução e pela quantidade de dados processados, o que é ótimo para otimização de custos em cenários de baixa utilização, pois não há custos quando o endpoint está ocioso.",
     "id": 288
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa de atendimento ao cliente deseja automatizar o roteamento de solicitações de clientes para o departamento correto com base no tópico da mensagem. Por exemplo, mensagens sobre faturamento vão para o departamento financeiro, enquanto problemas técnicos vão para o suporte. Qual conceito de IA é mais relevante para esta tarefa de categorização?",
+    "options": [
+      "A) Regressão",
+      "B) Classificação",
+      "C) Agrupamento (Clustering)",
+      "D) Aprendizado por Reforço"
+    ],
+    "correct": 1,
+    "explanation": "A Classificação é o processo de atribuir dados a categorias predefinidas. Neste cenário, as mensagens são categorizadas em tópicos específicos (financeiro, técnico, etc.), o que a torna a técnica mais adequada para roteamento.",
+    "id": 289
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Um cientista de dados está explicando a diferença entre aprendizado supervisionado e não supervisionado. Em qual tipo de aprendizado de máquina o modelo é treinado usando um conjunto de dados onde as entradas e suas saídas corretas (rótulos) são fornecidas explicitamente?",
+    "options": [
+      "A) Aprendizado Não Supervisionado",
+      "B) Aprendizado Supervisionado",
+      "C) Aprendizado por Reforço",
+      "D) Aprendizado Semi-Supervisionado"
+    ],
+    "correct": 1,
+    "explanation": "No aprendizado supervisionado, o modelo aprende a mapear entradas para saídas desejadas usando um dataset que contém exemplos de entradas com seus rótulos corretos, permitindo que o modelo generalize para novas entradas.",
+    "id": 290
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa de varejo está construindo um modelo de IA para prever o volume de vendas para o próximo trimestre com base em dados históricos, tendências sazonais e promoções passadas. Qual tarefa de aprendizado de máquina é mais apropriada para prever um valor numérico contínuo como o volume de vendas?",
+    "options": [
+      "A) Classificação",
+      "B) Agrupamento (Clustering)",
+      "C) Regressão",
+      "D) Detecção de Anomalias"
+    ],
+    "correct": 2,
+    "explanation": "A Regressão é uma tarefa de aprendizado de máquina usada para prever um valor de saída contínuo e numérico. Prever o volume de vendas, que é um número contínuo, é um caso de uso clássico para regressão.",
+    "id": 291
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma equipe de marketing deseja gerar automaticamente diferentes variações de textos de anúncios (ad copies) e slogans para uma nova campanha de produtos, garantindo criatividade e relevância. Qual serviço da AWS, que oferece acesso a modelos de fundação (FMs), seria mais adequado para essa tarefa?",
+    "options": [
+      "A) AWS Rekognition",
+      "B) Amazon Transcribe",
+      "C) Amazon Bedrock",
+      "D) Amazon Comprehend"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Bedrock fornece acesso a modelos de fundação para gerar texto, como copy para marketing, conversas e resumos, sendo ideal para a criação de conteúdo criativo e diverso para anúncios.",
+    "id": 292
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Um desenvolvedor está realizando o fine-tuning de um Large Language Model (LLM) pré-treinado em um conjunto de dados específico de documentos médicos para melhorar sua precisão na resposta a consultas clínicas. Qual é o principal benefício de realizar o fine-tuning de um LLM para um domínio específico?",
+    "options": [
+      "A) Reduzir o custo de inferência do modelo base",
+      "B) Aumentar a generalização do modelo para tarefas não relacionadas",
+      "C) Melhorar a performance e a relevância em tarefas específicas do domínio",
+      "D) Diminuir o tempo de treinamento inicial do modelo de fundação"
+    ],
+    "correct": 2,
+    "explanation": "O fine-tuning adapta um modelo pré-treinado para um conjunto de dados e tarefa específicos, o que melhora significativamente a performance e a relevância do modelo para o domínio especializado, sem a necessidade de treiná-lo do zero.",
+    "id": 293
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma empresa de design de interiores quer criar visualizações fotorrealistas de ambientes a partir de descrições textuais detalhadas dos móveis, cores e estilos. Qual tipo de modelo de IA generativa é mais adequado para converter descrições textuais em conteúdo visual de alta qualidade?",
+    "options": [
+      "A) Modelos de Linguagem Grande (LLMs)",
+      "B) Modelos de Difusão",
+      "C) Redes Neurais Recorrentes (RNNs)",
+      "D) Autoencoders Variacionais (VAEs)"
+    ],
+    "correct": 1,
+    "explanation": "Modelos de Difusão (Diffusion Models) são a tecnologia atual líder para geração de imagens de alta qualidade a partir de texto (text-to-image), superando outros modelos generativos em fotorrealismo e detalhes.",
+    "id": 294
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Um engenheiro está trabalhando com um modelo de IA generativa para sumarizar artigos de notícias, mas o modelo ocasionalmente divaga ou inclui informações irrelevantes. Qual técnica envolve a elaboração cuidadosa de instruções e exemplos para guiar o comportamento de um modelo generativo e obter a saída desejada?",
+    "options": [
+      "A) Data Augmentation",
+      "B) Prompt Engineering",
+      "C) Feature Engineering",
+      "D) Model Quantization"
+    ],
+    "correct": 1,
+    "explanation": "Prompt Engineering é a prática de projetar e otimizar as entradas (prompts) para modelos de IA generativa, a fim de obter respostas mais precisas, relevantes e controladas, evitando divagações ou saídas indesejadas.",
+    "id": 295
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Uma instituição financeira utiliza um modelo de IA para avaliar pedidos de empréstimo. Surgem preocupações de que o modelo possa estar aprovando menos empréstimos para certos grupos demográficos, mesmo que as entradas de dados relevantes sejam as mesmas. Qual aspecto da IA responsável está sendo diretamente abordado ao investigar e mitigar essas disparidades nas previsões do modelo?",
+    "options": [
+      "A) Robustez do modelo",
+      "B) Explicabilidade",
+      "C) Justiça (Fairness)",
+      "D) Privaciade de Dados"
+    ],
+    "correct": 2,
+    "explanation": "A Justiça (Fairness) em IA refere-se à mitigação de vieses e à garantia de que os modelos de IA não gerem resultados discriminatórios ou desiguais para diferentes grupos demográficos, garantindo um tratamento equitativo.",
+    "id": 296
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Um sistema de visão computacional baseado em IA é utilizado para controle de acesso. Um adversário tenta enganar o sistema adicionando pequenas, quase imperceptíveis, perturbações a uma imagem para que o modelo classifique incorretamente a pessoa. Como é conhecido este tipo de ataque, que visa enganar o modelo durante a inferência?",
+    "options": [
+      "A) Ataque de Evasão (Adversarial Attack)",
+      "B) Envenenamento de Dados (Data Poisoning)",
+      "C) Ataque de Inversão de Modelo (Model Inversion)",
+      "D) Ataque de Privaciade de Dados"
+    ],
+    "correct": 0,
+    "explanation": "Ataques de Evasão, também conhecidos como ataques adversariais, envolvem a criação de exemplos de entrada com pequenas modificações (perturbações) que são imperceptíveis para humanos, mas que levam o modelo de IA a fazer classificações incorretas ou inesperadas.",
+    "id": 297
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa está treinando um modelo de IA usando dados sensíveis de clientes. Para proteger a privacidade individual, a empresa deseja garantir que a contribuição de qualquer único indivíduo para o conjunto de dados de treinamento não possa ser inferida na saída do modelo. Qual técnica de preservação da privacidade visa adicionar ruído estatístico aos dados para proteger registros individuais, permitindo que o modelo ainda aprenda padrões gerais?",
+    "options": [
+      "A) Criptografia Homomórfica",
+      "B) Privacidade Diferencial",
+      "C) Aprendizado Federado",
+      "D) Mascaramento de Dados"
+    ],
+    "correct": 1,
+    "explanation": "A Privacidade Diferencial é uma estrutura matemática para medir e garantir a privacidade de dados, adicionando ruído controlado aos dados ou aos resultados da análise, de modo que a inclusão ou exclusão de qualquer registro individual não altere significativamente a saída do algoritmo.",
+    "id": 298
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma equipe de data science em uma grande empresa quer desenvolver, treinar e implantar modelos de machine learning personalizados em larga escala, mantendo controle total sobre o ciclo de vida do ML, incluindo experimentação e versionamento. Qual serviço da AWS oferece uma plataforma gerenciada abrangente para essas finalidades?",
+    "options": [
+      "A) AWS Lambda",
+      "B) Amazon EC2",
+      "C) Amazon SageMaker",
+      "D) AWS Glue"
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker é um serviço de machine learning totalmente gerenciado que permite que cientistas e desenvolvedores de dados construam, treinem e implantem modelos de ML rapidamente, cobrindo todo o ciclo de vida do ML.",
+    "id": 299
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa de seguros precisa processar milhares de documentos digitalizados, como formulários de sinistro e apólices, para extrair informações específicas como nomes de clientes, números de apólice e datas. Qual serviço de IA da AWS é projetado para reconhecimento óptico de caracteres (OCR) e extração inteligente de dados estruturados de documentos?",
+    "options": [
+      "A) Amazon Comprehend",
+      "B) Amazon Textract",
+      "C) Amazon Rekognition",
+      "D) Amazon Transcribe"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Textract é um serviço de machine learning que extrai automaticamente texto, escrita à mão e dados de documentos digitalizados, como formulários e tabelas, indo além do simples OCR para entender o contexto do documento.",
+    "id": 300
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma equipe de desenvolvimento está implantando um modelo de machine learning como um endpoint de inferência em tempo real usando Amazon SageMaker. Eles preveem que a carga de requisições pode variar significativamente ao longo do dia e precisam garantir alta disponibilidade e escalabilidade. Qual configuração de implantação do endpoint aborda principalmente a necessidade de escalabilidade automática baseada na demanda de tráfego?",
+    "options": [
+      "A) A escolha do algoritmo de treinamento do modelo",
+      "B) A configuração de auto scaling das instâncias do endpoint",
+      "C) A seleção do tipo de instância do notebook SageMaker Studio",
+      "D) A definição do tamanho do dataset de treinamento do modelo"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon SageMaker oferece a funcionalidade de auto scaling para endpoints, permitindo que o número de instâncias de inferência seja ajustado automaticamente para cima ou para baixo com base em métricas de utilização e políticas configuradas, garantindo que a capacidade corresponda à demanda.",
+    "id": 301
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Um portal de e-commerce deseja analisar automaticamente o sentimento (positivo, negativo, neutro) dos milhares de comentários de produtos deixados por seus clientes, sem a necessidade de construir ou treinar um modelo de machine learning personalizado. Qual serviço de IA pré-treinado da AWS seria o mais adequado para realizar essa tarefa de Processamento de Linguagem Natural (NLP) out-of-the-box?",
+    "options": [
+      "A) Amazon SageMaker",
+      "B) Amazon Comprehend",
+      "C) Amazon Polly",
+      "D) Amazon Lex"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Comprehend é um serviço de NLP totalmente gerenciado que usa machine learning para encontrar insights e relacionamentos em texto. Ele oferece análise de sentimento pré-treinada, detecção de entidade e outras funcionalidades de NLP sem a necessidade de treinamento de modelo.",
+    "id": 302
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma organização está implementando práticas de MLOps para agilizar o desenvolvimento, a implantação e a manutenção de seus modelos de machine learning. Qual princípio do MLOps enfatiza a automação de todo o pipeline de machine learning, desde a preparação de dados até a implantação do modelo e o monitoramento contínuo?",
+    "options": [
+      "A) Governança de Dados",
+      "B) Monitoramento Contínuo",
+      "C) Integração e Entrega Contínuas (CI/CD) para ML",
+      "D) Engenharia de Features"
+    ],
+    "correct": 2,
+    "explanation": "O princípio de Integração e Entrega Contínuas (CI/CD) para ML no MLOps foca na automação e padronização de todas as etapas do ciclo de vida do ML, incluindo construção, teste, empacotamento, implantação e validação do modelo, garantindo um processo eficiente e repetível.",
+    "id": 303
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa de e-commerce deseja prever qual produto um cliente provavelmente comprará em seguida com base no histórico de navegação e compras. Qual tipo de problema de Machine Learning é este e qual abordagem é mais adequada?",
+    "options": [
+      "Classificação; Modelo preditivo de regressão.",
+      "Regressão; Modelo de agrupamento (clustering).",
+      "Recomendação; Sistema de recomendação baseado em filtragem colaborativa.",
+      "Agrupamento; Modelo de classificação multiclasse."
+    ],
+    "correct": 2,
+    "explanation": "Prever o próximo produto que um cliente comprará é um problema clássico de recomendação. Sistemas de recomendação frequentemente utilizam abordagens como a filtragem colaborativa para encontrar padrões entre usuários e itens e gerar sugestões personalizadas.",
+    "id": 304
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Um cientista de dados está preparando um dataset para treinar um modelo de detecção de fraudes. Ele observa que o conjunto de dados tem muitos valores ausentes em colunas como 'idade' e 'renda', e algumas colunas numéricas têm uma distribuição muito skewed. Qual etapa do pipeline de ML deve ser focada para resolver esses problemas de dados antes do treinamento do modelo?",
+    "options": [
+      "Seleção do Modelo.",
+      "Engenharia de Features (Feature Engineering).",
+      "Implantação do Modelo.",
+      "Avaliação do Modelo."
+    ],
+    "correct": 1,
+    "explanation": "A engenharia de features envolve a transformação de dados brutos em features que podem ser usadas para treinar um modelo. Isso inclui o tratamento de valores ausentes (imputação), a normalização/padronização para lidar com distribuições skewed e outras transformações para melhorar a qualidade e representatividade dos dados para o modelo.",
+    "id": 305
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Uma startup desenvolve um modelo de IA para auxiliar na triagem de currículos para posições de tecnologia. Após testes iniciais, percebe-se que o modelo tende a dar pontuações significativamente mais baixas para candidatos de certos grupos demográficos, mesmo quando suas qualificações são equivalentes. Qual é o principal problema ético que este modelo apresenta e qual ação deve ser tomada para mitigá-lo?",
+    "options": [
+      "Overfitting; Aumentar a complexidade do modelo.",
+      "Subfitting; Reduzir o número de features.",
+      "Viés (Bias); Auditar e balancear os dados de treinamento ou ajustar o algoritmo para fairness.",
+      "Latência; Otimizar a infraestrutura de inferência."
+    ],
+    "correct": 2,
+    "explanation": "O problema descrito é um exemplo claro de viés (bias) no modelo, onde ele exibe discriminação contra certos grupos demográficos. A mitigação envolve auditar os dados de treinamento, balanceá-los ou aplicar técnicas para promover a fairness no algoritmo, garantindo que o modelo seja equitativo.",
+    "id": 306
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma equipe de marketing quer gerar rapidamente variações de slogans publicitários e descrições de produtos para uma nova campanha, baseando-se em um conjunto inicial de textos. Eles precisam de uma solução que possa ser integrada facilmente e que não exija o treinamento de um modelo do zero. Qual serviço AWS de IA Generativa seria mais adequado para essa tarefa?",
+    "options": [
+      "Amazon Rekognition.",
+      "Amazon Transcribe.",
+      "Amazon Bedrock, utilizando um modelo de fundação (FM) de texto.",
+      "Amazon SageMaker Ground Truth."
+    ],
+    "correct": 2,
+    "explanation": "Amazon Bedrock oferece acesso a uma variedade de modelos de fundação (FMs) pré-treinados para gerar texto, o que é perfeito para criar variações de slogans e descrições sem a necessidade de treinar um modelo do zero. Sua integração via API facilita o uso em aplicações existentes.",
+    "id": 307
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Um desenvolvedor está usando um LLM no Amazon Bedrock para responder a perguntas frequentes (FAQs) de clientes. Ele percebe que o modelo, às vezes, 'alucina', ou seja, gera informações incorretas ou inventadas que não estão na base de conhecimento da empresa. Qual técnica de 'prompt engineering' ou arquitetura pode ajudar a reduzir as alucinações e direcionar o modelo a usar apenas informações fornecidas?",
+    "options": [
+      "Few-shot prompting.",
+      "Chain-of-thought prompting.",
+      "Zero-shot prompting.",
+      "Retrieval Augmented Generation (RAG)."
+    ],
+    "correct": 3,
+    "explanation": "Retrieval Augmented Generation (RAG) é uma técnica onde o modelo recupera informações relevantes de uma base de conhecimento externa (como documentos da empresa) e as incorpora ao prompt antes de gerar uma resposta. Isso ajuda a 'aterrar' o modelo nos fatos fornecidos e reduz significativamente as alucinações.",
+    "id": 308
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma empresa possui uma vasta coleção de documentos internos confidenciais (manuais, relatórios técnicos, etc.) e deseja construir um chatbot que possa responder a perguntas sobre esses documentos de forma segura e precisa, sem expor os documentos originais e sem ter que retreinar um modelo grande. Qual abordagem de IA Generativa é a mais eficiente para este caso, considerando a segurança, precisão e a minimização de custos de treinamento?",
+    "options": [
+      "Treinar um novo modelo de fundação (FM) do zero com os documentos internos.",
+      "Usar um FM existente e fazer fine-tuning com os documentos confidenciais.",
+      "Implementar um sistema Retrieval Augmented Generation (RAG) com um FM e um banco de dados de vetores.",
+      "Utilizar somente prompt engineering para forçar o FM a 'adivinhar' as informações."
+    ],
+    "correct": 2,
+    "explanation": "Um sistema RAG com um FM e um banco de dados de vetores para os documentos internos é a solução mais eficiente e segura. Ele permite que o chatbot recupere informações relevantes dos documentos e as use para contextualizar o FM, gerando respostas precisas sem a necessidade de retreinar o modelo (o que seria caro e demorado), nem expor os documentos originais diretamente, sendo superior ao fine-tuning para muitos casos de uso de recuperação de conhecimento.",
+    "id": 309
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa de saúde está construindo um modelo de ML para diagnosticar doenças a partir de imagens médicas. Os dados de treinamento contêm informações sensíveis de pacientes. Qual estratégia de segurança na AWS deve ser priorizada para proteger esses dados durante o treinamento e a inferência do modelo?",
+    "options": [
+      "Utilizar grupos de segurança e NACLs para isolar a sub-rede do SageMaker Studio.",
+      "Criptografar os dados em repouso (Amazon S3) e em trânsito (endpoints HTTPS) e implementar controle de acesso granular (IAM).",
+      "Publicar o modelo em um endpoint público para facilitar o acesso de pesquisadores externos.",
+      "Usar o AWS WAF para filtrar requisições HTTP maliciosas para o endpoint do modelo."
+    ],
+    "correct": 1,
+    "explanation": "Para dados sensíveis, como informações médicas, a criptografia de dados em repouso (no Amazon S3, utilizando AWS KMS) e em trânsito (via HTTPS para todas as comunicações) é fundamental. Além disso, controles de acesso granular através do IAM garantem que apenas usuários e serviços autorizados possam acessar os dados e o modelo, seguindo o princípio do menor privilégio.",
+    "id": 310
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Um modelo de recomendação de crédito está mostrando um viés sistemático contra certos grupos minoritários, levando a uma alta taxa de rejeição de empréstimos para esses indivíduos. A empresa está preocupada com as implicações éticas e regulatórias. Qual ferramenta ou abordagem na AWS pode ser utilizada para detectar e mitigar esse viés no modelo de forma proativa?",
+    "options": [
+      "Amazon CloudWatch para monitorar a utilização da CPU do endpoint do modelo.",
+      "Amazon SageMaker Clarify para analisar o viés nos dados de treinamento e a imparcialidade do modelo.",
+      "AWS Shield Advanced para proteger o modelo contra ataques DDoS.",
+      "AWS Trusted Advisor para otimizar custos do SageMaker."
+    ],
+    "correct": 1,
+    "explanation": "Amazon SageMaker Clarify é projetado especificamente para ajudar a detectar e analisar viés nos dados de treinamento e na inferência do modelo, além de explicar as previsões, sendo a ferramenta ideal para identificar e mitigar problemas de fairness (imparcialidade) em modelos de Machine Learning.",
+    "id": 311
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Uma organização de notícias está usando um modelo de IA para sumarizar artigos. Foi descoberto que um agente malicioso conseguiu 'envenenar' o modelo adicionando frases sutilmente alteradas a novos artigos, fazendo com que o modelo gerasse resumos imprecisos ou tendenciosos para artigos legítimos. Qual tipo de ataque de segurança de IA foi realizado neste cenário?",
+    "options": [
+      "Ataque de evasão (Evasion attack).",
+      "Ataque de extração de modelo (Model extraction attack).",
+      "Ataque de envenenamento de dados (Data poisoning attack).",
+      "Ataque de inversão de modelo (Model inversion attack)."
+    ],
+    "correct": 2,
+    "explanation": "Um ataque de envenenamento de dados (Data poisoning attack) ocorre quando um adversário insere dados maliciosos no conjunto de treinamento ou em dados que o modelo consome continuamente, alterando o comportamento do modelo de forma indesejada, como a geração de resumos imprecisos ou tendenciosos, comprometendo a integridade e confiabilidade das saídas do modelo.",
+    "id": 312
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma equipe de desenvolvimento construiu um modelo de ML usando scikit-learn e Python em um notebook SageMaker e agora precisa implantá-lo como um endpoint REST para inferência em tempo real, que será acessado por uma aplicação web. A solução deve ser escalável e ter alta disponibilidade. Qual é o serviço AWS mais adequado para implantar e gerenciar este modelo para inferência em tempo real?",
+    "options": [
+      "AWS Lambda com o modelo carregado em uma função.",
+      "Amazon EC2 com um servidor Flask customizado.",
+      "Amazon SageMaker Endpoints.",
+      "AWS Batch para processamento em lotes."
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker Endpoints são projetados especificamente para implantar modelos de ML para inferência em tempo real com alta escalabilidade, alta disponibilidade e integração nativa com o ecossistema SageMaker, facilitando o gerenciamento do ciclo de vida do modelo e a integração com outras aplicações.",
+    "id": 313
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa deseja estabelecer um processo MLOps para seus modelos de detecção de anomalias. Eles precisam automatizar o retreinamento, a validação e a implantação de novos modelos quando novos dados estiverem disponíveis ou quando o desempenho do modelo decair. Qual conjunto de serviços AWS deve ser utilizado para construir um pipeline MLOps robusto para este cenário?",
+    "options": [
+      "Amazon S3 para dados, AWS Glue para ETL, Amazon EC2 para treinamento e implantação manual.",
+      "AWS CodePipeline para orquestração, AWS CodeCommit para código, Amazon SageMaker Pipelines para orquestração de ML, Amazon SageMaker para treinamento e implantação.",
+      "AWS Step Functions para orquestração, AWS Lambda para processamento de dados e Azure ML Studio para treinamento.",
+      "Amazon SNS para alertas, Amazon SQS para filas de mensagens e Amazon DynamoDB para armazenamento de dados."
+    ],
+    "correct": 1,
+    "explanation": "Para um pipeline MLOps robusto na AWS, a combinação de AWS CodePipeline (para CI/CD geral e orquestração), AWS CodeCommit (controle de versão do código), Amazon SageMaker Pipelines (para orquestração de fluxos de trabalho de ML, incluindo treinamento, validação e implantação de modelos) e Amazon SageMaker (para treinamento e implantação de modelos) é a arquitetura padrão e mais adequada, permitindo automação e gerenciamento completo do ciclo de vida do ML.",
+    "id": 314
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa de análise de dados precisa processar grandes volumes de dados de logs de clientes para gerar features para um modelo de ML. Os dados estão em buckets S3 e precisam ser transformados, limpos e agregados antes de serem usados para treinamento. Qual serviço AWS é o mais indicado para realizar a etapa de ETL (Extract, Transform, Load) desses dados em grande escala, antes de alimentar o SageMaker?",
+    "options": [
+      "AWS Lambda.",
+      "Amazon DynamoDB.",
+      "AWS Glue.",
+      "Amazon Athena."
+    ],
+    "correct": 2,
+    "explanation": "AWS Glue é um serviço de ETL serverless, totalmente gerenciado, que é ideal para processar grandes volumes de dados (incluindo logs) armazenados no Amazon S3, transformá-los, limpá-los e agregá-los. Ele suporta Spark e Python para scripts de ETL, sendo perfeito para preparar dados para modelos de Machine Learning sem a necessidade de gerenciar infraestrutura de servidores.",
+    "id": 315
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Um modelo de detecção de fraudes foi implantado em um endpoint SageMaker. A equipe de operações precisa ser notificada imediatamente se a qualidade das previsões do modelo (por exemplo, acurácia ou F1-score) começar a degradar significativamente ao longo do tempo. Qual serviço AWS deve ser configurado para monitorar a performance do modelo em produção e alertar sobre a degradação?",
+    "options": [
+      "Amazon S3 Event Notifications.",
+      "Amazon CloudWatch Metrics e Alarms, integrados com Amazon SageMaker Model Monitor.",
+      "AWS X-Ray para rastreamento de requisições.",
+      "Amazon QuickSight para visualização de dados."
+    ],
+    "correct": 1,
+    "explanation": "Amazon SageMaker Model Monitor é a ferramenta ideal para monitorar a qualidade do modelo em produção, detectando desvios nos dados de entrada (drift de dados) e degradação de performance. Ele publica métricas no Amazon CloudWatch, onde Alarms podem ser configurados para emitir notificações (via Amazon SNS, por exemplo) quando thresholds específicos de performance forem violados.",
+    "id": 316
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa está treinando modelos complexos de Deep Learning em instâncias do SageMaker. O treinamento é intensivo em computação e leva muitas horas. Eles querem otimizar os custos sem comprometer a capacidade de treinamento quando necessário. Qual estratégia de otimização de custos pode ser aplicada para os jobs de treinamento do SageMaker, aproveitando a elasticidade da nuvem?",
+    "options": [
+      "Usar instâncias On-Demand para todos os jobs de treinamento.",
+      "Programar os jobs para usar instâncias de Spot do SageMaker para economizar custos.",
+      "Migrar o treinamento para CPUs em vez de GPUs para reduzir custos computacionais.",
+      "Aumentar o tamanho do dataset para ter mais dados para o treinamento."
+    ],
+    "correct": 1,
+    "explanation": "Para jobs de treinamento que podem ser interrompidos e reiniciados (ou que não são extremamente sensíveis a interrupções), o uso de instâncias de Spot do SageMaker (ou instâncias Spot do EC2 subjacentes) pode gerar economias significativas de custos (até 90% em comparação com On-Demand) ao aproveitar a capacidade ociosa da AWS. A opção C não é aplicável a Deep Learning complexo que exige GPUs.",
+    "id": 317
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Uma equipe de desenvolvimento está construindo uma aplicação que precisa reconhecer objetos específicos (ex: tipos de ferramentas) em imagens carregadas pelos usuários em tempo real. Eles têm um dataset grande de imagens rotuladas, com os objetos de interesse devidamente identificados. Qual paradigma de Machine Learning é o mais adequado para resolver este problema?",
+    "options": [
+      "Aprendizado não supervisionado (Unsupervised Learning).",
+      "Aprendizado por reforço (Reinforcement Learning).",
+      "Aprendizado supervisionado (Supervised Learning).",
+      "Aprendizado semi-supervisionado (Semi-supervised Learning)."
+    ],
+    "correct": 2,
+    "explanation": "O reconhecimento de objetos em imagens com um dataset grande de imagens *rotuladas* é um problema clássico de aprendizado supervisionado. Neste paradigma, o modelo aprende a mapear entradas (imagens) para saídas (rótulos de objetos e suas localizações) com base em exemplos conhecidos e anotados, permitindo que ele generalize para novas imagens.",
+    "id": 318
   }
 ]
