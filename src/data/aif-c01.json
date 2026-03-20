@@ -838,5 +838,397 @@
     "correct": 1,
     "explanation": "A deriva de modelo (model drift) ocorre quando o relacionamento entre os dados de entrada e a variável alvo muda ao longo do tempo. Isso faz com que as previsões do modelo implantado se tornem menos precisas à medida que as condições do mundo real mudam em relação aos dados nos quais ele foi treinado.",
     "id": 260
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Uma empresa está explorando como a IA pode otimizar seus processos de atendimento ao cliente. Eles precisam de uma tecnologia que possa entender e responder a perguntas complexas dos clientes em linguagem natural. Qual conceito de IA é mais fundamental para permitir que um sistema interaja com humanos usando linguagem natural, como um chatbot avançado?",
+    "options": [
+      "Visão Computacional (Computer Vision)",
+      "Processamento de Linguagem Natural (Natural Language Processing - NLP)",
+      "Aprendizado por Reforço (Reinforcement Learning)",
+      "Análise Preditiva (Predictive Analytics)"
+    ],
+    "correct": 1,
+    "explanation": "NLP é o ramo da IA que se concentra na interação entre computadores e linguagem humana, permitindo que as máquinas entendam, interpretem e gerem linguagem natural.",
+    "id": 261
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Uma equipe de marketing deseja gerar rapidamente múltiplas variações de slogans para uma nova campanha de produto, com base em algumas palavras-chave e no tom desejado. Qual tipo de modelo de IA é mais adequado para esta tarefa de geração de texto criativo a partir de um prompt?",
+    "options": [
+      "Modelo de Classificação",
+      "Modelo de Regressão",
+      "Modelo Generativo (Foundation Model)",
+      "Modelo de Detecção de Anomalias"
+    ],
+    "correct": 2,
+    "explanation": "Modelos generativos (frequentemente implementados como Foundation Models ou Large Language Models) são projetados para gerar novos conteúdos, como texto, imagens ou áudio, a partir de entradas (prompts).",
+    "id": 262
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Uma startup de saúde está desenvolvendo um modelo de IA para auxiliar no diagnóstico de doenças. Eles estão preocupados em garantir que o modelo não tome decisões enviesadas que possam impactar injustamente certos grupos demográficos de pacientes. Qual é uma preocupação ética e de segurança fundamental ao desenvolver e implantar modelos de IA, especialmente em setores sensíveis como saúde?",
+    "options": [
+      "O custo de infraestrutura para treinar o modelo.",
+      "A latência da inferência do modelo.",
+      "O viés do modelo (model bias) e a equidade.",
+      "A escolha da linguagem de programação."
+    ],
+    "correct": 2,
+    "explanation": "O viés do modelo é uma preocupação crítica na segurança e ética da IA, pois um modelo enviesado pode levar a resultados discriminatórios ou injustos, especialmente em aplicações sensíveis como saúde ou finanças.",
+    "id": 263
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Uma pequena empresa está começando seu primeiro projeto de IA para prever a demanda de produtos. Eles coletaram uma grande quantidade de dados de vendas históricas. Qual é a primeira etapa crucial em qualquer projeto de Machine Learning, antes mesmo de começar a construir o modelo?",
+    "options": [
+      "Implantar o modelo em produção.",
+      "Treinar o modelo com os dados.",
+      "Preparar e pré-processar os dados.",
+      "Avaliar o desempenho do modelo."
+    ],
+    "correct": 2,
+    "explanation": "A preparação e o pré-processamento dos dados (limpeza, normalização, tratamento de valores ausentes) são etapas fundamentais e geralmente as primeiras em um pipeline de ML, pois a qualidade dos dados impacta diretamente a qualidade do modelo.",
+    "id": 264
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Qual categoria de tarefa de Machine Learning é mais utilizada para prever se um cliente comprará ou não um determinado produto com base em seu histórico, resultando em uma decisão 'sim' ou 'não'?",
+    "options": [
+      "Classificação (Classification)",
+      "Regressão (Regression)",
+      "Agrupamento (Clustering)",
+      "Redução de Dimensionalidade (Dimensionality Reduction)"
+    ],
+    "correct": 0,
+    "explanation": "Classificação é a tarefa de ML que categoriza dados em uma de duas ou mais classes discretas, como 'comprará' ou 'não comprará' um produto.",
+    "id": 265
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Uma empresa de e-commerce deseja criar descrições de produtos únicas e atraentes para milhares de itens em seu catálogo, evitando o trabalho manual demorado. Qual capacidade de IA generativa seria mais benéfica para automatizar a criação dessas descrições de produtos de forma escalável?",
+    "options": [
+      "Geração de Imagens",
+      "Síntese de Voz",
+      "Geração de Texto (Text Generation)",
+      "Análise de Sentimento"
+    ],
+    "correct": 2,
+    "explanation": "A geração de texto, impulsionada por modelos de linguagem grandes (LLMs), é ideal para criar automaticamente descrições, artigos, e-mails ou qualquer outro conteúdo textual a partir de um conjunto de instruções ou dados.",
+    "id": 266
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Um time de desenvolvimento de IA está trabalhando com dados sensíveis de clientes. Eles precisam garantir que o acesso aos dados usados para treinar e inferir modelos seja restrito apenas a pessoal autorizado e que os dados sejam protegidos contra vazamentos. Qual aspecto da segurança da IA é crucial para proteger os dados confidenciais dos clientes?",
+    "options": [
+      "Otimização do desempenho do modelo.",
+      "Gerenciamento de acesso e criptografia de dados.",
+      "Escolha de algoritmos de aprendizado de máquina.",
+      "Monitoramento da utilização da CPU durante o treinamento."
+    ],
+    "correct": 1,
+    "explanation": "Gerenciamento de acesso (IAM) e criptografia de dados (em repouso e em trânsito) são medidas essenciais para proteger dados sensíveis e garantir a conformidade e a privacidade.",
+    "id": 267
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Após treinar um modelo de Machine Learning, a equipe precisa validar se ele está funcionando conforme o esperado antes de colocá-lo em produção. Qual etapa do ciclo de vida do Machine Learning envolve quantificar o desempenho do modelo usando métricas como acurácia, precisão ou recall em um conjunto de dados de teste?",
+    "options": [
+      "Coleta de Dados",
+      "Pré-processamento de Dados",
+      "Treinamento do Modelo",
+      "Avaliação do Modelo"
+    ],
+    "correct": 3,
+    "explanation": "A avaliação do modelo é a fase onde o desempenho do modelo treinado é medido e comparado com os objetivos estabelecidos, usando métricas apropriadas para o tipo de problema (classificação, regressão, etc.).",
+    "id": 268
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Uma empresa está explorando diferentes abordagens de IA. Eles ouvem falar sobre 'Deep Learning' e querem entender o que o torna distinto de outros métodos de Machine Learning. Qual característica principal diferencia o Deep Learning de outras formas tradicionais de Machine Learning?",
+    "options": [
+      "Utilização exclusiva de dados não estruturados.",
+      "Dependência de algoritmos de agrupamento.",
+      "Uso de redes neurais com múltiplas camadas ocultas (redes profundas).",
+      "Foco apenas em problemas de regressão."
+    ],
+    "correct": 2,
+    "explanation": "Deep Learning é um subcampo do Machine Learning que utiliza arquiteturas de redes neurais com várias camadas ocultas (profundas) para aprender representações hierárquicas dos dados, o que o torna poderoso para tarefas complexas como reconhecimento de imagem e NLP.",
+    "id": 269
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "easy",
+    "question": "Uma equipe de desenvolvimento está utilizando um Foundation Model para gerar código de software. Eles querem influenciar o estilo e a estrutura do código gerado para que se alinhe às suas diretrizes internas. Que técnica eles podem usar para guiar e refinar a saída do modelo generativo, fornecendo instruções específicas no input?",
+    "options": [
+      "Ajuste de Hiperparâmetros",
+      "Treinamento Supervisionado",
+      "Engenharia de Prompt (Prompt Engineering)",
+      "Validação Cruzada"
+    ],
+    "correct": 2,
+    "explanation": "Engenharia de Prompt é a arte e a ciência de criar as entradas (prompts) mais eficazes para modelos generativos, a fim de obter as saídas desejadas, controlando o comportamento e o estilo do conteúdo gerado.",
+    "id": 270
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "easy",
+    "question": "Uma organização de notícias está usando IA para resumir artigos. Eles estão preocupados que o modelo possa ocasionalmente gerar 'alucinações' (informações falsas, mas plausíveis) ou reproduzir vieses presentes nos dados de treinamento. Para mitigar riscos como alucinações e a reprodução de vieses em modelos generativos de texto, qual prática de segurança e responsabilidade da IA é fundamental?",
+    "options": [
+      "Aumentar a complexidade da rede neural.",
+      "Realizar auditorias e verificações humanas (Human-in-the-loop).",
+      "Diminuir o tamanho do conjunto de dados de treinamento.",
+      "Ignorar a explicabilidade do modelo."
+    ],
+    "correct": 1,
+    "explanation": "A inclusão de verificações humanas (Human-in-the-loop) e auditorias regulares é crucial para identificar e corrigir vieses, imprecisões e alucinações geradas por modelos de IA, especialmente em contextos onde a precisão e a imparcialidade são vitais.",
+    "id": 271
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "easy",
+    "question": "Após o treinamento e avaliação de um modelo de Machine Learning, a equipe quer disponibilizá-lo para que as aplicações de negócios possam usá-lo para fazer previsões em tempo real. Qual termo descreve o processo de disponibilizar um modelo de Machine Learning treinado para uso em um ambiente de produção?",
+    "options": [
+      "Coleta de Dados",
+      "Feature Engineering",
+      "Implantação do Modelo (Model Deployment)",
+      "Tuning de Hiperparâmetros"
+    ],
+    "correct": 2,
+    "explanation": "A implantação do modelo (Model Deployment) é a etapa em que o modelo treinado é integrado a um sistema operacional ou aplicação, tornando-o acessível para inferência em tempo real ou em lote.",
+    "id": 272
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "easy",
+    "question": "Uma empresa está considerando usar IA para automatizar tarefas repetitivas, mas quer entender a diferença entre a inteligência que imita o comportamento humano em tarefas específicas e a inteligência que poderia igualar ou superar a inteligência humana em todas as tarefas. Qual termo se refere a sistemas de IA que são projetados e treinados para realizar uma tarefa específica, ao invés de possuir capacidades cognitivas humanas gerais?",
+    "options": [
+      "Inteligência Artificial Geral (AGI)",
+      "Superinteligência Artificial (ASI)",
+      "Inteligência Artificial Estreita (Narrow AI ou Weak AI)",
+      "Inteligência Artificial Autónoma (AAI)"
+    ],
+    "correct": 2,
+    "explanation": "Inteligência Artificial Estreita (Narrow AI ou Weak AI) é a forma de IA que existe hoje, projetada para realizar uma única tarefa ou um conjunto limitado de tarefas com alta competência, como reconhecimento facial ou assistentes de voz.",
+    "id": 273
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa de telecomunicações deseja prever quais clientes são propensos a cancelar seus serviços nos próximos 3 meses para intervir proativamente. Qual é o tipo de problema de Machine Learning mais adequado para este cenário e qual métrica de avaliação seria crucial para monitorar, considerando o custo de um falso negativo (perder um cliente que iria embora)?",
+    "options": [
+      "A. Regressão; R-quadrado.",
+      "B. Classificação; Acurácia.",
+      "C. Classificação; Recall (Sensibilidade).",
+      "D. Agrupamento (Clustering); Silhueta."
+    ],
+    "correct": 2,
+    "explanation": "Prever churn (cancelamento) é um problema de classificação binária (o cliente vai ou não vai cancelar). O custo de um falso negativo (prever que o cliente NÃO vai cancelar, mas ele cancela) é alto, pois a empresa perde a oportunidade de intervir. O Recall (Sensibilidade) mede a proporção de verdadeiros positivos que foram corretamente identificados e é crucial para minimizar falsos negativos.",
+    "id": 274
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Ao preparar um conjunto de dados para treinar um modelo de Machine Learning, um engenheiro de dados precisa dividir os dados em subconjuntos para treinamento, validação e teste. Qual é a principal finalidade do conjunto de validação nesse processo?",
+    "options": [
+      "A. Avaliar o desempenho final do modelo em dados não vistos.",
+      "B. Ajustar hiperparâmetros do modelo e evitar overfitting durante o treinamento.",
+      "C. Fornecer os dados de entrada para o modelo durante a fase de inferência.",
+      "D. Aumentar o volume de dados para o treinamento inicial do modelo."
+    ],
+    "correct": 1,
+    "explanation": "O conjunto de validação é usado para ajustar os hiperparâmetros do modelo (por exemplo, taxa de aprendizado, número de épocas) e para monitorar o desempenho durante o treinamento, ajudando a identificar e prevenir o overfitting, onde o modelo memoriza os dados de treinamento em vez de generalizar.",
+    "id": 275
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Um cientista de dados está explorando um novo dataset sem rótulos (labels) pré-definidos e deseja identificar padrões e estruturas intrínsecas nos dados para segmentação de clientes. Qual tipo de abordagem de Machine Learning ele deve usar?",
+    "options": [
+      "A. Aprendizado supervisionado (Supervised Learning).",
+      "B. Aprendizado não supervisionado (Unsupervised Learning).",
+      "C. Aprendizado por reforço (Reinforcement Learning).",
+      "D. Aprendizado semi-supervisionado (Semi-supervised Learning)."
+    ],
+    "correct": 1,
+    "explanation": "O aprendizado não supervisionado é a abordagem correta quando os dados não possuem rótulos e o objetivo é descobrir padrões, estruturas ou grupos inerentes aos dados, como na segmentação de clientes com algoritmos de clustering.",
+    "id": 276
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma empresa de e-commerce planeja usar IA Generativa para criar respostas personalizadas para perguntas frequentes de clientes em um chatbot. Qual tecnologia AWS é mais apropriada para construir e gerenciar esse tipo de aplicação de IA Generativa de forma escalável e com flexibilidade na escolha de modelos?",
+    "options": [
+      "A. Amazon Rekognition",
+      "B. Amazon Comprehend",
+      "C. Amazon Bedrock",
+      "D. Amazon Transcribe"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Bedrock é um serviço totalmente gerenciado que oferece acesso a Foundation Models (FMs) de alto desempenho de provedores de IA líderes, incluindo modelos da Amazon (Titan), para construir e escalar aplicativos de IA generativa. Ele permite a personalização com dados próprios e integração fácil, sendo ideal para o cenário de um chatbot generativo.",
+    "id": 277
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Ao interagir com um Large Language Model (LLM) para gerar um resumo de um texto técnico longo, o engenheiro de prompt deseja garantir que o resumo seja conciso e foque nos pontos-chave da metodologia. Qual técnica de prompt engineering seria mais eficaz para alcançar esse resultado?",
+    "options": [
+      "A. Few-shot prompting, fornecendo exemplos de resumos de diferentes tópicos.",
+      "B. Chain-of-Thought prompting, pedindo ao modelo para explicar seu raciocínio.",
+      "C. Zero-shot prompting, sem dar qualquer exemplo ou instrução específica além da tarefa.",
+      "D. Especificar o formato e o conteúdo desejado do resumo diretamente no prompt, como \"Gere um resumo conciso, com no máximo 3 sentenças, focando na metodologia de forma clara.\""
+    ],
+    "correct": 3,
+    "explanation": "Especificar claramente o formato, o conteúdo e o foco desejado no prompt é a técnica mais direta e eficaz para controlar a saída de um LLM para uma tarefa específica como sumarização concisa e focada. Isso se enquadra em um tipo de zero-shot prompting com instruções bem definidas, onde o modelo não precisa de exemplos, apenas de uma boa diretriz.",
+    "id": 278
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma equipe de desenvolvimento está construindo um assistente de IA generativa para advogados, que precisa responder a perguntas sobre a legislação brasileira específica. Os modelos Foundation (FMs) pré-treinados não possuem conhecimento profundo dessa legislação. Para garantir respostas precisas e atualizadas, qual é a abordagem mais recomendada, que minimiza a necessidade de re-treinar o modelo base extensivamente e permite fácil atualização do conhecimento?",
+    "options": [
+      "A. Fine-tuning completo do modelo Foundation com um vasto dataset da legislação.",
+      "B. Utilizar a técnica de Retrieval Augmented Generation (RAG), onde o modelo busca informações relevantes em uma base de dados externa antes de gerar a resposta.",
+      "C. Apenas usar few-shot prompting com exemplos da legislação.",
+      "D. Criar um novo modelo do zero (from scratch) treinado exclusivamente na legislação."
+    ],
+    "correct": 1,
+    "explanation": "RAG é ideal para cenários onde o modelo precisa de conhecimento atualizado ou específico de um domínio que não estava presente em seu treinamento original. Ele permite que o modelo consulte fontes de dados externas e autoritativas em tempo real (como um banco de dados de legislação), garantindo respostas precisas e possibilitando fácil atualização do conhecimento sem a necessidade de dispendiosos fine-tunings completos do modelo base.",
+    "id": 279
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Qual das seguintes opções descreve a capacidade fundamental que diferencia a IA Generativa de modelos de IA tradicionais de classificação ou regressão?",
+    "options": [
+      "A. A capacidade de analisar grandes volumes de dados para identificar padrões ocultos.",
+      "B. A capacidade de prever um valor numérico ou uma categoria com alta precisão.",
+      "C. A capacidade de criar conteúdo novo e original, como texto, imagens ou áudio, que não existia anteriormente.",
+      "D. A capacidade de aprender com feedback e otimizar ações em um ambiente dinâmico."
+    ],
+    "correct": 2,
+    "explanation": "A característica distintiva da IA Generativa é a sua capacidade de criar conteúdo novo e original (texto, imagens, código, áudio, etc.) que não estava explicitamente presente nos dados de treinamento, em contraste com modelos discriminativos que focam em classificação ou regressão.",
+    "id": 280
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Uma empresa está desenvolvendo um modelo de IA para auxiliar na triagem de currículos e percebe que o modelo tende a favorecer candidatos do sexo masculino para cargos de liderança, replicando um viés histórico presente nos dados de treinamento. Qual estratégia é mais eficaz para mitigar esse viés algorítmico?",
+    "options": [
+      "A. Aumentar o tamanho do dataset de treinamento sem balancear a representação dos grupos.",
+      "B. Remover completamente todas as características demográficas dos dados de entrada.",
+      "C. Implementar técnicas de reamostragem (oversampling/undersampling) ou ponderação para balancear a representação de grupos sub-representados nos dados de treinamento, e avaliar o modelo com métricas de fairness específicas.",
+      "D. Desconsiderar os resultados do modelo e voltar para a triagem manual."
+    ],
+    "correct": 2,
+    "explanation": "Para mitigar o viés algorítmico, é crucial abordar a fonte do viés (os dados) e/ou o processo de modelagem. Técnicas de reamostragem (como oversampling de grupos sub-representados ou undersampling de grupos super-representados) ou ponderação ajudam a balancear a representação dos grupos nos dados de treinamento. Além disso, a avaliação com métricas de fairness (como paridade demográfica ou igualdade de oportunidades) é essencial para verificar a eficácia da mitigação.",
+    "id": 281
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Uma aplicação de IA em conformidade com o GDPR precisa processar dados de clientes contendo PII (Personally Identifiable Information). Qual das seguintes práticas é uma medida de segurança e privacidade fundamental que deve ser implementada antes que esses dados sejam usados para treinamento ou inferência?",
+    "options": [
+      "A. Armazenar os dados em um bucket S3 público para facilitar o acesso.",
+      "B. Compartilhar os dados com terceiros sem anonimização, sob um acordo de não-divulgação (NDA).",
+      "C. Anonimizar ou pseudoanonimizar os dados, e implementar controles de acesso rigorosos e criptografia em repouso e em trânsito.",
+      "D. Usar os dados brutos sem qualquer alteração, confiando apenas na segurança da rede."
+    ],
+    "correct": 2,
+    "explanation": "A anonimização ou pseudoanonimização reduz o risco de identificação direta do indivíduo, o que é fundamental para a privacidade. Além disso, controles de acesso rigorosos (usando AWS IAM), criptografia em repouso (SSE-S3, KMS) e em trânsito (SSL/TLS) são essenciais para proteger PII e garantir conformidade com regulamentações como o GDPR.",
+    "id": 282
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Um adversário malicioso tenta enganar um modelo de classificação de imagens adicionando pequenas perturbações imperceptíveis a uma imagem, fazendo com que o modelo a classifique incorretamente (ex: um sinal de pare como um sinal de limite de velocidade). Que tipo de ataque isso representa?",
+    "options": [
+      "A. Model Inversion Attack.",
+      "B. Data Poisoning Attack.",
+      "C. Adversarial Attack (Evasion Attack).",
+      "D. Membership Inference Attack."
+    ],
+    "correct": 2,
+    "explanation": "Um ataque adversário, especificamente um ataque de evasão, envolve a criação de entradas ligeiramente modificadas (perturbações adversárias) que são imperceptíveis para humanos, mas que levam o modelo a fazer previsões incorretas. O objetivo é 'enganar' o modelo durante a inferência.",
+    "id": 283
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma equipe de Machine Learning desenvolveu e treinou um modelo de classificação de documentos personalizado usando PyTorch e agora precisa implantá-lo como um endpoint de inferência em tempo real na AWS, com alta disponibilidade e escalabilidade automática. Qual serviço AWS é a ferramenta mais completa e apropriada para empacotar, implantar e gerenciar esse modelo?",
+    "options": [
+      "A. AWS Lambda",
+      "B. Amazon EC2",
+      "C. Amazon SageMaker Endpoints",
+      "D. Amazon S3"
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker Endpoints são projetados especificamente para implantar modelos de ML para inferência em tempo real. Eles oferecem gerenciamento completo da infraestrutura, escalabilidade automática, monitoramento e integração com diferentes frameworks (como PyTorch), sendo a solução mais completa e otimizada para este caso.",
+    "id": 284
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma startup deseja criar uma aplicação que analise o sentimento de avaliações de clientes deixadas em seu site, sem a necessidade de treinar um modelo de ML do zero. Qual serviço pré-treinado da AWS pode ser usado diretamente para realizar essa tarefa de análise de sentimento?",
+    "options": [
+      "A. Amazon SageMaker Studio",
+      "B. Amazon Comprehend",
+      "C. Amazon Textract",
+      "D. Amazon Polly"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Comprehend é um serviço de NLP (Processamento de Linguagem Natural) pré-treinado da AWS que pode ser usado para detectar sentimento (positivo, negativo, neutro, misto) em textos sem a necessidade de desenvolver e treinar modelos customizados, economizando tempo e recursos.",
+    "id": 285
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Um cientista de dados precisa armazenar grandes volumes de dados (terabytes) para treinamento de modelos de Machine Learning, que serão acessados por instâncias do Amazon SageMaker e outras ferramentas. Os dados devem ser duráveis, de baixo custo e facilmente acessíveis. Qual serviço AWS é o mais adequado para essa finalidade?",
+    "options": [
+      "A. Amazon RDS",
+      "B. Amazon DynamoDB",
+      "C. Amazon S3",
+      "D. Amazon EBS"
+    ],
+    "correct": 2,
+    "explanation": "Amazon S3 (Simple Storage Service) é um armazenamento de objetos altamente escalável, durável, de baixo custo e com alta disponibilidade, ideal para armazenar grandes volumes de dados (como datasets para ML). Ele se integra nativamente com SageMaker e outras ferramentas AWS, tornando-o a escolha padrão para esta finalidade.",
+    "id": 286
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma equipe de MLOps precisa orquestrar um pipeline de Machine Learning complexo que inclui etapas de pré-processamento de dados em AWS Glue, treinamento de modelo em Amazon SageMaker Training Jobs e implantação em Amazon SageMaker Endpoints. Qual serviço AWS é o mais recomendado para definir, agendar e monitorar a execução desse workflow?",
+    "options": [
+      "A. AWS CloudWatch",
+      "B. AWS Step Functions",
+      "C. Amazon SQS",
+      "D. AWS CloudFormation"
+    ],
+    "correct": 1,
+    "explanation": "AWS Step Functions é um serviço de orquestração sem servidor que permite definir, agendar e monitorar workflows complexos e distribuídos, como pipelines de ML. Ele pode sequenciar e gerenciar as execuções de diferentes serviços AWS (Glue, SageMaker, Lambda, etc.) de forma visual e resiliente, facilitando a construção de pipelines robustos.",
+    "id": 287
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Um modelo de Machine Learning personalizado foi desenvolvido e precisa ser implantado para realizar inferências esporádicas e de baixa latência em resposta a eventos. A equipe busca uma solução de implantação que minimize custos quando o modelo não está sendo usado ativamente. Qual serviço AWS, combinado com o SageMaker, seria mais adequado para esse cenário?",
+    "options": [
+      "A. Amazon SageMaker real-time endpoint com instâncias \"ml.m5.large\".",
+      "B. Amazon SageMaker Serverless Inference.",
+      "C. Amazon EC2 com um servidor Flask customizado.",
+      "D. Amazon SageMaker batch transform."
+    ],
+    "correct": 1,
+    "explanation": "Amazon SageMaker Serverless Inference é ideal para workloads com padrões de inferência intermitentes ou infrequentes. Ele dimensiona automaticamente de zero a centenas de instâncias em milissegundos e você paga apenas pela duração do tempo de execução e pela quantidade de dados processados, o que é ótimo para otimização de custos em cenários de baixa utilização, pois não há custos quando o endpoint está ocioso.",
+    "id": 288
   }
 ]

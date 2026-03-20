@@ -628,3 +628,22 @@ body {
 .dark .peer:checked ~ div .font-bold.text-gray-700 {
   color: #ffffff !important;
 }
+
+/* Novas animações de slide para transição de questões */
+@keyframes slideInRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-30px); opacity: 0; }
+}
+
+.slide-in {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.slide-out {
+  animation: slideOutLeft 0.3s ease-out forwards;
+}
