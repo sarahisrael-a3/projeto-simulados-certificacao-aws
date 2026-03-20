@@ -2,6 +2,7 @@ require('dotenv').config();
 const { GoogleGenerativeAI, SchemaType } = require("@google/generative-ai");
 const fs = require("fs");
 const path = require("path");
+const stringSimilarity = require("string-similarity");
 
 const API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -11,6 +12,12 @@ const META_POR_NIVEL = 60;
 const TENTATIVAS_MAXIMAS = 3; 
 const ESPERA_ENTRE_BLOCOS = 20000; // 20 segundos para evitar erro 429 (Rate Limit)
 const DIFICULDADES = ["easy", "medium", "hard"];
+
+const DOMINIOS_VALIDOS = [
+    "conceitos-cloud", "seguranca", "tecnologia", "faturamento",
+    "design-resiliente", "design-performance", "seguranca-aplicacoes", "design-custo",
+    "conceitos-ia", "ia-generativa", "seguranca-ia", "implementacao-ia"
+];
 
 const EXAMES = [
     { 
@@ -30,18 +37,58 @@ const EXAMES = [
     }
 ];
 
+// ============================================================================
+// FUNÇÕES DE VALIDAÇÃO
+// ============================================================================
+
+function validarEstrutura(q) {
+    if (!q.domain || !q.difficulty || !q.question || !q.explanation) return false;
+    if (!Array.isArray(q.options) || q.options.length !== 4) return false;
+    if (typeof q.correct !== "number" || q.correct < 0 || q.correct > 3) return false;
+    
+    if (!DOMINIOS_VALIDOS.includes(q.domain)) return false;
+    if (!DIFICULDADES.includes(q.difficulty)) return false;
+
+    for (const opt of q.options) {
+        if (opt.length < 3 || opt.length > 200) return false;
+    }
+    return true;
+}
+
+function validarQualidade(q) {
+    if (q.question.length < 30 || q.explanation.length < 30) return false;
+    const opcoesUnicas = new Set(q.options.map(o => o.toLowerCase().trim()));
+    if (opcoesUnicas.size !== 4) return false;
+    return true;
+}
+
+function isDuplicate(nova, banco) {
+    if (!banco || banco.length === 0) return false;
+    const novaPergunta = nova.question.toLowerCase().trim();
+
+    for (const qExistente of banco) {
+        const existente = qExistente.question.toLowerCase().trim();
+        if (existente === novaPergunta) return true;
+
+        const score = stringSimilarity.compareTwoStrings(novaPergunta, existente);
+        if (score > 0.85) return true;
+    }
+    return false;
+}
+
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
+// ============================================================================
+// MOTOR PRINCIPAL
+// ============================================================================
+
 async function iniciarAutomacao() {
-    console.log("\n🚀 [MOTOR DE IA] Iniciando processo de abastecimento resiliente...");
+    console.log("\n🚀 [MOTOR DE IA] Iniciando processo de abastecimento com VALIDADOR...");
     
     for (const exame of EXAMES) {
         console.log(`\n📂 EXAME: ${exame.nome.toUpperCase()}`);
-        
-        // Ajustado para apontar para a pasta /data na raiz (Solução 2 do GitHub Pages)
         const caminho = path.join(__dirname, '../data', `${exame.id}.json`);
         
-        // Garante que o diretório data existe
         const dirData = path.join(__dirname, '../data');
         if (!fs.existsSync(dirData)) {
             fs.mkdirSync(dirData, { recursive: true });
@@ -54,7 +101,6 @@ async function iniciarAutomacao() {
             
             while (atuais < META_POR_NIVEL) {
                 const faltam = META_POR_NIVEL - atuais;
-                // Reduzido para 10 para maior fiabilidade e menos timeouts na API gratuita
                 const lote = Math.min(10, faltam);
 
                 console.log(`   [${nivel.toUpperCase()}] Status: ${atuais}/${META_POR_NIVEL} | Gerando +${lote}...`);
@@ -63,34 +109,45 @@ async function iniciarAutomacao() {
                 let tentativas = 0;
 
                 while (!sucesso && tentativas < TENTATIVAS_MAXIMAS) {
-                    const novas = await pedirIA(exame, nivel, lote);
+                    const loteIA = await pedirIA(exame, nivel, lote);
                     
-                    if (novas && Array.isArray(novas) && novas.length > 0) {
-                        let ultimoId = banco.length > 0 ? Math.max(...banco.map(q => q.id)) : 1000;
-                        
-                        novas.forEach(q => { 
-                            q.id = ++ultimoId; 
-                            banco.push(q); 
+                    if (loteIA && Array.isArray(loteIA)) {
+                        // PIPELINE DE VALIDAÇÃO
+                        const validas = loteIA.filter(q => {
+                            const okEstrutura = validarEstrutura(q);
+                            const okQualidade = validarQualidade(q);
+                            const duplicada = isDuplicate(q, banco);
+
+                            if (!okEstrutura) console.warn("      ⚠️ Descartada: Erro de estrutura/domínio.");
+                            if (!okQualidade) console.warn("      ⚠️ Descartada: Baixa qualidade.");
+                            if (duplicada) console.warn("      ⚠️ Descartada: Duplicada/Similar.");
+
+                            return okEstrutura && okQualidade && !duplicada;
                         });
-                        
-                        fs.writeFileSync(caminho, JSON.stringify(banco, null, 2));
-                        atuais = banco.filter(q => q.difficulty === nivel).length;
-                        sucesso = true;
-                        console.log(`      ✅ Lote processado com sucesso!`);
+
+                        if (validas.length > 0) {
+                            let ultimoId = banco.length > 0 ? Math.max(...banco.map(q => q.id)) : 1000;
+                            
+                            validas.forEach(q => { 
+                                q.id = ++ultimoId; 
+                                banco.push(q); 
+                            });
+                            
+                            fs.writeFileSync(caminho, JSON.stringify(banco, null, 2));
+                            atuais = banco.filter(q => q.difficulty === nivel).length;
+                            sucesso = true;
+                            console.log(`      ✅ Lote processado: ${validas.length} questões salvas.`);
+                        } else {
+                            console.warn("      🟠 Nenhuma questão válida no lote. Tentando novamente...");
+                            tentativas++;
+                        }
                     } else {
                         tentativas++;
-                        const tempoEspera = 10000 * tentativas;
-                        console.warn(`      ⚠️  Falha na tentativa ${tentativas}. Aguardando ${tempoEspera/1000}s para tentar novamente...`);
-                        await sleep(tempoEspera);
+                        await sleep(10000 * tentativas);
                     }
                 }
 
-                if (!sucesso) {
-                    console.error(`      ❌ Nível ${nivel} ignorado após ${TENTATIVAS_MAXIMAS} falhas.`);
-                    break;
-                }
-
-                // Pausa estratégica entre chamadas bem-sucedidas
+                if (!sucesso) break;
                 await sleep(ESPERA_ENTRE_BLOCOS);
             }
         }
@@ -104,56 +161,52 @@ async function pedirIA(exame, nivel, quantidade) {
             model: "gemini-2.5-flash", 
             generationConfig: { 
                 responseMimeType: "application/json",
-                // Força a API a devolver um JSON perfeito e validado nativamente
                 responseSchema: {
                     type: SchemaType.ARRAY,
-                    description: "Lista de questões de múltipla escolha para exames AWS.",
                     items: {
                         type: SchemaType.OBJECT,
                         properties: {
                             domain: { type: SchemaType.STRING },
+                            subdomain: { type: SchemaType.STRING }, 
+                            service: { type: SchemaType.STRING },   
+                            type: { type: SchemaType.STRING },      
+                            tags: {                                 
+                                type: SchemaType.ARRAY, 
+                                items: { type: SchemaType.STRING } 
+                            },
                             difficulty: { type: SchemaType.STRING },
                             question: { type: SchemaType.STRING },
-                            options: { 
-                                type: SchemaType.ARRAY, 
-                                items: { type: SchemaType.STRING },
-                                description: "Exatamente 4 opções limpas, sem letras no início."
-                            },
-                            correct: { type: SchemaType.INTEGER, description: "Índice de 0 a 3 indicando a correta." },
+                            options: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+                            correct: { type: SchemaType.INTEGER },
                             explanation: { type: SchemaType.STRING }
                         },
-                        required: ["domain", "difficulty", "question", "options", "correct", "explanation"]
+                        required: ["domain", "subdomain", "service", "type", "tags", "question", "options", "correct", "explanation"]
                     }
                 }
             } 
         });
 
-        // Few-Shot Prompting: Fornecendo um exemplo para guiar a IA e acelerar a resposta
         const prompt = `Atue como Arquiteto AWS Sênior. Gere ${quantidade} questões de múltipla escolha INÉDITAS para o exame ${exame.nome}.
         Dificuldade: "${nivel}". Domínios permitidos: ${JSON.stringify(exame.dominios)}.
-        As questões devem focar em cenários reais e técnicos.
+        Cenários técnicos e reais. Sem letras (A, B...) nas opções.
         
-        Exemplo do que espero gerado:
+        Exemplo:
         [
           {
             "domain": "${exame.dominios[0]}",
             "difficulty": "${nivel}",
-            "question": "Qual serviço AWS permite gerenciar chaves de encriptação?",
+            "question": "Qual serviço AWS gerencia chaves de encriptação?",
             "options": ["AWS IAM", "AWS KMS", "AWS CloudTrail", "Amazon Inspector"],
             "correct": 1,
-            "explanation": "O AWS KMS (Key Management Service) gerencia chaves de encriptação de forma segura."
+            "explanation": "O AWS KMS gerencia chaves de encriptação de forma segura."
           }
-        ]
-        Gere as ${quantidade} novas questões baseadas nos padrões oficiais da AWS.`;
+        ]`;
 
         const result = await model.generateContent(prompt);
-        // Com o Schema definido, o Gemini já devolve o JSON puro
-        const data = JSON.parse(result.response.text());
-        
-        return Array.isArray(data) ? data : null;
+        return JSON.parse(result.response.text());
 
     } catch (e) {
-        console.error(`      ❌ Erro Técnico: ${e.message}`);
+        console.error(`      ❌ Erro na IA: ${e.message}`);
         return null;
     }
 }
