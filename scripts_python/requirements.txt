@@ -1,0 +1,7 @@
+google-generativeai
+pydantic
+python-dotenv
+requests
+beautifulsoup4
+pandas
+string-similarity
