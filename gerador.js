@@ -97,7 +97,7 @@ async function iniciarAutomacao() {
 async function pedirIA(exame, nivel, quantidade) {
     try {
         const model = genAI.getGenerativeModel({ 
-            model: "gemini-1.5-flash", // Modelo estável para grandes lotes
+            model: "gemini-2.5-flash", // Modelo estável para grandes lotes
             generationConfig: { responseMimeType: "application/json" } 
         });
 
@@ -110,7 +110,7 @@ async function pedirIA(exame, nivel, quantidade) {
         const result = await model.generateContent(prompt);
         let responseText = result.response.text();
 
-        // 🛡️ SANITIZAÇÃO SÊNIOR: Remove blocos de Markdown se a IA os incluir
+        // Remove blocos de Markdown se a IA os incluir
         responseText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
 
         const data = JSON.parse(responseText);

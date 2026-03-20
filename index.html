@@ -113,7 +113,7 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
                         Filtro por Tópico (Opcional):
@@ -143,10 +143,12 @@
                 </button>
             </div>
 
-            <div id="screen-quiz" class="hidden flex-col h-full relative">
+        <div id="screen-quiz" class="hidden flex-col h-full relative">
+                
                 <div class="h-2 w-full bg-gray-200">
                     <div id="progress-bar" class="h-2 aws-bg-orange transition-all duration-500" style="width: 0%"></div>
                 </div>
+                
                 <div class="flex flex-wrap justify-between items-center mb-6 gap-3">
                     <span id="question-category" class="text-xs font-bold uppercase tracking-wider text-gray-600 bg-gray-100 dark:bg-slate-800 dark:text-gray-300 border border-gray-200 dark:border-slate-700 px-4 py-1.5 rounded-full shadow-sm">
                         Categoria
@@ -164,29 +166,29 @@
                         </span>
                     </div>
                 </div>
-            </div>
-                    <h3 id="question-text" class="text-xl md:text-2xl font-semibold aws-text-dark mb-8 leading-snug">Carregando questão...</h3>
-                    <div id="options-container" class="flex flex-col gap-3 mb-8"></div>
-                    <div id="explanation-box" class="hidden mt-4 bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg">
-                        <h4 class="font-bold text-blue-800 mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Explicação</h4>
-                        <p id="explanation-text" class="text-sm text-blue-900 leading-relaxed custom-scroll max-h-40 overflow-y-auto"></p>
-                    </div>
-                    
-                    <div class="mt-auto pt-6 flex flex-wrap justify-end gap-3 items-center w-full">
-                        <button id="btn-cancel" onclick="cancelQuiz()" class="mr-auto bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-bold py-3 px-6 rounded-lg shadow-sm transition-all" aria-label="Cancelar simulado">
-                            <i class="fa-solid fa-xmark mr-2" aria-hidden="true"></i> Cancelar
-                        </button>
+                
+                <h3 id="question-text" class="text-xl md:text-2xl font-semibold aws-text-dark mb-8 leading-snug">Carregando questão...</h3>
+                <div id="options-container" class="flex flex-col gap-3 mb-8"></div>
+                
+                <div id="explanation-box" class="hidden mt-4 bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg">
+                    <h4 class="font-bold text-blue-800 mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Explicação</h4>
+                    <p id="explanation-text" class="text-sm text-blue-900 leading-relaxed custom-scroll max-h-40 overflow-y-auto"></p>
+                </div>
+                
+                <div class="mt-auto pt-6 flex flex-wrap justify-end gap-3 items-center w-full">
+                    <button id="btn-cancel" onclick="cancelQuiz()" class="mr-auto bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-bold py-3 px-6 rounded-lg shadow-sm transition-all" aria-label="Cancelar simulado">
+                        <i class="fa-solid fa-xmark mr-2" aria-hidden="true"></i> Cancelar
+                    </button>
 
-                        <button id="btn-submit" onclick="submitAnswer()" disabled class="aws-bg-dark hover:bg-gray-800 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                            Confirmar Resposta
-                        </button>
-                        <button id="btn-next" onclick="nextQuestion()" class="hidden aws-bg-orange hover:bg-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
-                            Próxima <i class="fa-solid fa-arrow-right ml-2" aria-hidden="true"></i>
-                        </button>
-                        <button id="btn-finish" onclick="finishQuiz()" class="hidden bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
-                            Ver Resultado <i class="fa-solid fa-flag-checkered ml-2" aria-hidden="true"></i>
-                        </button>
-                    </div>
+                    <button id="btn-submit" onclick="submitAnswer()" disabled class="aws-bg-dark hover:bg-gray-800 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        Confirmar Resposta
+                    </button>
+                    <button id="btn-next" onclick="nextQuestion()" class="hidden aws-bg-orange hover:bg-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
+                        Próxima <i class="fa-solid fa-arrow-right ml-2" aria-hidden="true"></i>
+                    </button>
+                    <button id="btn-finish" onclick="finishQuiz()" class="hidden bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
+                        Ver Resultado <i class="fa-solid fa-flag-checkered ml-2" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
 

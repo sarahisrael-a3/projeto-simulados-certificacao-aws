@@ -121,7 +121,11 @@ async function startQuiz() {
   const difficulty = difficultySelect ? difficultySelect.value : 'all';
   const quizMode = document.getElementById('mode-study')?.checked ? 'study' : 'exam';
 
-  const startBtn = document.getElementById('btn-start-quiz');
+  const spinner = document.createElement('i');
+  spinner.className = 'fa-solid fa-spinner fa-spin mr-2';
+  startBtn.innerHTML = '';
+  startBtn.appendChild(spinner);
+  startBtn.appendChild(document.createTextNode('A preparar questões...'));
   
   try {
     startBtn.disabled = true;
@@ -1317,4 +1321,23 @@ function initTheme() {
       themeIcon.classList.add('fa-sun', 'text-yellow-400');
     }
   }
+}
+
+// ============================================================================
+// EXPORTAÇÃO PARA TESTES AUTOMATIZADOS
+// ============================================================================
+
+// Criamos a função calculatePercentage que faltava
+function calculatePercentage(correct, total) {
+  if (total === 0) return 0;
+  return (correct / total) * 100;
+}
+
+// Permitimos que o arquivo de testes (app.test.js) consiga ler essas funções
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    shuffleArray,
+    getWeakDomains,
+    calculatePercentage
+  };
 }
