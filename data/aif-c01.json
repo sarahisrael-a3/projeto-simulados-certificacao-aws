@@ -1650,5 +1650,117 @@
     "correct": 2,
     "explanation": "O reconhecimento de objetos em imagens com um dataset grande de imagens *rotuladas* é um problema clássico de aprendizado supervisionado. Neste paradigma, o modelo aprende a mapear entradas (imagens) para saídas (rótulos de objetos e suas localizações) com base em exemplos conhecidos e anotados, permitindo que ele generalize para novas imagens.",
     "id": 318
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma empresa de e-commerce deseja gerar automaticamente descrições de produtos atraentes e únicas a partir de um conjunto de palavras-chave. Qual serviço AWS, combinado com um modelo de base apropriado, seria o mais adequado para essa tarefa?",
+    "options": [
+      "Amazon Rekognition para análise de imagens",
+      "Amazon Transcribe para conversão de fala em texto",
+      "Amazon Bedrock com um Large Language Model (LLM)",
+      "Amazon Textract para extração de texto de documentos"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Bedrock fornece acesso a diversos Large Language Models (LLMs) capazes de gerar texto criativo e coerente a partir de prompts, sendo ideal para a geração de descrições de produtos.",
+    "id": 319
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Uma equipe de cientistas de dados precisa treinar um modelo de Machine Learning personalizado em um conjunto de dados massivo. Eles precisam de um ambiente totalmente gerenciado que ofereça escalabilidade dinâmica de recursos de computação e suporte à execução de código Python personalizado. Qual serviço AWS é o mais apropriado?",
+    "options": [
+      "AWS Lambda para processamento de eventos sem servidor",
+      "Amazon Redshift ML para criar, treinar e implantar modelos SQL",
+      "Amazon SageMaker Training Jobs para treinamento de modelos personalizados",
+      "Amazon Kinesis Data Analytics para processamento de streams em tempo real"
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker Training Jobs oferece uma infraestrutura gerenciada e escalável para treinar modelos de ML personalizados, permitindo a execução de código customizado e o provisionamento automático de recursos.",
+    "id": 320
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Um aplicativo de IA processa dados confidenciais de clientes. Para atender aos requisitos de conformidade e privacidade, todos os dados devem ser criptografados em repouso e em trânsito. Quais serviços e práticas da AWS devem ser empregados para garantir essa segurança?",
+    "options": [
+      "Utilizar AWS WAF para segurança da aplicação e Amazon GuardDuty para detecção de ameaças.",
+      "Armazenar dados em buckets S3 sem criptografia e confiar apenas nas ACLs de rede.",
+      "Criptografar dados em repouso usando AWS KMS com criptografia de bucket S3 e impor TLS/SSL para dados em trânsito.",
+      "Implementar criptografia do lado do cliente sem validação do lado do servidor."
+    ],
+    "correct": 2,
+    "explanation": "A criptografia em repouso pode ser alcançada com o AWS KMS e a criptografia de bucket do S3 (SSE-KMS ou SSE-S3), enquanto o TLS/SSL garante a criptografia dos dados em trânsito entre os serviços AWS e clientes.",
+    "id": 321
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Um modelo de Machine Learning está sendo desenvolvido para prever se um cliente irá cancelar sua assinatura (churn). O conjunto de dados de treinamento contém informações históricas de clientes, incluindo se eles cancelaram ou não. Que tipo de abordagem de Machine Learning está sendo utilizada neste cenário?",
+    "options": [
+      "Aprendizado não supervisionado (Unsupervised Learning)",
+      "Aprendizado por reforço (Reinforcement Learning)",
+      "Aprendizado supervisionado (Supervised Learning)",
+      "Aprendizado semi-supervisionado (Semi-supervised Learning)"
+    ],
+    "correct": 2,
+    "explanation": "Aprendizado supervisionado é utilizado quando o conjunto de dados de treinamento possui rótulos (neste caso, se o cliente cancelou ou não), e o objetivo é aprender uma função que mapeie entradas para saídas desejadas.",
+    "id": 322
+  },
+  {
+    "domain": "ia-generativa",
+    "difficulty": "medium",
+    "question": "Uma agência de publicidade deseja gerar imagens realistas a partir de descrições textuais fornecidas pelos designers. Qual serviço AWS, juntamente com um modelo de base específico, deve ser utilizado para essa finalidade?",
+    "options": [
+      "Amazon SageMaker Studio com um modelo de classificação de imagens",
+      "Amazon Comprehend para análise de sentimento em texto",
+      "Amazon Bedrock com um modelo como Stable Diffusion ou Midjourney",
+      "Amazon Polly para transformar texto em fala"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Bedrock oferece acesso a modelos de base como Stable Diffusion, que são especializados em gerar imagens a partir de prompts de texto (text-to-image).",
+    "id": 323
+  },
+  {
+    "domain": "implementacao-ia",
+    "difficulty": "medium",
+    "question": "Após o treinamento bem-sucedido de um modelo de previsão de vendas, a equipe de desenvolvimento precisa implantá-lo como um endpoint HTTP em tempo real que possa lidar com cargas de requisição variáveis e fornecer previsões com baixa latência. Qual serviço AWS é projetado para essa implantação gerenciada e escalável?",
+    "options": [
+      "AWS Glue para transformações de dados ETL",
+      "Amazon SQS para enfileiramento de mensagens",
+      "Amazon SageMaker Endpoints para inferência em tempo real",
+      "AWS Batch para execução de cargas de trabalho em lotes"
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker Endpoints são ambientes totalmente gerenciados e escaláveis para implantar modelos de ML, oferecendo endpoints HTTP de baixa latência para inferência em tempo real e capacidade de autoescalonamento.",
+    "id": 324
+  },
+  {
+    "domain": "seguranca-ia",
+    "difficulty": "medium",
+    "question": "Um artefato de modelo de Machine Learning, considerado propriedade intelectual, está armazenado em um bucket do Amazon S3. Como um arquiteto de segurança pode garantir que apenas os trabalhos de treinamento e inferência autorizados do SageMaker possam acessar este artefato, e que ele permaneça criptografado em repouso?",
+    "options": [
+      "Concedendo acesso público de leitura ao bucket S3.",
+      "Implementando uma política de bucket S3 restritiva combinada com IAM Roles para SageMaker, e habilitando a criptografia do lado do servidor S3 com KMS.",
+      "Armazenando o modelo em um volume EBS não criptografado anexado a uma instância do SageMaker.",
+      "Confiando apenas em grupos de segurança de rede para controle de acesso."
+    ],
+    "correct": 1,
+    "explanation": "Políticas de bucket S3 e IAM Roles fornecem controle de acesso granular. A criptografia do lado do servidor S3 com KMS garante que o artefato do modelo seja criptografado em repouso.",
+    "id": 325
+  },
+  {
+    "domain": "conceitos-ia",
+    "difficulty": "medium",
+    "question": "Ao trabalhar com modelos de IA generativa, como Large Language Models (LLMs), qual prática envolve a elaboração cuidadosa do texto de entrada para guiar o modelo a gerar resultados desejados e de alta qualidade?",
+    "options": [
+      "Ajuste fino do modelo (Model fine-tuning)",
+      "Engenharia de características (Feature engineering)",
+      "Engenharia de prompt (Prompt engineering)",
+      "Otimização de hiperparâmetros (Hyperparameter optimization)"
+    ],
+    "correct": 2,
+    "explanation": "A engenharia de prompt é a técnica de criar e refinar os prompts de entrada para modelos de IA generativa, a fim de obter respostas mais precisas, relevantes e desejáveis.",
+    "id": 326
   }
 ]
