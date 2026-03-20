@@ -2252,5 +2252,271 @@
     "correct": 2,
     "explanation": "O plano de suporte Corporativo (Enterprise) é projetado para grandes empresas e oferece o mais alto nível de suporte, incluindo acesso a um Gerente Técnico de Contas (TAM) dedicado, suporte proativo, revisões operacionais e arquitetura guiada. Os outros planos oferecem níveis de suporte mais básicos, sem um TAM dedicado.",
     "id": 1151
+  },
+  {
+    "domain": "conceitos-cloud",
+    "difficulty": "medium",
+    "question": "Uma pequena startup de tecnologia está planejando lançar seu novo aplicativo web. Eles preveem um crescimento rápido de usuários, mas não querem se comprometer com a compra de servidores físicos caros que podem ficar ociosos ou sobrecarregados. Qual benefício da computação em nuvem é mais relevante para atender a essa necessidade de lidar com demandas variáveis de tráfego de forma eficiente?",
+    "options": [
+      "A) Segurança aprimorada",
+      "B) Resiliência de dados",
+      "C) Elasticidade",
+      "D) Custos de capital fixos"
+    ],
+    "correct": 2,
+    "explanation": "Elasticidade refere-se à capacidade de um sistema de computação em nuvem de expandir ou reduzir os recursos de forma automática para atender à demanda de tráfego. Isso permite que a startup pague apenas pelos recursos que realmente usa, evitando ociosidade e sobrecarga.",
+    "id": 1152
+  },
+  {
+    "domain": "seguranca",
+    "difficulty": "medium",
+    "question": "Um cliente AWS está preocupado com a possibilidade de acessos não autorizados à sua infraestrutura na nuvem. Eles querem garantir que apenas usuários autorizados, usando as credenciais corretas, possam acessar recursos específicos. Qual serviço AWS é fundamental para gerenciar e controlar o acesso a serviços e recursos da AWS de forma granular?",
+    "options": [
+      "A) AWS Shield",
+      "B) Amazon GuardDuty",
+      "C) AWS Identity and Access Management (IAM)",
+      "D) AWS WAF"
+    ],
+    "correct": 2,
+    "explanation": "AWS Identity and Access Management (IAM) permite que você gerencie usuários, grupos e permissões na AWS, garantindo que apenas usuários e serviços autorizados possam acessar recursos específicos, seguindo o princípio do privilégio mínimo.",
+    "id": 1153
+  },
+  {
+    "domain": "tecnologia",
+    "difficulty": "medium",
+    "question": "Uma empresa precisa armazenar petabytes de dados não estruturados, como logs de servidores e backups de bancos de dados, que raramente são acessados, mas devem estar disponíveis para auditorias futuras. O custo é uma preocupação principal. Qual classe de armazenamento do Amazon S3 seria a mais econômica para este cenário?",
+    "options": [
+      "A) Amazon S3 Standard",
+      "B) Amazon S3 Intelligent-Tiering",
+      "C) Amazon S3 Glacier Deep Archive",
+      "D) Amazon S3 Standard-IA"
+    ],
+    "correct": 2,
+    "explanation": "Amazon S3 Glacier Deep Archive é a classe de armazenamento de S3 mais econômica para arquivamento de longo prazo de dados que podem ser acessados uma ou duas vezes por ano, com um tempo de recuperação de algumas horas, ideal para dados que raramente são acessados e onde o custo é a prioridade.",
+    "id": 1154
+  },
+  {
+    "domain": "faturamento",
+    "difficulty": "medium",
+    "question": "O CFO de uma empresa está buscando maneiras de prever e controlar melhor os gastos com a AWS. Eles querem receber alertas automáticos quando os custos projetados ou reais ultrapassarem um determinado limite para um projeto específico. Qual ferramenta AWS deve ser configurada para atender a essa necessidade?",
+    "options": [
+      "A) AWS Cost Explorer",
+      "B) AWS Organizations",
+      "C) AWS Budgets",
+      "D) AWS Trusted Advisor"
+    ],
+    "correct": 2,
+    "explanation": "AWS Budgets permite que você defina orçamentos personalizados para monitorar seus custos e uso da AWS. Você pode configurar alertas para ser notificado por e-mail ou SNS quando os custos reais ou previstos excederem seus limites definidos.",
+    "id": 1155
+  },
+  {
+    "domain": "conceitos-cloud",
+    "difficulty": "medium",
+    "question": "Um desenvolvedor está criando um novo microserviço e quer provisionar uma função sem servidor que execute um código em resposta a eventos (como uploads para um bucket S3). Qual modelo de computação em nuvem ele está utilizando para essa abordagem, onde a AWS gerencia a infraestrutura subjacente?",
+    "options": [
+      "A) Infrastructure as a Service (IaaS)",
+      "B) Platform as a Service (PaaS)",
+      "C) Software as a Service (SaaS)",
+      "D) Function as a Service (FaaS)"
+    ],
+    "correct": 3,
+    "explanation": "Embora FaaS (Function as a Service) seja um subtipo de PaaS, no contexto de serviços sem servidor como AWS Lambda, ele é frequentemente referido como FaaS devido à sua natureza de execução de funções. O AWS Lambda é um serviço FaaS, onde a AWS gerencia totalmente os servidores, e o desenvolvedor foca apenas no código.",
+    "id": 1156
+  },
+  {
+    "domain": "seguranca",
+    "difficulty": "medium",
+    "question": "De acordo com o Modelo de Responsabilidade Compartilhada da AWS, qual das seguintes tarefas é de responsabilidade EXCLUSIVA do cliente?",
+    "options": [
+      "A) Manutenção e segurança da infraestrutura física da nuvem",
+      "B) Proteção dos recursos de hardware que executam os serviços da AWS",
+      "C) Criptografia dos dados do cliente armazenados no S3",
+      "D) Patching do sistema operacional do host AWS"
+    ],
+    "correct": 2,
+    "explanation": "No Modelo de Responsabilidade Compartilhada, a AWS é responsável pela 'Segurança DA Nuvem' (infraestrutura subjacente), enquanto o cliente é responsável pela 'Segurança NA Nuvem' (dados, configuração, patching do SO em instâncias EC2 gerenciadas pelo cliente, etc.). A criptografia dos dados do cliente é uma responsabilidade do cliente.",
+    "id": 1157
+  },
+  {
+    "domain": "tecnologia",
+    "difficulty": "medium",
+    "question": "Um arquiteto de soluções precisa provisionar um servidor virtual que exija um controle total sobre o sistema operacional, incluindo a instalação de software personalizado e a configuração de patches. Qual serviço AWS seria o mais apropriado para essa necessidade?",
+    "options": [
+      "A) AWS Lambda",
+      "B) Amazon S3",
+      "C) Amazon EC2",
+      "D) Amazon RDS"
+    ],
+    "correct": 2,
+    "explanation": "Amazon EC2 (Elastic Compute Cloud) fornece servidores virtuais (instâncias) onde o cliente tem controle total sobre o sistema operacional, permitindo a instalação de software personalizado, patches e configuração de rede.",
+    "id": 1158
+  },
+  {
+    "domain": "faturamento",
+    "difficulty": "medium",
+    "question": "Uma empresa está migrando seus bancos de dados para o Amazon RDS e espera utilizá-los continuamente por mais de três anos. Para reduzir os custos, eles querem se comprometer com um período de uso. Qual opção de precificação da AWS seria a mais vantajosa neste cenário?",
+    "options": [
+      "A) Instâncias sob demanda (On-Demand Instances)",
+      "B) Instâncias spot (Spot Instances)",
+      "C) Instâncias reservadas (Reserved Instances)",
+      "D) Savings Plans"
+    ],
+    "correct": 2,
+    "explanation": "Instâncias reservadas (Reserved Instances) oferecem descontos significativos (até 75%) em comparação com as instâncias sob demanda para um compromisso de 1 ou 3 anos, sendo ideais para cargas de trabalho de banco de dados (RDS) previsíveis e de longo prazo.",
+    "id": 1159
+  },
+  {
+    "domain": "conceitos-cloud",
+    "difficulty": "medium",
+    "question": "Uma empresa global está projetando uma aplicação web para seus usuários em diferentes continentes. Para minimizar a latência e garantir uma experiência de usuário consistente, eles querem implantar seus recursos de computação e armazenamento próximos aos usuários geograficamente. Qual conceito da infraestrutura global da AWS é fundamental para alcançar esse objetivo?",
+    "options": [
+      "A) Grupos de Auto Scaling",
+      "B) Regiões e Zonas de Disponibilidade",
+      "C) AWS Direct Connect",
+      "D) Pontos de Presença (PoPs)"
+    ],
+    "correct": 1,
+    "explanation": "A infraestrutura global da AWS é dividida em Regiões, que são áreas geográficas isoladas, e Zonas de Disponibilidade dentro de cada Região. Implementar a aplicação em Regiões próximas aos usuários reduz a latência e melhora a experiência. Pontos de Presença (PoPs) são mais para serviços de borda como CloudFront.",
+    "id": 1160
+  },
+  {
+    "domain": "seguranca",
+    "difficulty": "medium",
+    "question": "Um administrador de segurança deseja monitorar continuamente a atividade de API em sua conta AWS para identificar possíveis anomalias e atividades não autorizadas, como tentativas de acesso a recursos restritos. Qual serviço AWS deve ser habilitado para registrar todas as chamadas de API feitas em sua conta?",
+    "options": [
+      "A) Amazon CloudWatch",
+      "B) AWS Config",
+      "C) AWS CloudTrail",
+      "D) AWS Trusted Advisor"
+    ],
+    "correct": 2,
+    "explanation": "AWS CloudTrail registra as chamadas de API da AWS para sua conta, fornecendo um registro do que aconteceu, quem fez a chamada, quando e de qual endereço IP. É essencial para auditoria, segurança e conformidade.",
+    "id": 1161
+  },
+  {
+    "domain": "tecnologia",
+    "difficulty": "medium",
+    "question": "Uma empresa está desenvolvendo um aplicativo que requer um banco de dados relacional gerenciado que seja escalável, altamente disponível e com backups automáticos, sem a necessidade de gerenciar o hardware subjacente ou o sistema operacional do banco de dados. Qual serviço AWS é o mais adequado para essa exigência?",
+    "options": [
+      "A) Amazon EC2 com um banco de dados instalado",
+      "B) Amazon DynamoDB",
+      "C) Amazon RDS",
+      "D) Amazon Redshift"
+    ],
+    "correct": 2,
+    "explanation": "Amazon RDS (Relational Database Service) é um serviço de banco de dados relacional gerenciado que facilita a configuração, operação e escalabilidade de bancos de dados relacionais na nuvem, cuidando das tarefas administrativas como backups, aplicação de patches e escalabilidade.",
+    "id": 1162
+  },
+  {
+    "domain": "faturamento",
+    "difficulty": "medium",
+    "question": "Uma empresa possui várias contas AWS para diferentes departamentos e deseja obter uma visão consolidada de seus gastos, aplicar descontos por volume e simplificar o gerenciamento de faturas. Qual serviço AWS permite agrupar e gerenciar centralmente múltiplas contas AWS para esse propósito?",
+    "options": [
+      "A) AWS Cost Explorer",
+      "B) AWS Organizations",
+      "C) AWS Marketplace",
+      "D) AWS System Manager"
+    ],
+    "correct": 1,
+    "explanation": "AWS Organizations permite que você gerencie e governe centralmente vários contas da AWS. Ele fornece consolidação de faturamento, o que significa que todas as contas pagam uma única fatura, e você pode se beneficiar de descontos por volume acumulados entre as contas.",
+    "id": 1163
+  },
+  {
+    "domain": "conceitos-cloud",
+    "difficulty": "medium",
+    "question": "Uma empresa está reavaliando sua infraestrutura de TI e considerando a migração para a nuvem. Um dos principais drivers é a necessidade de reduzir custos operacionais com gerenciamento de hardware, energia e refrigeração. Qual princípio da computação em nuvem aborda diretamente essa redução de despesas de capital (CAPEX) e operacionais (OPEX)?",
+    "options": [
+      "A) Agilidade",
+      "B) Pagamento conforme o uso (Pay-as-you-go)",
+      "C) Escalabilidade",
+      "D) Confiabilidade"
+    ],
+    "correct": 1,
+    "explanation": "O princípio de pagamento conforme o uso (Pay-as-you-go) significa que você paga apenas pelos recursos de computação que realmente usa. Isso transforma despesas de capital (CAPEX) em despesas operacionais (OPEX) variáveis, eliminando a necessidade de grandes investimentos iniciais em hardware e reduzindo custos operacionais com manutenção.",
+    "id": 1164
+  },
+  {
+    "domain": "seguranca",
+    "difficulty": "medium",
+    "question": "Um desenvolvedor está construindo uma aplicação que armazena informações confidenciais de clientes em um bucket S3. Para proteger esses dados em repouso, ele precisa garantir que todos os objetos sejam criptografados automaticamente quando armazenados. Qual configuração deve ser aplicada ao bucket S3?",
+    "options": [
+      "A) Habilitar a Criptografia no lado do Cliente para S3 (Client-Side Encryption)",
+      "B) Configurar uma política de bucket para exigir criptografia AES-256",
+      "C) Habilitar a Criptografia Padrão para o bucket (Default Encryption)",
+      "D) Usar AWS KMS para gerenciar chaves de criptografia manualmente"
+    ],
+    "correct": 2,
+    "explanation": "A maneira mais simples e eficaz de garantir que todos os objetos enviados para um bucket S3 sejam criptografados em repouso é habilitar a Criptografia Padrão para o bucket (Default Encryption). Isso garante que, se um objeto for enviado sem cabeçalhos de criptografia, ele será criptografado automaticamente usando SSE-S3 ou SSE-KMS.",
+    "id": 1165
+  },
+  {
+    "domain": "tecnologia",
+    "difficulty": "medium",
+    "question": "Uma empresa está planejando hospedar seu site estático (HTML, CSS, JavaScript) na AWS. Eles precisam de um serviço de armazenamento altamente durável, escalável e de baixo custo que possa servir o conteúdo diretamente aos usuários finais. Qual serviço AWS é o mais adequado para hospedar um site estático?",
+    "options": [
+      "A) Amazon EC2",
+      "B) Amazon RDS",
+      "C) Amazon S3",
+      "D) AWS Lambda"
+    ],
+    "correct": 2,
+    "explanation": "Amazon S3 (Simple Storage Service) é amplamente utilizado para hospedar sites estáticos devido à sua alta durabilidade, escalabilidade e custo-benefício. Ele pode servir arquivos HTML, CSS, JavaScript, imagens e outros conteúdos estáticos diretamente via HTTP/HTTPS.",
+    "id": 1166
+  },
+  {
+    "domain": "conceitos-cloud",
+    "difficulty": "medium",
+    "question": "Uma pequena startup planeja migrar seu aplicativo web local para a AWS. Eles buscam uma solução que ofereça alta disponibilidade e escalabilidade automática para lidar com picos de tráfego, sem a necessidade de gerenciar servidores subjacentes. Qual abordagem na AWS melhor atende a esses requisitos?",
+    "options": [
+      "A. Implementar o aplicativo em instâncias do Amazon EC2 provisionadas em uma única Availability Zone.",
+      "B. Reestruturar o aplicativo para utilizar o AWS Lambda e o Amazon API Gateway.",
+      "C. Utilizar Amazon EC2 Dedicated Hosts para controle total sobre o hardware físico.",
+      "D. Configurar o aplicativo em um ambiente on-premises e usar o AWS Storage Gateway para backups."
+    ],
+    "correct": 1,
+    "explanation": "A opção B, utilizando AWS Lambda e Amazon API Gateway, oferece uma arquitetura serverless que é altamente escalável, disponível e elimina a necessidade de gerenciar servidores, alinhando-se perfeitamente aos requisitos da startup. A opção A não garante alta disponibilidade e exige gerenciamento de servidores. A opção C aumenta a complexidade e o custo para uma startup. A opção D mantém o aplicativo on-premises, contrariando o objetivo de migração para a nuvem para escalabilidade e disponibilidade.",
+    "id": 1167
+  },
+  {
+    "domain": "seguranca",
+    "difficulty": "medium",
+    "question": "Uma empresa precisa garantir que apenas usuários autenticados possam acessar recursos específicos da AWS e que todas as ações realizadas por esses usuários sejam registradas para fins de auditoria. Quais serviços AWS devem ser configurados para atender a esses requisitos de forma eficaz?",
+    "options": [
+      "A. Amazon Cognito para autenticação e AWS Shield para proteção contra DDoS.",
+      "B. AWS Identity and Access Management (IAM) para controle de acesso e AWS CloudTrail para registro de API calls.",
+      "C. AWS Config para avaliação de conformidade e Amazon GuardDuty para detecção de ameaças.",
+      "D. AWS WAF para proteção de aplicações web e AWS Key Management Service (KMS) para criptografia."
+    ],
+    "correct": 1,
+    "explanation": "O AWS Identity and Access Management (IAM) permite a criação e gerenciamento de usuários e grupos, bem como a definição de permissões granulares para acesso aos recursos da AWS. O AWS CloudTrail registra todas as chamadas de API feitas na conta AWS, fornecendo um log detalhado para auditoria e conformidade. Juntos, eles garantem controle de acesso e visibilidade das ações.",
+    "id": 1168
+  },
+  {
+    "domain": "tecnologia",
+    "difficulty": "medium",
+    "question": "Um desenvolvedor web está implementando um site estático e precisa de uma solução de armazenamento altamente durável, escalável e de baixo custo para hospedar seus arquivos (HTML, CSS, JavaScript, imagens). Além disso, ele deseja que o conteúdo seja entregue globalmente com baixa latência. Qual combinação de serviços AWS é a mais adequada para este cenário?",
+    "options": [
+      "A. Amazon EBS (Elastic Block Store) acoplado a uma instância do Amazon EC2.",
+      "B. Amazon RDS (Relational Database Service) para armazenar os arquivos do site.",
+      "C. Amazon S3 (Simple Storage Service) para armazenamento e Amazon CloudFront para entrega de conteúdo.",
+      "D. AWS Storage Gateway para estender o armazenamento on-premises para a AWS."
+    ],
+    "correct": 2,
+    "explanation": "O Amazon S3 é a escolha ideal para hospedar sites estáticos devido à sua alta durabilidade, escalabilidade e baixo custo. Combinado com o Amazon CloudFront, um serviço de Content Delivery Network (CDN), o conteúdo pode ser armazenado em caches globais, garantindo baixa latência para usuários em diferentes regiões geográficas. As outras opções não são adequadas para este propósito: EBS é armazenamento de bloco para EC2, RDS é para bancos de dados e Storage Gateway é para cenários híbridos on-premises.",
+    "id": 1169
+  },
+  {
+    "domain": "faturamento",
+    "difficulty": "medium",
+    "question": "Uma empresa está preocupada com o controle de seus gastos na AWS e deseja ser notificada automaticamente caso os custos estimados para o mês atual ultrapassem um limite pré-definido. Qual serviço AWS deve ser configurado para alcançar este objetivo de monitoramento e alerta de custos?",
+    "options": [
+      "A. AWS Cost Explorer.",
+      "B. AWS Trusted Advisor.",
+      "C. AWS Budgets.",
+      "D. AWS Organizations."
+    ],
+    "correct": 2,
+    "explanation": "O AWS Budgets permite que os clientes definam orçamentos personalizados para seus custos ou uso e recebam alertas quando os limites forem atingidos ou previstos para serem excedidos. O AWS Cost Explorer é uma ferramenta de visualização e análise de custos, mas não define alertas de orçamento diretamente. O AWS Trusted Advisor oferece recomendações de otimização de custos e segurança, entre outros, mas não alertas de orçamento personalizados. O AWS Organizations é para gerenciamento de múltiplas contas AWS.",
+    "id": 1170
   }
 ]
