@@ -5,9 +5,27 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat&logo=chart.js)
 ![PWA](https://img.shields.io/badge/PWA-000?style=flat&logo=progressive-web-apps)
+![Build Status](https://github.com/karlarenatadev/projeto-simulados-certificacao-aws/actions/workflows/main.yml/badge.svg)
 
 Uma plataforma de elite para **simulados AWS**, unindo **Engenharia de Dados com Python**, **IA Generativa** e uma **experiência de usuário (UX) de alto nível**.  
 Este simulador é um ecossistema completo, focado em **Clean Code, Integridade de Dados e Performance**.
+
+---
+
+## 📑 Índice
+
+- [🎓 AWS Certified Cloud Simulator](#-aws-certified-cloud-simulator---pro-edition)
+- [📂 Estrutura de Arquivos](#-estrutura-de-arquivos-atualizada-e-profissional)
+- [📑 Documentação Especializada](#-documentação-especializada-docs)
+- [⚙️ Engenharia de Dados e Pipeline](#-engenharia-de-dados-e-pipeline)
+- [🤖 IA Generativa](#-ia-generativa)
+- [🚀 Diferenciais Técnicos](#-diferenciais-técnicos)
+- [🎯 Funcionalidades Premium](#-funcionalidades-premium)
+- [🛠 Como Executar](#-como-executar)
+- [📈 Roadmap](#-roadmap)
+- [🌐 Demo Online](#-demo-online)
+- [💡 Dica Final](#-dica-final)
+- [📄 Licença](#-licença)
 
 ---
 
@@ -111,6 +129,18 @@ git clone https://github.com/karlarenatadev/projeto-simulados-certificacao-aws.g
 2. Abra no **VS Code**.
 3. Abra `index.html` e inicie o **Live Server** (ou `python -m http.server 5500`).
 4. Acesse: [http://127.0.0.1:5500](http://127.0.0.1:5500)
+
+---
+
+## 🛠️ Requisitos do Ambiente
+
+| Ferramenta | Versão Recomendada | Observações |
+|------------|-----------------|------------|
+| Python     | 3.12+           | Necessário para scripts de auditoria e IA |
+| Node.js    | 18+             | Para rodar possíveis scripts JS avançados |
+| VS Code    | Última          | Com extensão **Live Server** para servir o projeto |
+| Live Server| Última          | Para abrir index.html em localhost |
+| Navegador  | Chrome/Edge     | Testado para PWA e Chart.js |
 
 ---
 
