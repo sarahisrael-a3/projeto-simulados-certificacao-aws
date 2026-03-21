@@ -22,11 +22,11 @@ Este projeto vai além de um simples quiz web: ele é um ecossistema completo fo
 
 ## 🚀 Visão Geral da Arquitetura
 
-O projeto é dividido em duas camadas principais que operam de forma desacoplada. Abaixo, você pode ver o fluxo de dados no Backend (Python/IA) e a estrutura modular do Frontend (Vanilla JS):
+O projeto é dividido em duas camadas principais que operam de forma desacoplada. Abaixo, podes ver o fluxo de dados no Backend (Python/IA) e a estrutura modular do Frontend (Vanilla JS):
 
 <p align="center">
-  <img src="./docs/assets/arquitetura-data.png" alt="Arquitetura ETL" width="49%">
-  <img src="./docs/assets/arquitetura-front.png" alt="Arquitetura Frontend" width="49%">
+  <img src="./docs/assets/arquitetura-data.png" alt="Arquitetura ETL" width="30%">
+  <img src="./docs/assets/arquitetura-front.png" alt="Arquitetura Frontend" width="30%">
 </p>
 
 O projeto é dividido em duas camadas principais que operam de forma desacoplada:
