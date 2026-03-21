@@ -5,7 +5,6 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat&logo=chart.js)
 ![PWA](https://img.shields.io/badge/PWA-000?style=flat&logo=progressive-web-apps)
-![Build Status](https://github.com/karlarenatadev/projeto-simulados-certificacao-aws/actions/workflows/main.yml/badge.svg)
 
 Uma plataforma de elite para **simulados AWS**, unindo **Engenharia de Dados com Python**, **IA Generativa** e uma **experiência de usuário (UX) de alto nível**.  
 Este simulador é um ecossistema completo, focado em **Clean Code, Integridade de Dados e Performance**.
