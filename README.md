@@ -1,152 +1,123 @@
-# 🎓 AWS Certified Cloud Simulator - Pro Edition
 
-![Python](https://img.shields.io/badge/Python-3670A0?style=flat&logo=python)
+# ☁️ AWS Certification Simulator (AI-Powered ETL)
+
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![Python](https://img.shields.io/badge/Python-3670A0?style=flat&logo=python)
+![Google Gemini](https://img.shields.io/badge/Google%20Gemini-8E75B2?style=flat&logo=google&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat&logo=chart.js)
 ![PWA](https://img.shields.io/badge/PWA-000?style=flat&logo=progressive-web-apps)
 
-Uma plataforma de elite para **simulados AWS**, unindo **Engenharia de Dados com Python**, **IA Generativa** e uma **experiência de usuário (UX) de alto nível**.  
-Este simulador é um ecossistema completo, focado em **Clean Code, Integridade de Dados e Performance**.
+Uma plataforma de elite para **simulados AWS**, unindo um **Pipeline de Engenharia de Dados autônomo em Python**, **IA Generativa** e um **Frontend Modular de alta performance**. 
+
+Este projeto vai além de um simples quiz web: ele é um ecossistema completo focado em *Data Quality*, *Clean Code* e *Experiência do Usuário (UX)*.
 
 ---
 
 ## 📑 Índice
 
-[🎓 AWS](#-aws-certified-cloud-simulator) | [📂 Estrutura](#-estrutura-de-arquivos-atualizada-e-profissional) | [📑 Docs](#-documentação-especializada-docs) | [⚙️ Dados](#-engenharia-de-dados-e-pipeline) | [🤖 IA](#-ia-generativa) | [🚀 Diferenciais](#-diferenciais-técnicos) | [🎯 Funcionalidades](#-funcionalidades-premium) | [🛠 Executar](#-requisitos-e-como-executar) | [📈 Roadmap](#-roadmap) | [🌐 Demo](#-demo-online) | [💡 Dica](#-dica-final) | [📄 Licença](#-licença)
+[🚀 Visão Geral](#-visão-geral-da-arquitetura) | [⚙️ Engenharia de Dados (Backend)](#-engenharia-de-dados-e-ia-backend) | [💻 Frontend Modular](#-frontend-modular-es6-e-pwa) | [🎯 Funcionalidades](#-funcionalidades-premium) | [🛠 Como Executar](#-como-executar-o-projeto) | [📂 Estrutura](#-estrutura-do-projeto) | [🌐 Demo](#-demo-online) | [📄 Licença](#-licença)
 
 ---
 
-## 📂 Estrutura de Arquivos (Atualizada e Profissional)
+## 🚀 Visão Geral da Arquitetura
 
-O projeto segue uma **organização modular**, permitindo escalabilidade, manutenção fácil e destaque para engenharia de dados e PWA:
+O projeto é dividido em duas camadas principais que operam de forma desacoplada:
 
-```text
-├── 📂 .github/workflows   # Automação de testes, CI/CD e validação contínua
-├── 📂 data/               # Bancos de dados JSON validados via Pydantic
-├── 📂 docs/               # Documentação técnica detalhada e modular
-├── 📂 scripts_python/     # Backend: geração IA, auditoria e análise de dados
-│   ├── generator.py       # Orquestrador de geração de questões (Gemini 1.5 Pro)
-│   ├── sanity_check.py    # Validador de integridade e conformidade (Schema Enforcement)
-│   └── analyzer.py        # Dashboard de cobertura de domínios e métricas de QA
-├── 📂 tests/              # Testes unitários e validação do motor de simulado
-├── app.js                 # Motor principal, gerenciamento de estado global e lógica de UI
-├── data.js                # Configurações de trilhas oficiais e mapeamento de domínios AWS
-├── sw.js                  # Service Worker PWA: cache, offline e atualização de assets
-├── index.html             # Interface semântica, responsiva e acessível (UX/UI)
-└── style.css              # Customizações de tema, animações e responsividade
-````
+1. **A Fábrica de Dados (Python):** Uma esteira ETL (Extract, Transform, Load) que utiliza a API do Google Gemini para gerar questões inéditas, aplicar validações rigorosas de esquema e negócio (semântica AWS) e salvar datasets JSON limpos.
+2. **O Consumidor (Vanilla JS):** Um Progressive Web App (PWA) construído com Módulos ES6 que consome esses JSONs. Ele orquestra a lógica do simulado, renderiza gráficos de desempenho e aplica gamificação 100% no lado do cliente (via `localStorage`).
 
 ---
 
-## 📑 Documentação Especializada (/docs)
+## ⚙️ Engenharia de Dados e IA (Backend)
 
-Cada arquivo `.md` detalha uma área-chave do projeto e pode ser acessado diretamente online:
+O diferencial deste projeto é a garantia de que nenhuma "alucinação" da IA chegue ao usuário final. O pipeline Python executa em lote e possui 4 camadas de validação:
 
-| Arquivo | Descrição |
-| :--- | :--- |
-| [🚀 QUICKSTART.md](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/docs/QUICKSTART.md) | Guia rápido para rodar o simulador localmente em menos de 1 minuto |
-| [🏗 ARCHITECTURE.md](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/docs/ARCHITECTURE.md) | Fluxo de dados completo: Python → JSON → Vanilla JS → Chart.js |
-| [🛡 SECURITY.md](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/docs/SECURITY.md) | Estratégias de prevenção de XSS, injeção de dados e práticas de acessibilidade (a11y) |
-| [📈 EXECUTIVE_SUMMARY.md](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/docs/EXECUTIVE_SUMMARY.md) | Resumo executivo com KPIs de cobertura, evolução de questões e métricas de engajamento |
-| [🚢 DEPLOYMENT.md](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/docs/DEPLOYMENT.md) | Passo a passo para hospedar no AWS S3 + CloudFront ou Vercel com CI/CD |
-| [📝 CHANGELOG.md](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/docs/CHANGELOG.md) | Histórico detalhado de versões, updates e evolução do motor de simulado |
+* **Extract (`generator.py`):** Utiliza **Gemini 1.5 Flash/Pro** com *Prompt Engineering* focado em cenários práticos de negócios (não apenas definições). A saída é forçada para um JSON estruturado através da integração nativa com o **Pydantic V2**.
+* **Transform 1 - Schema Enforcement (`sanity_check.py`):** Valida a tipagem de dados, garantindo que a resposta da IA possua exatamente 4 alternativas, um índice de resposta correto válido e justificativas com tamanho mínimo.
+* **Transform 2 - Semantic Validation (`aws_semantic_validator.py`):** O "fiscal" de regras de negócio. Ele garante que a resposta correta esteja explícita na justificativa e, crucialmente, impede que a IA insira serviços fora do escopo do exame (ex: reprova a questão se a IA sugerir 'Transit Gateway' num exame 'Cloud Practitioner').
+* **Transform 3 - Deduplication (`duplicate_detector.py`):** Utiliza o `SequenceMatcher` nativo do Python para calcular a similaridade (Threshold de 85%) entre a nova questão e o banco existente, impedindo perguntas repetidas.
+* **Load (`pipeline_runner.py`):** O orquestrador. Roda o processo em loop para múltiplas certificações (CLF-C02, SAA-C03, etc.), gerenciando o limite de requisições da API (*Rate Limit / 429*) com pausas estratégicas.
 
 ---
 
-## ⚙️ Engenharia de Dados e Pipeline
+## 💻 Frontend Modular (ES6) e PWA
 
-> **Engenharia de Dados Própria:**
-> O simulador utiliza um pipeline em **Python 3.12** com **Pydantic V2**, garantindo:
+A interface do usuário foi refatorada para seguir as melhores práticas de Engenharia de Software no Frontend, eliminando o anti-pattern do "Deus JS" (um arquivo que faz tudo).
 
-* Questões consistentes e completas (mínimo de 30 caracteres e 4 alternativas válidas)
-* Conformidade com os domínios oficiais da AWS (S3, Lambda, EC2, etc)
-* Validação automática e auditoria contínua para evitar inconsistências
-* Integração com IA Generativa (Gemini 1.5 Pro) para geração de novas questões
-
-Isso transforma o banco de dados em um **ativo confiável e auditável**, elevando o projeto a **plataforma de engenharia de dados profissional**.
-
----
-
-## 🤖 IA Generativa
-
-* O `generator.py` utiliza **Gemini 2.0 Flash** (Google) para gerar questões realistas.
-* **Prompt Engineering:** Simula comportamento de um arquiteto AWS sênior.
-* **Resiliência de Quota:** Retry com *exponential backoff* para erros de API.
-* **Injeção Automática:** Questões validadas pelo Pydantic antes de serem adicionadas ao banco JSON.
-
----
-
-## 🚀 Diferenciais Técnicos
-
-### 📊 Radar Chart
-
-* Implementado em **Chart.js**, com preenchimento de área, paddings dinâmicos e legibilidade otimizada.
-* Feedback visual imediato do desempenho em cada domínio oficial.
-
-### 🛡️ Segurança e Acessibilidade
-
-* Sanitização via `textContent` para prevenir XSS.
-* Atributos ARIA e roles semânticas para navegação por teclado e acessibilidade.
-
-### 📱 Experiência PWA
-
-* Instalável em **Android/iOS**.
-* Funciona **100% offline**, ideal para estudo em qualquer lugar.
+* **Arquitetura Desacoplada:** * `quizEngine.js`: O "cérebro" em JavaScript puro. Contém apenas a lógica de negócio (cálculo de pontuação, progressão, embaralhamento), sem nenhuma manipulação de DOM. Totalmente testável.
+  * `data.js`: Módulo ES6 que armazena a configuração global, trilhas de exames e mapeamento de domínios oficiais da AWS.
+  * `app.js`: O orquestrador de UI (Controller). Apenas importa os módulos, reage às interações do usuário e atualiza o HTML.
+* **Experiência PWA:** Instalável em Desktop/Mobile e capaz de funcionar **100% offline** através do cache de Service Workers (`sw.js`).
 
 ---
 
 ## 🎯 Funcionalidades Premium
 
-* ✅ **Cards Interativos:** Letra destacada, estados de seleção e feedback visual
-* ✅ **Modo Exame vs Estudo:** Timer regressivo ou revisão imediata
-* ✅ **Deep Linking:** Botões para AWS Whitepapers
-* ✅ **Gamificação:** Streaks e badges (`Gabarito`, `Focado`)
-* ✅ **Banco de Erros:** Pratique apenas questões incorretas, persistido no `localStorage`
+* ✅ **Simulação Realista:** Modo Exame (com timer rigoroso) ou Modo Estudo (com justificativas imediatas).
+* ✅ **Análise de Desempenho Visual:** Gráficos Radar interativos (*Chart.js*) que mapeiam o conhecimento do usuário frente aos domínios oficiais da AWS (ex: Segurança vs. Faturamento).
+* ✅ **Relatórios Históricos:** Geração de relatórios detalhados com sugestões de estudo guiadas por IA com base no domínio mais fraco.
+* ✅ **Gamificação:** Sistema de *Streaks* (ofensivas de estudo diário) e Badges de conquista persistidos no navegador.
+* ✅ **Design Responsivo:** UI construída com *Tailwind CSS*, com suporte nativo a Dark/Light mode e navegação fluida em dispositivos móveis.
 
 ---
 
-## 🛠 Como Executar
+## 🛠 Como Executar o Projeto
 
+### 1. Rodando a Aplicação Web (Frontend)
+Como o projeto utiliza Módulos ES6 (`import/export`), ele **não pode** ser aberto com um duplo clique no arquivo HTML (devido a políticas de CORS do navegador).
 1. Clone o repositório:
+   ```bash
+   git clone [https://github.com/karlarenatadev/projeto-simulados-certificacao-aws.git](https://github.com/karlarenatadev/projeto-simulados-certificacao-aws.git)
+   ```
+2. Abra a pasta raiz do projeto no terminal e inicie um servidor local:
+   ```bash
+   python -m http.server 8000
+   ```
+3. Acesse `http://localhost:8000` no seu navegador. *(Alternativa: Use a extensão Live Server no VS Code).*
 
-```bash
-git clone https://github.com/karlarenatadev/projeto-simulados-certificacao-aws.git
+### 2. Alimentando o Banco de Dados com IA (Backend)
+1. Certifique-se de ter o Python 3.12+ instalado.
+2. Crie um ambiente virtual e instale as dependências:
+   ```bash
+   pip install google-genai pydantic python-dotenv
+   ```
+3. Crie um arquivo `.env` na raiz do projeto e adicione sua chave de API do Google Gemini:
+   ```text
+   GEMINI_API_KEY=sua_chave_de_api_aqui
+   ```
+4. Execute o Orquestrador do Pipeline para gerar novas questões em lote:
+   ```bash
+   python scripts_python/pipeline_runner.py
+   ```
+
+---
+
+## 📂 Estrutura do Projeto
+
+```text
+├── 📂 data/               # Bancos de dados JSON validados (Consumidos pelo Frontend)
+├── 📂 js/                 
+│   └── quizEngine.js      # Lógica de negócio pura (Classes ES6)
+├── 📂 scripts_python/     # Backend: Pipeline de Engenharia de Dados
+│   ├── generator.py       # Extração via API do Gemini com Pydantic
+│   ├── sanity_check.py    # Validador de Schema (Estrutural)
+│   ├── aws_semantic...    # Validador de Negócio (Escopo AWS)
+│   ├── duplicate_det...   # Filtro de similaridade de strings
+│   └── pipeline_runn...   # Orquestrador do ETL em lote
+├── app.js                 # UI Controller (Manipulação de DOM e Eventos)
+├── data.js                # Configuração de trilhas e mapeamento de domínios
+├── index.html             # Interface principal (Tailwind + FontAwesome)
+└── style.css              # Customizações de tema e transições
 ```
-
-2. Abra no **VS Code**.
-3. Abra `index.html` e inicie o **Live Server** (ou `python -m http.server 5500`).
-4. Acesse: [http://127.0.0.1:5500](http://127.0.0.1:5500)
-
----
-
-## 🛠️ Requisitos do Ambiente
-
-| Ferramenta | Versão Recomendada | Observações |
-|------------|-----------------|------------|
-| Python     | 3.12+           | Necessário para scripts de auditoria e IA |
-| Node.js    | 18+             | Para rodar possíveis scripts JS avançados |
-| VS Code    | Última          | Com extensão **Live Server** para servir o projeto |
-| Live Server| Última          | Para abrir index.html em localhost |
-| Navegador  | Chrome/Edge     | Testado para PWA e Chart.js |
-
----
-
-## 📈 Roadmap
-
-* ✅ **V1.0** — Motor básico de questões
-* ✅ **V2.0** — Migração para JSON + Pydantic
-* ✅ **V3.0** — UI Premium com Cards + Radar Chart
-* ⬜ **V4.0** — Exportação de relatório em PDF
-* ⬜ **V5.0** — Deploy automatizado via **AWS S3 + CloudFront (CI/CD)**
 
 ---
 
 ## 🌐 Demo Online
 
-Você pode testar o simulador online via **GitHub Pages**:
+Test a plataforma ao vivo, hospedada via **GitHub Pages**:
 
-[https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/)
+🔗 **[Acessar o AWS Cloud Simulator](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/)**
 
 ---
 
@@ -160,4 +131,4 @@ Você pode testar o simulador online via **GitHub Pages**:
 
 ## 📄 Licença
 
-Projeto **educacional**, desenvolvido por **Karla Renata**. Destinado a portfólio técnico e demonstração de competências em engenharia de dados e desenvolvimento web.
+Projeto **educacional**, desenvolvido por **Karla Renata**. Destinado a portfólio técnico e demonstração de competências avançadas em Engenharia de Dados, Integração com IA e Desenvolvimento Frontend.
