@@ -2715,5 +2715,101 @@
     "explanation": "AWS CloudTrail é o serviço que fornece um registro de ações, usuários e eventos realizados na sua conta AWS, incluindo chamadas de API para serviços como Amazon SageMaker. É essencial para auditoria, monitoramento de conformidade e detecção de atividades incomuns. GuardDuty foca na detecção de ameaças, Config na avaliação de conformidade e Macie na descoberta de dados sensíveis, mas nenhum oferece o registro detalhado de chamadas de API como o CloudTrail.",
     "difficulty": "hard",
     "id": 334
+  },
+  {
+    "domain": "ia-generativa",
+    "subdomain": "modelos-de-fundacao",
+    "service": "Amazon Bedrock",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "generative-ai",
+      "foundation-models",
+      "fine-tuning",
+      "inference",
+      "bedrock"
+    ],
+    "question": "Uma empresa de e-commerce busca desenvolver um assistente virtual inteligente baseado em IA generativa para personalizar a experiência do cliente. Eles precisam de uma plataforma que permita acessar modelos de fundação (FMs) pré-treinados, fazer fine-tuning desses modelos com dados específicos da empresa e, posteriormente, implantar e gerenciar a inferência de forma escalável e segura. Qual serviço AWS deve ser utilizado para atender a esses requisitos?",
+    "options": [
+      "Amazon SageMaker",
+      "Amazon Bedrock",
+      "AWS Lambda",
+      "Amazon Comprehend"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Bedrock é a escolha ideal porque oferece acesso a uma variedade de modelos de fundação (FMs) de forma totalmente gerenciada, permite o fine-tuning desses modelos com dados privados da empresa e facilita a implantação e inferência escalável para aplicações de IA generativa. Amazon SageMaker é uma plataforma de machine learning mais ampla para construir, treinar e implantar modelos, mas Bedrock é especializado em IA generativa e FMs. AWS Lambda é um serviço de computação serverless e não gerencia modelos de IA. Amazon Comprehend é um serviço de NLP pré-treinado para análise de texto, não para IA generativa personalizada.",
+    "id": 335
+  },
+  {
+    "domain": "seguranca-ia",
+    "subdomain": "governança-ml",
+    "service": "Amazon SageMaker",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "ml-security",
+      "data-governance",
+      "compliance",
+      "sagemaker",
+      "fraud-detection"
+    ],
+    "question": "Uma instituição financeira está implementando um sistema de detecção de fraudes baseado em machine learning. Devido à natureza sensível dos dados e à necessidade de conformidade regulatória rigorosa (LGPD, SOX), eles precisam de uma solução que garanta a segurança dos dados de treinamento e inferência, controle de acesso granular aos modelos, rastreabilidade completa das operações (auditoria) e monitoramento contínuo para desvios de modelo e segurança. Qual serviço AWS é mais adequado para gerenciar o ciclo de vida do modelo de forma segura e em conformidade com esses requisitos?",
+    "options": [
+      "Amazon Macie",
+      "AWS WAF",
+      "Amazon SageMaker",
+      "AWS GuardDuty"
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker é a plataforma mais adequada, pois oferece um ambiente completo para o ciclo de vida do machine learning, incluindo recursos robustos para segurança e conformidade. Ele se integra nativamente com AWS IAM para controle de acesso granular, AWS KMS para criptografia de dados, AWS CloudTrail para auditoria e SageMaker Model Monitor para detecção de desvios e monitoramento de qualidade do modelo. Amazon Macie é para descoberta e classificação de dados sensíveis, mas não gerencia o ciclo de vida do ML. AWS WAF é um firewall de aplicação web, e AWS GuardDuty é um serviço de detecção de ameaças, nenhum dos quais é projetado para gerenciar a segurança e conformidade de modelos de ML em seu ciclo de vida completo.",
+    "id": 336
+  },
+  {
+    "domain": "ia-generativa",
+    "subdomain": "modelos-de-fundacao",
+    "service": "Amazon Bedrock",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "generative-ai",
+      "foundation-models",
+      "fine-tuning",
+      "inference",
+      "bedrock"
+    ],
+    "question": "Uma empresa de e-commerce busca desenvolver um assistente virtual inteligente baseado em IA generativa para personalizar a experiência do cliente. Eles precisam de uma plataforma que permita acessar modelos de fundação (FMs) pré-treinados, fazer fine-tuning desses modelos com dados específicos da empresa e, posteriormente, implantar e gerenciar a inferência de forma escalável e segura. Qual serviço AWS deve ser utilizado para atender a esses requisitos?",
+    "options": [
+      "Amazon SageMaker",
+      "Amazon Bedrock",
+      "AWS Lambda",
+      "Amazon Comprehend"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Bedrock é a escolha ideal porque oferece acesso a uma variedade de modelos de fundação (FMs) de forma totalmente gerenciada, permite o fine-tuning desses modelos com dados privados da empresa e facilita a implantação e inferência escalável para aplicações de IA generativa. Amazon SageMaker é uma plataforma de machine learning mais ampla para construir, treinar e implantar modelos, mas Bedrock é especializado em IA generativa e FMs. AWS Lambda é um serviço de computação serverless e não gerencia modelos de IA. Amazon Comprehend é um serviço de NLP pré-treinado para análise de texto, não para IA generativa personalizada.",
+    "id": 335
+  },
+  {
+    "domain": "seguranca-ia",
+    "subdomain": "governança-ml",
+    "service": "Amazon SageMaker",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "ml-security",
+      "data-governance",
+      "compliance",
+      "sagemaker",
+      "fraud-detection"
+    ],
+    "question": "Uma instituição financeira está implementando um sistema de detecção de fraudes baseado em machine learning. Devido à natureza sensível dos dados e à necessidade de conformidade regulatória rigorosa (LGPD, SOX), eles precisam de uma solução que garanta a segurança dos dados de treinamento e inferência, controle de acesso granular aos modelos, rastreabilidade completa das operações (auditoria) e monitoramento contínuo para desvios de modelo e segurança. Qual serviço AWS é mais adequado para gerenciar o ciclo de vida do modelo de forma segura e em conformidade com esses requisitos?",
+    "options": [
+      "Amazon Macie",
+      "AWS WAF",
+      "Amazon SageMaker",
+      "AWS GuardDuty"
+    ],
+    "correct": 2,
+    "explanation": "Amazon SageMaker é a plataforma mais adequada, pois oferece um ambiente completo para o ciclo de vida do machine learning, incluindo recursos robustos para segurança e conformidade. Ele se integra nativamente com AWS IAM para controle de acesso granular, AWS KMS para criptografia de dados, AWS CloudTrail para auditoria e SageMaker Model Monitor para detecção de desvios e monitoramento de qualidade do modelo. Amazon Macie é para descoberta e classificação de dados sensíveis, mas não gerencia o ciclo de vida do ML. AWS WAF é um firewall de aplicação web, e AWS GuardDuty é um serviço de detecção de ameaças, nenhum dos quais é projetado para gerenciar a segurança e conformidade de modelos de ML em seu ciclo de vida completo.",
+    "id": 336
   }
 ]

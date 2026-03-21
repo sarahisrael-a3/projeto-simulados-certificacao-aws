@@ -1,8 +1,9 @@
 /**
  * DATA.JS - Banco de Dados de Certificações AWS
+ * Agora configurado como Módulo ES6.
  */
 
-const certificationPaths = {
+export const certificationPaths = {
   'clf-c02': {
     id: 'clf-c02',
     name: 'AWS Certified Cloud Practitioner',
@@ -66,6 +67,22 @@ const certificationPaths = {
 };
 
 const studyResources = {
+  'conceitos-cloud': [
+    { name: 'O que é a Computação em Nuvem?', url: 'https://aws.amazon.com/pt/what-is-cloud-computing/', icon: 'fa-cloud', color: 'orange' },
+    { name: 'AWS Well-Architected Framework', url: 'https://aws.amazon.com/pt/architecture/well-architected/', icon: 'fa-building', color: 'blue' }
+  ],
+  'seguranca': [
+    { name: 'Modelo de Responsabilidade Compartilhada', url: 'https://aws.amazon.com/pt/compliance/shared-responsibility-model/', icon: 'fa-handshake', color: 'green' },
+    { name: 'Documentação do AWS IAM', url: 'https://docs.aws.amazon.com/iam/', icon: 'fa-user-shield', color: 'orange' }
+  ],
+  'tecnologia': [
+    { name: 'Visão Geral dos Serviços AWS', url: 'https://d1.awsstatic.com/whitepapers/aws-overview.pdf', icon: 'fa-book', color: 'blue' },
+    { name: 'Guia do Usuário do Amazon EC2', url: 'https://docs.aws.amazon.com/ec2/', icon: 'fa-server', color: 'orange' }
+  ],
+  'faturamento': [
+    { name: 'Preços da AWS', url: 'https://aws.amazon.com/pt/pricing/', icon: 'fa-money-bill-wave', color: 'green' },
+    { name: 'AWS Cost Management', url: 'https://aws.amazon.com/pt/aws-cost-management/', icon: 'fa-chart-pie', color: 'purple' }
+  ],
   'desenvolvimento-servicos': [
     { name: 'DynamoDB Guide', url: 'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/', icon: 'fa-database', color: 'blue' },
     { name: 'Lambda Developer Guide', url: 'https://docs.aws.amazon.com/lambda/latest/dg/', icon: 'fa-bolt', color: 'orange' }
@@ -73,16 +90,18 @@ const studyResources = {
   'seguranca-app': [
     { name: 'AWS KMS Documentation', url: 'https://docs.aws.amazon.com/kms/', icon: 'fa-key', color: 'red' },
     { name: 'Secrets Manager Guide', url: 'https://docs.aws.amazon.com/secretsmanager/', icon: 'fa-user-shield', color: 'orange' }
-  ],
-  // ... (mantenha os outros recursos de estudo que você já tinha)
+  ]
 };
 
-function getStudyResourcesForDomains(domains) {
+export function getStudyResourcesForDomains(domains) {
   const resources = [];
   const seen = new Set();
   domains.forEach(domainId => {
     (studyResources[domainId] || []).forEach(res => {
-      if (!seen.has(res.url)) { seen.add(res.url); resources.push(res); }
+      if (!seen.has(res.url)) { 
+        seen.add(res.url); 
+        resources.push(res); 
+      }
     });
   });
   return resources;

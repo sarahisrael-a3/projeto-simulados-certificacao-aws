@@ -209,5 +209,103 @@
     ],
     "correct": 1,
     "explanation": "O Step Functions possui suporte nativo para 'Retry' e 'Catch', permitindo gerenciar erros de fluxo de forma declarativa."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "gerenciamento-configuracao",
+    "service": "AWS AppConfig",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "serverless",
+      "lambda",
+      "api-gateway",
+      "configuracao",
+      "feature-flags",
+      "rollback"
+    ],
+    "question": "Uma empresa está desenvolvendo uma aplicação serverless utilizando AWS Lambda e Amazon API Gateway. Eles precisam de uma solução para gerenciar configurações da aplicação e feature flags de forma centralizada, permitindo atualizações dinâmicas e rollbacks seguros sem a necessidade de reimplantar o código da função Lambda. Qual serviço AWS deve ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS AppConfig",
+      "AWS Systems Manager Parameter Store",
+      "Amazon S3",
+      "AWS Secrets Manager"
+    ],
+    "correct": 0,
+    "explanation": "AWS AppConfig é o serviço ideal para gerenciar configurações de aplicações e feature flags, permitindo que as atualizações sejam implantadas de forma controlada e com capacidade de rollback rápido sem a necessidade de reimplantar o código da aplicação. O AWS Systems Manager Parameter Store é adequado para armazenar parâmetros, mas não oferece os recursos de validação, implantação gradual e rollback integrados do AppConfig. Amazon S3 pode armazenar arquivos de configuração, mas não fornece gerenciamento de ciclo de vida de configuração. AWS Secrets Manager é para segredos, não para configurações gerais da aplicação.",
+    "id": 1011
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "acesso-seguro",
+    "service": "AWS Systems Manager Session Manager",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "ec2",
+      "seguranca",
+      "acesso-remoto",
+      "troubleshooting",
+      "private-subnet"
+    ],
+    "question": "Um desenvolvedor precisa acessar uma instância Amazon EC2 que reside em uma sub-rede privada, para realizar diagnósticos e solucionar problemas na aplicação. A política de segurança da empresa proíbe a abertura de portas de entrada em grupos de segurança para acesso SSH direto e o uso de bastion hosts. Qual serviço AWS permite que o desenvolvedor estabeleça uma sessão segura com a instância sem a necessidade de chaves SSH, portas de entrada ou bastion hosts?",
+    "options": [
+      "AWS Systems Manager Session Manager",
+      "Amazon EC2 Instance Connect",
+      "AWS Direct Connect",
+      "AWS VPN Client"
+    ],
+    "correct": 0,
+    "explanation": "AWS Systems Manager Session Manager permite acesso seguro a instâncias EC2, tanto em sub-redes públicas quanto privadas, sem a necessidade de abrir portas SSH de entrada, gerenciar chaves SSH ou usar bastion hosts. Ele utiliza o agente SSM instalado na instância para estabelecer uma sessão. Amazon EC2 Instance Connect é para acesso SSH via navegador ou cliente SSH, mas ainda requer chaves SSH e portas de entrada ou um bastion host para sub-redes privadas. AWS Direct Connect e AWS VPN Client são serviços de conectividade de rede entre a rede on-premises e a AWS, não para acesso direto a instâncias EC2 individuais sem outras ferramentas.",
+    "id": 1012
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "gerenciamento-configuracao",
+    "service": "AWS AppConfig",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "serverless",
+      "lambda",
+      "api-gateway",
+      "configuracao",
+      "feature-flags",
+      "rollback"
+    ],
+    "question": "Uma empresa está desenvolvendo uma aplicação serverless utilizando AWS Lambda e Amazon API Gateway. Eles precisam de uma solução para gerenciar configurações da aplicação e feature flags de forma centralizada, permitindo atualizações dinâmicas e rollbacks seguros sem a necessidade de reimplantar o código da função Lambda. Qual serviço AWS deve ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS AppConfig",
+      "AWS Systems Manager Parameter Store",
+      "Amazon S3",
+      "AWS Secrets Manager"
+    ],
+    "correct": 0,
+    "explanation": "AWS AppConfig é o serviço ideal para gerenciar configurações de aplicações e feature flags, permitindo que as atualizações sejam implantadas de forma controlada e com capacidade de rollback rápido sem a necessidade de reimplantar o código da aplicação. O AWS Systems Manager Parameter Store é adequado para armazenar parâmetros, mas não oferece os recursos de validação, implantação gradual e rollback integrados do AppConfig. Amazon S3 pode armazenar arquivos de configuração, mas não fornece gerenciamento de ciclo de vida de configuração. AWS Secrets Manager é para segredos, não para configurações gerais da aplicação.",
+    "id": 1011
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "acesso-seguro",
+    "service": "AWS Systems Manager Session Manager",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "ec2",
+      "seguranca",
+      "acesso-remoto",
+      "troubleshooting",
+      "private-subnet"
+    ],
+    "question": "Um desenvolvedor precisa acessar uma instância Amazon EC2 que reside em uma sub-rede privada, para realizar diagnósticos e solucionar problemas na aplicação. A política de segurança da empresa proíbe a abertura de portas de entrada em grupos de segurança para acesso SSH direto e o uso de bastion hosts. Qual serviço AWS permite que o desenvolvedor estabeleça uma sessão segura com a instância sem a necessidade de chaves SSH, portas de entrada ou bastion hosts?",
+    "options": [
+      "AWS Systems Manager Session Manager",
+      "Amazon EC2 Instance Connect",
+      "AWS Direct Connect",
+      "AWS VPN Client"
+    ],
+    "correct": 0,
+    "explanation": "AWS Systems Manager Session Manager permite acesso seguro a instâncias EC2, tanto em sub-redes públicas quanto privadas, sem a necessidade de abrir portas SSH de entrada, gerenciar chaves SSH ou usar bastion hosts. Ele utiliza o agente SSM instalado na instância para estabelecer uma sessão. Amazon EC2 Instance Connect é para acesso SSH via navegador ou cliente SSH, mas ainda requer chaves SSH e portas de entrada ou um bastion host para sub-redes privadas. AWS Direct Connect e AWS VPN Client são serviços de conectividade de rede entre a rede on-premises e a AWS, não para acesso direto a instâncias EC2 individuais sem outras ferramentas.",
+    "id": 1012
   }
 ]

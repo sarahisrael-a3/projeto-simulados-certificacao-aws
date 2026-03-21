@@ -3598,5 +3598,101 @@
       "ajuste-automatico"
     ],
     "type": "scenario"
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "armazenamento-resiliente",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "storage",
+      "durability",
+      "compliance",
+      "resilience",
+      "audit-logs"
+    ],
+    "question": "Uma instituição financeira precisa armazenar logs de auditoria críticos que exigem alta durabilidade, disponibilidade e proteção contra exclusão acidental ou acesso não autorizado. Os logs são acessados com pouca frequência após o armazenamento inicial, mas devem estar imediatamente disponíveis para auditorias de conformidade. Qual serviço AWS é o mais adequado para atender a esses requisitos?",
+    "options": [
+      "Amazon EBS",
+      "Amazon S3",
+      "Amazon Glacier",
+      "AWS Backup"
+    ],
+    "correct": 1,
+    "explanation": "Amazon S3 oferece durabilidade de 99,999999999% (onze noves) e alta disponibilidade, sendo ideal para armazenamento de logs críticos. Com recursos como versionamento e S3 Object Lock, ele protege os dados contra exclusão acidental e garante imutabilidade para conformidade. Amazon EBS é um armazenamento de bloco para instâncias EC2 e não é a melhor opção para logs distribuídos. Amazon Glacier (agora parte do S3 Glacier Flexible Retrieval) é otimizado para arquivamento de longo prazo com recuperação mais lenta e não atende ao requisito de 'imediatamente disponível'. AWS Backup é um serviço de backup e restauração, não um armazenamento primário de objetos.",
+    "id": 2181
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-banco-dados",
+    "service": "Amazon ElastiCache",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "caching",
+      "performance",
+      "database",
+      "e-commerce",
+      "low-latency"
+    ],
+    "question": "Uma plataforma de e-commerce enfrenta picos de tráfego durante eventos promocionais, resultando em respostas lentas a consultas de banco de dados para catálogos de produtos. A plataforma precisa de uma solução para armazenar em cache dados de produtos frequentemente acessados, a fim de reduzir a carga em seu banco de dados relacional primário e melhorar os tempos de resposta. Qual serviço AWS deve ser implementado para resolver esse problema de performance?",
+    "options": [
+      "Amazon RDS",
+      "Amazon DynamoDB",
+      "Amazon ElastiCache",
+      "AWS Global Accelerator"
+    ],
+    "correct": 2,
+    "explanation": "Amazon ElastiCache é um serviço de cache na memória que pode ser usado para armazenar dados de produtos frequentemente acessados, reduzindo significativamente a carga sobre o banco de dados relacional primário e melhorando os tempos de resposta para a plataforma de e-commerce. Amazon RDS é o serviço de banco de dados relacional e não é uma solução de cache. Amazon DynamoDB é um banco de dados NoSQL e, embora rápido, não é primariamente uma solução de cache para um banco de dados relacional existente. AWS Global Accelerator melhora a disponibilidade e performance do tráfego de usuários para aplicações globais, mas não resolve o gargalo de cache de banco de dados diretamente.",
+    "id": 2182
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "armazenamento-resiliente",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "storage",
+      "durability",
+      "compliance",
+      "resilience",
+      "audit-logs"
+    ],
+    "question": "Uma instituição financeira precisa armazenar logs de auditoria críticos que exigem alta durabilidade, disponibilidade e proteção contra exclusão acidental ou acesso não autorizado. Os logs são acessados com pouca frequência após o armazenamento inicial, mas devem estar imediatamente disponíveis para auditorias de conformidade. Qual serviço AWS é o mais adequado para atender a esses requisitos?",
+    "options": [
+      "Amazon EBS",
+      "Amazon S3",
+      "Amazon Glacier",
+      "AWS Backup"
+    ],
+    "correct": 1,
+    "explanation": "Amazon S3 oferece durabilidade de 99,999999999% (onze noves) e alta disponibilidade, sendo ideal para armazenamento de logs críticos. Com recursos como versionamento e S3 Object Lock, ele protege os dados contra exclusão acidental e garante imutabilidade para conformidade. Amazon EBS é um armazenamento de bloco para instâncias EC2 e não é a melhor opção para logs distribuídos. Amazon Glacier (agora parte do S3 Glacier Flexible Retrieval) é otimizado para arquivamento de longo prazo com recuperação mais lenta e não atende ao requisito de 'imediatamente disponível'. AWS Backup é um serviço de backup e restauração, não um armazenamento primário de objetos.",
+    "id": 2181
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-banco-dados",
+    "service": "Amazon ElastiCache",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "caching",
+      "performance",
+      "database",
+      "e-commerce",
+      "low-latency"
+    ],
+    "question": "Uma plataforma de e-commerce enfrenta picos de tráfego durante eventos promocionais, resultando em respostas lentas a consultas de banco de dados para catálogos de produtos. A plataforma precisa de uma solução para armazenar em cache dados de produtos frequentemente acessados, a fim de reduzir a carga em seu banco de dados relacional primário e melhorar os tempos de resposta. Qual serviço AWS deve ser implementado para resolver esse problema de performance?",
+    "options": [
+      "Amazon RDS",
+      "Amazon DynamoDB",
+      "Amazon ElastiCache",
+      "AWS Global Accelerator"
+    ],
+    "correct": 2,
+    "explanation": "Amazon ElastiCache é um serviço de cache na memória que pode ser usado para armazenar dados de produtos frequentemente acessados, reduzindo significativamente a carga sobre o banco de dados relacional primário e melhorando os tempos de resposta para a plataforma de e-commerce. Amazon RDS é o serviço de banco de dados relacional e não é uma solução de cache. Amazon DynamoDB é um banco de dados NoSQL e, embora rápido, não é primariamente uma solução de cache para um banco de dados relacional existente. AWS Global Accelerator melhora a disponibilidade e performance do tráfego de usuários para aplicações globais, mas não resolve o gargalo de cache de banco de dados diretamente.",
+    "id": 2182
   }
 ]

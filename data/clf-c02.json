@@ -3518,5 +3518,333 @@
       "ajuste-automatico"
     ],
     "type": "scenario"
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento-de-custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "faturamento",
+      "custos",
+      "otimizacao",
+      "relatorios"
+    ],
+    "question": "Uma grande corporação com múltiplas unidades de negócios e projetos em nuvem precisa de uma solução para analisar detalhadamente seus gastos na AWS, alocar custos com precisão a departamentos específicos para fins de 'showback' ou 'chargeback', e identificar tendências de gastos e anomalias ao longo do tempo. Qual serviço AWS deve ser usado para obter essa visibilidade granular e relatórios de alocação de custos?",
+    "options": [
+      "AWS Budgets",
+      "AWS Cost Explorer",
+      "AWS Organizations",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Cost Explorer permite visualizar, entender e gerenciar seus custos e uso da AWS ao longo do tempo. Ele oferece recursos poderosos para análise de custos, incluindo a capacidade de filtrar por tags de alocação de custos, o que é crucial para 'showback' e 'chargeback' para departamentos. O AWS Budgets ajuda a definir orçamentos e alertar sobre excessos, mas não fornece a análise granular de custos. O AWS Organizations é para gerenciamento de contas e faturamento consolidado, mas não para análise detalhada de custos por si só. O AWS Trusted Advisor oferece recomendações para otimização, segurança e desempenho, mas não é uma ferramenta de análise de custos detalhada.",
+    "id": 1171
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "conformidade-e-governanca",
+    "service": "AWS Organizations",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "seguranca",
+      "conformidade",
+      "governanca",
+      "data-residency"
+    ],
+    "question": "Uma empresa multinacional com requisitos rigorosos de residência de dados e conformidade regulatória opera em várias regiões da AWS. Eles precisam garantir que os dados sensíveis nunca sejam armazenados ou processados fora de regiões geográficas designadas e que ações proibidas, como a criação de recursos em regiões não aprovadas ou a movimentação de dados entre certas regiões, sejam estritamente impedidas em todas as contas da organização. Qual serviço AWS, em conjunto com políticas, pode impor essas restrições em toda a organização?",
+    "options": [
+      "AWS WAF",
+      "AWS Organizations",
+      "Amazon GuardDuty",
+      "AWS Config"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Organizations, em conjunto com as Service Control Policies (SCPs), é a ferramenta ideal para impor restrições de residência de dados e governança em todas as contas de uma organização. As SCPs permitem que os administradores especifiquem as ações que os usuários e as funções podem executar em suas contas, incluindo a restrição da criação de recursos em regiões específicas. O AWS WAF (Web Application Firewall) protege aplicações web contra ataques comuns. O Amazon GuardDuty é um serviço de detecção de ameaças que monitora atividades maliciosas. O AWS Config avalia, audita e avalia as configurações dos recursos da AWS, mas não impõe restrições preventivas em toda a organização como as SCPs.",
+    "id": 1172
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "analise-de-dados",
+    "service": "Amazon EMR",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "tecnologia",
+      "big-data",
+      "analytics",
+      "spark"
+    ],
+    "question": "Uma startup de análise de dados precisa processar petabytes de dados históricos diariamente usando clusters de computação de alto desempenho para executar jobs complexos do Apache Spark. A solução deve ser capaz de escalar horizontalmente e verticalmente de forma rápida e automática para otimizar custos, e a equipe de engenharia deseja minimizar o esforço de gerenciamento da infraestrutura subjacente. Qual serviço AWS é o mais adequado para essa necessidade?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon EMR",
+      "Amazon Athena"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon EMR (Elastic MapReduce) é um serviço gerenciado que facilita a execução de frameworks de big data, como Apache Spark, Hadoop, Presto e Hive, em clusters escaláveis. Ele é ideal para processamento de petabytes de dados e minimiza o esforço de gerenciamento de infraestrutura. O Amazon EC2 oferece instâncias de computação, mas exigiria o gerenciamento manual ou complexo de clusters. O AWS Lambda é para funções sem servidor e não é adequado para jobs de Spark de longa duração e uso intensivo de recursos. O Amazon Athena é um serviço de consulta interativa que usa SQL para analisar dados diretamente no Amazon S3, mas não é um ambiente para executar jobs complexos do Spark.",
+    "id": 1173
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade-e-elasticidade",
+    "service": "AWS Auto Scaling",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "conceitos-cloud",
+      "escalabilidade",
+      "elasticidade",
+      "alta-disponibilidade"
+    ],
+    "question": "Uma plataforma global de e-commerce experimenta picos de tráfego imprevisíveis e significativos durante promoções relâmpago e feriados. Para garantir alta disponibilidade, desempenho consistente e otimização de custos, a empresa precisa de uma solução que ajuste automaticamente a capacidade de computação para corresponder à demanda em tempo real, sem intervenção manual, pagando apenas pelos recursos consumidos. Qual serviço AWS aborda diretamente essa necessidade de forma eficiente?",
+    "options": [
+      "AWS Elastic Load Balancing",
+      "AWS Auto Scaling",
+      "Amazon CloudFront",
+      "AWS Global Accelerator"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Auto Scaling ajusta automaticamente a capacidade de computação para manter o desempenho e o custo otimizados. Ele é projetado para lidar com picos de tráfego imprevisíveis, adicionando ou removendo instâncias automaticamente com base na demanda. O AWS Elastic Load Balancing distribui o tráfego de entrada entre várias instâncias, mas não as escala automaticamente. O Amazon CloudFront é uma rede de entrega de conteúdo (CDN) que melhora a velocidade e a latência, mas não escala a capacidade de computação do backend. O AWS Global Accelerator melhora a disponibilidade e o desempenho das aplicações direcionando o tráfego para os endpoints mais saudáveis e rápidos, mas também não escala a capacidade de computação.",
+    "id": 1174
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "seguranca",
+      "criptografia",
+      "conformidade",
+      "gerenciamento-chaves"
+    ],
+    "question": "Uma instituição financeira deve criptografar dados confidenciais de clientes em repouso e em trânsito em todos os serviços AWS utilizados. É imperativo que as chaves de criptografia sejam gerenciadas centralmente, altamente disponíveis, duráveis e que todas as operações com as chaves sejam auditáveis para atender a padrões rigorosos de conformidade, como PCI DSS e HIPAA. Qual serviço AWS é o principal para atender a esses requisitos de gerenciamento de chaves criptográficas?",
+    "options": [
+      "AWS Secrets Manager",
+      "AWS Certificate Manager",
+      "AWS Key Management Service",
+      "Amazon Macie"
+    ],
+    "correct": 2,
+    "explanation": "O AWS Key Management Service (KMS) é o serviço principal para criar e controlar as chaves de criptografia usadas para criptografar seus dados. Ele fornece gerenciamento centralizado, alta disponibilidade, durabilidade e logs de auditoria (via AWS CloudTrail) para todas as operações de chave, sendo essencial para conformidade. O AWS Secrets Manager ajuda a gerenciar, recuperar e rotacionar segredos de banco de dados, credenciais de API e outros segredos com segurança, mas não é para gerenciamento de chaves de criptografia de dados em geral. O AWS Certificate Manager provisiona, gerencia e implanta certificados SSL/TLS para uso com serviços AWS. O Amazon Macie é um serviço de segurança de dados que usa aprendizado de máquina e correspondência de padrões para descobrir e proteger dados confidenciais na AWS.",
+    "id": 1175
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento-de-custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "faturamento",
+      "custos",
+      "otimizacao",
+      "relatorios"
+    ],
+    "question": "Uma grande corporação com múltiplas unidades de negócios e projetos em nuvem precisa de uma solução para analisar detalhadamente seus gastos na AWS, alocar custos com precisão a departamentos específicos para fins de 'showback' ou 'chargeback', e identificar tendências de gastos e anomalias ao longo do tempo. Qual serviço AWS deve ser usado para obter essa visibilidade granular e relatórios de alocação de custos?",
+    "options": [
+      "AWS Budgets",
+      "AWS Cost Explorer",
+      "AWS Organizations",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Cost Explorer permite visualizar, entender e gerenciar seus custos e uso da AWS ao longo do tempo. Ele oferece recursos poderosos para análise de custos, incluindo a capacidade de filtrar por tags de alocação de custos, o que é crucial para 'showback' e 'chargeback' para departamentos. O AWS Budgets ajuda a definir orçamentos e alertar sobre excessos, mas não fornece a análise granular de custos. O AWS Organizations é para gerenciamento de contas e faturamento consolidado, mas não para análise detalhada de custos por si só. O AWS Trusted Advisor oferece recomendações para otimização, segurança e desempenho, mas não é uma ferramenta de análise de custos detalhada.",
+    "id": 1171
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "conformidade-e-governanca",
+    "service": "AWS Organizations",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "seguranca",
+      "conformidade",
+      "governanca",
+      "data-residency"
+    ],
+    "question": "Uma empresa multinacional com requisitos rigorosos de residência de dados e conformidade regulatória opera em várias regiões da AWS. Eles precisam garantir que os dados sensíveis nunca sejam armazenados ou processados fora de regiões geográficas designadas e que ações proibidas, como a criação de recursos em regiões não aprovadas ou a movimentação de dados entre certas regiões, sejam estritamente impedidas em todas as contas da organização. Qual serviço AWS, em conjunto com políticas, pode impor essas restrições em toda a organização?",
+    "options": [
+      "AWS WAF",
+      "AWS Organizations",
+      "Amazon GuardDuty",
+      "AWS Config"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Organizations, em conjunto com as Service Control Policies (SCPs), é a ferramenta ideal para impor restrições de residência de dados e governança em todas as contas de uma organização. As SCPs permitem que os administradores especifiquem as ações que os usuários e as funções podem executar em suas contas, incluindo a restrição da criação de recursos em regiões específicas. O AWS WAF (Web Application Firewall) protege aplicações web contra ataques comuns. O Amazon GuardDuty é um serviço de detecção de ameaças que monitora atividades maliciosas. O AWS Config avalia, audita e avalia as configurações dos recursos da AWS, mas não impõe restrições preventivas em toda a organização como as SCPs.",
+    "id": 1172
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "analise-de-dados",
+    "service": "Amazon EMR",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "tecnologia",
+      "big-data",
+      "analytics",
+      "spark"
+    ],
+    "question": "Uma startup de análise de dados precisa processar petabytes de dados históricos diariamente usando clusters de computação de alto desempenho para executar jobs complexos do Apache Spark. A solução deve ser capaz de escalar horizontalmente e verticalmente de forma rápida e automática para otimizar custos, e a equipe de engenharia deseja minimizar o esforço de gerenciamento da infraestrutura subjacente. Qual serviço AWS é o mais adequado para essa necessidade?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon EMR",
+      "Amazon Athena"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon EMR (Elastic MapReduce) é um serviço gerenciado que facilita a execução de frameworks de big data, como Apache Spark, Hadoop, Presto e Hive, em clusters escaláveis. Ele é ideal para processamento de petabytes de dados e minimiza o esforço de gerenciamento de infraestrutura. O Amazon EC2 oferece instâncias de computação, mas exigiria o gerenciamento manual ou complexo de clusters. O AWS Lambda é para funções sem servidor e não é adequado para jobs de Spark de longa duração e uso intensivo de recursos. O Amazon Athena é um serviço de consulta interativa que usa SQL para analisar dados diretamente no Amazon S3, mas não é um ambiente para executar jobs complexos do Spark.",
+    "id": 1173
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade-e-elasticidade",
+    "service": "AWS Auto Scaling",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "conceitos-cloud",
+      "escalabilidade",
+      "elasticidade",
+      "alta-disponibilidade"
+    ],
+    "question": "Uma plataforma global de e-commerce experimenta picos de tráfego imprevisíveis e significativos durante promoções relâmpago e feriados. Para garantir alta disponibilidade, desempenho consistente e otimização de custos, a empresa precisa de uma solução que ajuste automaticamente a capacidade de computação para corresponder à demanda em tempo real, sem intervenção manual, pagando apenas pelos recursos consumidos. Qual serviço AWS aborda diretamente essa necessidade de forma eficiente?",
+    "options": [
+      "AWS Elastic Load Balancing",
+      "AWS Auto Scaling",
+      "Amazon CloudFront",
+      "AWS Global Accelerator"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Auto Scaling ajusta automaticamente a capacidade de computação para manter o desempenho e o custo otimizados. Ele é projetado para lidar com picos de tráfego imprevisíveis, adicionando ou removendo instâncias automaticamente com base na demanda. O AWS Elastic Load Balancing distribui o tráfego de entrada entre várias instâncias, mas não as escala automaticamente. O Amazon CloudFront é uma rede de entrega de conteúdo (CDN) que melhora a velocidade e a latência, mas não escala a capacidade de computação do backend. O AWS Global Accelerator melhora a disponibilidade e o desempenho das aplicações direcionando o tráfego para os endpoints mais saudáveis e rápidos, mas também não escala a capacidade de computação.",
+    "id": 1174
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "multiple-choice",
+    "tags": [
+      "seguranca",
+      "criptografia",
+      "conformidade",
+      "gerenciamento-chaves"
+    ],
+    "question": "Uma instituição financeira deve criptografar dados confidenciais de clientes em repouso e em trânsito em todos os serviços AWS utilizados. É imperativo que as chaves de criptografia sejam gerenciadas centralmente, altamente disponíveis, duráveis e que todas as operações com as chaves sejam auditáveis para atender a padrões rigorosos de conformidade, como PCI DSS e HIPAA. Qual serviço AWS é o principal para atender a esses requisitos de gerenciamento de chaves criptográficas?",
+    "options": [
+      "AWS Secrets Manager",
+      "AWS Certificate Manager",
+      "AWS Key Management Service",
+      "Amazon Macie"
+    ],
+    "correct": 2,
+    "explanation": "O AWS Key Management Service (KMS) é o serviço principal para criar e controlar as chaves de criptografia usadas para criptografar seus dados. Ele fornece gerenciamento centralizado, alta disponibilidade, durabilidade e logs de auditoria (via AWS CloudTrail) para todas as operações de chave, sendo essencial para conformidade. O AWS Secrets Manager ajuda a gerenciar, recuperar e rotacionar segredos de banco de dados, credenciais de API e outros segredos com segurança, mas não é para gerenciamento de chaves de criptografia de dados em geral. O AWS Certificate Manager provisiona, gerencia e implanta certificados SSL/TLS para uso com serviços AWS. O Amazon Macie é um serviço de segurança de dados que usa aprendizado de máquina e correspondência de padrões para descobrir e proteger dados confidenciais na AWS.",
+    "id": 1175
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "armazenamento",
+      "dados nao estruturados",
+      "escalabilidade",
+      "durabilidade",
+      "api"
+    ],
+    "question": "Uma empresa de mídia digital precisa de uma solução de armazenamento altamente durável e escalável para hospedar milhões de imagens e vídeos de seus usuários, com acesso rápido via API para seu aplicativo móvel. Qual serviço AWS é o mais adequado para essa necessidade?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon EFS",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 (Simple Storage Service) é a solução ideal para armazenar objetos de dados não estruturados, como imagens e vídeos, oferecendo durabilidade extrema, escalabilidade ilimitada e fácil acesso via API, perfeito para aplicativos móveis. Amazon EBS (Elastic Block Store) fornece armazenamento em nível de bloco para instâncias EC2. Amazon EFS (Elastic File System) é um sistema de arquivos escalável para instâncias EC2. Amazon RDS (Relational Database Service) é um serviço para bancos de dados relacionais.",
+    "id": 1176
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS IAM",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "seguranca",
+      "identidade",
+      "acesso",
+      "privilegio minimo",
+      "usuarios",
+      "grupos"
+    ],
+    "question": "Uma organização está implementando uma nova política de segurança que exige controle granular sobre quais usuários e aplicações podem acessar recursos específicos da AWS, seguindo o princípio do menor privilégio. Qual serviço AWS deve ser utilizado para gerenciar essas permissões?",
+    "options": [
+      "AWS IAM",
+      "AWS WAF",
+      "AWS Shield",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "AWS IAM (Identity and Access Management) é o serviço central para gerenciar identidades e permissões de acesso aos recursos da AWS de forma granular, garantindo o princípio do menor privilégio. O AWS WAF (Web Application Firewall) protege aplicações web contra exploits comuns. AWS Shield fornece proteção contra ataques DDoS. Amazon Inspector é um serviço de avaliação de segurança automatizado.",
+    "id": 1177
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "armazenamento",
+      "dados nao estruturados",
+      "escalabilidade",
+      "durabilidade",
+      "api"
+    ],
+    "question": "Uma empresa de mídia digital precisa de uma solução de armazenamento altamente durável e escalável para hospedar milhões de imagens e vídeos de seus usuários, com acesso rápido via API para seu aplicativo móvel. Qual serviço AWS é o mais adequado para essa necessidade?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon EFS",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 (Simple Storage Service) é a solução ideal para armazenar objetos de dados não estruturados, como imagens e vídeos, oferecendo durabilidade extrema, escalabilidade ilimitada e fácil acesso via API, perfeito para aplicativos móveis. Amazon EBS (Elastic Block Store) fornece armazenamento em nível de bloco para instâncias EC2. Amazon EFS (Elastic File System) é um sistema de arquivos escalável para instâncias EC2. Amazon RDS (Relational Database Service) é um serviço para bancos de dados relacionais.",
+    "id": 1176
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS IAM",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "seguranca",
+      "identidade",
+      "acesso",
+      "privilegio minimo",
+      "usuarios",
+      "grupos"
+    ],
+    "question": "Uma organização está implementando uma nova política de segurança que exige controle granular sobre quais usuários e aplicações podem acessar recursos específicos da AWS, seguindo o princípio do menor privilégio. Qual serviço AWS deve ser utilizado para gerenciar essas permissões?",
+    "options": [
+      "AWS IAM",
+      "AWS WAF",
+      "AWS Shield",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "AWS IAM (Identity and Access Management) é o serviço central para gerenciar identidades e permissões de acesso aos recursos da AWS de forma granular, garantindo o princípio do menor privilégio. O AWS WAF (Web Application Firewall) protege aplicações web contra exploits comuns. AWS Shield fornece proteção contra ataques DDoS. Amazon Inspector é um serviço de avaliação de segurança automatizado.",
+    "id": 1177
   }
 ]

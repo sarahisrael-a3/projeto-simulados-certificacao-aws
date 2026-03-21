@@ -2,16 +2,15 @@ import os
 import json
 import time
 from google import genai
+from google.genai import types # Importação necessária para o config
 from pydantic import BaseModel, Field, field_validator
 from typing import List
 from dotenv import load_dotenv
 
+
 # 1. CONFIGURAÇÕES DE AMBIENTE
 load_dotenv()
-# BASE_DIR localiza a raiz do projeto para garantir caminhos de ficheiros corretos
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Inicializa o cliente Gemini com o SDK mais recente
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 # 2. CONFIGURAÇÃO DE EXAMES E DOMÍNIOS
@@ -52,56 +51,43 @@ def fabricar_questoes(exame_id, nivel, qtd=3, retries=0):
 
     print(f"\n🚀 [IA] A fabricar {qtd} questões ({nivel}) para {exame_id.upper()}...")
     
-    caminho_json = os.path.join(BASE_DIR, "data", f"{exame_id}.json")
     dominios = EXAMES_CONFIG[exame_id]
 
+# PROMPT ENRIQUECIDO COM FOCO EM CENÁRIOS E RESPOSTAS CURTAS
     prompt = f"""
-    Atue como Arquiteto AWS Sênior. Gere {qtd} questões inéditas para o exame {exame_id}.
-    Nível: {nivel}. Domínios permitidos: {dominios}.
-    Retorne APENAS o JSON puro. 
-    Campos: domain, subdomain, service, difficulty, type, tags, question, options, correct, explanation.
+    Você é um Arquiteto AWS Sênior e criador oficial de exames da AWS. 
+    Sua missão é gerar exatamente {qtd} questões INÉDITAS para a certificação {exame_id}.
+    
+    Nível de Dificuldade: {nivel}.
+    Domínios permitidos: {dominios}.
+
+    REGRAS OBRIGATÓRIAS:
+    1. Formato de Caso de Uso: Inicie sempre com um cenário de negócios prático (ex: "Uma empresa precisa..."). Nunca pergunte definições diretas.
+    2. RESPOSTAS CURTAS (MUITO IMPORTANTE): As 4 alternativas na lista 'options' DEVEM conter APENAS o nome oficial do serviço AWS (ex: "Amazon S3", "AWS Lambda", "Amazon EC2"). NUNCA escreva frases, ações ou explicações dentro das opções.
+    3. Distratores Plausíveis: As opções erradas devem ser serviços reais da AWS que um candidato poderia confundir no cenário.
+    4. Explicação: A justificativa deve mencionar o nome do serviço correto e explicar por que ele atende ao cenário, além de explicar por que os distratores estão errados.
     """
 
     try:
+        # Usando a API nova para forçar a saída em JSON estruturado com base numa lista de AWSQuestion
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=prompt
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=list[AWSQuestion], # Força a IA a devolver uma lista validada pelo Pydantic
+                temperature=0.7 # Adiciona um pouco de criatividade aos cenários
+            )
         )
         
-        # Limpeza de possíveis blocos de código markdown
-        texto_json = response.text.replace('```json', '').replace('```', '').strip()
-        novas_questoes_raw = json.loads(texto_json)
+        # Como passamos o response_schema, a saída já é um JSON string perfeito
+        novas_questoes_raw = json.loads(response.text)
 
-        # Garantir que o ficheiro existe e carregar dados
-        if os.path.exists(caminho_json):
-            with open(caminho_json, 'r', encoding='utf-8') as f:
-                banco = json.load(f)
-        else:
-            banco = []
-
-        validas_no_lote = 0
-        ultimo_id = max([q['id'] for q in banco]) if banco else 1000
-
-        for item in novas_questoes_raw:
-            try:
-                # Validação total via Pydantic
-                q_validada = AWSQuestion(**item).model_dump()
-                
-                ultimo_id += 1
-                q_validada['id'] = ultimo_id
-                banco.append(q_validada)
-                validas_no_lote += 1
-            except Exception as ve:
-                print(f"   ⚠️ Questão descartada por erro de validação: {ve}")
-
-        # Guardar progresso
-        with open(caminho_json, 'w', encoding='utf-8') as f:
-            json.dump(banco, f, indent=2, ensure_ascii=False)
-
-        print(f"✅ Sucesso! {validas_no_lote} questões novas injetadas em {exame_id}.json")
+        # AGORA É SÓ ISSO! Sem abrir arquivo, sem salvar, sem validar aqui.
+        # Apenas devolvemos as questões "cruas" para o pipeline tratar.
+        return novas_questoes_raw
 
     except Exception as e:
-        # Tratamento do Erro 429 (Resource Exhausted)
         if ("429" in str(e) or "RESOURCE_EXHAUSTED" in str(e)) and retries < 3:
             tempo_espera = 30 + (retries * 10)
             print(f"⏳ [QUOTA] Limite atingido. A aguardar {tempo_espera}s (Tentativa {retries + 1}/3)...")
@@ -109,8 +95,9 @@ def fabricar_questoes(exame_id, nivel, qtd=3, retries=0):
             return fabricar_questoes(exame_id, nivel, qtd, retries + 1)
         else:
             print(f"❌ Erro crítico: {e}")
+            return None
 
-# 5. EXECUÇÃO DE EXEMPLO
+# 5. EXECUÇÃO DE EXEMPLO (Pode remover isso depois, pois agora rodaremos pelo pipeline_runner.py)
 if __name__ == "__main__":
-    fabricar_questoes("aif-c01", "hard", 10) # Completa o que falta
-    fabricar_questoes("dva-c02", "easy", 10) # Começa a encorpar a DVA
+    resultado = fabricar_questoes("clf-c02", "hard", 2) 
+    print(resultado)
