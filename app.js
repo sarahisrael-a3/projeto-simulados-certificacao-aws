@@ -496,9 +496,8 @@ function updateDynamicInsight(history) {
 }
 
 // ============================================================================
-// 7. EXIBIÇÃO DE RESULTADOS E RELATÓRIOS
+// 7. ATUALIZA E CONFIGURA O BANNER AZUL NO ECRÃ INICIAL
 // ============================================================================
-
 function loadLastScore() {
     const banner = document.getElementById('last-score-banner');
     const certId = document.getElementById('certification-select')?.value;
@@ -509,10 +508,11 @@ function loadLastScore() {
     if (last && last.percentage !== undefined) {
         banner.classList.remove('hidden');
         banner.classList.add('cursor-pointer', 'hover:bg-blue-100', 'dark:hover:bg-blue-800', 'transition-all');
-        banner.onclick = () => showLastReport(certId);
 
+        // A MUDANÇA ESTÁ AQUI: Colocamos o onclick diretamente na <div> de dentro.
+        // Isso garante que o clique funcione 100% das vezes, independentemente de onde você clicar no banner.
         banner.innerHTML = `
-            <div class="flex justify-between items-center w-full">
+            <div class="flex justify-between items-center w-full h-full" onclick="showLastReport('${certId}')">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-history"></i> 
                     <span>Última Nota: <strong>${last.percentage.toFixed(0)}%</strong></span>
