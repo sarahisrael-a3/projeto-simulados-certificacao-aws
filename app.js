@@ -38,6 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGamification();
 
     const certSelect = document.getElementById('certification-select');
+    
+    // Injeta os tópicos da primeira certificação ao abrir a página
+    if (typeof certificationPaths !== 'undefined' && certSelect) {
+        appState.currentCertification = certificationPaths[certSelect.value];
+        updateTopicDropdown();
+    }
+
     certSelect?.addEventListener('change', () => {
         loadLastScore();
         checkMistakes();
@@ -45,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof certificationPaths !== 'undefined') {
             appState.currentCertification = certificationPaths[selectedId];
             reinitializeRadarChart();
+            updateTopicDropdown(); // Atualiza a lista de domínios quando a prova muda
         }
     });
 });
@@ -81,18 +89,18 @@ async function startQuiz() {
         
         let data = await response.json();
 
+        // Filtro de Dificuldade
         if (difficulty !== 'all') data = data.filter(q => q.difficulty === difficulty);
         
-        const topicFilter = document.getElementById('topic-filter')?.value.toLowerCase().trim();
-        if (topicFilter) {
-            data = data.filter(q => 
-                q.question.toLowerCase().includes(topicFilter) || 
-                (q.service && q.service.toLowerCase().includes(topicFilter))
-            );
+        // Filtro de Tópico (Dropdown)
+        const topicFilter = document.getElementById('topic-filter')?.value;
+        if (topicFilter && topicFilter !== "") {
+            // Filtra exatamente pelo ID do domínio vindo do dropdown
+            data = data.filter(q => q.domain === topicFilter);
         }
 
         if (data.length === 0) {
-            alert('Nenhuma questão encontrada.');
+            alert('Nenhuma questão encontrada com esses filtros.');
             btn.disabled = false;
             return;
         }
@@ -277,6 +285,16 @@ function cancelQuiz() {
 // 5. RADAR CHART (MELHORADO COM FILL E PADDING)
 // ============================================================================
 
+// Função auxiliar para quebrar textos longos em duas linhas no gráfico
+function formatChartLabel(name) {
+    const words = name.split(' ');
+    if (words.length > 2) {
+        const mid = Math.ceil(words.length / 2);
+        return [words.slice(0, mid).join(' '), words.slice(mid).join(' ')];
+    }
+    return name;
+}
+
 function initializeRadarChart() {
     const ctx = document.getElementById('radarChart');
     if (!ctx || typeof Chart === 'undefined') return;
@@ -296,13 +314,18 @@ function initializeRadarChart() {
             }]
         },
         options: {
-            layout: { padding: 30 }, // Evita labels cortadas
+            maintainAspectRatio: false, // <-- Impede o gráfico de "sambar"
+            layout: { padding: 15 },
             scales: {
                 r: { 
                     beginAtZero: true, 
                     max: 100, 
-                    ticks: { display: false },
-                    grid: { color: 'rgba(200, 200, 200, 0.2)' }
+                    ticks: { display: false, stepSize: 25 },
+                    grid: { color: 'rgba(200, 200, 200, 0.2)' },
+                    pointLabels: {
+                        font: { size: 11, family: "'Open Sans', sans-serif" }, // Fonte menor e ajustada
+                        padding: 5
+                    }
                 }
             },
             plugins: { legend: { display: false } }
@@ -312,9 +335,27 @@ function initializeRadarChart() {
 
 function reinitializeRadarChart() {
     if (!appState.currentCertification || !window.radarChartInstance) return;
-    const labels = appState.currentCertification.domains.map(d => d.name);
+    
+    // Aplica a quebra de texto nos labels
+    const labels = appState.currentCertification.domains.map(d => formatChartLabel(d.name));
     window.radarChartInstance.data.labels = labels;
-    window.radarChartInstance.data.datasets[0].data = labels.map(() => 0);
+    
+    // Tenta recuperar os domínios salvos do último simulado feito
+    const certId = appState.currentCertification.id;
+    const lastResult = JSON.parse(localStorage.getItem(`${APP_CONFIG.STORAGE_KEY}last_${certId}`));
+
+    if (lastResult && lastResult.domainScores) {
+        // Se já houver um histórico para essa prova, recupera as notas do gráfico
+        const data = appState.currentCertification.domains.map(d => {
+            const s = lastResult.domainScores[d.id];
+            return (s && s.total > 0) ? (s.correct / s.total) * 100 : 0;
+        });
+        window.radarChartInstance.data.datasets[0].data = data;
+    } else {
+        // Se nunca tiver feito o simulado, zera o gráfico
+        window.radarChartInstance.data.datasets[0].data = labels.map(() => 0);
+    }
+    
     window.radarChartInstance.update();
 }
 
@@ -337,8 +378,12 @@ function saveQuizResult() {
     const pct = (appState.score / appState.questions.length) * 100;
     
     const result = {
-        certId, score: appState.score, total: appState.questions.length,
-        percentage: pct, date: new Date().toISOString()
+        certId, 
+        score: appState.score, 
+        total: appState.questions.length,
+        percentage: pct, 
+        date: new Date().toISOString(),
+        domainScores: appState.domainScores // <--- SALVA OS DADOS DO RADAR PARA O REINITIALIZE ACHAR DEPOIS
     };
 
     localStorage.setItem(`${APP_CONFIG.STORAGE_KEY}last_${certId}`, JSON.stringify(result));
@@ -377,6 +422,23 @@ function updateGamification(pct) {
 // 7. UTILITÁRIOS
 // ============================================================================
 
+// Atualiza o dropdown de tópicos com base na certificação selecionada
+function updateTopicDropdown() {
+    const topicSelect = document.getElementById('topic-filter');
+    if (!topicSelect || !appState.currentCertification) return;
+
+    // Reseta as opções
+    topicSelect.innerHTML = '<option value="">Todos os Tópicos</option>';
+
+    // Adiciona os domínios da certificação atual
+    appState.currentCertification.domains.forEach(domain => {
+        const option = document.createElement('option');
+        option.value = domain.id;
+        option.textContent = domain.name;
+        topicSelect.appendChild(option);
+    });
+}
+
 function shuffleArray(arr) { return [...arr].sort(() => Math.random() - 0.5); }
 
 function shuffleQuestionOptions(q) {
@@ -410,9 +472,38 @@ function startTimer() {
 function showResultsScreen() {
     const total = appState.questions.length;
     const pct = (appState.score / total) * 100;
+    
     document.getElementById('final-score-percent').textContent = `${pct.toFixed(0)}%`;
     document.getElementById('final-correct').textContent = appState.score;
     document.getElementById('final-incorrect').textContent = total - appState.score;
+
+    // Lógica para a Recomendação da IA
+    let weakestDomain = null;
+    let lowestScore = 100;
+
+    // Identifica o domínio com a menor pontuação
+    for (const [domainId, scoreData] of Object.entries(appState.domainScores)) {
+        if (scoreData.total > 0) {
+            const domainPct = (scoreData.correct / scoreData.total) * 100;
+            if (domainPct <= lowestScore) {
+                lowestScore = domainPct;
+                weakestDomain = domainId;
+            }
+        }
+    }
+
+    const domainName = getDomainName(weakestDomain) || "Tópicos Gerais";
+    const recText = document.getElementById('recommendation-text');
+
+    // Gera o texto dinâmico com base na nota e no domínio mais fraco
+    if (pct >= 85) {
+        recText.innerHTML = `<strong>Excelente desempenho!</strong> Você demonstrou um domínio profundo. Se quiser alcançar a perfeição, faça uma revisão rápida em: <em>${domainName}</em>.`;
+    } else if (pct >= APP_CONFIG.PASSING_SCORE) {
+        recText.innerHTML = `<strong>Parabéns, você passou!</strong> Para aumentar sua segurança para o exame real, concentre seus estudos finais no domínio: <em>${domainName}</em>.`;
+    } else {
+        recText.innerHTML = `<strong>Não desanime!</strong> Sua maior oportunidade de melhoria está no domínio: <em>${domainName}</em>. Revise a documentação oficial sobre esse tema e tente novamente.`;
+    }
+
     showScreen('results');
 }
 
@@ -436,6 +527,18 @@ function loadLastScore() {
     } else {
         banner?.classList.add('hidden');
     }
+}
+
+// Gera o relatório PDF usando a funcionalidade de impressão do navegador
+function generatePerformanceReport() {
+    window.print();
+}
+
+// Refaz o quiz voltando para a tela inicial
+function retakeQuiz() {
+    goHome();
+    // Rola a página para o topo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Placeholders para evitar erros se não implementados
