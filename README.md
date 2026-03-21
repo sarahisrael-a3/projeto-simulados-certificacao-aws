@@ -7,54 +7,64 @@
 ![PWA](https://img.shields.io/badge/PWA-000?style=flat&logo=progressive-web-apps)
 
 Uma plataforma de elite para **simulados AWS**, unindo **Engenharia de Dados com Python**, **IA Generativa** e uma **experiência de usuário (UX) de alto nível**.  
-
 Este simulador é um ecossistema completo, focado em **Clean Code, Integridade de Dados e Performance**.
 
 ---
 
-## 🏗 Arquitetura do Ecossistema
+## 📂 Estrutura de Arquivos (Atualizada e Profissional)
 
-O projeto segue uma abordagem de **Arquitetura Desacoplada (Decoupled Architecture)**:
-
-| Camada | Tecnologias | Função |
-|--------|------------|-------|
-| **Data Layer** | Python + Pydantic | Pipeline de curadoria e sanitização que garante que todas as questões sigam um contrato de dados estrito |
-| **Storage Layer** | JSON | Bancos de dados categorizados por certificação oficial (CLF, SAA, AIF, DVA) |
-| **Application Layer** | Vanilla JS + ES6 | Motor de simulado assíncrono com gerenciamento de estado global e reatividade de DOM |
-| **Presentation Layer** | TailwindCSS + Chart.js | Interface mobile-first, feedback visual imediato, análise de radar |
-
----
-
-## 📂 Estrutura do Projeto
+O projeto segue uma **organização modular**, permitindo escalabilidade, manutenção fácil e destaque para engenharia de dados e PWA:
 
 ```text
-├── .github/workflows   # CI/CD: Automação de testes (GitHub Actions)
-├── data/               # Bancos de dados JSON validados
-├── docs/               # Documentação técnica modular
-├── scripts_python/     # Pipeline: IA, Auditoria, Análise
-│   ├── generator.py    # Orquestrador de IA Generativa (Gemini API)
-│   ├── sanity_check.py # Validador de Integridade de Dados
-│   └── analyzer.py     # Dashboard de cobertura e estatísticas
-├── tests/              # Testes unitários do motor de simulado
-├── app.js              # Motor principal e gestão de estado
-├── data.js             # Mapeamento de certificações e trilhas oficiais
-├── sw.js               # Service Worker PWA
-└── index.html          # Interface semântica e acessível
+├── 📂 .github/workflows   # Automação de testes, CI/CD e validação contínua
+├── 📂 data/               # Bancos de dados JSON validados via Pydantic
+├── 📂 docs/               # Documentação técnica detalhada e modular
+├── 📂 scripts_python/     # Backend: geração IA, auditoria e análise de dados
+│   ├── generator.py       # Orquestrador de geração de questões (Gemini 1.5 Pro)
+│   ├── sanity_check.py    # Validador de integridade e conformidade (Schema Enforcement)
+│   └── analyzer.py        # Dashboard de cobertura de domínios e métricas de QA
+├── 📂 tests/              # Testes unitários e validação do motor de simulado
+├── app.js                 # Motor principal, gerenciamento de estado global e lógica de UI
+├── data.js                # Configurações de trilhas oficiais e mapeamento de domínios AWS
+├── sw.js                  # Service Worker PWA: cache, offline e atualização de assets
+├── index.html             # Interface semântica, responsiva e acessível (UX/UI)
+└── style.css              # Customizações de tema, animações e responsividade
 ````
 
 ---
 
-## ⚙️ Engenharia de Dados e Integridade
+## 📑 Documentação Especializada (`/docs`)
 
-* **Validação Estrita:** Cada questão precisa ter **mínimo de 30 caracteres** e **exatamente 4 opções de resposta**.
-* **Mapeamento de Domínios:** Validação obrigatória para os serviços oficiais da AWS (S3, Lambda, EC2, etc).
-* **Sanity Check Automatizado:** Script percorre toda a pasta `data/` reportando inconsistências e garantindo integridade.
+Cada arquivo `.md` detalha uma área-chave do projeto:
+
+| Arquivo                     | Descrição                                                                               |
+| :-------------------------- | :-------------------------------------------------------------------------------------- |
+| **🚀 QUICKSTART.md**        | Guia rápido para rodar o simulador localmente em menos de 1 minuto.                     |
+| **🏗 ARCHITECTURE.md**      | Fluxo de dados completo: Python → JSON → Vanilla JS → Chart.js.                         |
+| **🛡 SECURITY.md**          | Estratégias de prevenção de XSS, injeção de dados e práticas de a11y.                   |
+| **📈 EXECUTIVE_SUMMARY.md** | Resumo executivo com KPIs de cobertura, evolução de questões e métricas de engajamento. |
+| **🚢 DEPLOYMENT.md**        | Passo a passo para hospedar no AWS S3 + CloudFront ou Vercel com CI/CD.                 |
+| **📝 CHANGELOG.md**         | Histórico detalhado de versões, updates e evolução do motor de simulado.                |
+
+---
+
+## ⚙️ Engenharia de Dados e Pipeline
+
+> **Engenharia de Dados Própria:**
+> O simulador utiliza um pipeline em **Python 3.12** com **Pydantic V2**, garantindo:
+
+* Questões consistentes e completas (mínimo de 30 caracteres e 4 alternativas válidas)
+* Conformidade com os domínios oficiais da AWS (S3, Lambda, EC2, etc)
+* Validação automática e auditoria contínua para evitar inconsistências
+* Integração com IA Generativa (Gemini 1.5 Pro) para geração de novas questões
+
+Isso transforma o banco de dados em um **ativo confiável e auditável**, elevando o projeto a **plataforma de engenharia de dados profissional**.
 
 ---
 
 ## 🤖 IA Generativa
 
-* O `generator.py` utiliza **Gemini 2.0 Flash** (Google) para gerar questões de exame realistas.
+* O `generator.py` utiliza **Gemini 2.0 Flash** (Google) para gerar questões realistas.
 * **Prompt Engineering:** Simula comportamento de um arquiteto AWS sênior.
 * **Resiliência de Quota:** Retry com *exponential backoff* para erros de API.
 * **Injeção Automática:** Questões validadas pelo Pydantic antes de serem adicionadas ao banco JSON.
@@ -82,11 +92,11 @@ O projeto segue uma abordagem de **Arquitetura Desacoplada (Decoupled Architectu
 
 ## 🎯 Funcionalidades Premium
 
-* ✅ **Cards Interativos:** Letra destacada, estados de seleção e feedback visual.
-* ✅ **Modo Exame vs Estudo:** Timer regressivo ou revisão imediata com explicações.
-* ✅ **Deep Linking:** Botões para **AWS Whitepapers** em cada resposta.
-* ✅ **Gamificação:** Sistema de streaks e badges (`Gabarito`, `Focado`).
-* ✅ **Banco de Erros:** Pratique apenas questões incorretas, persistido no `localStorage`.
+* ✅ **Cards Interativos:** Letra destacada, estados de seleção e feedback visual
+* ✅ **Modo Exame vs Estudo:** Timer regressivo ou revisão imediata
+* ✅ **Deep Linking:** Botões para AWS Whitepapers
+* ✅ **Gamificação:** Streaks e badges (`Gabarito`, `Focado`)
+* ✅ **Banco de Erros:** Pratique apenas questões incorretas, persistido no `localStorage`
 
 ---
 
@@ -117,10 +127,7 @@ git clone https://github.com/karlarenatadev/projeto-simulados-certificacao-aws.g
 ## 🌐 Demo Online
 
 *(Quando disponível, após deploy em S3 + CloudFront)*
-
-```
-https://simulador-aws.karlarenata.dev
-```
+[https://simulador-aws.karlarenata.dev](https://simulador-aws.karlarenata.dev)
 
 ---
 
