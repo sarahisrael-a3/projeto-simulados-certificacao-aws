@@ -39,11 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const certSelect = document.getElementById('certification-select');
     
-    // Injeta os tópicos da primeira certificação ao abrir a página
-    if (typeof certificationPaths !== 'undefined' && certSelect) {
-        appState.currentCertification = certificationPaths[certSelect.value];
-        updateTopicDropdown();
-    }
+    // Força a injeção inicial dos tópicos logo que a página carrega
+    setTimeout(() => {
+        if (typeof certificationPaths !== 'undefined' && certSelect) {
+            appState.currentCertification = certificationPaths[certSelect.value];
+            updateTopicDropdown();
+        }
+    }, 100); // Delay de 100ms garante que o DOM HTML está 100% pronto
 
     certSelect?.addEventListener('change', () => {
         loadLastScore();
@@ -425,12 +427,17 @@ function updateGamification(pct) {
 // Atualiza o dropdown de tópicos com base na certificação selecionada
 function updateTopicDropdown() {
     const topicSelect = document.getElementById('topic-filter');
-    if (!topicSelect || !appState.currentCertification) return;
+    
+    // Blindagem: Verifica se o elemento existe E se é um <select> 
+    // (Evita falhas se o <input> antigo ainda estiver perdido pelo HTML)
+    if (!topicSelect || topicSelect.tagName !== 'SELECT' || !appState.currentCertification) {
+        return; 
+    }
 
-    // Reseta as opções
+    // Reseta as opções sempre que for atualizar
     topicSelect.innerHTML = '<option value="">Todos os Tópicos</option>';
 
-    // Adiciona os domínios da certificação atual
+    // Adiciona os domínios da certificação atual dinamicamente
     appState.currentCertification.domains.forEach(domain => {
         const option = document.createElement('option');
         option.value = domain.id;

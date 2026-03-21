@@ -53,8 +53,18 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* Deixa as fontes muito mais nítidas e suaves */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
+/* BÔNUS: Cor de seleção de texto temática da AWS */
+::selection {
+  background-color: rgba(255, 153, 0, 0.3);
+  color: inherit;
+}
 .aws-bg-dark { background-color: var(--aws-dark); }
 .aws-text-dark { color: var(--aws-dark); }
 .aws-bg-orange { background-color: var(--aws-orange); }
@@ -286,7 +296,7 @@ body {
   .mt-auto.pt-6.flex { flex-direction: column; width: 100%; gap: 0.75rem !important; }
   .mt-auto.pt-6.flex button { width: 100%; margin: 0 !important; }
 
-  .chart-container { height: 250px !important; }
+.chart-container { height: 320px !important; min-height: 320px; }
 }
 
 /* Telas Médias (Tablets - 641px a 1024px) */
