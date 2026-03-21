@@ -176,16 +176,31 @@ body {
   outline-offset: 2px;
 }
 
+/* Letras (A, B, C, D) destacadas - MOVIDAS PARA CÁ */
+.option-letter {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f3f4f6;
+    font-weight: bold;
+    color: #4b5563;
+    transition: all 0.2s ease;
+}
+
+.option-card.selected .option-letter {
+    background: #ff9900;
+    color: white;
+}
+
 /* ============================================================================
    MODO ESCURO (DARK MODE - OVERRIDES DE COMPONENTES)
    ============================================================================ */
 
-/* Textos e Fundos base garantidos pelas variáveis e pelas classes HTML,
-   estas regras forçam componentes específicos que o Tailwind não alcança nativamente */
-
 .dark .aws-text-dark { color: var(--text-main) !important; }
 
-/* Adaptação dos Cards de Opções no Quiz (Dark Mode) */
 .dark .option-card:hover:not(.disabled) {
   background-color: #334155 !important;
   border-color: var(--aws-orange) !important;
@@ -197,7 +212,6 @@ body {
   box-shadow: 0 4px 6px -1px rgba(255, 153, 0, 0.4);
 }
 
-/* Cores de acerto/erro no Modo Escuro */
 .dark .option-card.correct {
   background-color: rgba(34, 197, 94, 0.15) !important;
   color: #4ade80 !important;
@@ -208,7 +222,6 @@ body {
   color: #f87171 !important;
 }
 
-/* Adaptação dos Radio Buttons Customizados (Modo Exame/Estudo) no Dark Mode */
 .dark .peer:checked ~ .peer-checked\:bg-orange-50 {
   background-color: rgba(255, 153, 0, 0.15) !important;
   border-color: var(--aws-orange) !important;
@@ -296,7 +309,7 @@ body {
   .mt-auto.pt-6.flex { flex-direction: column; width: 100%; gap: 0.75rem !important; }
   .mt-auto.pt-6.flex button { width: 100%; margin: 0 !important; }
 
-.chart-container { height: 320px !important; min-height: 320px; }
+  .chart-container { height: 320px !important; min-height: 320px; }
 }
 
 /* Telas Médias (Tablets - 641px a 1024px) */
@@ -347,50 +360,4 @@ body {
   
   .shadow-lg, .shadow-md { box-shadow: none !important; }
   .aws-bg-orange { background-color: #f0f0f0 !important; border: 2px solid #000 !important; color: #000 !important; }
-}
-
-/* Estilo para as opções de resposta */
-.option-card {
-    transition: all 0.2s ease;
-    border: 2px solid transparent;
-}
-
-.option-card:hover:not(.disabled) {
-    transform: translateX(8px);
-    border-color: #ff9900;
-    background-color: rgba(255, 153, 0, 0.05);
-}
-
-.option-card.selected {
-    border-color: #ff9900;
-    background-color: rgba(255, 153, 0, 0.1);
-}
-
-.option-card.correct {
-    border-color: #10b981 !important; /* Verde */
-    background-color: rgba(16, 185, 129, 0.1) !important;
-}
-
-.option-card.incorrect {
-    border-color: #ef4444 !important; /* Vermelho */
-    background-color: rgba(239, 68, 68, 0.1) !important;
-}
-
-/* Letras (A, B, C, D) destacadas */
-.option-letter {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #f3f4f6;
-    font-weight: bold;
-    color: #4b5563;
-    transition: all 0.2s ease;
-}
-
-.option-card.selected .option-letter {
-    background: #ff9900;
-    color: white;
 }
