@@ -1,4 +1,3 @@
-```markdown
 # 🎓 AWS Certified Cloud Simulator - Pro Edition
 
 Uma plataforma de elite para simulados AWS, unindo **Engenharia de Dados com Python** e uma **experiência de usuário (UX) de alto nível**.
@@ -173,4 +172,3 @@ Esse README já está **muito acima da média para projetos de portfólio**, mas
 - seção de IA generativa
 
 Isso deixa seu repositório **com cara de projeto de engenharia real**, algo que chama atenção de recrutadores.
-```
