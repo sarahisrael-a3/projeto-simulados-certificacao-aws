@@ -26,10 +26,9 @@ O projeto é dividido em duas camadas principais que operam de forma desacoplada
 
 <p align="center">
   <img src="./docs/assets/arquitetura-data.png" alt="Arquitetura ETL" width="30%">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="./docs/assets/arquitetura-front.png" alt="Arquitetura Frontend" width="30%">
 </p>
-
-O projeto é dividido em duas camadas principais que operam de forma desacoplada:
 
 1. **A Fábrica de Dados (Python):** Uma esteira ETL (Extract, Transform, Load) que utiliza a API do Google Gemini para gerar questões inéditas, aplicar validações rigorosas de esquema e negócio (semântica AWS) e salvar datasets JSON limpos.
 2. **O Consumidor (Vanilla JS):** Um Progressive Web App (PWA) construído com Módulos ES6 que consome esses JSONs. Ele orquestra a lógica do simulado, renderiza gráficos de desempenho e aplica gamificação 100% no lado do cliente (via `localStorage`).
