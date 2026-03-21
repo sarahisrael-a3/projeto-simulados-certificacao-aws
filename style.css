@@ -349,66 +349,74 @@ body {
    ============================================================================ */
 
 @media print {
-  /* 1. RESET EXTREMO: TUDO BRANCO E PRETO POR PADRÃO */
-  html, body, main, div, span, p, h1, h2, h3, h4, h5, h6 {
+  /* 1. RESET ESTRUTURAL EXTREMO (ISSO RESOLVE O CORTE DAS QUESTÕES) 
+        Força o navegador a expandir todas as divs para imprimir todas as páginas */
+  html, body, main, section, #screen-results, #detailed-report {
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      display: block !important;
+  }
+
+  /* 2. RESET DE CORES E FUNDO (Puro Branco) */
+  html, body, main, section, #screen-results, #detailed-report {
       background: transparent !important;
       background-color: white !important;
       color: black !important;
       box-shadow: none !important;
-      text-shadow: none !important;
+      border: none !important;
   }
 
-  /* 2. OCULTAR ELEMENTOS DA INTERFACE DA TELA */
-  header, aside, .no-print, #last-score-banner, .chart-container, #ai-recommendation { 
+  /* 3. OCULTAR LIXO VISUAL E RODAPÉ */
+  /* Adicionado o 'footer' aqui para sumir com o "Desenvolvido por" e a borda dele */
+  header, aside, footer, .no-print, #last-score-banner, .chart-container, #ai-recommendation { 
       display: none !important; 
   }
   
-  /* Esconde a caixa de nota grande e textos da tela para dar lugar ao cabeçalho limpo */
-  #screen-results > div.bg-gray-50, #screen-results > h2, #screen-results > p.text-gray-500 {
+  /* Esconde as caixas originais da tela para deixar apenas o cabeçalho oficial do PDF */
+  #screen-results > div.bg-gray-50, #screen-results > h2.aws-text-dark, #screen-results > p.text-gray-500 {
       display: none !important;
   }
 
-  /* 3. CONFIGURAÇÕES DA PÁGINA (A4, Margens de Documento) */
-  @page { margin: 2cm; size: A4 portrait; }
+  /* 4. CONFIGURAÇÕES DA PÁGINA (A4 Padrão) */
+  @page { margin: 1.5cm; size: A4 portrait; }
 
-  /* 4. FORMATAÇÃO DO CONTAINER PRINCIPAL */
-  #screen-results { display: block !important; padding: 0 !important; margin: 0 !important; }
-  #detailed-report { display: block !important; width: 100% !important; border: none !important; padding: 0 !important; margin: 0 !important; }
+  /* 5. FORMATAÇÃO DO CONTAINER PRINCIPAL */
+  #screen-results { padding: 0 !important; margin: 0 !important; width: 100% !important; }
+  #detailed-report { width: 100% !important; padding: 0 !important; margin: 0 !important; }
 
-  /* 5. TIPOGRAFIA DE DOCUMENTO (Leitura confortável no papel) */
-  body { font-family: 'Times New Roman', Times, serif !important; font-size: 12pt !important; }
-  h2, h3, .font-bold, strong { font-family: Arial, Helvetica, sans-serif !important; }
+  /* 6. TIPOGRAFIA DE DOCUMENTO OFICIAL */
+  body { font-family: 'Times New Roman', Times, serif !important; font-size: 11pt !important; }
+  h2, h3, .font-bold, strong { font-family: Arial, Helvetica, sans-serif !important; color: black !important; }
 
-  /* 6. CORES DE ACERTO E ERRO (As únicas cores permitidas) */
+  /* 7. GARANTIR QUE APENAS VERDE E VERMELHO SEJAM IMPRESSOS COM COR */
   * { print-color-adjust: exact !important; -webkit-print-color-adjust: exact !important; }
   .print-text-green, .print-text-green * { color: #008000 !important; font-weight: bold !important; }
   .print-text-red, .print-text-red * { color: #cc0000 !important; font-weight: bold !important; }
   .print-text-black, .print-text-black * { color: #000000 !important; }
 
-  /* 7. FORMATAÇÃO DOS BLOCOS DE QUESTÕES */
+  /* 8. FORMATAÇÃO DOS BLOCOS DE QUESTÕES E QUEBRA DE PÁGINA SEGURA */
   .page-break-safe {
       page-break-inside: avoid !important;
       break-inside: avoid !important;
       display: block !important;
-      border-bottom: 1px solid #000 !important;
-      margin-bottom: 25px !important;
+      border-bottom: 1px solid #ccc !important;
+      margin-bottom: 20px !important;
       padding-bottom: 20px !important;
   }
 
-  /* 8. AJUSTES FINOS DAS CAIXAS E LINHAS */
-  .print-no-bg { 
+  /* 9. REMOVENDO BORDAS E FUNDOS DO TEXTO DE EXPLICAÇÃO E RESPOSTAS */
+  .answer-block, .explanation-print { 
+      background: transparent !important;
       border: none !important; 
       padding: 0 !important; 
       margin-top: 10px !important; 
   }
-  .print-border-black { 
-      border-top: 1px dashed #666 !important; 
-      margin-top: 10px !important; 
-      padding-top: 10px !important; 
-  }
+  
   .explanation-print { 
-      border: none !important; 
-      border-top: 1px solid #000 !important; 
-      border-radius: 0 !important; 
+      border-top: 1px dashed #888 !important; 
+      margin-top: 15px !important; 
+      padding-top: 15px !important; 
   }
 }
