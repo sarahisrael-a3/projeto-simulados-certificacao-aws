@@ -1,174 +1,137 @@
 # 🎓 AWS Certified Cloud Simulator - Pro Edition
 
-Uma plataforma de elite para simulados AWS, unindo **Engenharia de Dados com Python** e uma **experiência de usuário (UX) de alto nível**.
+![Python](https://img.shields.io/badge/Python-3670A0?style=flat&logo=python)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat&logo=chart.js)
+![PWA](https://img.shields.io/badge/PWA-000?style=flat&logo=progressive-web-apps)
 
-Desenvolvido por **Karla Renata**, este simulador não é apenas um quiz, mas um **ecossistema completo focado em Clean Code, Data Integrity e Performance**.
+Uma plataforma de elite para **simulados AWS**, unindo **Engenharia de Dados com Python**, **IA Generativa** e uma **experiência de usuário (UX) de alto nível**.  
 
----
-
-# 🏗️ Arquitetura do Ecossistema
-
-O projeto utiliza uma abordagem de **Decoupled Architecture (Arquitetura Desacoplada)**:
-
-### Data Layer
-**Python + Pydantic**
-
-Pipeline de **curadoria e sanitização** que garante que **100% das questões sigam um contrato de dados estrito**.
-
-### Storage Layer
-**JSON**
-
-Bancos de dados **otimizados e categorizados por certificação oficial**.
-
-### Application Layer
-**Vanilla JS + ES6**
-
-Motor de simulado **assíncrono** com **gerenciamento de estado global e reatividade de DOM**.
-
-### Presentation Layer
-**TailwindCSS + Chart.js**
-
-Interface **mobile-first** com **feedback visual imediato e análise de radar**.
+Este simulador é um ecossistema completo, focado em **Clean Code, Integridade de Dados e Performance**.
 
 ---
 
-# 📂 Estrutura do Projeto
+## 🏗 Arquitetura do Ecossistema
 
-```
+O projeto segue uma abordagem de **Arquitetura Desacoplada (Decoupled Architecture)**:
 
-├── 📂 data/             # Bancos de dados JSON validados
-├── 📂 scripts_python/   # Pipeline de Sanitização e Geração IA (Pydantic)
-├── 📂 assets/           # Ícones, Favicons e Estilos
-├── app.js               # O "Coração": Motor do Simulado e Lógica de Estado
-├── data.js              # Configurações de Domínios e Trilhas Oficiais
-├── sw.js                # Service Worker (PWA) para estudo Offline
-└── index.html           # Interface Semântica e Acessível
+| Camada | Tecnologias | Função |
+|--------|------------|-------|
+| **Data Layer** | Python + Pydantic | Pipeline de curadoria e sanitização que garante que todas as questões sigam um contrato de dados estrito |
+| **Storage Layer** | JSON | Bancos de dados categorizados por certificação oficial (CLF, SAA, AIF, DVA) |
+| **Application Layer** | Vanilla JS + ES6 | Motor de simulado assíncrono com gerenciamento de estado global e reatividade de DOM |
+| **Presentation Layer** | TailwindCSS + Chart.js | Interface mobile-first, feedback visual imediato, análise de radar |
 
+---
+
+## 📂 Estrutura do Projeto
+
+```text
+├── .github/workflows   # CI/CD: Automação de testes (GitHub Actions)
+├── data/               # Bancos de dados JSON validados
+├── docs/               # Documentação técnica modular
+├── scripts_python/     # Pipeline: IA, Auditoria, Análise
+│   ├── generator.py    # Orquestrador de IA Generativa (Gemini API)
+│   ├── sanity_check.py # Validador de Integridade de Dados
+│   └── analyzer.py     # Dashboard de cobertura e estatísticas
+├── tests/              # Testes unitários do motor de simulado
+├── app.js              # Motor principal e gestão de estado
+├── data.js             # Mapeamento de certificações e trilhas oficiais
+├── sw.js               # Service Worker PWA
+└── index.html          # Interface semântica e acessível
 ````
 
 ---
 
-# 🚀 Diferenciais Técnicos
+## ⚙️ Engenharia de Dados e Integridade
 
-## 📊 Análise de Domínios (Radar Chart)
-
-Implementação avançada com **Chart.js** que **mapeia o desempenho em tempo real**.
-
-O gráfico utiliza:
-
-- **Preenchimento de área (Alpha Transparency)**
-- **Paddings dinâmicos**
-- **Legibilidade otimizada para os domínios oficiais da AWS**
+* **Validação Estrita:** Cada questão precisa ter **mínimo de 30 caracteres** e **exatamente 4 opções de resposta**.
+* **Mapeamento de Domínios:** Validação obrigatória para os serviços oficiais da AWS (S3, Lambda, EC2, etc).
+* **Sanity Check Automatizado:** Script percorre toda a pasta `data/` reportando inconsistências e garantindo integridade.
 
 ---
 
-## 🛡️ Integridade de Dados com Pydantic
+## 🤖 IA Generativa
 
-Diferente de simuladores comuns, este projeto possui um **Auditor de Dados em Python**.
-
-Cada questão passa por uma validação que exige:
-
-- mínimo de **30 caracteres na pergunta**
-- **exatamente 4 opções de resposta**
-- **mapeamento obrigatório para serviços reais da AWS** (S3, Lambda, etc)
+* O `generator.py` utiliza **Gemini 2.0 Flash** (Google) para gerar questões de exame realistas.
+* **Prompt Engineering:** Simula comportamento de um arquiteto AWS sênior.
+* **Resiliência de Quota:** Retry com *exponential backoff* para erros de API.
+* **Injeção Automática:** Questões validadas pelo Pydantic antes de serem adicionadas ao banco JSON.
 
 ---
 
-## 📱 Experiência PWA (Mobile App)
+## 🚀 Diferenciais Técnicos
 
-Graças ao **Service Worker customizado**, o simulador:
+### 📊 Radar Chart
 
-- pode ser **instalado em Android/iOS**
-- funciona **100% offline**
-- permite **estudar sem consumo de dados**
+* Implementado em **Chart.js**, com preenchimento de área, paddings dinâmicos e legibilidade otimizada.
+* Feedback visual imediato do desempenho em cada domínio oficial.
 
----
+### 🛡️ Segurança e Acessibilidade
 
-# 🎯 Funcionalidades Premium
+* Sanitização via `textContent` para prevenir XSS.
+* Atributos ARIA e roles semânticas para navegação por teclado e acessibilidade.
 
-- ✅ **Cards de Opção Interativos**  
-  Feedback visual com letras destacadas e estados de seleção.
+### 📱 Experiência PWA
 
-- ✅ **Modo Exame vs Modo Estudo**  
-  Timer regressivo ou revisão imediata com explicações.
-
-- ✅ **Deep Linking de Documentação**  
-  Botões diretos para **AWS Whitepapers** em cada resposta.
-
-- ✅ **Gamificação**  
-  Sistema de **streaks (dias seguidos)** e **badges de conquista**.
-
-- ✅ **Banco de Erros**  
-  Prática focada **apenas nas questões respondidas incorretamente**.
+* Instalável em **Android/iOS**.
+* Funciona **100% offline**, ideal para estudo em qualquer lugar.
 
 ---
 
-# 🛠️ Como Executar
+## 🎯 Funcionalidades Premium
 
-O projeto utiliza a **Fetch API**, portanto requer um **servidor local**.
+* ✅ **Cards Interativos:** Letra destacada, estados de seleção e feedback visual.
+* ✅ **Modo Exame vs Estudo:** Timer regressivo ou revisão imediata com explicações.
+* ✅ **Deep Linking:** Botões para **AWS Whitepapers** em cada resposta.
+* ✅ **Gamificação:** Sistema de streaks e badges (`Gabarito`, `Focado`).
+* ✅ **Banco de Erros:** Pratique apenas questões incorretas, persistido no `localStorage`.
 
-### Passos:
+---
 
-1. Clone o repositório
+## 🛠 Como Executar
+
+1. Clone o repositório:
 
 ```bash
 git clone https://github.com/karlarenatadev/projeto-simulados-certificacao-aws.git
-````
-
-2. Abra o projeto no **VS Code**
-
-3. Abra o arquivo `index.html`
-
-4. Clique em **Go Live**
-   (extensão **Live Server**)
-
-5. Acesse:
-
 ```
-http://127.0.0.1:5500
-```
+
+2. Abra no **VS Code**.
+3. Abra `index.html` e inicie o **Live Server** (ou `python -m http.server 5500`).
+4. Acesse: [http://127.0.0.1:5500](http://127.0.0.1:5500)
 
 ---
 
-# 📈 Roadmap de Evolução
+## 📈 Roadmap
 
 * ✅ **V1.0** — Motor básico de questões
-* ✅ **V2.0** — Migração para JSON + Validação Pydantic
+* ✅ **V2.0** — Migração para JSON + Pydantic
 * ✅ **V3.0** — UI Premium com Cards + Radar Chart
-
-### Próximas versões
-
-* ⬜ **V4.0** — Exportação de relatório de desempenho em PDF
+* ⬜ **V4.0** — Exportação de relatório em PDF
 * ⬜ **V5.0** — Deploy automatizado via **AWS S3 + CloudFront (CI/CD)**
 
 ---
 
-# 📄 Licença e Uso
+## 🌐 Demo Online
 
-Este projeto é destinado a **fins educacionais e portfólio técnico**.
+*(Quando disponível, após deploy em S3 + CloudFront)*
 
-Desenvolvido com paixão por **Karla Renata** 🚀
-
----
-
-# 💡 Dica Final da Karla
-
-> **"A certificação é o seu destino, a disciplina é o seu motor.
-> Pratique até o gráfico de radar estar totalmente preenchido."**
-
+```
+https://simulador-aws.karlarenata.dev
 ```
 
 ---
 
-💡 **Sugestão estratégica (importante para seu portfólio):**
+## 💡 Dica Final
 
-Esse README já está **muito acima da média para projetos de portfólio**, mas se você quiser eu posso também transformar ele em um **README nível sênior**, incluindo:
+> "A certificação é o seu destino, a disciplina é o seu motor.
+> Pratique até o gráfico de radar estar totalmente preenchido."
+> – Karla Renata
 
-- badges de tecnologia
-- preview do simulador
-- arquitetura visual (diagrama)
-- métricas do projeto
-- seção de engenharia de dados
-- seção de IA generativa
+---
 
-Isso deixa seu repositório **com cara de projeto de engenharia real**, algo que chama atenção de recrutadores.
+## 📄 Licença
+
+Projeto **educacional**, desenvolvido por **Karla Renata**. Destinado a portfólio técnico e demonstração de competências em engenharia de dados e desenvolvimento web.
