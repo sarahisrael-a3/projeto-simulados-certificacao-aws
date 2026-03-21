@@ -22,6 +22,12 @@ Este projeto vai além de um simples quiz web: ele é um ecossistema completo fo
 
 ## 🚀 Visão Geral da Arquitetura
 
+### ⚙️ Pipeline de Dados (ETL & IA)
+![Arquitetura ETL](./assets/arquitetura-data.png)
+
+### 💻 Arquitetura Frontend (Modular)
+![Arquitetura Frontend](./assets/arquitetura-front.png)
+
 O projeto é dividido em duas camadas principais que operam de forma desacoplada:
 
 1. **A Fábrica de Dados (Python):** Uma esteira ETL (Extract, Transform, Load) que utiliza a API do Google Gemini para gerar questões inéditas, aplicar validações rigorosas de esquema e negócio (semântica AWS) e salvar datasets JSON limpos.
