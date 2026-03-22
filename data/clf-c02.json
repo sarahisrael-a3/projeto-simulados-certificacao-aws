@@ -4172,7 +4172,12 @@
     "service": "AWS Artifact",
     "difficulty": "medium",
     "type": "multiple-choice",
-    "tags": ["conformidade", "auditoria", "certificacoes", "relatorios"],
+    "tags": [
+      "conformidade",
+      "auditoria",
+      "certificacoes",
+      "relatorios"
+    ],
     "question": "Uma empresa de saúde precisa demonstrar conformidade com regulamentações como HIPAA e obter relatórios de auditoria da AWS para apresentar aos seus auditores externos. Eles precisam de acesso rápido a documentos de conformidade e acordos. Quais recursos o AWS Artifact fornece? (Escolha 2)",
     "options": [
       "Relatórios de conformidade e certificações de segurança sob demanda",
@@ -4180,7 +4185,10 @@
       "Monitoramento em tempo real de ameaças de segurança",
       "Backup automático de dados de conformidade"
     ],
-    "correct": [0, 1],
+    "correct": [
+      0,
+      1
+    ],
     "explanation": "O AWS Artifact é um portal de autoatendimento que fornece acesso sob demanda a relatórios de conformidade da AWS (como SOC, PCI, ISO) e acordos de conformidade (como BAA para HIPAA). Ele não monitora ameaças em tempo real (isso é o GuardDuty) nem faz backup de dados (isso seria o AWS Backup). Os distratores confundem Artifact com serviços de monitoramento e backup."
   },
   {
@@ -4189,7 +4197,12 @@
     "service": "AWS Config",
     "difficulty": "medium",
     "type": "multiple-choice",
-    "tags": ["configuracao", "auditoria", "conformidade", "governanca"],
+    "tags": [
+      "configuracao",
+      "auditoria",
+      "conformidade",
+      "governanca"
+    ],
     "question": "Uma organização financeira precisa garantir que todas as instâncias EC2 estejam em conformidade com políticas internas de segurança e rastrear mudanças de configuração ao longo do tempo. Quais capacidades o AWS Config oferece? (Escolha 2)",
     "options": [
       "Avaliação contínua de configurações de recursos contra regras de conformidade",
@@ -4197,7 +4210,10 @@
       "Proteção contra ataques DDoS em aplicações web",
       "Criptografia automática de dados em repouso"
     ],
-    "correct": [0, 1],
+    "correct": [
+      0,
+      1
+    ],
     "explanation": "O AWS Config avalia, audita e monitora continuamente as configurações dos recursos AWS, fornecendo histórico de mudanças e avaliação automática de conformidade com regras definidas. Ele não protege contra DDoS (isso é o AWS Shield) nem criptografa dados automaticamente (isso seria o KMS com S3). Os distratores confundem Config com serviços de proteção e criptografia."
   },
   {
@@ -4206,7 +4222,12 @@
     "service": "AWS Trusted Advisor",
     "difficulty": "medium",
     "type": "multiple-choice",
-    "tags": ["otimizacao", "custos", "seguranca", "melhores-praticas"],
+    "tags": [
+      "otimizacao",
+      "custos",
+      "seguranca",
+      "melhores-praticas"
+    ],
     "question": "Uma startup está buscando otimizar seus custos na AWS e melhorar a postura de segurança. Eles querem recomendações automatizadas. Quais áreas o AWS Trusted Advisor analisa e fornece recomendações? (Escolha 3)",
     "options": [
       "Otimização de custos identificando recursos subutilizados",
@@ -4214,7 +4235,11 @@
       "Performance e tolerância a falhas da infraestrutura",
       "Desenvolvimento automático de código de aplicação"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "explanation": "O AWS Trusted Advisor fornece orientação em tempo real em cinco categorias: otimização de custos, performance, segurança, tolerância a falhas e limites de serviço. Ele identifica recursos subutilizados, vulnerabilidades de segurança e problemas de performance. Ele não desenvolve código automaticamente (isso seria o CodeWhisperer). O distrator sobre desenvolvimento de código não se aplica ao Trusted Advisor."
   },
   {
@@ -4223,7 +4248,12 @@
     "service": "AWS Shield e AWS WAF",
     "difficulty": "medium",
     "type": "multiple-choice",
-    "tags": ["seguranca", "ddos", "firewall", "protecao-web"],
+    "tags": [
+      "seguranca",
+      "ddos",
+      "firewall",
+      "protecao-web"
+    ],
     "question": "Uma plataforma de e-commerce está preocupada com ataques DDoS e explorações de aplicações web como SQL injection. Quais serviços AWS devem ser implementados para proteção abrangente? (Escolha 2)",
     "options": [
       "AWS Shield para proteção contra ataques DDoS",
@@ -4231,7 +4261,10 @@
       "Amazon Inspector para varredura de vulnerabilidades de código",
       "AWS CloudTrail para auditoria de chamadas de API"
     ],
-    "correct": [0, 1],
+    "correct": [
+      0,
+      1
+    ],
     "explanation": "O AWS Shield protege contra ataques DDoS (Distributed Denial of Service) nas camadas de rede e transporte, enquanto o AWS WAF (Web Application Firewall) protege aplicações web contra explorações comuns como SQL injection e XSS na camada de aplicação. O Amazon Inspector é para avaliação de vulnerabilidades em instâncias EC2, não para proteção em tempo real. O CloudTrail é para auditoria de ações, não para proteção contra ataques. Os distratores confundem proteção ativa com auditoria e avaliação."
   },
   {
@@ -4240,7 +4273,12 @@
     "service": "Amazon Route 53",
     "difficulty": "medium",
     "type": "multiple-choice",
-    "tags": ["dns", "roteamento", "alta-disponibilidade", "rede"],
+    "tags": [
+      "dns",
+      "roteamento",
+      "alta-disponibilidade",
+      "rede"
+    ],
     "question": "Uma empresa global precisa de um serviço de DNS altamente disponível que possa rotear usuários para diferentes regiões com base na localização geográfica e verificar a saúde dos endpoints. Quais funcionalidades o Amazon Route 53 oferece? (Escolha 3)",
     "options": [
       "Roteamento de tráfego baseado em geolocalização",
@@ -4248,7 +4286,2616 @@
       "Registro e gerenciamento de nomes de domínio",
       "Armazenamento de objetos com alta durabilidade"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "explanation": "O Amazon Route 53 é um serviço de DNS escalável que oferece registro de domínios, roteamento de tráfego com várias políticas (incluindo geolocalização, latência, failover), e health checks para monitorar a disponibilidade de recursos. Ele não armazena objetos (isso é o Amazon S3). O distrator sobre armazenamento de objetos não se aplica ao Route 53, que é um serviço de DNS e roteamento."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "IaaS",
+      "PaaS",
+      "SaaS"
+    ],
+    "question": "Uma empresa de desenvolvimento de software precisa hospedar seus aplicativos web. Qual serviço/solução AWS é mais adequado para fornecer infraestrutura de TI sob demanda e escalável?",
+    "options": [
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon RDS"
+    ],
+    "correct": 2,
+    "explanation": "A Amazon EC2 é a escolha correta porque fornece infraestrutura de TI sob demanda e escalável, permitindo que a empresa gerencie seus próprios servidores virtuais. As outras opções não são adequadas porque o Amazon S3 é um serviço de armazenamento de objetos, o AWS Lambda é um serviço de computação sem servidor e o Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao e autorizacao",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "IAM",
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "Uma empresa precisa gerenciar o acesso dos usuários aos recursos da AWS. Qual serviço/solução AWS é mais adequado para fornecer autenticacao e autorizacao?",
+    "options": [
+      "Amazon Cognito",
+      "AWS IAM",
+      "Amazon EC2",
+      "Amazon S3"
+    ],
+    "correct": 1,
+    "explanation": "O AWS IAM é a escolha correta porque fornece recursos para gerenciar o acesso dos usuários aos recursos da AWS, incluindo autenticacao e autorizacao. O Amazon Cognito é um serviço de gerenciamento de identidade para aplicativos, mas não é o mais adequado para gerenciar o acesso dos usuários aos recursos da AWS. As outras opcoes nao sao adequadas porque o Amazon EC2 e o Amazon S3 sao serviços de infraestrutura e armazenamento, respectivamente."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "dados em massa"
+    ],
+    "question": "Uma empresa precisa processar grandes conjuntos de dados de forma eficiente. Qual serviço/solução AWS é mais adequado para fornecer processamento de dados em massa?",
+    "options": [
+      "Amazon EMR",
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon S3"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon EMR é a escolha correta porque fornece um serviço de processamento de dados em massa baseado em Hadoop e Spark, permitindo que a empresa processe grandes conjuntos de dados de forma eficiente. O AWS Lambda é um serviço de computacao sem servidor, mas nao e o mais adequado para processamento de dados em massa. As outras opcoes nao sao adequadas porque o Amazon EC2 e o Amazon S3 sao serviços de infraestrutura e armazenamento, respectivamente."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de custos",
+      "faturamento"
+    ],
+    "question": "Uma empresa precisa gerenciar os custos dos recursos da AWS. Qual serviço/solução AWS é mais adequado para fornecer gerenciamento de custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "Amazon CloudWatch",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é a escolha correta porque fornece um serviço de gerenciamento de custos que permite que a empresa visualize e gerencie os custos dos recursos da AWS. O AWS Budgets é um serviço de orçamento, mas nao e o mais adequado para gerenciar os custos dos recursos da AWS. As outras opcoes nao sao adequadas porque o Amazon CloudWatch e o AWS IAM sao serviços de monitoramento e gerenciamento de acesso, respectivamente."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "IaaS",
+      "PaaS",
+      "SaaS"
+    ],
+    "question": "Uma empresa de desenvolvimento de software precisa hospedar seus aplicativos mobile. Qual serviço/solução AWS é mais adequado para fornecer uma plataforma de desenvolvimento de aplicativos mobile?",
+    "options": [
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon API Gateway",
+      "Amazon Device Farm"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon API Gateway é a escolha correta porque fornece uma plataforma de desenvolvimento de aplicativos mobile que permite que a empresa crie e gerencie APIs para seus aplicativos mobile. O Amazon S3 é um serviço de armazenamento de objetos, o AWS Lambda é um serviço de computacao sem servidor e o Amazon Device Farm é um serviço de teste de dispositivos, mas nao sao os mais adequados para fornecer uma plataforma de desenvolvimento de aplicativos mobile."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "seguranca"
+    ],
+    "question": "Uma empresa precisa criptografar os dados armazenados nos recursos da AWS. Qual serviço/solução AWS é mais adequado para fornecer criptografia?",
+    "options": [
+      "AWS Key Management Service",
+      "Amazon S3",
+      "AWS IAM",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Key Management Service é a escolha correta porque fornece um serviço de gerenciamento de chaves que permite que a empresa criptografe os dados armazenados nos recursos da AWS. O Amazon S3 é um serviço de armazenamento de objetos, o AWS IAM é um serviço de gerenciamento de acesso e o Amazon EC2 é um serviço de infraestrutura, mas nao sao os mais adequados para fornecer criptografia."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "banco de dados"
+    ],
+    "question": "Uma empresa precisa armazenar grandes conjuntos de dados de forma eficiente. Qual serviço/solução AWS é mais adequado para fornecer armazenamento de dados relacional?",
+    "options": [
+      "Amazon RDS",
+      "Amazon DynamoDB",
+      "Amazon S3",
+      "Amazon Redshift"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon RDS é a escolha correta porque fornece um serviço de banco de dados relacional que permite que a empresa armazene grandes conjuntos de dados de forma eficiente. O Amazon DynamoDB é um serviço de banco de dados NoSQL, o Amazon S3 é um serviço de armazenamento de objetos e o Amazon Redshift é um serviço de armazenamento de dados de forma columnar, mas nao sao os mais adequados para fornecer armazenamento de dados relacional."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de custos",
+      "faturamento"
+    ],
+    "question": "Uma empresa precisa gerenciar os custos dos recursos da AWS. Qual serviço/solução AWS é mais adequado para fornecer orçamento?",
+    "options": [
+      "AWS Budgets",
+      "AWS Cost Explorer",
+      "Amazon CloudWatch",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Budgets é a escolha correta porque fornece um serviço de orçamento que permite que a empresa gerencie os custos dos recursos da AWS. O AWS Cost Explorer é um serviço de gerenciamento de custos, o Amazon CloudWatch é um serviço de monitoramento e o AWS IAM é um serviço de gerenciamento de acesso, mas nao sao os mais adequados para fornecer orçamento."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "IaaS",
+      "PaaS",
+      "SaaS"
+    ],
+    "question": "Uma empresa de desenvolvimento de software precisa hospedar seus aplicativos web. Qual serviço/solução AWS é mais adequado para fornecer uma plataforma de desenvolvimento de aplicativos web?",
+    "options": [
+      "Amazon Elastic Beanstalk",
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon S3"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Elastic Beanstalk é a escolha correta porque fornece uma plataforma de desenvolvimento de aplicativos web que permite que a empresa crie e gerencie aplicativos web de forma eficiente. O AWS Lambda é um serviço de computacao sem servidor, o Amazon EC2 é um serviço de infraestrutura e o Amazon S3 é um serviço de armazenamento de objetos, mas nao sao os mais adequados para fornecer uma plataforma de desenvolvimento de aplicativos web."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "protecao de dados",
+      "seguranca"
+    ],
+    "question": "Uma empresa precisa proteger os dados armazenados nos recursos da AWS. Qual serviço/solução AWS é mais adequado para fornecer protecao de dados?",
+    "options": [
+      "AWS Backup",
+      "Amazon S3",
+      "AWS IAM",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Backup é a escolha correta porque fornece um serviço de backup que permite que a empresa proteja os dados armazenados nos recursos da AWS. O Amazon S3 é um serviço de armazenamento de objetos, o AWS IAM é um serviço de gerenciamento de acesso e o Amazon EC2 é um serviço de infraestrutura, mas nao sao os mais adequados para fornecer protecao de dados."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "IaaS",
+      "PaaS",
+      "SaaS"
+    ],
+    "question": "Um desenvolvedor de software deseja criar um aplicativo web sem se preocupar com a infraestrutura subjacente. Qual serviço AWS oferece um modelo de entrega de software como serviço?",
+    "options": [
+      "Amazon EC2",
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 2,
+    "explanation": "A resposta correta é AWS Lambda, pois oferece um modelo de entrega de software como serviço, permitindo que os desenvolvedores criem aplicações sem se preocupar com a infraestrutura. As outras opções não atendem ao requisito, pois Amazon EC2 é um serviço de infraestrutura como serviço, Amazon S3 é um serviço de armazenamento de objetos e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "Uma empresa deseja implementar uma solução de autenticação e autorização para seus aplicativos web. Qual serviço AWS oferece essa funcionalidade?",
+    "options": [
+      "Amazon Cognito",
+      "AWS IAM",
+      "Amazon S3",
+      "AWS Lambda"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Cognito, pois oferece uma solução de autenticação e autorização para aplicativos web e móveis. As outras opções não atendem ao requisito, pois AWS IAM é um serviço de gerenciamento de identidades e acesso, Amazon S3 é um serviço de armazenamento de objetos e AWS Lambda é um serviço de computação sem servidor."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "big data"
+    ],
+    "question": "Um cientista de dados deseja processar grandes conjuntos de dados para obter insights. Qual serviço AWS oferece uma solução para processamento de dados em larga escala?",
+    "options": [
+      "Amazon EMR",
+      "Amazon Redshift",
+      "AWS Glue",
+      "AWS Lake Formation"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon EMR, pois oferece uma solução para processamento de dados em larga escala usando frameworks como Hadoop e Spark. As outras opções não atendem ao requisito, pois Amazon Redshift é um serviço de banco de dados de dados, AWS Glue é um serviço de integração de dados e AWS Lake Formation é um serviço de gerenciamento de dados."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de custos",
+      "faturamento"
+    ],
+    "question": "Um administrador de TI deseja gerenciar os custos de sua empresa na AWS. Qual serviço AWS oferece uma solução para gerenciamento de custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost Explorer, pois oferece uma solução para gerenciamento de custos, permitindo que os administradores monitorem e otimizem os gastos da empresa na AWS. As outras opções não atendem ao requisito, pois AWS Budgets é um serviço de orçamento, AWS CloudWatch é um serviço de monitoramento e AWS Trusted Advisor é um serviço de consultoria."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de implantação",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelo de implantação",
+      "hibrido"
+    ],
+    "question": "Uma empresa deseja implantar um aplicativo em um ambiente híbrido, usando recursos locais e na nuvem. Qual serviço AWS oferece uma solução para implantação híbrida?",
+    "options": [
+      "AWS Outposts",
+      "AWS Local Zones",
+      "AWS Direct Connect",
+      "AWS VPN"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Outposts, pois oferece uma solução para implantação híbrida, permitindo que as empresas usem recursos locais e na nuvem de forma integrada. As outras opções não atendem ao requisito, pois AWS Local Zones é um serviço de zona de disponibilidade local, AWS Direct Connect é um serviço de conexão direta e AWS VPN é um serviço de rede privada virtual."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "protecao de dados",
+      "criptografia"
+    ],
+    "question": "Uma empresa deseja proteger os dados armazenados na AWS. Qual serviço AWS oferece uma solução para criptografia de dados?",
+    "options": [
+      "AWS Key Management Service",
+      "AWS CloudHSM",
+      "Amazon S3",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Key Management Service, pois oferece uma solução para criptografia de dados, permitindo que as empresas gerenciem e usem chaves de criptografia de forma segura. As outras opções não atendem ao requisito, pois AWS CloudHSM é um serviço de módulo de segurança de hardware, Amazon S3 é um serviço de armazenamento de objetos e AWS IAM é um serviço de gerenciamento de identidades e acesso."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "objetos"
+    ],
+    "question": "Um desenvolvedor de software deseja armazenar objetos de dados em uma solução de armazenamento escalável. Qual serviço AWS oferece uma solução para armazenamento de objetos?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Elastic File System",
+      "AWS Storage Gateway"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon S3, pois oferece uma solução para armazenamento de objetos, permitindo que os desenvolvedores armazenem e recuperem objetos de dados de forma escalável e durável. As outras opções não atendem ao requisito, pois Amazon EBS é um serviço de armazenamento de blocos, Amazon Elastic File System é um serviço de armazenamento de arquivos e AWS Storage Gateway é um serviço de gateway de armazenamento."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao de custos",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "otimizacao de custos",
+      "faturamento"
+    ],
+    "question": "Um administrador de TI deseja otimizar os custos de sua empresa na AWS. Qual serviço AWS oferece uma solução para otimização de custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 3,
+    "explanation": "A resposta correta é AWS Trusted Advisor, pois oferece uma solução para otimização de custos, fornecendo recomendações personalizadas para reduzir os gastos da empresa na AWS. As outras opções não atendem ao requisito, pois AWS Cost Explorer é um serviço de gerenciamento de custos, AWS Budgets é um serviço de orçamento e AWS CloudWatch é um serviço de monitoramento."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelo de entrega",
+      "PaaS"
+    ],
+    "question": "Um desenvolvedor de software deseja criar um aplicativo web sem se preocupar com a infraestrutura subjacente. Qual serviço AWS oferece um modelo de entrega de plataforma como serviço?",
+    "options": [
+      "Amazon Elastic Beanstalk",
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Elastic Beanstalk, pois oferece um modelo de entrega de plataforma como serviço, permitindo que os desenvolvedores criem aplicações sem se preocupar com a infraestrutura. As outras opções não atendem ao requisito, pois AWS Lambda é um serviço de computação sem servidor, Amazon EC2 é um serviço de infraestrutura como serviço e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao de rede",
+    "service": "Amazon Web Services",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "protecao de rede",
+      "firewall"
+    ],
+    "question": "Uma empresa deseja proteger sua rede na AWS. Qual serviço AWS oferece uma solução para proteção de rede?",
+    "options": [
+      "AWS Network Firewall",
+      "AWS WAF",
+      "AWS Shield",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Network Firewall, pois oferece uma solução para proteção de rede, permitindo que as empresas protejam suas redes contra ameaças e ataques. As outras opções não atendem ao requisito, pois AWS WAF é um serviço de firewall de aplicativos web, AWS Shield é um serviço de proteção contra ataques de negação de serviço e AWS IAM é um serviço de gerenciamento de identidades e acesso."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "scalabilidade",
+      "disponibilidade"
+    ],
+    "question": "Uma empresa de mídia social deseja criar uma aplicação que permita aos usuários fazer upload de fotos e vídeos. O aplicativo deve ser capaz de lidar com um grande volume de uploads e downloads de mídia. Qual serviço AWS é mais adequado para armazenar esses arquivos de mídia?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon EFS",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 é o serviço mais adequado para armazenar arquivos de mídia, pois oferece escalabilidade, durabilidade e disponibilidade de alta performance. Já o Amazon EBS é mais adequado para armazenar dados de instâncias EC2, o Amazon EFS é mais adequado para armazenar dados compartilhados entre instâncias EC2 e o Amazon Glacier é mais adequado para armazenar dados de arquivamento a longo prazo."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "Uma empresa de comércio eletrônico deseja integrar a autenticação de usuários com a AWS. Qual serviço AWS é mais adequado para gerenciar a autenticação e autorização de usuários?",
+    "options": [
+      "AWS IAM",
+      "AWS Cognito",
+      "AWS STS",
+      "AWS Organizations"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Cognito é o serviço mais adequado para gerenciar a autenticação e autorização de usuários, pois oferece uma solução de gerenciamento de identidade e acesso para aplicações web e móveis. Já o AWS IAM é mais adequado para gerenciar acesso a recursos AWS, o AWS STS é mais adequado para gerenciar tokens de segurança e o AWS Organizations é mais adequado para gerenciar contas AWS."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "processamento",
+      "batch"
+    ],
+    "question": "Uma empresa de análise de dados deseja processar grandes conjuntos de dados em batch. Qual serviço AWS é mais adequado para processar esses dados?",
+    "options": [
+      "AWS Lambda",
+      "AWS Glue",
+      "AWS Batch",
+      "AWS EMR"
+    ],
+    "correct": 2,
+    "explanation": "O AWS Batch é o serviço mais adequado para processar grandes conjuntos de dados em batch, pois oferece uma solução de processamento em batch para aplicações de grande escala. Já o AWS Lambda é mais adequado para processar funções sem servidor, o AWS Glue é mais adequado para processar dados de forma serverless e o AWS EMR é mais adequado para processar dados com Hadoop e Spark."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao"
+    ],
+    "question": "Uma empresa de tecnologia deseja otimizar os custos de infraestrutura na AWS. Qual serviço AWS é mais adequado para ajudar a otimizar os custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Trusted Advisor",
+      "AWS CloudWatch",
+      "AWS CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é o serviço mais adequado para ajudar a otimizar os custos, pois oferece uma visão detalhada dos custos da AWS e recomendações para otimizar os gastos. Já o AWS Trusted Advisor é mais adequado para fornecer recomendações de melhoria para a infraestrutura AWS, o AWS CloudWatch é mais adequado para monitorar e gerenciar recursos AWS e o AWS CloudFormation é mais adequado para gerenciar infraestrutura como código."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "armazenamento",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "blobs"
+    ],
+    "question": "Uma empresa de mídia deseja armazenar grandes quantidades de dados de vídeo e áudio. Qual serviço AWS é mais adequado para armazenar esses dados?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon EFS",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 é o serviço mais adequado para armazenar grandes quantidades de dados de vídeo e áudio, pois oferece armazenamento de objetos escalável e durável. Já o Amazon EBS é mais adequado para armazenar dados de instâncias EC2, o Amazon EFS é mais adequado para armazenar dados compartilhados entre instâncias EC2 e o Amazon Glacier é mais adequado para armazenar dados de arquivamento a longo prazo."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "chaves"
+    ],
+    "question": "Uma empresa de finanças deseja criptografar dados sensíveis. Qual serviço AWS é mais adequado para gerenciar chaves de criptografia?",
+    "options": [
+      "AWS Key Management Service (KMS)",
+      "AWS CloudHSM",
+      "AWS IAM",
+      "AWS Cognito"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Key Management Service (KMS) é o serviço mais adequado para gerenciar chaves de criptografia, pois oferece uma solução de gerenciamento de chaves de criptografia para aplicações AWS. Já o AWS CloudHSM é mais adequado para gerenciar módulos de segurança de hardware, o AWS IAM é mais adequado para gerenciar acesso a recursos AWS e o AWS Cognito é mais adequado para gerenciar identidade e acesso para aplicações web e móveis."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "aplicativos",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "aplicativos",
+      "mobil"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar um aplicativo móvel que utilize recursos AWS. Qual serviço AWS é mais adequado para ajudar a criar e gerenciar o aplicativo?",
+    "options": [
+      "AWS Amplify",
+      "AWS Mobile Hub",
+      "AWS AppSync",
+      "AWS Device Farm"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Amplify é o serviço mais adequado para ajudar a criar e gerenciar o aplicativo, pois oferece uma solução de desenvolvimento de aplicativos móveis e web para aplicações AWS. Já o AWS Mobile Hub é mais adequado para fornecer uma visão geral dos recursos móveis da AWS, o AWS AppSync é mais adequado para gerenciar dados de aplicativos em tempo real e o AWS Device Farm é mais adequado para testar aplicativos em dispositivos reais."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "reserva",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "reserva"
+    ],
+    "question": "Uma empresa de tecnologia deseja otimizar os custos de infraestrutura na AWS. Qual serviço AWS é mais adequado para ajudar a otimizar os custos com reserva de capacidade?",
+    "options": [
+      "AWS Reserved Instances",
+      "AWS Spot Instances",
+      "AWS On-Demand Instances",
+      "AWS Savings Plans"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Reserved Instances é o serviço mais adequado para ajudar a otimizar os custos com reserva de capacidade, pois oferece uma opção de reserva de capacidade para instâncias EC2. Já o AWS Spot Instances é mais adequado para utilizar capacidade de processamento não utilizada, o AWS On-Demand Instances é mais adequado para pagar por capacidade de processamento conforme utilizado e o AWS Savings Plans é mais adequado para otimizar os custos com uso de capacidade de processamento."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "redes",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "redes",
+      "roteamento"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar uma rede virtual privada na AWS. Qual serviço AWS é mais adequado para criar e gerenciar a rede?",
+    "options": [
+      "Amazon Virtual Private Cloud (VPC)",
+      "Amazon Virtual Private Network (VPN)",
+      "Amazon Route 53",
+      "Amazon Direct Connect"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Virtual Private Cloud (VPC) é o serviço mais adequado para criar e gerenciar a rede, pois oferece uma solução de rede virtual privada para aplicações AWS. Já o Amazon Virtual Private Network (VPN) é mais adequado para criar uma conexão segura entre redes, o Amazon Route 53 é mais adequado para gerenciar DNS e o Amazon Direct Connect é mais adequado para criar uma conexão direta entre a rede local e a AWS."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao",
+    "service": "AWS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "protecao",
+      "firewall"
+    ],
+    "question": "Uma empresa de tecnologia deseja proteger suas aplicações na AWS contra ataques de rede. Qual serviço AWS é mais adequado para proteger as aplicações?",
+    "options": [
+      "AWS Network Firewall",
+      "AWS Web Application Firewall (WAF)",
+      "AWS Shield",
+      "AWS IAM"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Web Application Firewall (WAF) é o serviço mais adequado para proteger as aplicações, pois oferece uma solução de firewall de aplicativos web para aplicações AWS. Já o AWS Network Firewall é mais adequado para proteger redes contra ataques de rede, o AWS Shield é mais adequado para proteger contra ataques de negação de serviço e o AWS IAM é mais adequado para gerenciar acesso a recursos AWS."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "escalabilidade",
+      "conceitos-cloud"
+    ],
+    "question": "Um desenvolvedor web precisa criar um aplicativo que possa lidar com um grande volume de tráfego. Qual serviço AWS pode ser utilizado para garantir a escalabilidade do aplicativo?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon RDS",
+      "Amazon DynamoDB"
+    ],
+    "correct": 1,
+    "explanation": "A Amazon EC2 é um serviço de computação em nuvem que permite criar máquinas virtuais escaláveis para atender às necessidades de tráfego do aplicativo. As outras opções não são adequadas para garantir a escalabilidade do aplicativo."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "autenticacao"
+    ],
+    "question": "Um administrador de sistema precisa criar contas de usuário para os funcionários da empresa com permissões específicas. Qual serviço AWS pode ser utilizado para gerenciar as contas de usuário e permissões?",
+    "options": [
+      "AWS IAM",
+      "Amazon Cognito",
+      "Amazon EC2",
+      "Amazon S3"
+    ],
+    "correct": 0,
+    "explanation": "O AWS IAM é um serviço de gerenciamento de identidade e acesso que permite criar contas de usuário e gerenciar permissões. As outras opções não são adequadas para gerenciar contas de usuário e permissões."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "tecnologia"
+    ],
+    "question": "Um desenvolvedor precisa armazenar arquivos de mídia para um aplicativo web. Qual serviço AWS pode ser utilizado para armazenar e servir os arquivos de mídia?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon EC2",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon S3 é um serviço de armazenamento de objetos que permite armazenar e servir arquivos de mídia. As outras opções não são adequadas para armazenar e servir arquivos de mídia."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gestao-de-custo",
+    "service": "AWS Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "gestao-de-custo"
+    ],
+    "question": "Um administrador financeiro precisa monitorar e gerenciar os custos da empresa na AWS. Qual serviço AWS pode ser utilizado para visualizar e gerenciar os custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch",
+      "AWS X-Ray"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é um serviço de gerenciamento de custos que permite visualizar e gerenciar os custos da empresa na AWS. As outras opções não são adequadas para gerenciar os custos."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "seguranca",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "conceitos-cloud"
+    ],
+    "question": "Um desenvolvedor precisa criar um ambiente de desenvolvimento seguro para um aplicativo. Qual serviço AWS pode ser utilizado para criar uma rede virtual privada e segura?",
+    "options": [
+      "Amazon VPC",
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon VPC é um serviço de rede virtual privada que permite criar uma rede virtual privada e segura para o aplicativo. As outras opções não são adequadas para criar uma rede virtual privada e segura."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento-de-dados",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "processamento-de-dados",
+      "tecnologia"
+    ],
+    "question": "Um desenvolvedor precisa criar um aplicativo que processe dados em tempo real. Qual serviço AWS pode ser utilizado para processar os dados sem gerenciar servidores?",
+    "options": [
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Lambda é um serviço de processamento de dados sem servidor que permite processar dados em tempo real sem gerenciar servidores. As outras opções não são adequadas para processar dados em tempo real sem gerenciar servidores."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "criptografia"
+    ],
+    "question": "Um administrador de sistema precisa criptografar dados sensíveis. Qual serviço AWS pode ser utilizado para gerenciar chaves de criptografia?",
+    "options": [
+      "AWS Key Management Service",
+      "AWS IAM",
+      "Amazon S3",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Key Management Service é um serviço de gerenciamento de chaves de criptografia que permite gerenciar chaves de criptografia. As outras opções não são adequadas para gerenciar chaves de criptografia."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-de-custo",
+    "service": "AWS Trusted Advisor",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao-de-custo"
+    ],
+    "question": "Um administrador financeiro precisa otimizar os custos da empresa na AWS. Qual serviço AWS pode ser utilizado para obter recomendações de otimização de custo?",
+    "options": [
+      "AWS Trusted Advisor",
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Trusted Advisor é um serviço de consultoria que fornece recomendações de otimização de custo. As outras opções não são adequadas para obter recomendações de otimização de custo."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "disponibilidade",
+    "service": "Amazon Route 53",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "disponibilidade",
+      "conceitos-cloud"
+    ],
+    "question": "Um desenvolvedor precisa criar um aplicativo com alta disponibilidade. Qual serviço AWS pode ser utilizado para gerenciar o tráfego de rede e garantir a disponibilidade do aplicativo?",
+    "options": [
+      "Amazon Route 53",
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon Route 53 é um serviço de gerenciamento de tráfego de rede que permite gerenciar o tráfego de rede e garantir a disponibilidade do aplicativo. As outras opções não são adequadas para gerenciar o tráfego de rede e garantir a disponibilidade do aplicativo."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento-de-dados",
+    "service": "Amazon DynamoDB",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento-de-dados",
+      "tecnologia"
+    ],
+    "question": "Um desenvolvedor precisa criar um aplicativo que armazene e processe grandes volumes de dados. Qual serviço AWS pode ser utilizado para armazenar e processar os dados de forma eficiente?",
+    "options": [
+      "Amazon DynamoDB",
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon DynamoDB é um serviço de banco de dados NoSQL que permite armazenar e processar grandes volumes de dados de forma eficiente. As outras opções não são adequadas para armazenar e processar grandes volumes de dados."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelagem de dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "durabilidade"
+    ],
+    "question": "Um desenvolvedor de aplicativos móveis precisa armazenar grandes volumes de dados de usuário de forma durável e escalável. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "Amazon S3",
+      "Amazon DynamoDB",
+      "Amazon RDS",
+      "Amazon EBS"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon S3 é o serviço mais adequado para armazenar grandes volumes de dados de forma durável e escalável, pois oferece armazenamento de objetos com alta durabilidade e disponibilidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticação e autorização",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "acesso"
+    ],
+    "question": "Uma empresa deseja controlar o acesso aos recursos da AWS por meio de perfis de usuário personalizados. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS IAM",
+      "Amazon Cognito",
+      "AWS Organizations",
+      "AWS Directory Service"
+    ],
+    "correct": 0,
+    "explanation": "O AWS IAM é o serviço mais adequado para controlar o acesso aos recursos da AWS por meio de perfis de usuário personalizados, pois oferece gerenciamento de identidades e acesso."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "processamento",
+      "serverless"
+    ],
+    "question": "Um desenvolvedor de aplicativos web precisa processar grandes volumes de dados em tempo real sem gerenciar servidores. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon ECS",
+      "Amazon EKS"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Lambda é o serviço mais adequado para processar grandes volumes de dados em tempo real sem gerenciar servidores, pois oferece computação serverless."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "custos"
+    ],
+    "question": "Uma empresa deseja visualizar e gerenciar os custos da AWS de forma detalhada. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch",
+      "AWS X-Ray"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é o serviço mais adequado para visualizar e gerenciar os custos da AWS de forma detalhada, pois oferece relatórios e análises de custos."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "redes e segurança",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "redes",
+      "segurança"
+    ],
+    "question": "Um desenvolvedor de aplicativos precisar criar uma rede virtual privada na AWS para isolar os recursos. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "Amazon VPC",
+      "Amazon Subnet",
+      "Amazon Route 53",
+      "Amazon ELB"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon VPC é o serviço mais adequado para criar uma rede virtual privada na AWS, pois oferece isolamento e segurança de rede."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service (KMS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "criptografia"
+    ],
+    "question": "Uma empresa deseja criar e gerenciar chaves de criptografia para proteger os dados na AWS. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS KMS",
+      "AWS IAM",
+      "Amazon S3",
+      "Amazon CloudHSM"
+    ],
+    "correct": 0,
+    "explanation": "O AWS KMS é o serviço mais adequado para criar e gerenciar chaves de criptografia, pois oferece gerenciamento de chaves de criptografia."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon DynamoDB",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "banco de dados"
+    ],
+    "question": "Um desenvolvedor de aplicativos móveis precisa armazenar e recuperar grandes volumes de dados de forma rápida e eficiente. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "Amazon DynamoDB",
+      "Amazon RDS",
+      "Amazon Redshift",
+      "Amazon S3"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon DynamoDB é o serviço mais adequado para armazenar e recuperar grandes volumes de dados de forma rápida e eficiente, pois oferece um banco de dados NoSQL fully managed."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "migração de aplicativos",
+    "service": "AWS Migration Hub",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "migração",
+      "aplicativos"
+    ],
+    "question": "Uma empresa deseja migrar os aplicativos para a AWS de forma eficiente e segura. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS Migration Hub",
+      "AWS CloudFormation",
+      "AWS CodePipeline",
+      "AWS CodeBuild"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Migration Hub é o serviço mais adequado para migrar os aplicativos para a AWS de forma eficiente e segura, pois oferece planejamento e execução de migrações."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "detecção de ameaças",
+    "service": "Amazon GuardDuty",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "detecção"
+    ],
+    "question": "Uma empresa deseja detectar e responder a ameaças de segurança na AWS de forma proativa. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "Amazon GuardDuty",
+      "AWS IAM",
+      "Amazon CloudWatch",
+      "AWS CloudTrail"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon GuardDuty é o serviço mais adequado para detectar e responder a ameaças de segurança, pois oferece detecção de ameaças e alertas de segurança."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimização de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "custos"
+    ],
+    "question": "Uma empresa deseja otimizar os custos da AWS identificando oportunidades de economia. Qual serviço AWS pode ser utilizado para atender a esse requisito?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch",
+      "AWS X-Ray"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é o serviço mais adequado para otimizar os custos da AWS, pois oferece relatórios e análises de custos para identificar oportunidades de economia."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "IaaS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "conceitos-cloud",
+      "IaaS"
+    ],
+    "question": "Uma empresa de tecnologia deseja migrar seu centro de dados para a nuvem. Eles precisam de um modelo de entrega que permita gerenciar e configurar os recursos de TI de forma personalizada. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 1,
+    "explanation": "A resposta correta é Amazon EC2, pois é um serviço de IaaS (Infraestrutura como Serviço) que permite gerenciar e configurar os recursos de TI de forma personalizada. As outras opções não atendem a essa necessidade, pois Amazon S3 é um serviço de armazenamento de objetos, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao",
+    "service": "IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "IAM"
+    ],
+    "question": "Uma empresa de comércio eletrônico deseja implementar uma solução de autenticação e autorização para seus usuários. Eles precisam de um serviço que permita gerenciar os acessos e permissões dos usuários de forma centralizada. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "Amazon Cognito",
+      "AWS IAM",
+      "Amazon S3",
+      "AWS Lambda"
+    ],
+    "correct": 1,
+    "explanation": "A resposta correta é AWS IAM, pois é um serviço de gerenciamento de identidades e acessos que permite gerenciar os acessos e permissões dos usuários de forma centralizada. As outras opções não atendem a essa necessidade, pois Amazon Cognito é um serviço de autenticação para aplicações web e móveis, Amazon S3 é um serviço de armazenamento de objetos e AWS Lambda é um serviço de computação sem servidor."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "EMR",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "tecnologia",
+      "processamento de dados"
+    ],
+    "question": "Uma empresa de análise de dados deseja processar grandes conjuntos de dados de forma eficiente. Eles precisam de um serviço que permita processar os dados em paralelo e escalar horizontalmente. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "Amazon EMR",
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon EMR, pois é um serviço de processamento de dados que permite processar os dados em paralelo e escalar horizontalmente. As outras opções não atendem a essa necessidade, pois Amazon S3 é um serviço de armazenamento de objetos, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gestao de custos",
+    "service": "Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "gestao de custos"
+    ],
+    "question": "Uma empresa de tecnologia deseja gerenciar seus custos de forma eficiente. Eles precisam de um serviço que permita visualizar e analisar os custos de forma detalhada. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "AWS Cost Explorer",
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost Explorer, pois é um serviço de gestão de custos que permite visualizar e analisar os custos de forma detalhada. As outras opções não atendem a essa necessidade, pois Amazon S3 é um serviço de armazenamento de objetos, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "PaaS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "conceitos-cloud",
+      "PaaS"
+    ],
+    "question": "Uma empresa de desenvolvimento de software deseja desenvolver aplicações web de forma rápida e eficiente. Eles precisam de um modelo de entrega que permita focar no desenvolvimento de aplicações sem se preocupar com a infraestrutura subjacente. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "Amazon Elastic Beanstalk",
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Elastic Beanstalk, pois é um serviço de PaaS (Plataforma como Serviço) que permite desenvolver aplicações web de forma rápida e eficiente sem se preocupar com a infraestrutura subjacente. As outras opções não atendem a essa necessidade, pois Amazon EC2 é um serviço de IaaS, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "KMS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "criptografia"
+    ],
+    "question": "Uma empresa de finanças deseja proteger seus dados sensíveis de forma segura. Eles precisam de um serviço que permita criptografar e gerenciar as chaves de criptografia de forma centralizada. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "AWS KMS",
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS KMS, pois é um serviço de gerenciamento de chaves de criptografia que permite criptografar e gerenciar as chaves de criptografia de forma centralizada. As outras opções não atendem a essa necessidade, pois Amazon S3 é um serviço de armazenamento de objetos, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "tecnologia",
+      "armazenamento de dados"
+    ],
+    "question": "Uma empresa de mídia deseja armazenar grandes quantidades de dados de forma duradoura e acessível. Eles precisam de um serviço que permita armazenar os dados de forma escalável e segura. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon S3, pois é um serviço de armazenamento de objetos que permite armazenar os dados de forma escalável e segura. As outras opções não atendem a essa necessidade, pois Amazon EBS é um serviço de armazenamento de blocos, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gestao de custos",
+    "service": "Budgets",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "gestao de custos"
+    ],
+    "question": "Uma empresa de tecnologia deseja gerenciar seus custos de forma eficiente. Eles precisam de um serviço que permita definir e gerenciar orçamentos de forma detalhada. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "AWS Budgets",
+      "AWS Cost Explorer",
+      "Amazon S3",
+      "AWS Lambda"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Budgets, pois é um serviço de gestão de orçamentos que permite definir e gerenciar orçamentos de forma detalhada. As outras opções não atendem a essa necessidade, pois AWS Cost Explorer é um serviço de gestão de custos, Amazon S3 é um serviço de armazenamento de objetos e AWS Lambda é um serviço de computação sem servidor."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelo de entrega",
+    "service": "SaaS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "conceitos-cloud",
+      "SaaS"
+    ],
+    "question": "Uma empresa de software deseja oferecer seus produtos de forma remota e escalável. Eles precisam de um modelo de entrega que permita fornecer os produtos de forma on-demand e sem a necessidade de infraestrutura própria. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "Amazon Workspaces",
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Workspaces, pois é um serviço de SaaS (Software como Serviço) que permite fornecer os produtos de forma on-demand e sem a necessidade de infraestrutura própria. As outras opções não atendem a essa necessidade, pois Amazon EC2 é um serviço de IaaS, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao de dados",
+    "service": "Inspector",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "protecao de dados"
+    ],
+    "question": "Uma empresa de finanças deseja proteger seus dados sensíveis de forma segura. Eles precisam de um serviço que permita avaliar e proteger os dados contra ameaças e vulnerabilidades. Qual serviço AWS atende a essa necessidade?",
+    "options": [
+      "AWS Inspector",
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Inspector, pois é um serviço de segurança que permite avaliar e proteger os dados contra ameaças e vulnerabilidades. As outras opções não atendem a essa necessidade, pois Amazon S3 é um serviço de armazenamento de objetos, AWS Lambda é um serviço de computação sem servidor e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "escalabilidade",
+      "conceitos-cloud"
+    ],
+    "question": "Um aplicativo web está experimentando um aumento no tráfego e precisa ser escalado para atender à demanda. Qual serviço AWS pode ser utilizado para criar instâncias de servidor adicionais automaticamente?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon RDS",
+      "AWS Lambda"
+    ],
+    "correct": 1,
+    "explanation": "A resposta correta é Amazon EC2 porque ele fornece a capacidade de criar instâncias de servidor adicionais automaticamente por meio da Auto Scaling. As outras opções não atendem ao requisito de escalabilidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "autenticacao"
+    ],
+    "question": "Uma empresa precisa gerenciar o acesso dos funcionários a recursos da AWS. Qual serviço AWS pode ser utilizado para criar perfis de acesso e gerenciar permissões?",
+    "options": [
+      "Amazon EC2",
+      "AWS IAM",
+      "Amazon S3",
+      "AWS Cognito"
+    ],
+    "correct": 1,
+    "explanation": "A resposta correta é AWS IAM porque ele permite criar perfis de acesso e gerenciar permissões para os funcionários. As outras opções não atendem ao requisito de autenticação e autorização."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "tecnologia"
+    ],
+    "question": "Um aplicativo web precisa armazenar arquivos de mídia em uma solução de armazenamento durável e escalável. Qual serviço AWS pode ser utilizado para armazenar esses arquivos?",
+    "options": [
+      "Amazon EC2",
+      "Amazon RDS",
+      "Amazon S3",
+      "AWS Lambda"
+    ],
+    "correct": 2,
+    "explanation": "A resposta correta é Amazon S3 porque ele fornece uma solução de armazenamento durável e escalável para arquivos de mídia. As outras opções não atendem ao requisito de armazenamento."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao",
+    "service": "AWS Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao"
+    ],
+    "question": "Uma empresa precisa monitorar e otimizar os gastos com a AWS. Qual serviço AWS pode ser utilizado para visualizar e analisar os gastos?",
+    "options": [
+      "AWS CloudWatch",
+      "AWS Cost Explorer",
+      "Amazon CloudFormation",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 1,
+    "explanation": "A resposta correta é AWS Cost Explorer porque ele fornece uma visão detalhada dos gastos com a AWS e ajuda a identificar áreas de otimização. As outras opções não atendem ao requisito de faturamento."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "redes",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "redes",
+      "conceitos-cloud"
+    ],
+    "question": "Um aplicativo web precisa ser executado em uma rede virtual privada e segura. Qual serviço AWS pode ser utilizado para criar uma rede virtual privada?",
+    "options": [
+      "Amazon EC2",
+      "Amazon RDS",
+      "Amazon VPC",
+      "AWS Lambda"
+    ],
+    "correct": 2,
+    "explanation": "A resposta correta é Amazon VPC porque ele permite criar uma rede virtual privada e segura para o aplicativo web. As outras opções não atendem ao requisito de rede."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "seguranca-da-infraestrutura",
+    "service": "Amazon IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "identidade"
+    ],
+    "question": "Um provedor de serviços de saúde precisa gerenciar o acesso a seus sistemas de informações de saúde eletrônicas, que estão hospedados na AWS. Eles têm uma equipe de desenvolvedores que precisam acessar esses sistemas para manter e atualizar, mas com diferentes níveis de permissão. Qual serviço/solução AWS pode ser usado para gerenciar essas permissões e garantir que os desenvolvedores acessem apenas as partes do sistema às quais têm permissão?",
+    "options": [
+      "Amazon Cognito",
+      "Amazon IAM",
+      "AWS Directory Service",
+      "AWS Organizations"
+    ],
+    "correct": 1,
+    "explanation": "A Amazon IAM é a solução certa porque permite criar usuários e grupos com diferentes níveis de permissão, além de poder atribuir políticas para controlar o acesso aos recursos da AWS."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelos-de-implementacao",
+    "service": "AWS CloudFormation",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "infraestrutura",
+      "orquestacao"
+    ],
+    "question": "Uma empresa de tecnologia está migrando sua infraestrutura para a nuvem e precisa implantar uma arquitetura complexa que inclui redes, servidores, bancos de dados e aplicativos. Eles querem garantir que essa infraestrutura seja consistente em diferentes ambientes (desenvolvimento, teste e produção) e que possam facilmente atualizar ou reverter alterações. Qual serviço/solução AWS pode ser usado para automatizar a criação e gerenciamento dessa infraestrutura?",
+    "options": [
+      "AWS CloudFormation",
+      "AWS Cloud Development Kit (CDK)",
+      "AWS Elastic Beanstalk",
+      "AWS OpsWorks"
+    ],
+    "correct": 0,
+    "explanation": "O AWS CloudFormation é a solução certa porque permite definir infraestrutura como código, facilitando a criação, atualização e gerenciamento de pilhas de tecnologia complexas de forma consistente e reprodutível."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento-de-dados",
+    "service": "Amazon Redshift",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "analise-de-dados",
+      "data-warehouse"
+    ],
+    "question": "Um empresa de e-commerce tem um grande volume de dados de vendas, clientes e produtos armazenados em diferentes fontes. Eles precisam realizar análises complexas para entender melhor o comportamento dos clientes e otimizar suas estratégias de marketing e vendas. Qual serviço/solução AWS pode ser usado para criar um data warehouse que permita executar consultas analíticas rápidas e eficientes sobre esses dados?",
+    "options": [
+      "Amazon Redshift",
+      "Amazon S3",
+      "Amazon DynamoDB",
+      "Amazon DocumentDB"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Redshift é a solução certa porque é um serviço de data warehouse totalmente gerenciado que permite armazenar e processar grandes volumes de dados, executando consultas complexas de forma rápida e eficiente."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-de-custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao-de-custos"
+    ],
+    "question": "Uma empresa que usa a AWS para hospedar sua infraestrutura de TI está procurando por maneiras de otimizar seus gastos. Eles querem entender melhor onde seus gastos estão sendo alocados, identificar áreas de desperdício e encontrar oportunidades para reduzir custos. Qual serviço/solução AWS pode ser usado para visualizar e analisar os gastos da empresa e identificar oportunidades de economia?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor",
+      "AWS CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é a solução certa porque fornece uma visão detalhada dos gastos da AWS, permitindo que as empresas monitorem, controlem e otimizem seus custos de forma eficaz."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "seguranca-de-dados",
+    "service": "AWS Key Management Service (KMS)",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "seguranca-de-dados",
+      "criptografia"
+    ],
+    "question": "Um banco precisa proteger os dados sensíveis de seus clientes armazenados em sua infraestrutura na AWS. Eles querem garantir que esses dados sejam criptografados e que as chaves de criptografia sejam gerenciadas de forma segura. Qual serviço/solução AWS pode ser usado para gerenciar as chaves de criptografia e garantir a segurança dos dados?",
+    "options": [
+      "AWS Key Management Service (KMS)",
+      "AWS CloudHSM",
+      "AWS Certificate Manager",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Key Management Service (KMS) é a solução certa porque permite criar, gerenciar e usar chaves de criptografia para proteger os dados, garantindo que eles sejam seguros e em conformidade com as regulamentações."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade",
+    "service": "AWS Auto Scaling",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "escalabilidade",
+      "gerenciamento-de-recursos"
+    ],
+    "question": "Um provedor de serviços de streaming de vídeo está enfrentando um aumento significativo na demanda por seus serviços durante eventos esportivos. Eles precisam garantir que sua infraestrutura na AWS possa escalar automaticamente para atender à demanda, evitando tempos de inatividade e garantindo uma experiência de usuário de alta qualidade. Qual serviço/solução AWS pode ser usado para automatizar a escalabilidade da infraestrutura?",
+    "options": [
+      "AWS Auto Scaling",
+      "AWS CloudFormation",
+      "AWS Elastic Beanstalk",
+      "AWS OpsWorks"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Auto Scaling é a solução certa porque permite definir políticas de escalabilidade para os recursos da AWS, garantindo que a infraestrutura possa escalar automaticamente em resposta às mudanças na demanda."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "aplicativos-moviveis",
+    "service": "AWS Amplify",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "aplicativos-moviveis",
+      "desenvolvimento-de-aplicativos"
+    ],
+    "question": "Um desenvolvedor de aplicativos móveis está criando um novo aplicativo para iOS e Android e precisa de uma solução para gerenciar a autenticação de usuários, armazenamento de dados e notificações push de forma eficiente. Qual serviço/solução AWS pode ser usado para simplificar o desenvolvimento e a operação do aplicativo móvel?",
+    "options": [
+      "AWS Amplify",
+      "AWS Mobile Hub",
+      "AWS Device Farm",
+      "AWS AppSync"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Amplify é a solução certa porque fornece um conjunto de ferramentas e serviços para desenvolvedores de aplicativos móveis, incluindo autenticação, autorização, armazenamento de dados e notificações push, simplificando o desenvolvimento e a operação do aplicativo."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "seguranca-de-rede",
+    "service": "AWS Network Firewall",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "seguranca-de-rede",
+      "firewall"
+    ],
+    "question": "Um provedor de serviços de nuvem precisa proteger sua rede contra ameaças de segurança, incluindo ataques de malware e acesso não autorizado. Eles querem implementar um firewall de rede para monitorar e controlar o tráfego de rede. Qual serviço/solução AWS pode ser usado para proteger a rede contra ameaças de segurança?",
+    "options": [
+      "AWS Network Firewall",
+      "AWS Security Groups",
+      "AWS Network ACLs",
+      "AWS WAF"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Network Firewall é a solução certa porque fornece uma camada adicional de segurança de rede, permitindo que os clientes monitorem e controlem o tráfego de rede, bloqueando ameaças de segurança e protegendo contra ataques de malware e acesso não autorizado."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "gerenciamento-de-servicos",
+    "service": "AWS CloudWatch",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "monitoramento",
+      "gerenciamento-de-servicos"
+    ],
+    "question": "Um provedor de serviços de TI está procurando por uma solução para monitorar e gerenciar os recursos da AWS, incluindo instâncias EC2, bancos de dados RDS e filas SQS. Eles querem ser notificados quando ocorrerem problemas ou quando os recursos ultrapassarem certos limites. Qual serviço/solução AWS pode ser usado para monitorar e gerenciar os recursos da AWS?",
+    "options": [
+      "AWS CloudWatch",
+      "AWS CloudTrail",
+      "AWS X-Ray",
+      "AWS CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "O AWS CloudWatch é a solução certa porque fornece monitoramento e gerenciamento de recursos da AWS, permitindo que os clientes monitorem métricas, logs e eventos, além de definir alarmes e notificações para ações específicas."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-de-custos",
+    "service": "AWS Cost and Usage Report",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao-de-custos"
+    ],
+    "question": "Um departamento de TI de uma grande empresa está procurando por uma solução para entender melhor seus gastos com a AWS e identificar áreas de otimização de custos. Eles querem ter uma visão detalhada de seus gastos, incluindo o uso de recursos e os custos associados. Qual serviço/solução AWS pode ser usado para obter uma visão detalhada dos gastos e otimizar os custos?",
+    "options": [
+      "AWS Cost and Usage Report",
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost and Usage Report é a solução certa porque fornece um relatório detalhado dos gastos da AWS, incluindo o uso de recursos e os custos associados, permitindo que as empresas entendam melhor seus gastos e identifiquem áreas de otimização de custos."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "escalabilidade",
+      "disponibilidade"
+    ],
+    "question": "Uma empresa de e-commerce está passando por um período de alta demanda e precisa escalar sua infraestrutura de servidores para atender ao aumento do tráfego. Qual serviço AWS pode ser utilizado para criar uma arquitetura escalável e de alta disponibilidade?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon RDS",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 1,
+    "explanation": "A resposta correta é Amazon EC2 porque ele permite criar instâncias de servidores escaláveis e de alta disponibilidade, o que atende ao requisito da empresa de e-commerce. As outras opções não são adequadas porque Amazon S3 é um serviço de armazenamento de objetos, Amazon RDS é um serviço de banco de dados relacional e Amazon Elastic Beanstalk é um serviço de deploy de aplicações, mas não são adequados para criar uma arquitetura escalável e de alta disponibilidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao",
+    "service": "AWS IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "Uma empresa está migrando seus sistemas para a nuvem e precisa implementar uma solução de autenticação e autorização para seus usuários. Qual serviço AWS pode ser utilizado para criar políticas de acesso e gerenciar permissões?",
+    "options": [
+      "AWS IAM",
+      "Amazon Cognito",
+      "Amazon S3",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS IAM porque ele permite criar políticas de acesso e gerenciar permissões para os usuários, o que atende ao requisito da empresa. As outras opções não são adequadas porque Amazon Cognito é um serviço de autenticação para aplicações móveis e web, Amazon S3 é um serviço de armazenamento de objetos e Amazon EC2 é um serviço de instâncias de servidores."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento-de-dados",
+    "service": "Amazon EMR",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento-de-dados",
+      "hadoop"
+    ],
+    "question": "Uma empresa está trabalhando com grandes conjuntos de dados e precisa processá-los de forma eficiente. Qual serviço AWS pode ser utilizado para processar dados em larga escala utilizando o framework Hadoop?",
+    "options": [
+      "Amazon EMR",
+      "Amazon Redshift",
+      "Amazon S3",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon EMR porque ele permite processar dados em larga escala utilizando o framework Hadoop, o que atende ao requisito da empresa. As outras opções não são adequadas porque Amazon Redshift é um serviço de banco de dados de dados, Amazon S3 é um serviço de armazenamento de objetos e Amazon EC2 é um serviço de instâncias de servidores."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento-de-custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento-de-custos",
+      "faturamento"
+    ],
+    "question": "Uma empresa está procurando por uma forma de gerenciar e otimizar seus custos na nuvem. Qual serviço AWS pode ser utilizado para visualizar e gerenciar os custos da empresa?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "Amazon CloudWatch",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost Explorer porque ele permite visualizar e gerenciar os custos da empresa, o que atende ao requisito da empresa. As outras opções não são adequadas porque AWS Budgets é um serviço de orçamento, Amazon CloudWatch é um serviço de monitoramento e AWS IAM é um serviço de gerenciamento de identidades e acesso."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "durabilidade"
+    ],
+    "question": "Uma empresa está procurando por um serviço de armazenamento de objetos que ofereça durabilidade e disponibilidade de dados. Qual serviço AWS pode ser utilizado para armazenar objetos de forma durável e disponível?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon EC2",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon S3 porque ele oferece durabilidade e disponibilidade de dados, o que atende ao requisito da empresa. As outras opções não são adequadas porque Amazon EBS é um serviço de armazenamento de blocos, Amazon EC2 é um serviço de instâncias de servidores e Amazon Glacier é um serviço de armazenamento de arquivos de longo prazo."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "seguranca"
+    ],
+    "question": "Uma empresa está procurando por uma forma de gerenciar e proteger suas chaves de criptografia. Qual serviço AWS pode ser utilizado para criar e gerenciar chaves de criptografia?",
+    "options": [
+      "AWS Key Management Service",
+      "AWS IAM",
+      "Amazon S3",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Key Management Service porque ele permite criar e gerenciar chaves de criptografia, o que atende ao requisito da empresa. As outras opções não são adequadas porque AWS IAM é um serviço de gerenciamento de identidades e acesso, Amazon S3 é um serviço de armazenamento de objetos e Amazon EC2 é um serviço de instâncias de servidores."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "machine-learning",
+    "service": "Amazon SageMaker",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "machine-learning",
+      "ia"
+    ],
+    "question": "Uma empresa está procurando por uma forma de criar e treinar modelos de machine learning. Qual serviço AWS pode ser utilizado para criar e treinar modelos de machine learning?",
+    "options": [
+      "Amazon SageMaker",
+      "Amazon EMR",
+      "Amazon Redshift",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon SageMaker porque ele permite criar e treinar modelos de machine learning, o que atende ao requisito da empresa. As outras opções não são adequadas porque Amazon EMR é um serviço de processamento de dados, Amazon Redshift é um serviço de banco de dados de dados e Amazon EC2 é um serviço de instâncias de servidores."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento-de-custos",
+    "service": "AWS Budgets",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento-de-custos",
+      "faturamento"
+    ],
+    "question": "Uma empresa está procurando por uma forma de gerenciar e controlar seus custos na nuvem. Qual serviço AWS pode ser utilizado para criar orçamentos e gerenciar custos?",
+    "options": [
+      "AWS Budgets",
+      "AWS Cost Explorer",
+      "Amazon CloudWatch",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Budgets porque ele permite criar orçamentos e gerenciar custos, o que atende ao requisito da empresa. As outras opções não são adequadas porque AWS Cost Explorer é um serviço de visualização de custos, Amazon CloudWatch é um serviço de monitoramento e AWS IAM é um serviço de gerenciamento de identidades e acesso."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura",
+    "service": "Amazon Elastic Container Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "arquitetura",
+      "containers"
+    ],
+    "question": "Uma empresa está procurando por uma forma de criar e gerenciar contêineres de aplicativos. Qual serviço AWS pode ser utilizado para criar e gerenciar contêineres de aplicativos?",
+    "options": [
+      "Amazon Elastic Container Service",
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Elastic Container Service porque ele permite criar e gerenciar contêineres de aplicativos, o que atende ao requisito da empresa. As outras opções não são adequadas porque Amazon EC2 é um serviço de instâncias de servidores, Amazon S3 é um serviço de armazenamento de objetos e Amazon RDS é um serviço de banco de dados relacional."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao-de-dados",
+    "service": "AWS Shield",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "protecao-de-dados",
+      "seguranca"
+    ],
+    "question": "Uma empresa está procurando por uma forma de proteger seus dados contra ataques de negação de serviço. Qual serviço AWS pode ser utilizado para proteger os dados contra ataques de negação de serviço?",
+    "options": [
+      "AWS Shield",
+      "AWS IAM",
+      "Amazon S3",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Shield porque ele permite proteger os dados contra ataques de negação de serviço, o que atende ao requisito da empresa. As outras opções não são adequadas porque AWS IAM é um serviço de gerenciamento de identidades e acesso, Amazon S3 é um serviço de armazenamento de objetos e Amazon EC2 é um serviço de instâncias de servidores."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "AWS CloudFormation",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "infraestrutura como código",
+      "gerenciamento de recursos"
+    ],
+    "question": "Uma empresa de tecnologia precisa implantar uma infraestrutura de nuvem para suportar uma aplicação web de grande escala. A infraestrutura deve incluir um conjunto de servidores web, um banco de dados e um balanceador de carga. Qual serviço AWS pode ser usado para criar e gerenciar essa infraestrutura de forma programática?",
+    "options": [
+      "AWS CloudFormation",
+      "AWS CloudWatch",
+      "AWS CloudTrail",
+      "AWS Config"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS CloudFormation porque ele permite criar e gerenciar infraestruturas de nuvem de forma programática, usando templates em formato JSON ou YAML. Isso permite que a empresa defina sua infraestrutura como código e a implante de forma consistente e repetível."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "controle de acesso",
+    "service": "IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa controlar o acesso a seus recursos de nuvem, garantindo que apenas os funcionários autorizados possam acessar certos dados sensíveis. Qual serviço AWS pode ser usado para criar e gerenciar políticas de acesso para esses recursos?",
+    "options": [
+      "IAM",
+      "Cognito",
+      "Inspector",
+      "Macie"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é IAM porque ele permite criar e gerenciar políticas de acesso para recursos de nuvem, definindo quais ações os usuários podem realizar em cada recurso. Isso ajuda a garantir que apenas os funcionários autorizados possam acessar dados sensíveis."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon EMR",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "Hadoop"
+    ],
+    "question": "Uma empresa de mídia social precisa processar grandes volumes de dados de usuário para gerar insights sobre comportamento e preferências. Qual serviço AWS pode ser usado para processar esses dados de forma escalável e eficiente?",
+    "options": [
+      "Amazon EMR",
+      "Amazon Redshift",
+      "Amazon QuickSight",
+      "Amazon Rekognition"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon EMR porque ele permite processar grandes volumes de dados de forma escalável e eficiente, usando frameworks como Hadoop e Spark. Isso ajuda a empresa a gerar insights sobre comportamento e preferências de usuário de forma rápida e precisa."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimização de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "faturamento"
+    ],
+    "question": "Uma empresa de tecnologia precisa otimizar seus gastos com a nuvem, identificando áreas onde pode reduzir custos sem comprometer a performance. Qual serviço AWS pode ser usado para visualizar e analisar os gastos com a nuvem?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudTrail",
+      "AWS Config"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost Explorer porque ele permite visualizar e analisar os gastos com a nuvem, identificando áreas onde é possível reduzir custos. Isso ajuda a empresa a otimizar seus gastos com a nuvem e a tomar decisões informadas sobre a alocação de recursos."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "funções sem servidor",
+      "processamento de eventos"
+    ],
+    "question": "Uma empresa de comércio eletrônico precisa processar pedidos de forma rápida e escalável, sem precisar gerenciar servidores. Qual serviço AWS pode ser usado para criar funções sem servidor que processem pedidos de forma automática?",
+    "options": [
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon ECS",
+      "Amazon EKS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Lambda porque ele permite criar funções sem servidor que processem pedidos de forma automática, sem precisar gerenciar servidores. Isso ajuda a empresa a processar pedidos de forma rápida e escalável, sem precisar se preocupar com a infraestrutura subjacente."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "proteção de dados",
+    "service": "AWS Key Management Service (KMS)",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "proteção de dados"
+    ],
+    "question": "Uma empresa de saúde precisa proteger dados sensíveis de pacientes, garantindo que apenas os funcionários autorizados possam acessá-los. Qual serviço AWS pode ser usado para gerenciar chaves de criptografia e proteger esses dados?",
+    "options": [
+      "AWS Key Management Service (KMS)",
+      "AWS CloudHSM",
+      "AWS CloudTrail",
+      "AWS Config"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Key Management Service (KMS) porque ele permite gerenciar chaves de criptografia e proteger dados sensíveis. Isso ajuda a empresa a garantir que apenas os funcionários autorizados possam acessar esses dados, e que os dados sejam protegidos contra acessos não autorizados."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "objetos"
+    ],
+    "question": "Uma empresa de mídia precisa armazenar grandes volumes de dados de vídeo e áudio, garantindo que esses dados sejam acessíveis de forma rápida e escalável. Qual serviço AWS pode ser usado para armazenar esses dados de forma durável e escalável?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon S3 porque ele permite armazenar dados de forma durável e escalável, garantindo que os dados sejam acessíveis de forma rápida e escalável. Isso ajuda a empresa a armazenar grandes volumes de dados de vídeo e áudio de forma eficiente e econômica."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimização de custos",
+    "service": "AWS Reserved Instances",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "faturamento"
+    ],
+    "question": "Uma empresa de tecnologia precisa otimizar seus gastos com a nuvem, reduzindo custos sem comprometer a performance. Qual serviço AWS pode ser usado para reservar instâncias de computação e reduzir custos?",
+    "options": [
+      "AWS Reserved Instances",
+      "AWS Spot Instances",
+      "AWS On-Demand Instances",
+      "AWS Savings Plans"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Reserved Instances porque ele permite reservar instâncias de computação e reduzir custos. Isso ajuda a empresa a otimizar seus gastos com a nuvem e a reduzir custos sem comprometer a performance."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "AWS CloudFront",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "distribuição de conteúdo",
+      "cache"
+    ],
+    "question": "Uma empresa de mídia social precisa distribuir conteúdo de forma rápida e escalável, garantindo que os usuários possam acessar o conteúdo de forma rápida e eficiente. Qual serviço AWS pode ser usado para distribuir conteúdo de forma rápida e escalável?",
+    "options": [
+      "AWS CloudFront",
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon Elastic Load Balancer (ELB)"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS CloudFront porque ele permite distribuir conteúdo de forma rápida e escalável, usando uma rede de edge locations para cache e distribuir o conteúdo. Isso ajuda a empresa a garantir que os usuários possam acessar o conteúdo de forma rápida e eficiente, independentemente de sua localização geográfica."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "proteção de redes",
+    "service": "AWS Network Firewall",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "proteção de redes",
+      "firewall"
+    ],
+    "question": "Uma empresa de tecnologia precisa proteger suas redes de ataques e acessos não autorizados, garantindo que os dados sejam protegidos e os recursos sejam acessíveis apenas para os usuários autorizados. Qual serviço AWS pode ser usado para proteger as redes de ataques e acessos não autorizados?",
+    "options": [
+      "AWS Network Firewall",
+      "AWS Security Groups",
+      "AWS Network ACLs",
+      "AWS Route 53"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Network Firewall porque ele permite proteger as redes de ataques e acessos não autorizados, usando regras de firewall para controlar o tráfego de rede. Isso ajuda a empresa a garantir que os dados sejam protegidos e os recursos sejam acessíveis apenas para os usuários autorizados."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "desempenho",
+      "escalabilidade"
+    ],
+    "question": "Uma empresa de tecnologia está desenvolvendo um aplicativo que requer alta disponibilidade e escalabilidade. Qual serviço/solução AWS pode ser utilizado para garantir a escalabilidade automática do aplicativo?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon S3",
+      "Amazon RDS"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon EC2 porque ele oferece recursos de escalabilidade automática, permitindo que a empresa ajuste a capacidade de processamento de acordo com a demanda. AWS Lambda é uma opção viável, mas é mais adequada para aplicações sem servidor. Amazon S3 é um serviço de armazenamento e não oferece recursos de escalabilidade automática. Amazon RDS é um serviço de banco de dados e não é diretamente relacionado à escalabilidade do aplicativo."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticacao",
+    "service": "AWS IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa garantir que apenas os funcionários autorizados tenham acesso a determinados recursos na nuvem. Qual serviço/solução AWS pode ser utilizado para gerenciar as políticas de acesso e permissões?",
+    "options": [
+      "AWS IAM",
+      "Amazon Cognito",
+      "AWS STS",
+      "AWS CloudHSM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS IAM porque ele permite gerenciar as políticas de acesso e permissões para os recursos na nuvem. Amazon Cognito é um serviço de gerenciamento de identidade para aplicações, mas não é tão amplo quanto o AWS IAM. AWS STS é um serviço de segurança temporária, mas não é usado para gerenciar políticas de acesso. AWS CloudHSM é um serviço de gerenciamento de chaves, mas não é relacionado ao gerenciamento de políticas de acesso."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "recuperação"
+    ],
+    "question": "Uma empresa de mídia precisa armazenar grandes quantidades de dados de vídeo e áudio na nuvem. Qual serviço/solução AWS pode ser utilizado para armazenar e recuperar esses dados de forma eficiente?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Glacier",
+      "Amazon Elastic File System"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon S3 porque ele é um serviço de armazenamento de objetos que pode lidar com grandes quantidades de dados e oferece recursos de recuperação eficientes. Amazon EBS é um serviço de armazenamento em bloco, mais adequado para sistemas de arquivos. Amazon Glacier é um serviço de armazenamento de longo prazo, mais adequado para dados que não precisam ser acessados frequentemente. Amazon Elastic File System é um serviço de sistema de arquivos, mais adequado para compartilhamento de arquivos."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao"
+    ],
+    "question": "Uma empresa de tecnologia precisa otimizar os custos de sua infraestrutura na nuvem. Qual serviço/solução AWS pode ser utilizado para visualizar e otimizar os custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor",
+      "AWS CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost Explorer porque ele fornece uma visão detalhada dos custos e recursos na nuvem, permitindo que a empresa otimize os custos. AWS CloudWatch é um serviço de monitoramento, mais adequado para monitorar o desempenho dos recursos. AWS Trusted Advisor é um serviço de consultoria, mais adequado para fornecer recomendações de melhoria. AWS CloudFormation é um serviço de infraestrutura como código, mais adequado para gerenciar a infraestrutura."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "migração",
+    "service": "AWS Migration Hub",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "migração",
+      "nuvem"
+    ],
+    "question": "Uma empresa de tecnologia precisa migrar sua infraestrutura para a nuvem. Qual serviço/solução AWS pode ser utilizado para planejar e executar a migração?",
+    "options": [
+      "AWS Migration Hub",
+      "AWS CloudFormation",
+      "AWS CloudWatch",
+      "AWS CodePipeline"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Migration Hub porque ele fornece um portal centralizado para planejar e executar a migração para a nuvem. AWS CloudFormation é um serviço de infraestrutura como código, mais adequado para gerenciar a infraestrutura. AWS CloudWatch é um serviço de monitoramento, mais adequado para monitorar o desempenho dos recursos. AWS CodePipeline é um serviço de entrega contínua, mais adequado para automatizar o processo de entrega de software."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "seguranca"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa gerenciar as chaves de criptografia para proteger os dados sensíveis. Qual serviço/solução AWS pode ser utilizado para gerenciar as chaves de criptografia?",
+    "options": [
+      "AWS Key Management Service",
+      "AWS CloudHSM",
+      "AWS CloudWatch",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Key Management Service porque ele fornece um serviço de gerenciamento de chaves de criptografia para proteger os dados sensíveis. AWS CloudHSM é um serviço de gerenciamento de chaves de hardware, mais adequado para ambientes de alta segurança. AWS CloudWatch é um serviço de monitoramento, mais adequado para monitorar o desempenho dos recursos. AWS IAM é um serviço de gerenciamento de identidade e acesso, mais adequado para gerenciar as políticas de acesso."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento",
+      "evento"
+    ],
+    "question": "Uma empresa de tecnologia precisa processar eventos em tempo real para atualizar os dados em um banco de dados. Qual serviço/solução AWS pode ser utilizado para processar os eventos?",
+    "options": [
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon Kinesis"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Lambda porque ele é um serviço de processamento de eventos que pode ser utilizado para processar os eventos em tempo real. Amazon EC2 é um serviço de computação, mais adequado para ambientes de servidor. Amazon S3 é um serviço de armazenamento, mais adequado para armazenar dados. Amazon Kinesis é um serviço de processamento de streams, mais adequado para processar grandes quantidades de dados."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "reserva",
+    "service": "AWS Reserved Instances",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "reserva"
+    ],
+    "question": "Uma empresa de tecnologia precisa reduzir os custos de sua infraestrutura na nuvem. Qual serviço/solução AWS pode ser utilizado para reduzir os custos?",
+    "options": [
+      "AWS Reserved Instances",
+      "AWS Spot Instances",
+      "AWS On-Demand Instances",
+      "AWS Savings Plans"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Reserved Instances porque ele fornece uma forma de reduzir os custos ao reservar instâncias por um período de tempo determinado. AWS Spot Instances é um serviço de instâncias que podem ser utilizadas para reduzir os custos, mas não é tão estável quanto as instâncias reservadas. AWS On-Demand Instances é um serviço de instâncias que pode ser utilizado para pagar apenas pelo que é utilizado, mas não é tão econômico quanto as instâncias reservadas. AWS Savings Plans é um serviço de plano de economia que pode ser utilizado para reduzir os custos, mas não é tão flexível quanto as instâncias reservadas."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "disponibilidade",
+    "service": "AWS Availability Zones",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "disponibilidade",
+      "nuvem"
+    ],
+    "question": "Uma empresa de tecnologia precisa garantir a alta disponibilidade de sua infraestrutura na nuvem. Qual serviço/solução AWS pode ser utilizado para garantir a alta disponibilidade?",
+    "options": [
+      "AWS Availability Zones",
+      "AWS Regions",
+      "AWS Edge Locations",
+      "AWS Local Zones"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Availability Zones porque ele fornece uma forma de garantir a alta disponibilidade ao distribuir os recursos em diferentes zonas de disponibilidade. AWS Regions é um serviço de regiões que pode ser utilizado para distribuir os recursos em diferentes regiões, mas não é tão granular quanto as zonas de disponibilidade. AWS Edge Locations é um serviço de localizações de borda que pode ser utilizado para distribuir os recursos em diferentes localizações de borda, mas não é tão relacionado à disponibilidade. AWS Local Zones é um serviço de zonas locais que pode ser utilizado para distribuir os recursos em diferentes zonas locais, mas não é tão relacionado à disponibilidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "compliance",
+    "service": "AWS Compliance Hub",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "compliance",
+      "seguranca"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa garantir a conformidade com as regulamentações de segurança. Qual serviço/solução AWS pode ser utilizado para garantir a conformidade?",
+    "options": [
+      "AWS Compliance Hub",
+      "AWS Security Hub",
+      "AWS CloudWatch",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Compliance Hub porque ele fornece um portal centralizado para gerenciar a conformidade com as regulamentações de segurança. AWS Security Hub é um serviço de segurança que pode ser utilizado para monitorar a segurança, mas não é tão relacionado à conformidade. AWS CloudWatch é um serviço de monitoramento que pode ser utilizado para monitorar o desempenho dos recursos, mas não é tão relacionado à conformidade. AWS IAM é um serviço de gerenciamento de identidade e acesso que pode ser utilizado para gerenciar as políticas de acesso, mas não é tão relacionado à conformidade."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de soluções",
+    "service": "Amazon CloudFormation",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "IaC",
+      "Infraestrutura como Código"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa implantar uma infraestrutura de nuvem para suportar uma aplicação web escalável. Requisito: A infraestrutura deve ser provisionada de forma automática e segura. Qual serviço/solução AWS deve ser utilizado para gerenciar a infraestrutura como código?",
+    "options": [
+      "AWS CloudFormation",
+      "AWS CloudWatch",
+      "AWS CodePipeline",
+      "AWS Config"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS CloudFormation porque ele permite que você crie, gerencie e atualize a infraestrutura de nuvem de forma segura e automática, utilizando templates em formato YAML ou JSON. As outras opções não são corretas porque AWS CloudWatch é utilizado para monitoramento, AWS CodePipeline é utilizado para entrega contínua e AWS Config é utilizado para auditoria e conformidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticação e autorização",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "Contexto: Uma aplicação móvel precisa autenticar e autorizar usuários para acessar recursos protegidos. Requisito: A autenticação e autorização devem ser feitas de forma segura e escalável. Qual serviço/solução AWS deve ser utilizado para gerenciar a autenticação e autorização dos usuários?",
+    "options": [
+      "Amazon Cognito",
+      "AWS IAM",
+      "AWS STS",
+      "AWS Directory Service"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Cognito porque ele fornece uma solução escalável e segura para autenticação e autorização de usuários, incluindo suporte a múltiplos provedores de identidade. As outras opções não são corretas porque AWS IAM é utilizado para gerenciar acesso a recursos da AWS, AWS STS é utilizado para fornecer tokens de segurança temporários e AWS Directory Service é utilizado para gerenciar diretórios de usuários."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon EMR",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "Hadoop"
+    ],
+    "question": "Contexto: Uma empresa de dados precisa processar grandes volumes de dados de forma eficiente e escalável. Requisito: O processamento deve ser feito utilizando tecnologias de big data. Qual serviço/solução AWS deve ser utilizado para processar os dados?",
+    "options": [
+      "Amazon EMR",
+      "Amazon Redshift",
+      "Amazon DynamoDB",
+      "AWS Glue"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon EMR porque ele fornece uma solução escalável e eficiente para processar grandes volumes de dados, utilizando tecnologias como Hadoop e Spark. As outras opções não são corretas porque Amazon Redshift é utilizado para armazenamento de dados, Amazon DynamoDB é utilizado para armazenamento de dados NoSQL e AWS Glue é utilizado para integração de dados."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimização de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "faturamento"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa otimizar os custos de sua infraestrutura de nuvem. Requisito: A empresa precisa ter visibilidade sobre os custos e identificar oportunidades de economia. Qual serviço/solução AWS deve ser utilizado para otimizar os custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor",
+      "AWS CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost Explorer porque ele fornece uma solução para visualizar e otimizar os custos da infraestrutura de nuvem, incluindo recomendações para economia. As outras opções não são corretas porque AWS CloudWatch é utilizado para monitoramento, AWS Trusted Advisor é utilizado para auditoria e conformidade e AWS CloudFormation é utilizado para gerenciar a infraestrutura como código."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "migração para a nuvem",
+    "service": "AWS Migration Hub",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "migração para a nuvem",
+      "planejamento"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa migrar suas aplicações para a nuvem. Requisito: A migração deve ser feita de forma planejada e eficiente. Qual serviço/solução AWS deve ser utilizado para planejar e executar a migração?",
+    "options": [
+      "AWS Migration Hub",
+      "AWS CloudFormation",
+      "AWS CodePipeline",
+      "AWS Config"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Migration Hub porque ele fornece uma solução para planejar e executar a migração de aplicações para a nuvem, incluindo ferramentas para avaliar e otimizar a infraestrutura. As outras opções não são corretas porque AWS CloudFormation é utilizado para gerenciar a infraestrutura como código, AWS CodePipeline é utilizado para entrega contínua e AWS Config é utilizado para auditoria e conformidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "proteção de dados",
+    "service": "Amazon Key Management Service (KMS)",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "proteção de dados",
+      "criptografia"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa proteger os dados sensíveis de seus clientes. Requisito: A proteção deve ser feita utilizando criptografia e gerenciamento de chaves. Qual serviço/solução AWS deve ser utilizado para proteger os dados?",
+    "options": [
+      "Amazon Key Management Service (KMS)",
+      "AWS CloudHSM",
+      "AWS CloudWatch",
+      "AWS Config"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Key Management Service (KMS) porque ele fornece uma solução para gerenciar chaves de criptografia e proteger os dados sensíveis. As outras opções não são corretas porque AWS CloudHSM é utilizado para armazenamento de chaves de criptografia, AWS CloudWatch é utilizado para monitoramento e AWS Config é utilizado para auditoria e conformidade."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "objetos"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa armazenar grandes volumes de dados de forma escalável e durável. Requisito: O armazenamento deve ser feito utilizando tecnologias de armazenamento de objetos. Qual serviço/solução AWS deve ser utilizado para armazenar os dados?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon S3 porque ele fornece uma solução escalável e durável para armazenar objetos de dados. As outras opções não são corretas porque Amazon EBS é utilizado para armazenamento de blocos, Amazon Elastic File System (EFS) é utilizado para armazenamento de arquivos e Amazon Glacier é utilizado para armazenamento de dados de longo prazo."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "AWS Cost and Usage Report",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de custos",
+      "faturamento"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa gerenciar os custos de sua infraestrutura de nuvem de forma eficiente. Requisito: A empresa precisa ter visibilidade sobre os custos e identificar oportunidades de economia. Qual serviço/solução AWS deve ser utilizado para gerenciar os custos?",
+    "options": [
+      "AWS Cost and Usage Report",
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost and Usage Report porque ele fornece uma solução para visualizar e gerenciar os custos da infraestrutura de nuvem, incluindo detalhes sobre o uso e os custos. As outras opções não são corretas porque AWS Cost Explorer é utilizado para visualizar os custos, AWS CloudWatch é utilizado para monitoramento e AWS Trusted Advisor é utilizado para auditoria e conformidade."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de aplicações",
+    "service": "AWS Well-Architected Framework",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "arquitetura de aplicações",
+      "melhores práticas"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa projetar e implantar aplicações de forma escalável e segura. Requisito: A arquitetura deve ser feita utilizando melhores práticas e padrões de design. Qual serviço/solução AWS deve ser utilizado para projetar e implantar as aplicações?",
+    "options": [
+      "AWS Well-Architected Framework",
+      "AWS CloudFormation",
+      "AWS CodePipeline",
+      "AWS Config"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Well-Architected Framework porque ele fornece uma solução para projetar e implantar aplicações de forma escalável e segura, utilizando melhores práticas e padrões de design. As outras opções não são corretas porque AWS CloudFormation é utilizado para gerenciar a infraestrutura como código, AWS CodePipeline é utilizado para entrega contínua e AWS Config é utilizado para auditoria e conformidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "detecção de ameaças",
+    "service": "Amazon GuardDuty",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "detecção de ameaças",
+      "segurança"
+    ],
+    "question": "Contexto: Uma empresa de tecnologia precisa detectar e prevenir ameaças de segurança em sua infraestrutura de nuvem. Requisito: A detecção deve ser feita utilizando tecnologias de inteligência artificial e machine learning. Qual serviço/solução AWS deve ser utilizado para detectar e prevenir as ameaças?",
+    "options": [
+      "Amazon GuardDuty",
+      "AWS CloudWatch",
+      "AWS Config",
+      "AWS IAM"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon GuardDuty porque ele fornece uma solução para detectar e prevenir ameaças de segurança, utilizando tecnologias de inteligência artificial e machine learning. As outras opções não são corretas porque AWS CloudWatch é utilizado para monitoramento, AWS Config é utilizado para auditoria e conformidade e AWS IAM é utilizado para gerenciar acesso a recursos da AWS."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de soluções",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "arquitetura de nuvem",
+      "desenvolvimento de aplicações"
+    ],
+    "question": "Um empresa de tecnologia está desenvolvendo uma aplicação que requer uma grande quantidade de recursos computacionais para processar dados científicos. Qual serviço/solução AWS pode ser utilizado para atender a essa demanda?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon S3",
+      "Amazon Elastic Container Service (ECS)"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon EC2 é a escolha certa porque oferece uma grande variedade de instâncias de máquinas virtuais com diferentes capacidades de processamento, tornando-a ideal para aplicações que exigem recursos computacionais intensivos. Já o AWS Lambda é mais adequado para aplicações serverless, o Amazon S3 é um serviço de armazenamento de objetos e o Amazon ECS é um serviço de orquestração de contêineres."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento de identidades",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "identidade e acesso"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa garantir que apenas os funcionários autorizados tenham acesso a dados confidenciais armazenados em uma aplicação hospedada na AWS. Qual serviço/solução AWS pode ser utilizado para gerenciar o acesso baseado em identidade?",
+    "options": [
+      "AWS Identity and Access Management (IAM)",
+      "Amazon Cognito",
+      "AWS Directory Service",
+      "AWS Organizations"
+    ],
+    "correct": 0,
+    "explanation": "O AWS IAM é a escolha certa porque permite criar e gerenciar identidades e políticas de acesso para os recursos da AWS, garantindo que apenas os funcionários autorizados possam acessar os dados confidenciais. O Amazon Cognito é mais adequado para aplicações que exigem autenticação de usuários finais, o AWS Directory Service é um serviço de diretório de identidades e o AWS Organizations é um serviço de gerenciamento de contas da AWS."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "recuperação de desastres"
+    ],
+    "question": "Um provedor de serviços de hospedagem de sites precisa garantir que os dados dos clientes sejam armazenados de forma segura e estejam disponíveis mesmo em caso de desastres. Qual serviço/solução AWS pode ser utilizado para atender a essa demanda?",
+    "options": [
+      "Amazon S3",
+      "Amazon Elastic Block Store (EBS)",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 é a escolha certa porque oferece armazenamento de objetos durável e disponível, com recursos de recuperação de desastres e replicação de dados. O Amazon EBS é um serviço de armazenamento de blocos para instâncias EC2, o Amazon EFS é um serviço de armazenamento de arquivos para aplicações Linux e o Amazon Glacier é um serviço de armazenamento de dados de longo prazo para arquivamento e recuperação de desastres."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimização de custos",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimização de custos"
+    ],
+    "question": "Um desenvolvedor de aplicações móveis precisa otimizar os custos de sua aplicação hospedada na AWS. Qual serviço/solução AWS pode ser utilizado para monitorar e otimizar os custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é a escolha certa porque fornece visibilidade detalhada dos custos da AWS e ajuda a identificar oportunidades de economia. O AWS Budgets é um serviço de orçamentação e monitoramento de custos, o AWS CloudWatch é um serviço de monitoramento de aplicações e o AWS Trusted Advisor é um serviço de otimização de recursos e segurança."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de rede",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "arquitetura de rede",
+      "conectividade"
+    ],
+    "question": "Um provedor de serviços de hospedagem de aplicações precisa garantir que as aplicações sejam acessíveis de forma segura e confiável. Qual serviço/solução AWS pode ser utilizado para criar uma rede virtual privada?",
+    "options": [
+      "Amazon Virtual Private Cloud (VPC)",
+      "AWS Direct Connect",
+      "AWS VPN",
+      "AWS Transit Gateway"
+    ],
+    "correct": 0,
+    "explanation": "A Amazon VPC é a escolha certa porque permite criar uma rede virtual privada isolada e segura, com recursos de controle de acesso e conectividade. O AWS Direct Connect é um serviço de conectividade direta à AWS, o AWS VPN é um serviço de rede privada virtual e o AWS Transit Gateway é um serviço de gateway de trânsito para redes virtuais."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "proteção de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "proteção de dados"
+    ],
+    "question": "Um banco de dados precisa garantir que os dados sejam criptografados em repouso e em trânsito. Qual serviço/solução AWS pode ser utilizado para atender a essa demanda?",
+    "options": [
+      "AWS Key Management Service (KMS)",
+      "Amazon S3 Server-Side Encryption",
+      "AWS CloudHSM",
+      "AWS Certificate Manager"
+    ],
+    "correct": 0,
+    "explanation": "O AWS KMS é a escolha certa porque fornece um serviço de gerenciamento de chaves para criptografar e descriptografar dados. O Amazon S3 Server-Side Encryption é um recurso de criptografia de dados em repouso, o AWS CloudHSM é um serviço de hardware de segurança e o AWS Certificate Manager é um serviço de gerenciamento de certificados."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "análise de dados"
+    ],
+    "question": "Um cientista de dados precisa processar grandes conjuntos de dados para realizar análises avançadas. Qual serviço/solução AWS pode ser utilizado para atender a essa demanda?",
+    "options": [
+      "Amazon EMR",
+      "AWS Glue",
+      "Amazon Redshift",
+      "AWS Lake Formation"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon EMR é a escolha certa porque fornece um serviço de processamento de dados em larga escala para análises avançadas. O AWS Glue é um serviço de integração de dados, o Amazon Redshift é um serviço de armazenamento de dados para análises e o AWS Lake Formation é um serviço de gerenciamento de dados para análises."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "gerenciamento de custos"
+    ],
+    "question": "Um gerente de TI precisa gerenciar os custos da infraestrutura da AWS. Qual serviço/solução AWS pode ser utilizado para monitorar e controlar os custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS CloudWatch",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é a escolha certa porque fornece visibilidade detalhada dos custos da AWS e ajuda a identificar oportunidades de economia. O AWS Budgets é um serviço de orçamentação e monitoramento de custos, o AWS CloudWatch é um serviço de monitoramento de aplicações e o AWS Trusted Advisor é um serviço de otimização de recursos e segurança."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de aplicações",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "arquitetura de aplicações",
+      "desenvolvimento de aplicações"
+    ],
+    "question": "Um desenvolvedor de aplicações precisa criar uma arquitetura de aplicações escalável e segura. Qual serviço/solução AWS pode ser utilizado para atender a essa demanda?",
+    "options": [
+      "AWS Well-Architected Framework",
+      "AWS Cloud Development Kit (CDK)",
+      "AWS Serverless Application Repository",
+      "AWS CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Well-Architected Framework é a escolha certa porque fornece um conjunto de diretrizes e melhores práticas para criar arquiteturas de aplicações escaláveis e seguras. O AWS CDK é um serviço de desenvolvimento de aplicações, o AWS Serverless Application Repository é um repositório de aplicações serverless e o AWS CloudFormation é um serviço de gerenciamento de infraestrutura."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento de segurança",
+    "service": "Amazon Web Services",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "gerenciamento de segurança"
+    ],
+    "question": "Um especialista em segurança precisa gerenciar a segurança da infraestrutura da AWS. Qual serviço/solução AWS pode ser utilizado para atender a essa demanda?",
+    "options": [
+      "AWS Security Hub",
+      "AWS IAM",
+      "AWS CloudWatch",
+      "AWS Inspector"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Security Hub é a escolha certa porque fornece um serviço de gerenciamento de segurança centralizado para monitorar e responder a ameaças. O AWS IAM é um serviço de gerenciamento de identidades e acesso, o AWS CloudWatch é um serviço de monitoramento de aplicações e o AWS Inspector é um serviço de avaliação de segurança."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "barreiras de proteção",
+    "service": "Amazon Bedrock",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "barreiras de proteção",
+      "segurança"
+    ],
+    "question": "Um cliente deseja implementar barreiras de proteção em sua infraestrutura na nuvem para evitar acessos não autorizados. Qual serviço/solução AWS deve ser utilizado para garantir a segurança dos recursos?",
+    "options": [
+      "Amazon Bedrock Barreiras de Proteção",
+      "AWS IAM",
+      "Amazon S3",
+      "AWS Lambda"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Bedrock Barreiras de Proteção, pois é um serviço que fornece barreiras de proteção para os recursos na nuvem. AWS IAM é um serviço de gerenciamento de identidades e acesso, Amazon S3 é um serviço de armazenamento de objetos e AWS Lambda é um serviço de computação sem servidor, que não atendem ao requisito de barreiras de proteção."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "faturamento",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "custos"
+    ],
+    "question": "Um cliente deseja analisar e otimizar os custos de sua infraestrutura na nuvem. Qual serviço/solução AWS deve ser utilizado para visualizar e gerenciar os custos?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudFormation",
+      "AWS X-Ray"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS Cost Explorer, pois é um serviço que fornece uma visão geral dos custos e ajuda a identificar áreas de otimização. AWS CloudWatch é um serviço de monitoramento, AWS CloudFormation é um serviço de infraestrutura como código e AWS X-Ray é um serviço de depuração, que não atendem ao requisito de faturamento."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon SageMaker",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "machine learning"
+    ],
+    "question": "Um cliente deseja desenvolver um modelo de machine learning para prever a demanda de produtos. Qual serviço/solução AWS deve ser utilizado para criar, treinar e implantar o modelo?",
+    "options": [
+      "Amazon SageMaker",
+      "AWS Glue",
+      "Amazon Redshift",
+      "AWS Lake Formation"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon SageMaker, pois é um serviço que fornece uma plataforma para criar, treinar e implantar modelos de machine learning. AWS Glue é um serviço de integração de dados, Amazon Redshift é um serviço de armazenamento de dados e AWS Lake Formation é um serviço de armazenamento de dados, que não atendem ao requisito de processamento de dados."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "detecção de informações pessoais",
+    "service": "Amazon Comprehend",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "detecção de informações pessoais",
+      "segurança"
+    ],
+    "question": "Um cliente deseja detectar informações pessoais em textos para garantir a conformidade com as regulamentações de privacidade. Qual serviço/solução AWS deve ser utilizado para detectar essas informações?",
+    "options": [
+      "Amazon Comprehend",
+      "AWS IAM",
+      "Amazon S3",
+      "AWS Lake Formation"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é Amazon Comprehend, pois é um serviço que fornece uma capacidade de detecção de informações pessoais em textos. AWS IAM é um serviço de gerenciamento de identidades e acesso, Amazon S3 é um serviço de armazenamento de objetos e AWS Lake Formation é um serviço de armazenamento de dados, que não atendem ao requisito de detecção de informações pessoais."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "gerenciamento de recursos",
+    "service": "AWS CloudFormation",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de recursos",
+      "infraestrutura como código"
+    ],
+    "question": "Um cliente deseja gerenciar e provisionar recursos na nuvem de forma automatizada. Qual serviço/solução AWS deve ser utilizado para criar e gerenciar a infraestrutura como código?",
+    "options": [
+      "AWS CloudFormation",
+      "AWS CloudWatch",
+      "Amazon S3",
+      "AWS X-Ray"
+    ],
+    "correct": 0,
+    "explanation": "A resposta correta é AWS CloudFormation, pois é um serviço que fornece uma forma de gerenciar e provisionar recursos na nuvem de forma automatizada. AWS CloudWatch é um serviço de monitoramento, Amazon S3 é um serviço de armazenamento de objetos e AWS X-Ray é um serviço de depuração, que não atendem ao requisito de gerenciamento de recursos."
   }
 ]

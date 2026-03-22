@@ -185,7 +185,7 @@ ESTRUTURA OBRIGATÓRIA:
                         {"role": "system", "content": "Você é um arquiteto AWS sênior e especialista em formatar respostas em JSON puro."},
                         {"role": "user", "content": groq_prompt}
                     ],
-                    model="llama3-70b-8192", # Modelo inteligente e rápido do Groq
+                    model="llama-3.3-70b-versatile", # Modelo inteligente e rápido do Groq
                     temperature=0.7,
                     response_format={"type": "json_object"}
                 )

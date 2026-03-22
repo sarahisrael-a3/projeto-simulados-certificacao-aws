@@ -4165,5 +4165,132 @@
     ],
     "correct": 0,
     "explanation": "The Shared Responsibility Model defines that AWS is responsible for 'cloud security' (physical infrastructure, hardware, software, network, and facilities), while the customer is responsible for 'cloud security' (data, operating system, applications, network configurations, and IAM). The other models do not represent the AWS fundamental security responsibility framework."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "conformidade",
+    "service": "AWS Artifact",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "conformidade",
+      "auditoria",
+      "certificacoes",
+      "relatorios"
+    ],
+    "question": "A healthcare company needs to demonstrate compliance with regulations such as HIPAA and obtain AWS audit reports to present to its external auditors. They need quick access to compliance documents and agreements. What features does AWS Artifact provide? (Choose 2)",
+    "options": [
+      "On-demand compliance reporting and security certifications",
+      "Compliance agreements like BAA (Business Associate Agreement)",
+      "Real-time monitoring of security threats",
+      "Backup automatic compliance data"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "AWS Artifact is a self-service portal that provides on-demand access to AWS compliance reports (such as SOC, PCI, ISO) and compliance agreements (such as BAA for HIPAA). It doesn't monitor threats in real time (that's GuardDuty) or back up data (that would be AWS Backup). Distractors confuse Artifact with monitoring and backup services."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "monitoramento",
+    "service": "AWS Config",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "configuracao",
+      "auditoria",
+      "conformidade",
+      "governanca"
+    ],
+    "question": "A finance organization needs to ensure that all EC2 instances comply with internal security policies and track configuration changes over time. What capabilities does AWS Config offer? (Choose 2)",
+    "options": [
+      "Continuous assessment of resource configurations against compliance rules",
+      "Complete history of configuration changes for AWS resources",
+      "Protection against DDoS attacks on web applications",
+      "Automatic data encryption at rest"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "AWS Config continuously evaluates, audits, and monitors configurations for AWS resources, providing change history and automatic assessment of compliance with defined rules. It does not protect against DDoS (that's AWS Shield) or automatically encrypt data (that would be KMS with S3). Distractors confuse Config with protection and encryption services."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "otimizacao",
+    "service": "AWS Trusted Advisor",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "otimizacao",
+      "custos",
+      "seguranca",
+      "melhores-praticas"
+    ],
+    "question": "A startup is looking to optimize its costs in AWS and improve its security posture. They want automated recommendations. What areas does AWS Trusted Advisor analyze and provide recommendations? (Choose 3)",
+    "options": [
+      "Cost optimization by identifying underutilized resources",
+      "Security recommendations such as open ports and excessive permissions",
+      "Infrastructure performance and fault tolerance",
+      "Automatic development of application code"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "AWS Trusted Advisor provides real-time guidance across five categories: cost optimization, performance, security, fault tolerance, and service limits. It identifies underutilized resources, security vulnerabilities, and performance issues. It doesn't develop code automatically (that would be CodeWhisperer). The code development distractor does not apply to Trusted Advisor."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao",
+    "service": "AWS Shield e AWS WAF",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "seguranca",
+      "ddos",
+      "firewall",
+      "protecao-web"
+    ],
+    "question": "An e-commerce platform is concerned about DDoS attacks and web application exploits such as SQL injection. What AWS services should be implemented for comprehensive protection? (Choose 2)",
+    "options": [
+      "AWS Shield to protect against DDoS attacks",
+      "AWS WAF to filter malicious web application traffic",
+      "Amazon Inspector for code vulnerability scanning",
+      "AWS CloudTrail for auditing API calls"
+    ],
+    "correct": [
+      0,
+      1
+    ],
+    "explanation": "AWS Shield protects against DDoS (Distributed Denial of Service) attacks at the network and transport layers, while AWS WAF (Web Application Firewall) protects web applications against common exploits such as SQL injection and XSS at the application. Amazon Inspector is for assessing vulnerabilities in EC2 instances, not for real-time protection. CloudTrail is for auditing actions, not protecting against attacks. Distractors confuse active protection with auditing and evaluation."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "rede",
+    "service": "Amazon Route 53",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "dns",
+      "roteamento",
+      "alta-disponibilidade",
+      "rede"
+    ],
+    "question": "A global enterprise needs a highly available DNS service that can route users to different regions based on geographic location and check the health of endpoints. What features does Amazon Route 53 offer? (Choose 3)",
+    "options": [
+      "Geolocation-based traffic routing",
+      "Endpoint health checks",
+      "Domain name registration and management",
+      "Storage of objects with high durability"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Amazon Route 53 is a scalable DNS service that offers domain registration, traffic routing with multiple policies (including geolocation, latency, failover), and health checks to monitor resource availability. It doesn't store objects (that's Amazon S3). The object storage distractor does not apply to Route 53, which is a DNS and routing service."
   }
 ]
