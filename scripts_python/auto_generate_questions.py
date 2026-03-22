@@ -15,31 +15,31 @@ import os
 from pathlib import Path
 from generator import fabricar_questoes, EXAMES_CONFIG
 
-# Metas de distribuição ideal por certificação
+# Metas de distribuição ideal por certificação (Padrão Ouro: 65 de cada)
 TARGET_DISTRIBUTION = {
     "clf-c02": {
-        "easy": 60,      # 60 questões fáceis
-        "medium": 70,    # 70 questões médias
-        "hard": 60,      # 60 questões difíceis
-        "total": 190
+        "easy": 65,
+        "medium": 65,
+        "hard": 65,
+        "total": 195
     },
     "saa-c03": {
-        "easy": 60,
-        "medium": 64,
-        "hard": 60,
-        "total": 184
+        "easy": 65,
+        "medium": 65,
+        "hard": 65,
+        "total": 195
     },
     "dva-c02": {
-        "easy": 30,
-        "medium": 40,
-        "hard": 30,
-        "total": 100
+        "easy": 65,
+        "medium": 65,
+        "hard": 65,
+        "total": 195
     },
     "aif-c01": {
-        "easy": 40,
-        "medium": 50,
-        "hard": 28,
-        "total": 118
+        "easy": 65,
+        "medium": 65,
+        "hard": 65,
+        "total": 195
     }
 }
 

@@ -3672,6 +3672,31 @@
     "id": 2181
   },
   {
+    "id": 2181,
+    "domain": "design-resiliente",
+    "subdomain": "armazenamento-resiliente",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "storage",
+      "durability",
+      "compliance",
+      "resilience",
+      "audit-logs"
+    ],
+    "question": "Uma instituição financeira precisa armazenar logs de auditoria críticos que exigem alta durabilidade, disponibilidade e proteção contra exclusão acidental ou acesso não autorizado. Os logs são acessados com pouca frequência após o armazenamento inicial, mas devem estar imediatamente disponíveis para auditorias de conformidade. Qual serviço AWS é o mais adequado para atender a esses requisitos?",
+    "options": [
+      "Amazon EBS",
+      "Amazon S3",
+      "Amazon Glacier",
+      "AWS Backup"
+    ],
+    "correct": 1,
+    "explanation": "Amazon S3 oferece durabilidade de 99,999999999% (onze noves) e alta disponibilidade, sendo ideal para armazenamento de logs críticos. Com recursos como versionamento e S3 Object Lock, ele protege os dados contra exclusão acidental e garante imutabilidade para conformidade. Amazon EBS é um armazenamento de bloco para instâncias EC2 e não é a melhor opção para logs distribuídos. Amazon Glacier (agora parte do S3 Glacier Flexible Retrieval) é otimizado para arquivamento de longo prazo com recuperação mais lenta e não atende ao requisito de 'imediatamente disponível'."
+  },
+  {
+    "id": 2182,
     "domain": "design-performance",
     "subdomain": "otimizacao-banco-dados",
     "service": "Amazon ElastiCache",
@@ -3692,7 +3717,255 @@
       "AWS Global Accelerator"
     ],
     "correct": 2,
-    "explanation": "Amazon ElastiCache é um serviço de cache na memória que pode ser usado para armazenar dados de produtos frequentemente acessados, reduzindo significativamente a carga sobre o banco de dados relacional primário e melhorando os tempos de resposta para a plataforma de e-commerce. Amazon RDS é o serviço de banco de dados relacional e não é uma solução de cache. Amazon DynamoDB é um banco de dados NoSQL e, embora rápido, não é primariamente uma solução de cache para um banco de dados relacional existente. AWS Global Accelerator melhora a disponibilidade e performance do tráfego de usuários para aplicações globais, mas não resolve o gargalo de cache de banco de dados diretamente.",
-    "id": 2182
+    "explanation": "Amazon ElastiCache é um serviço de cache na memória que pode ser usado para armazenar dados de produtos frequentemente acessados, reduzindo significativamente a carga sobre o banco de dados relacional primário e melhorando os tempos de resposta para a plataforma de e-commerce. Amazon RDS é o serviço de banco de dados relacional e não é uma solução de cache."
+  },
+  {
+    "id": 2183,
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "AWS Auto Scaling",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "ec2",
+      "auto-scaling",
+      "elb",
+      "resiliencia"
+    ],
+    "question": "Uma startup precisa garantir que a sua nova aplicação web consiga lidar com picos repentinos de tráfego sem intervenção manual, adicionando novos servidores automaticamente quando a CPU atinge 80%. Qual a combinação de serviços AWS mais adequada?",
+    "options": [
+      "Amazon CloudFront e AWS Lambda",
+      "Amazon EC2 Auto Scaling e Application Load Balancer (ALB)",
+      "AWS Elastic Beanstalk e Amazon S3",
+      "Amazon RDS Multi-AZ e Amazon DynamoDB"
+    ],
+    "correct": 1,
+    "explanation": "A combinação de um Application Load Balancer (ALB) para distribuir o tráfego com um grupo de Auto Scaling (ASG) para instâncias EC2 é o padrão fundamental da AWS para garantir elasticidade e alta disponibilidade perante picos de tráfego imprevisíveis."
+  },
+  {
+    "id": 2184,
+    "domain": "design-custo",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "s3",
+      "lifecycle",
+      "custos"
+    ],
+    "question": "Uma empresa guarda milhões de faturas em PDF no Amazon S3. As faturas são acedidas frequentemente no primeiro mês, mas depois quase nunca são abertas, devendo ser mantidas por razões legais durante 5 anos. Qual a forma mais automatizada e económica de gerir este armazenamento?",
+    "options": [
+      "Mover manualmente os ficheiros para o Amazon Glacier a cada 30 dias.",
+      "Criar uma função AWS Lambda que elimina ficheiros antigos todas as semanas.",
+      "Configurar Políticas de Ciclo de Vida (Lifecycle Policies) do S3 para transitar os objetos para o S3 Glacier após 30 dias.",
+      "Ativar o S3 Transfer Acceleration para compactar os dados antigos."
+    ],
+    "correct": 2,
+    "explanation": "As Políticas de Ciclo de Vida do S3 (Lifecycle Policies) permitem definir regras automáticas para mover objetos entre diferentes classes de armazenamento (por exemplo, do S3 Standard para o Glacier) após um determinado número de dias, otimizando drasticamente os custos sem intervenção manual."
+  },
+  {
+    "id": 2185,
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "identidade-acesso",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "iam",
+      "ec2",
+      "roles",
+      "seguranca"
+    ],
+    "question": "Um programador necessita que uma aplicação a correr numa instância Amazon EC2 aceda de forma segura a fotografias guardadas num bucket do Amazon S3. Qual é o método mais seguro para conceder este acesso sem guardar credenciais no código da aplicação?",
+    "options": [
+      "Escrever as chaves de acesso (Access Keys) do IAM diretamente no ficheiro de configuração da aplicação.",
+      "Atribuir uma IAM Role (Função do IAM) com permissões de acesso ao S3 diretamente à instância EC2.",
+      "Tornar o bucket do S3 público para leitura apenas a partir do endereço IP da instância.",
+      "Colocar as palavras-passe num bloco de notas guardado no Amazon EBS."
+    ],
+    "correct": 1,
+    "explanation": "A melhor prática de segurança na AWS para conceder a uma instância EC2 acesso a outros serviços (como o S3) é através da atribuição de uma IAM Role (Instance Profile). Isto fornece credenciais temporárias dinâmicas, evitando a necessidade de expor chaves estáticas (Access Keys)."
+  },
+  {
+    "id": 2186,
+    "domain": "design-performance",
+    "subdomain": "entrega-conteudo",
+    "service": "Amazon CloudFront",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "cloudfront",
+      "cdn",
+      "latencia"
+    ],
+    "question": "Uma plataforma de notícias pretende entregar as suas imagens, vídeos e folhas de estilo aos leitores espalhados pela Europa e Ásia com o menor tempo de carregamento (latência) possível. Qual o serviço AWS ideal para este cenário?",
+    "options": [
+      "AWS Global Accelerator",
+      "Amazon Route 53",
+      "Amazon CloudFront",
+      "AWS Direct Connect"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon CloudFront é a Content Delivery Network (CDN) da AWS. Ele armazena o conteúdo estático e dinâmico em cache em pontos de presença (Edge Locations) espalhados por todo o mundo, entregando os ficheiros a partir da localização mais próxima do utilizador para reduzir a latência."
+  },
+  {
+    "id": 2187,
+    "domain": "design-resiliente",
+    "subdomain": "banco-de-dados",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "rds",
+      "multi-az",
+      "ha"
+    ],
+    "question": "Como pode um arquiteto garantir que uma base de dados relacional (Amazon RDS) não sofre tempo de inatividade prolongado caso ocorra uma falha total no hardware da Zona de Disponibilidade (AZ) onde se encontra?",
+    "options": [
+      "Configurar Réplicas de Leitura (Read Replicas) na mesma Zona de Disponibilidade.",
+      "Ativar a implementação Multi-AZ para a instância do Amazon RDS.",
+      "Aumentar o tamanho do disco EBS associado à base de dados.",
+      "Fazer backups manuais a cada hora e exportá-los para o S3."
+    ],
+    "correct": 1,
+    "explanation": "Ao ativar o Multi-AZ no Amazon RDS, a AWS provisiona e mantém automaticamente uma réplica síncrona numa Zona de Disponibilidade diferente. Em caso de falha da instância principal ou da AZ, o RDS efetua o failover automático para a réplica de espera (standby), garantindo alta disponibilidade."
+  },
+  {
+    "id": 2188,
+    "domain": "design-performance",
+    "subdomain": "desacoplamento",
+    "service": "Amazon SQS",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "sqs",
+      "desacoplamento",
+      "performance"
+    ],
+    "question": "Uma aplicação de processamento de encomendas recebe picos imprevisíveis de pedidos durante campanhas. Atualmente, a interface web liga-se diretamente aos servidores de processamento no backend, causando falhas (timeouts) sob carga intensa. Qual a solução arquitetural para desacoplar a receção do processamento e evitar perda de encomendas?",
+    "options": [
+      "Substituir os servidores backend por instâncias EC2 maiores (Scale Up).",
+      "Utilizar o Amazon SQS para introduzir uma fila de mensagens entre o frontend e o backend.",
+      "Configurar o Amazon ElastiCache para guardar temporariamente os pedidos na memória RAM.",
+      "Adicionar um Network Load Balancer (NLB) em vez do Application Load Balancer (ALB)."
+    ],
+    "correct": 1,
+    "explanation": "O Amazon SQS (Simple Queue Service) permite o desacoplamento de componentes da aplicação. O frontend coloca a encomenda na fila SQS de forma imediata e retorna sucesso ao utilizador. Os servidores backend consomem as mensagens da fila ao seu próprio ritmo, garantindo que nenhum pedido se perde durante picos de tráfego extremo."
+  },
+  {
+    "id": 2189,
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "protecao-perimetro",
+    "service": "AWS WAF",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "waf",
+      "alb",
+      "owasp",
+      "seguranca"
+    ],
+    "question": "Uma empresa vai lançar uma nova API e prevê ataques sofisticados, incluindo injeção de SQL e padrões de Cross-Site Scripting (XSS). O tráfego de entrada será gerido por um Application Load Balancer (ALB). Qual é a forma recomendada de proteger a aplicação contra estas ameaças no nível 7 do modelo OSI de forma nativa?",
+    "options": [
+      "Configurar regras nos Security Groups das instâncias EC2 para bloquear palavras-chave específicas em HTTP.",
+      "Utilizar o AWS Shield Standard, que já protege nativamente contra injeções SQL.",
+      "Associa o AWS WAF (Web Application Firewall) ao Application Load Balancer e implementar regras para bloquear tráfego malicioso.",
+      "Instalar agentes de firewall de terceiros diretamente no sistema operativo das instâncias EC2."
+    ],
+    "correct": 2,
+    "explanation": "O AWS WAF foi concebido para proteger aplicações web e APIs contra vulnerabilidades comuns da web (como injeção SQL e XSS) atuando na Camada 7. Pode ser facilmente associado a um ALB, API Gateway ou CloudFront, permitindo criar regras personalizadas ou utilizar regras geridas pela AWS sem precisar de alterar os servidores backend."
+  },
+  {
+    "id": 2190,
+    "domain": "design-resiliente",
+    "subdomain": "dns-roteamento",
+    "service": "Amazon Route 53",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "route53",
+      "failover",
+      "dr",
+      "multi-region"
+    ],
+    "question": "Uma arquitetura de Disaster Recovery do tipo 'Active-Passive' está configurada entre a Região us-east-1 (primária) e us-west-2 (secundária de standby). O tráfego dos utilizadores deve ser redirecionado para a região secundária apenas se a aplicação na região primária falhar por completo. Como deve o Amazon Route 53 ser configurado para garantir este comportamento?",
+    "options": [
+      "Criar uma política de roteamento Multi-Value Answer com pesos de 100 e 0.",
+      "Utilizar a política de roteamento Geolocation, priorizando a região us-east-1.",
+      "Utilizar a política de roteamento de Failover (Failover Routing Policy) com verificações de saúde (Health Checks) associadas ao endpoint primário.",
+      "Configurar a política de roteamento de Latência (Latency Routing) com um registo Alias para a região de standby."
+    ],
+    "correct": 2,
+    "explanation": "A política de roteamento de Failover do Route 53 é concebida exatamente para arquiteturas 'Active-Passive'. Através da monitorização com Health Checks, o Route 53 envia todo o tráfego para o recurso primário ativo. Se este falhar na verificação de saúde, o Route 53 altera automaticamente os registos DNS para enviar o tráfego para o recurso secundário (passivo)."
+  },
+  {
+    "id": 2191,
+    "domain": "design-custo",
+    "subdomain": "computacao-economica",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "ec2",
+      "spot",
+      "custos",
+      "batch"
+    ],
+    "question": "Uma equipa de análise de dados corre enormes tarefas de processamento em lote (batch processing) que demoram cerca de 3 a 5 horas a concluir. Estas tarefas são tolerantes a falhas, podendo ser interrompidas a meio e retomadas a partir do último ponto gravado. A equipa possui um orçamento extremamente rigoroso. Qual a estratégia computacional mais rentável?",
+    "options": [
+      "Reservar instâncias EC2 (Reserved Instances) com contrato de 1 ano para obter desconto.",
+      "Utilizar instâncias EC2 On-Demand juntamente com o AWS Instance Scheduler.",
+      "Utilizar instâncias EC2 Spot através de um Auto Scaling Group, permitindo que a execução seja interrompida se o preço do mercado subir acima do lance máximo.",
+      "Migrar todo o processamento em lote pesado para o AWS Lambda."
+    ],
+    "correct": 2,
+    "explanation": "Para tarefas que não exigem conclusão ininterrupta (tolerantes a falhas) e onde o custo é o fator crítico, as instâncias EC2 Spot oferecem até 90% de desconto face às instâncias On-Demand. O risco de interrupção (com aviso prévio de 2 minutos) é mitigado pelo facto de as tarefas poderem ser retomadas através de 'checkpoints'."
+  },
+  {
+    "id": 2192,
+    "domain": "design-performance",
+    "subdomain": "ingestao-dados",
+    "service": "Amazon Kinesis",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "kinesis",
+      "firehose",
+      "streaming",
+      "s3"
+    ],
+    "question": "Uma vasta frota de milhares de dispositivos IoT de telemetria automóvel envia gigabytes de dados de log por minuto. Estes dados precisam de ser guardados no Amazon S3 de forma agregada para análise futura (Data Lake). A equipa pretende uma solução totalmente gerida (serverless) e que suporte transformação e conversão de formato em tempo real (ex: JSON para Parquet). Qual o serviço AWS ideal?",
+    "options": [
+      "Amazon SQS",
+      "AWS Data Pipeline",
+      "Amazon Kinesis Data Firehose",
+      "Amazon EMR"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon Kinesis Data Firehose é o serviço ideal para capturar, transformar e carregar fluxos de dados (streaming) em tempo real de forma totalmente gerida para destinos como o Amazon S3, Amazon Redshift ou OpenSearch. Ele gere o batching, a compressão e, se configurado, consegue converter formatos de registo em voo sem necessitar de servidores intermédios."
+  },
+  {
+    "id": 2193,
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "criptografia",
+    "service": "AWS KMS",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "kms",
+      "s3",
+      "criptografia",
+      "sse-kms"
+    ],
+    "question": "Uma corporação de saúde gere ficheiros de exames de pacientes altamente confidenciais. A conformidade regulatória exige que cada documento no Amazon S3 seja encriptado em repouso. Adicionalmente, a empresa insiste em ter o controlo de auditoria sobre quem tentou usar a chave de encriptação (via AWS CloudTrail) e pretende usar a Encriptação de Envelope (Envelope Encryption). Que técnica deve implementar?",
+    "options": [
+      "Utilizar Server-Side Encryption com chaves geridas pelo Amazon S3 (SSE-S3).",
+      "Utilizar Client-Side Encryption gerindo o SDK de encriptação dentro do sistema operativo Windows da empresa.",
+      "Utilizar Server-Side Encryption com chaves fornecidas pelo cliente (SSE-C) transportadas no cabeçalho HTTP.",
+      "Utilizar Server-Side Encryption com chaves geridas pelo AWS Key Management Service (SSE-KMS)."
+    ],
+    "correct": 3,
+    "explanation": "A opção SSE-KMS combina o poder da Encriptação de Envelope (usando uma chave de dados única para o ficheiro e protegendo-a com uma Customer Master Key do KMS) com a capacidade robusta de auditoria. Com o KMS, cada chamada para encriptar ou desencriptar o objeto no S3 gera um evento detalhado que fica registado no AWS CloudTrail, cumprindo requisitos exigentes de segurança."
   }
 ]
