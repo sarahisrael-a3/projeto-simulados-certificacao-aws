@@ -74,7 +74,8 @@ Plataforma completa de preparação para exames de certificação AWS que combin
 
 ### 📊 Análise de Desempenho
 - ✅ **Desempenho por Domínio**: Análise detalhada seguindo pesos oficiais AWS
-- ✅ **Gráfico de Radar**: Visualização interativa do desempenho por domínio usando Chart.js
+- ✅ **Gráfico de Radar Interativo**: Visualização em tempo real do desempenho por domínio usando Chart.js
+- ✅ **Suporte a Modo Escuro**: Gráfico adapta cores automaticamente ao tema (claro/escuro)
 - ✅ **Relatórios Históricos**: Acompanhamento de evolução ao longo do tempo
 - ✅ **Recomendações Inteligentes**: Sistema identifica domínios fracos e sugere estudos
 - ✅ **Escala Oficial**: Pontuação 100-1000 pontos (padrão AWS)
@@ -100,6 +101,7 @@ Plataforma completa de preparação para exames de certificação AWS que combin
 ### Frontend
 - **JavaScript ES6+**: Módulos, Classes, Async/Await
 - **Tailwind CSS**: Framework CSS utility-first
+- **Chart.js**: Biblioteca para gráficos interativos (radar de desempenho)
 - **PWA**: Service Workers para funcionamento offline
 - **LocalStorage API**: Persistência de dados no navegador
 
@@ -312,6 +314,7 @@ projeto-simulados-certificacao-aws/
   - Escala de pontuação oficial AWS (100-1000)
   - Pesos de domínios conforme guias oficiais
   - Timer baseado nos exames reais
+  - Gráfico de radar para análise visual de desempenho por domínio
 
 ### 2\. Pipeline de IA Generativa Completo
 

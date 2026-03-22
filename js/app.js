@@ -847,6 +847,12 @@ function initTheme() {
 function toggleDarkMode() {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('aws_sim_theme', isDark ? 'dark' : 'light');
+    
+    // Atualiza o gráfico se estiver visível
+    if (window.radarChartInstance) {
+        const results = engine.getFinalResults();
+        renderRadarChart(results);
+    }
 }
 
 function toggleLanguage() {
@@ -994,21 +1000,28 @@ function renderRadarChart(results) {
         }
     });
 
+    // Detecta modo escuro
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    const textColor = isDarkMode ? '#e5e7eb' : '#374151';
+    const gridColor = isDarkMode ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+
     // Configuração do gráfico
     window.radarChartInstance = new Chart(ctx, {
         type: 'radar',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Desempenho por Domínio (%)',
+                label: 'Desempenho (%)',
                 data: data,
                 backgroundColor: 'rgba(255, 153, 0, 0.2)',
-                borderColor: 'rgba(255, 153, 0, 1)',
+                borderColor: '#ff9900',
                 borderWidth: 2,
-                pointBackgroundColor: 'rgba(255, 153, 0, 1)',
+                pointBackgroundColor: '#ff9900',
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(255, 153, 0, 1)'
+                pointHoverBorderColor: '#ff9900',
+                pointRadius: 4,
+                pointHoverRadius: 6
             }]
         },
         options: {
@@ -1020,13 +1033,26 @@ function renderRadarChart(results) {
                     max: 100,
                     ticks: {
                         stepSize: 20,
+                        color: textColor,
+                        backdropColor: 'transparent',
                         callback: function(value) {
                             return value + '%';
+                        },
+                        font: {
+                            size: 11
                         }
                     },
+                    grid: {
+                        color: gridColor
+                    },
+                    angleLines: {
+                        color: gridColor
+                    },
                     pointLabels: {
+                        color: textColor,
                         font: {
-                            size: 12
+                            size: 12,
+                            weight: '500'
                         }
                     }
                 }
@@ -1034,9 +1060,24 @@ function renderRadarChart(results) {
             plugins: {
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'top',
+                    labels: {
+                        color: textColor,
+                        font: {
+                            size: 13,
+                            weight: 'bold'
+                        },
+                        padding: 15
+                    }
                 },
                 tooltip: {
+                    backgroundColor: isDarkMode ? 'rgba(30, 41, 59, 0.95)' : 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: '#ff9900',
+                    borderWidth: 1,
+                    padding: 12,
+                    displayColors: true,
                     callbacks: {
                         label: function(context) {
                             return context.dataset.label + ': ' + context.parsed.r + '%';
