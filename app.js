@@ -268,29 +268,23 @@ function displayReportFromResult(results) {
     document.getElementById('final-correct').textContent = results.score;
     document.getElementById('final-incorrect').textContent = results.total - results.score;
 
+    // 1. PRIMEIRO CAPTURAMOS O ELEMENTO DO HTML
     const recText = document.getElementById('recommendation-text');
 
+    // 2. VERIFICAMOS SE O ELEMENTO EXISTE ANTES DE ALTERAR
     if (recText) {
-        // Lógica baseada em weakDomains (array)
         const weakDomains = results.weakDomains || [];
-        
-        if (weakDomains.length === 0) {
-            // Caso 0: Nenhum domínio fraco
-            recText.innerHTML = `<strong>Excelente! Você demonstrou consistência em todos os domínios.</strong> Continue assim e você estará mais do que preparado para o exame real.`;
+
+        if (results.percentage < 40) {
+            recText.innerHTML = `<strong>Atenção! O seu desempenho global foi muito baixo.</strong> Recomendamos que pare de fazer simulados agora e volte a rever os conceitos base do curso oficial antes de tentar novamente.`;
+        } else if (weakDomains.length === 0) {
+            recText.innerHTML = `<strong>Excelente! Você demonstrou consistência.</strong> Continue assim e estará preparado para o exame real.`;
         } else if (weakDomains.length === 1) {
-            // Caso 1: Um único domínio fraco
             const domainName = getDomainName(weakDomains[0]) || "Tópicos Gerais";
-            if (results.percentage >= 85) {
-                recText.innerHTML = `<strong>Excelente desempenho!</strong> Você demonstrou um domínio profundo. Se quiser alcançar a perfeição, faça uma revisão rápida em: <em>${domainName}</em>.`;
-            } else if (results.passed || results.percentage >= APP_CONFIG.PASSING_SCORE) {
-                recText.innerHTML = `<strong>Parabéns, você passou!</strong> Para aumentar sua segurança para o exame real, concentre seus estudos finais no domínio: <em>${domainName}</em>.`;
-            } else {
-                recText.innerHTML = `<strong>Não desanime!</strong> Sua maior oportunidade de melhoria está no domínio: <em>${domainName}</em>. Revise a documentação oficial sobre esse tema e tente novamente.`;
-            }
+            recText.innerHTML = `<strong>Quase lá!</strong> A sua maior oportunidade de melhoria está no domínio: <em>${domainName}</em>. Revise a documentação oficial sobre este tema.`;
         } else {
-            // Caso 2+: Múltiplos domínios fracos
             const domainNames = weakDomains.map(id => getDomainName(id)).join(', ');
-            recText.innerHTML = `<strong>Atenção! Você precisa reforçar seus estudos em múltiplas áreas críticas:</strong> <em>${domainNames}</em>. Revise a documentação oficial sobre esses temas antes de tentar novamente.`;
+            recText.innerHTML = `<strong>Atenção! Precisa reforçar os estudos nestas áreas críticas:</strong> <em>${domainNames}</em>. Revise a documentação oficial sobre estes temas.`;
         }
     }
 
