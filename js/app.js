@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateHistoryDisplay();
     renderGamification();
     updateLanguageButtonUI();
+    initPWAInstall();
 
     const certSelect = document.getElementById('certification-select');
     
@@ -397,6 +398,7 @@ function showScreen(screenName) {
 function showResultsScreen() {
     const results = engine.getFinalResults();
     displayReportFromResult(results);
+    renderRadarChart(results);
 }
 
 function displayReportFromResult(results) {
@@ -964,6 +966,129 @@ function updateFlashcardButtons() {
         nextBtn.classList.toggle('opacity-50', uiState.flashcardIndex === glossaryTerms.length - 1);
         nextBtn.classList.toggle('cursor-not-allowed', uiState.flashcardIndex === glossaryTerms.length - 1);
     }
+}
+
+// ============================================================================
+// 9. GRÁFICO DE RADAR (CHART.JS)
+// ============================================================================
+function renderRadarChart(results) {
+    const canvas = document.getElementById('radarChart');
+    if (!canvas) return;
+
+    // Destrói gráfico anterior se existir
+    if (window.radarChartInstance) {
+        window.radarChartInstance.destroy();
+    }
+
+    const ctx = canvas.getContext('2d');
+    const labels = [];
+    const data = [];
+
+    // Coleta dados dos domínios
+    uiState.currentCertificationInfo.domains.forEach(domain => {
+        const scoreData = results.domainScores[domain.id];
+        if (scoreData && scoreData.total > 0) {
+            labels.push(domain.name);
+            const percentage = (scoreData.correct / scoreData.total) * 100;
+            data.push(percentage.toFixed(1));
+        }
+    });
+
+    // Configuração do gráfico
+    window.radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Desempenho por Domínio (%)',
+                data: data,
+                backgroundColor: 'rgba(255, 153, 0, 0.2)',
+                borderColor: 'rgba(255, 153, 0, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(255, 153, 0, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(255, 153, 0, 1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 20,
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    },
+                    pointLabels: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.r + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ============================================================================
+// 10. PWA INSTALL BUTTON
+// ============================================================================
+let deferredPrompt = null;
+
+function initPWAInstall() {
+    const installButton = document.getElementById('install-app');
+    if (!installButton) return;
+
+    // Captura o evento beforeinstallprompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Mostra o botão de instalação
+        installButton.classList.remove('hidden');
+    });
+
+    // Adiciona listener ao botão
+    installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+
+        // Mostra o prompt de instalação
+        deferredPrompt.prompt();
+
+        // Aguarda a escolha do usuário
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        console.log(`Usuário ${outcome === 'accepted' ? 'aceitou' : 'recusou'} a instalação`);
+
+        // Limpa o prompt e esconde o botão
+        deferredPrompt = null;
+        installButton.classList.add('hidden');
+    });
+
+    // Esconde o botão se o app já estiver instalado
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA instalado com sucesso!');
+        installButton.classList.add('hidden');
+        deferredPrompt = null;
+    });
 }
 
 // ============================================================================

@@ -54,6 +54,8 @@ Plataforma completa de preparação para exames de certificação AWS que combin
 - ✅ **Modo Revisão**: Estudo sem pressão de tempo com explicações imediatas
 - ✅ **Escala Oficial**: Pontuação 100-1000 pontos (padrão AWS)
 - ✅ **Selo de Aprovação**: Feedback visual (verde >= 700, laranja < 700)
+- ✅ **Navegação Rápida**: Clique no ícone da nuvem no cabeçalho para voltar ao início
+- ✅ **App Instalável**: Botão de instalação PWA visível no cabeçalho para uso offline
 
 ### 📚 Modo Flashcards (NOVO v2.0)
 - ✅ **20 Termos Essenciais**: ACM, AMI, ASG, AZ, Artifact, Config, GuardDuty, KMS, Route 53, Shield, WAF, Trusted Advisor, CloudWatch, IAM, S3, Lambda, VPC, RDS, CloudFormation, CloudFront
@@ -72,6 +74,7 @@ Plataforma completa de preparação para exames de certificação AWS que combin
 
 ### 📊 Análise de Desempenho
 - ✅ **Desempenho por Domínio**: Análise detalhada seguindo pesos oficiais AWS
+- ✅ **Gráfico de Radar**: Visualização interativa do desempenho por domínio usando Chart.js
 - ✅ **Relatórios Históricos**: Acompanhamento de evolução ao longo do tempo
 - ✅ **Recomendações Inteligentes**: Sistema identifica domínios fracos e sugere estudos
 - ✅ **Escala Oficial**: Pontuação 100-1000 pontos (padrão AWS)
@@ -87,6 +90,8 @@ Plataforma completa de preparação para exames de certificação AWS que combin
 - ✅ **Dark Mode**: Alternância automática ou manual
 - ✅ **Tailwind CSS**: Interface moderna e profissional
 - ✅ **Animações Suaves**: Transições e feedbacks visuais
+- ✅ **Navegação Intuitiva**: Ícone da nuvem clicável no cabeçalho para retorno rápido ao início
+- ✅ **Instalação Facilitada**: Botão de download do app PWA visível no cabeçalho
 
 ---
 
