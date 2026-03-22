@@ -80,8 +80,10 @@ Plataforma completa de preparação para exames de certificação AWS que combin
 
 ### 📊 Análise de Desempenho
 - ✅ **Desempenho por Domínio**: Análise detalhada seguindo pesos oficiais AWS
-- ✅ **Gráfico de Radar Interativo**: Visualização em tempo real do desempenho por domínio usando Chart.js
-- ✅ **Suporte a Modo Escuro**: Gráfico adapta cores automaticamente ao tema (claro/escuro)
+- ✅ **Gráfico de Radar por Simulado**: Visualização do desempenho em cada teste usando Chart.js
+- ✅ **Dashboard de Desempenho Global**: Gráfico agregado de todo o histórico na sidebar
+- ✅ **Métricas Resumidas**: Total de simulados, média geral e total de questões respondidas
+- ✅ **Suporte a Modo Escuro**: Todos os gráficos adaptam cores automaticamente ao tema
 - ✅ **Relatórios Históricos**: Acompanhamento de evolução ao longo do tempo
 - ✅ **Recomendações Inteligentes**: Sistema identifica domínios fracos e sugere estudos
 - ✅ **Escala Oficial**: Pontuação 100-1000 pontos (padrão AWS)
@@ -94,11 +96,12 @@ Plataforma completa de preparação para exames de certificação AWS que combin
 
 ### 🎨 Interface Moderna
 - ✅ **Design Responsivo**: Otimizado para desktop, tablet e mobile
-- ✅ **Dark Mode**: Alternância automática ou manual
+- ✅ **Dark Mode**: Alternância automática ou manual com suporte completo em todos os gráficos
 - ✅ **Tailwind CSS**: Interface moderna e profissional
 - ✅ **Animações Suaves**: Transições e feedbacks visuais
 - ✅ **Navegação Intuitiva**: Ícone da nuvem clicável no cabeçalho para retorno rápido ao início
 - ✅ **Instalação Facilitada**: Botão de download do app PWA visível no cabeçalho
+- ✅ **Sidebar Informativa**: Progresso, insights, histórico e desempenho global organizados
 
 ---
 
@@ -341,13 +344,21 @@ projeto-simulados-certificacao-aws/
   - Efeito 3D profissional
   - Ideal para revisão rápida
 
-### 4\. Explicações Aprimoradas
+### 4\. Análise Visual Avançada
+
+  - **Gráfico de Radar por Simulado**: Visualização do desempenho em cada teste
+  - **Dashboard de Desempenho Global**: Gráfico agregado de todo o histórico na sidebar
+  - **Métricas em Tempo Real**: Acompanhamento de progresso com estatísticas detalhadas
+  - **Suporte ao Modo Escuro**: Todos os gráficos adaptam cores automaticamente
+  - **Tooltips Informativos**: Detalhes ao passar o mouse sobre os dados
+
+### 5\. Explicações Aprimoradas
 
   - Justificativa da resposta correta
   - Explicação do porquê os distratores não se aplicam
   - Foco em aprendizado arquitetural e cenários reais de negócio
 
-### 5\. PWA Completo
+### 6\. PWA Completo
 
   - Funciona 100% offline
   - Instalável em desktop e mobile via botão no cabeçalho
@@ -364,12 +375,12 @@ projeto-simulados-certificacao-aws/
   - **20 termos AWS** no glossário de flashcards com efeito 3D interativo
   - **4 certificações** oficiais AWS (CLF-C02, SAA-C03, AIF-C01, DVA-C02)
   - **2 idiomas** (PT-BR e EN-US) com tradução automática via Google Translate
+  - **2 gráficos de radar** (por simulado e dashboard global agregado)
   - **100% offline** após instalação como PWA (Progressive Web App)
-  - **Gráfico de radar** interativo com suporte a modo escuro usando Chart.js
   - **0 dependências** externas no frontend (apenas CDNs para Tailwind, Font Awesome e Chart.js)
   - **Escala oficial AWS** 100-1000 pontos (conversão automática)
   - **2 motores de IA** (Gemini 2.5 Flash + Groq Llama 3.3 70B como fallback)
-  - **1000+ linhas** de código JavaScript no controller principal
+  - **1100+ linhas** de código JavaScript no controller principal
   - **50+ termos técnicos** AWS preservados na tradução automática
 
 -----

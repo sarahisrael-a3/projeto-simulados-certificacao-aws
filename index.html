@@ -229,44 +229,6 @@
                         Limpar histórico de erros
                     </button>
                 </div>
-                
-                <!-- Dashboard de Desempenho Global -->
-                <div id="global-performance-dashboard" class="w-full max-w-2xl mt-8 bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-200 dark:border-slate-700 shadow-lg">
-                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-chart-radar text-aws-orange"></i> Seu Desempenho Global
-                    </h3>
-                    
-                    <!-- Estado vazio (quando não há histórico) -->
-                    <div id="global-chart-empty" class="hidden text-center py-12">
-                        <div class="w-16 h-16 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fa-solid fa-chart-line text-3xl text-gray-400 dark:text-gray-500"></i>
-                        </div>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm">
-                            Faça seu primeiro simulado para ver suas estatísticas aqui!
-                        </p>
-                    </div>
-                    
-                    <!-- Gráfico de radar global -->
-                    <div id="global-chart-container" class="relative h-[300px] w-full">
-                        <canvas id="globalRadarChart"></canvas>
-                    </div>
-                    
-                    <!-- Estatísticas resumidas -->
-                    <div id="global-stats-summary" class="mt-4 pt-4 border-t border-gray-200 dark:border-slate-600 grid grid-cols-3 gap-4 text-center text-sm">
-                        <div>
-                            <div class="text-2xl font-bold text-aws-orange" id="total-quizzes">0</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">Simulados</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-green-600 dark:text-green-400" id="avg-score">0%</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">Média Geral</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" id="total-questions">0</div>
-                            <div class="text-gray-600 dark:text-gray-400 text-xs">Questões</div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div id="screen-quiz" class="hidden flex-col h-full relative p-6 md:p-8">
@@ -450,6 +412,44 @@
                     </div>
                     <div id="history-list" class="text-sm text-gray-500 dark:text-gray-400 italic flex-grow overflow-y-auto custom-scroll" role="status">
                         Nenhum simulado realizado ainda.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard de Desempenho Global -->
+            <div id="global-performance-dashboard" class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 transition-colors">
+                <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-radar text-aws-orange"></i> Desempenho Global
+                </h3>
+                
+                <!-- Estado vazio (quando não há histórico) -->
+                <div id="global-chart-empty" class="hidden text-center py-8">
+                    <div class="w-12 h-12 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fa-solid fa-chart-line text-2xl text-gray-400 dark:text-gray-500"></i>
+                    </div>
+                    <p class="text-gray-500 dark:text-gray-400 text-xs">
+                        Faça seu primeiro simulado para ver suas estatísticas aqui!
+                    </p>
+                </div>
+                
+                <!-- Gráfico de radar global -->
+                <div id="global-chart-container" class="relative h-[280px] w-full mb-4">
+                    <canvas id="globalRadarChart"></canvas>
+                </div>
+                
+                <!-- Estatísticas resumidas -->
+                <div id="global-stats-summary" class="pt-4 border-t border-gray-200 dark:border-slate-600 grid grid-cols-3 gap-3 text-center text-xs">
+                    <div>
+                        <div class="text-xl font-bold text-aws-orange" id="total-quizzes">0</div>
+                        <div class="text-gray-600 dark:text-gray-400 text-[10px]">Simulados</div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-bold text-green-600 dark:text-green-400" id="avg-score">0%</div>
+                        <div class="text-gray-600 dark:text-gray-400 text-[10px]">Média</div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-bold text-blue-600 dark:text-blue-400" id="total-questions">0</div>
+                        <div class="text-gray-600 dark:text-gray-400 text-[10px]">Questões</div>
                     </div>
                 </div>
             </div>
