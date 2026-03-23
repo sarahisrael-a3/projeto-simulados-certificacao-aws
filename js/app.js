@@ -666,7 +666,10 @@ function updateHistoryDisplay() {
     const historyList = document.getElementById('history-list');
     if (!historyList) return;
 
-    const history = storageManager.getHistory();
+    const rawHistory = storageManager.getHistory();
+    
+    // Filtra itens inválidos/corrompidos do histórico
+    const history = rawHistory.filter(item => item && item.certId && item.percentage !== undefined);
 
     if (history.length === 0) {
         historyList.innerHTML = 'Nenhum simulado realizado ainda.';
@@ -931,7 +934,7 @@ function generateSmartInsight(history) {
     
     // 10. Precisa melhorar - foco nos estudos
     if (avgScore < 70) {
-        const certName = last.certId ? last.certId.toUpperCase() : 'AWS';
+        const certName = last && last.certId ? last.certId.toUpperCase() : 'AWS';
         return {
             icon: 'fa-solid fa-book-open',
             iconColor: 'text-orange-500',
@@ -1389,7 +1392,8 @@ function calculateGlobalDomainStats() {
 
     // Itera sobre todo o histórico
     history.forEach(quiz => {
-        if (!quiz.domainScores) return;
+        // Ignora simulados corrompidos ou inválidos
+        if (!quiz || !quiz.certId || !quiz.domainScores) return;
         
         totalQuizzes++;
         totalQuestionsAnswered += quiz.total || 0;
