@@ -3,7 +3,9 @@ import { glossaryTerms } from './data.js';
 // Movemos o estado específico dos flashcards para cá!
 let flashcardState = {
     index: 0,
-    flipped: false
+    flipped: false,
+    filteredTerms: [],
+    currentFilter: 'all'
 };
 
 // Recebe a função showScreen do app.js para poder mudar a tela
@@ -16,12 +18,57 @@ export function startFlashcards(showScreenFn) {
     
     flashcardState.index = 0;
     flashcardState.flipped = false;
+    flashcardState.currentFilter = 'all';
+    flashcardState.filteredTerms = glossaryTerms;
     
     // VALIDAÇÃO: Verifica se showScreenFn é uma função
     if (typeof showScreenFn === 'function') {
         showScreenFn('flashcards');
     }
     
+    renderCertificationFilter();
+    loadFlashcard();
+}
+
+// Nova função para renderizar filtro de certificação
+function renderCertificationFilter() {
+    const filterContainer = document.getElementById('flashcard-filter');
+    if (!filterContainer) return;
+    
+    const certifications = [
+        { id: 'all', name: 'Todos os Termos' },
+        { id: 'clf-c02', name: 'Cloud Practitioner' },
+        { id: 'saa-c03', name: 'Solutions Architect' },
+        { id: 'dva-c02', name: 'Developer Associate' },
+        { id: 'aif-c01', name: 'AI Practitioner' }
+    ];
+    
+    filterContainer.innerHTML = certifications.map(cert => `
+        <button 
+            class="px-4 py-2 rounded-lg transition-all ${flashcardState.currentFilter === cert.id ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+            onclick="window.filterFlashcardsByCert('${cert.id}')"
+        >
+            ${cert.name}
+        </button>
+    `).join('');
+}
+
+// Nova função para filtrar flashcards por certificação
+export function filterFlashcardsByCert(certId) {
+    flashcardState.currentFilter = certId;
+    
+    if (certId === 'all') {
+        flashcardState.filteredTerms = glossaryTerms;
+    } else {
+        flashcardState.filteredTerms = glossaryTerms.filter(term => 
+            term.cert === certId || term.cert === 'all'
+        );
+    }
+    
+    flashcardState.index = 0;
+    flashcardState.flipped = false;
+    
+    renderCertificationFilter();
     loadFlashcard();
 }
 
