@@ -1,214 +1,510 @@
-/**
- * DATA.JS - Banco de Dados de Certificações AWS
- * Agora configurado como Módulo ES6.
- */
+// ============================================
+// GLOSSÁRIO DE TERMOS AWS PARA FLASHCARDS
+// Organizado por Certificação
+// ============================================
 
-export const certificationPaths = {
-  'clf-c02': {
-    id: 'clf-c02',
-    name: 'AWS Certified Cloud Practitioner',
-    code: 'CLF-C02',
-    description: 'Conhecimento fundamental da AWS Cloud.',
-    icon: 'fa-cloud',
-    color: 'orange',
-    dataFile: 'data/clf-c02.json',
-    domains: [
-      { id: 'conceitos-cloud', name: 'Domínio 1: Conceitos de nuvem', weight: 24 },
-      { id: 'seguranca', name: 'Domínio 2: Segurança e conformidade', weight: 30 },
-      { id: 'tecnologia', name: 'Domínio 3: Tecnologia e serviços de nuvem', weight: 34 },
-      { id: 'faturamento', name: 'Domínio 4: Faturamento, definição de preço e suporte', weight: 12 }
-    ]
-  },
-  'saa-c03': {
-    id: 'saa-c03',
-    name: 'AWS Certified Solutions Architect Associate',
-    code: 'SAA-C03',
-    description: 'Arquitetura de sistemas distribuídos.',
-    icon: 'fa-diagram-project',
-    color: 'blue',
-    dataFile: 'data/saa-c03.json',
-    domains: [
-      // Reordenado para seguir o guia oficial do exame SAA-C03
-      { id: 'seguranca-aplicacoes', name: 'Domínio 1: Design de arquiteturas seguras', weight: 30 },
-      { id: 'design-resiliente', name: 'Domínio 2: Design de arquiteturas resilientes', weight: 26 },
-      { id: 'design-performance', name: 'Domínio 3: Design de arquiteturas de alta performance', weight: 24 },
-      { id: 'design-custo', name: 'Domínio 4: Design de arquiteturas com otimização de custos', weight: 20 }
-    ]
-  },
-  'aif-c01': {
-    id: 'aif-c01',
-    name: 'AWS Certified AI Practitioner',
-    code: 'AIF-C01',
-    description: 'IA e Machine Learning na AWS.',
-    icon: 'fa-brain',
-    color: 'purple',
-    dataFile: 'data/aif-c01.json',
-    domains: [
-      { id: 'fundamentals-ai-ml', name: 'Domínio 1: Fundamentos de IA e ML', weight: 20 },
-      { id: 'fundamentals-genai', name: 'Domínio 2: Fundamentos de IA Generativa', weight: 24 },
-      { id: 'applications-foundation-models', name: 'Domínio 3: Aplicações de Modelos de Fundação', weight: 28 },
-      { id: 'guidelines-responsible-ai', name: 'Domínio 4: Diretrizes para IA Responsável', weight: 14 },
-      { id: 'security-compliance-governance', name: 'Domínio 5: Segurança, Conformidade e Governança para Soluções de IA', weight: 14 }
-    ]
-  },
-  'dva-c02': {
-    id: 'dva-c02',
-    name: 'AWS Certified Developer Associate',
-    code: 'DVA-C02',
-    description: 'Desenvolvimento e manutenção de aplicações.',
-    icon: 'fa-code',
-    color: 'green',
-    dataFile: 'data/dva-c02.json',
-    domains: [
-      { id: 'desenvolvimento-servicos', name: 'Domínio 1: Desenvolvimento com Serviços AWS', weight: 32 },
-      { id: 'seguranca-app', name: 'Domínio 2: Segurança', weight: 26 },
-      { id: 'implementacao', name: 'Domínio 3: Implementação (Deployment)', weight: 24 },
-      { id: 'resolucao-problemas', name: 'Domínio 4: Solução de problemas e otimização', weight: 18 }
-    ]
-  }
-};
-
-const studyResources = {
-  'conceitos-cloud': [
-    { name: 'O que é a Computação em Nuvem?', url: 'https://aws.amazon.com/pt/what-is-cloud-computing/', icon: 'fa-cloud', color: 'orange' },
-    { name: 'AWS Well-Architected Framework', url: 'https://aws.amazon.com/pt/architecture/well-architected/', icon: 'fa-building', color: 'blue' }
-  ],
-  'seguranca': [
-    { name: 'Modelo de Responsabilidade Compartilhada', url: 'https://aws.amazon.com/pt/compliance/shared-responsibility-model/', icon: 'fa-handshake', color: 'green' },
-    { name: 'Documentação do AWS IAM', url: 'https://docs.aws.amazon.com/iam/', icon: 'fa-user-shield', color: 'orange' }
-  ],
-  'tecnologia': [
-    { name: 'Visão Geral dos Serviços AWS', url: 'https://d1.awsstatic.com/whitepapers/aws-overview.pdf', icon: 'fa-book', color: 'blue' },
-    { name: 'Guia do Usuário do Amazon EC2', url: 'https://docs.aws.amazon.com/ec2/', icon: 'fa-server', color: 'orange' }
-  ],
-  'faturamento': [
-    { name: 'Preços da AWS', url: 'https://aws.amazon.com/pt/pricing/', icon: 'fa-money-bill-wave', color: 'green' },
-    { name: 'AWS Cost Management', url: 'https://aws.amazon.com/pt/aws-cost-management/', icon: 'fa-chart-pie', color: 'purple' }
-  ],
-  'desenvolvimento-servicos': [
-    { name: 'DynamoDB Guide', url: 'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/', icon: 'fa-database', color: 'blue' },
-    { name: 'Lambda Developer Guide', url: 'https://docs.aws.amazon.com/lambda/latest/dg/', icon: 'fa-bolt', color: 'orange' }
-  ],
-  'seguranca-app': [
-    { name: 'AWS KMS Documentation', url: 'https://docs.aws.amazon.com/kms/', icon: 'fa-key', color: 'red' },
-    { name: 'Secrets Manager Guide', url: 'https://docs.aws.amazon.com/secretsmanager/', icon: 'fa-user-shield', color: 'orange' }
-  ],
-  'fundamentals-ai-ml': [
-    { name: 'O que é Machine Learning?', url: 'https://aws.amazon.com/pt/what-is/machine-learning/', icon: 'fa-brain', color: 'purple' },
-    { name: 'Amazon SageMaker Documentation', url: 'https://docs.aws.amazon.com/sagemaker/', icon: 'fa-robot', color: 'blue' }
-  ],
-  'fundamentals-genai': [
-    { name: 'O que é IA Generativa?', url: 'https://aws.amazon.com/pt/what-is/generative-ai/', icon: 'fa-wand-magic-sparkles', color: 'purple' },
-    { name: 'Amazon Bedrock Documentation', url: 'https://docs.aws.amazon.com/bedrock/', icon: 'fa-layer-group', color: 'orange' }
-  ],
-  'applications-foundation-models': [
-    { name: 'Foundation Models no Amazon Bedrock', url: 'https://aws.amazon.com/pt/bedrock/foundation-models/', icon: 'fa-cubes', color: 'blue' },
-    { name: 'Amazon Q Developer', url: 'https://aws.amazon.com/pt/q/developer/', icon: 'fa-code', color: 'green' }
-  ],
-  'guidelines-responsible-ai': [
-    { name: 'IA Responsável na AWS', url: 'https://aws.amazon.com/pt/machine-learning/responsible-ai/', icon: 'fa-balance-scale', color: 'green' },
-    { name: 'AWS AI Service Cards', url: 'https://aws.amazon.com/machine-learning/ai-service-cards/', icon: 'fa-file-contract', color: 'blue' }
-  ],
-  'security-compliance-governance': [
-    { name: 'Segurança em Machine Learning', url: 'https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/security.html', icon: 'fa-shield-halved', color: 'red' },
-    { name: 'AWS Governance at Scale', url: 'https://aws.amazon.com/pt/solutions/implementations/governance-at-scale/', icon: 'fa-sitemap', color: 'orange' }
-  ]
-};
-
-export function getStudyResourcesForDomains(domains) {
-  const resources = [];
-  const seen = new Set();
-  domains.forEach(domainId => {
-    (studyResources[domainId] || []).forEach(res => {
-      if (!seen.has(res.url)) { 
-        seen.add(res.url); 
-        resources.push(res); 
-      }
-    });
-  });
-  return resources;
-}
-
-// Glossário de Termos AWS para Flashcards
 export const glossaryTerms = [
+  // ==========================================
+  // TERMOS GERAIS (Todas as Certificações)
+  // ==========================================
   {
-    term: "ACM (AWS Certificate Manager)",
-    definition: "Serviço que provisiona, gerencia e implanta certificados SSL/TLS públicos e privados para uso com serviços AWS e recursos internos conectados."
+    cert: "all",
+    term: "Região AWS",
+    definition: "Área geográfica que contém múltiplas Zonas de Disponibilidade isoladas. Cada região é completamente independente para fornecer isolamento de falhas e estabilidade."
   },
   {
-    term: "AMI (Amazon Machine Image)",
-    definition: "Imagem pré-configurada que contém o sistema operacional e software necessário para lançar uma instância EC2. Funciona como um template para criar servidores virtuais."
-  },
-  {
-    term: "ASG (Auto Scaling Group)",
-    definition: "Coleção de instâncias EC2 que são tratadas como um grupo lógico para fins de escalabilidade automática e gerenciamento. Ajusta automaticamente a capacidade para manter a performance e otimizar custos."
-  },
-  {
+    cert: "all",
     term: "AZ (Availability Zone)",
     definition: "Data center isolado dentro de uma região AWS, com energia, rede e conectividade redundantes. Múltiplas AZs em uma região permitem alta disponibilidade e tolerância a falhas."
   },
   {
-    term: "AWS Artifact",
-    definition: "Portal de autoatendimento para acesso sob demanda a relatórios de conformidade e acordos da AWS. Fornece documentação de auditoria e certificações de segurança."
-  },
-  {
-    term: "AWS Config",
-    definition: "Serviço que avalia, audita e avalia as configurações dos recursos AWS. Monitora e registra continuamente as configurações e permite automatizar a avaliação de conformidade."
-  },
-  {
-    term: "Amazon GuardDuty",
-    definition: "Serviço de detecção de ameaças que monitora continuamente atividades maliciosas e comportamentos não autorizados para proteger contas, cargas de trabalho e dados armazenados na AWS."
-  },
-  {
-    term: "AWS KMS (Key Management Service)",
-    definition: "Serviço gerenciado que facilita a criação e o controle de chaves de criptografia usadas para proteger dados. Integra-se com outros serviços AWS para criptografia de dados."
-  },
-  {
-    term: "Amazon Route 53",
-    definition: "Serviço de DNS (Domain Name System) altamente disponível e escalável. Roteia usuários finais para aplicações da Internet traduzindo nomes de domínio em endereços IP."
-  },
-  {
-    term: "AWS Shield",
-    definition: "Serviço gerenciado de proteção contra DDoS (Distributed Denial of Service) que protege aplicações executadas na AWS. Shield Standard é automático e gratuito; Shield Advanced oferece proteção adicional."
-  },
-  {
-    term: "AWS WAF (Web Application Firewall)",
-    definition: "Firewall de aplicação web que protege aplicações contra explorações comuns da web que podem afetar disponibilidade, comprometer segurança ou consumir recursos excessivos."
-  },
-  {
-    term: "AWS Trusted Advisor",
-    definition: "Ferramenta online que fornece orientação em tempo real para ajudar a provisionar recursos seguindo as melhores práticas da AWS em otimização de custos, performance, segurança e tolerância a falhas."
-  },
-  {
-    term: "Amazon CloudWatch",
-    definition: "Serviço de monitoramento e observabilidade que fornece dados e insights acionáveis para monitorar aplicações, responder a mudanças de performance e otimizar a utilização de recursos."
-  },
-  {
+    cert: "all",
     term: "AWS IAM (Identity and Access Management)",
     definition: "Serviço que permite gerenciar com segurança o acesso aos serviços e recursos AWS. Controla quem está autenticado (conectado) e autorizado (tem permissões) para usar recursos."
   },
   {
+    cert: "all",
     term: "Amazon S3 (Simple Storage Service)",
     definition: "Serviço de armazenamento de objetos que oferece escalabilidade, disponibilidade de dados, segurança e performance. Armazena e protege qualquer quantidade de dados para diversos casos de uso."
   },
   {
-    term: "AWS Lambda",
-    definition: "Serviço de computação sem servidor que executa código em resposta a eventos e gerencia automaticamente os recursos de computação. Você paga apenas pelo tempo de computação consumido."
+    cert: "all",
+    term: "Amazon EC2 (Elastic Compute Cloud)",
+    definition: "Serviço de computação que fornece capacidade computacional redimensionável na nuvem. Permite criar e gerenciar servidores virtuais (instâncias) com diversos tipos e tamanhos."
+  },
+
+  // ==========================================
+  // CLF-C02: AWS Cloud Practitioner
+  // ==========================================
+  {
+    cert: "clf-c02",
+    term: "AWS Well-Architected Framework",
+    definition: "Conjunto de melhores práticas para construir sistemas seguros, eficientes, resilientes e de alto desempenho na nuvem. Baseado em 6 pilares: Excelência Operacional, Segurança, Confiabilidade, Eficiência de Performance, Otimização de Custos e Sustentabilidade."
   },
   {
+    cert: "clf-c02",
+    term: "AWS Pricing Calculator",
+    definition: "Ferramenta gratuita que permite estimar o custo mensal dos serviços AWS. Ajuda a planejar e orçar gastos na nuvem antes de implementar recursos."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Free Tier",
+    definition: "Programa que oferece acesso gratuito a serviços AWS por tempo limitado ou com limites de uso. Inclui ofertas Always Free, 12 meses gratuitos e testes gratuitos."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Support Plans",
+    definition: "Planos de suporte técnico da AWS: Basic (gratuito), Developer, Business, Enterprise On-Ramp e Enterprise. Cada nível oferece diferentes tempos de resposta e recursos."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Organizations",
+    definition: "Serviço de gerenciamento de contas que permite consolidar múltiplas contas AWS em uma organização. Facilita governança centralizada, faturamento consolidado e controle de políticas."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Trusted Advisor",
+    definition: "Ferramenta que fornece orientação em tempo real para provisionar recursos seguindo melhores práticas em otimização de custos, performance, segurança, tolerância a falhas e limites de serviço."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS CloudTrail",
+    definition: "Serviço que registra e monitora atividades de conta AWS. Fornece histórico de eventos de chamadas de API para auditoria, conformidade e análise de segurança."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Config",
+    definition: "Serviço que avalia, audita e avalia as configurações dos recursos AWS. Monitora continuamente as configurações e permite automatizar a avaliação de conformidade."
+  },
+  {
+    cert: "clf-c02",
+    term: "Amazon CloudWatch",
+    definition: "Serviço de monitoramento e observabilidade que fornece dados e insights para monitorar aplicações, responder a mudanças de performance e otimizar utilização de recursos."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Artifact",
+    definition: "Portal de autoatendimento para acesso sob demanda a relatórios de conformidade e acordos da AWS. Fornece documentação de auditoria e certificações de segurança."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Shield",
+    definition: "Serviço gerenciado de proteção contra DDoS. Shield Standard é automático e gratuito; Shield Advanced oferece proteção adicional com resposta 24/7 e proteção de custos."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS WAF (Web Application Firewall)",
+    definition: "Firewall de aplicação web que protege contra explorações comuns da web. Permite criar regras personalizadas para filtrar tráfego malicioso."
+  },
+  {
+    cert: "clf-c02",
+    term: "Amazon GuardDuty",
+    definition: "Serviço de detecção de ameaças que monitora continuamente atividades maliciosas e comportamentos não autorizados usando machine learning e inteligência de ameaças."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS KMS (Key Management Service)",
+    definition: "Serviço gerenciado para criar e controlar chaves de criptografia. Integra-se com outros serviços AWS para criptografia de dados em repouso e em trânsito."
+  },
+  {
+    cert: "clf-c02",
+    term: "Amazon Inspector",
+    definition: "Serviço automatizado de avaliação de segurança que ajuda a melhorar a segurança e conformidade de aplicações. Avalia vulnerabilidades e desvios das melhores práticas."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Cost Explorer",
+    definition: "Ferramenta de visualização e análise de custos AWS. Permite visualizar, entender e gerenciar custos e uso ao longo do tempo com gráficos e relatórios personalizados."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Budgets",
+    definition: "Serviço que permite definir orçamentos personalizados e receber alertas quando custos ou uso excedem (ou prevê-se que excedam) os valores orçados."
+  },
+  {
+    cert: "clf-c02",
+    term: "Modelo de Responsabilidade Compartilhada",
+    definition: "Framework que define responsabilidades de segurança entre AWS e cliente. AWS é responsável pela segurança DA nuvem (infraestrutura); cliente é responsável pela segurança NA nuvem (dados, aplicações)."
+  },
+
+  // ==========================================
+  // SAA-C03: Solutions Architect Associate
+  // ==========================================
+  {
+    cert: "saa-c03",
     term: "Amazon VPC (Virtual Private Cloud)",
-    definition: "Rede virtual logicamente isolada na AWS Cloud onde você pode lançar recursos AWS em uma rede virtual que você define, com controle completo sobre o ambiente de rede."
+    definition: "Rede virtual logicamente isolada na AWS onde você pode lançar recursos com controle completo sobre configuração de rede, incluindo sub-redes, tabelas de roteamento e gateways."
   },
   {
+    cert: "saa-c03",
     term: "Amazon RDS (Relational Database Service)",
-    definition: "Serviço de banco de dados relacional gerenciado que facilita configurar, operar e escalar bancos de dados na nuvem. Suporta vários mecanismos de banco de dados como MySQL, PostgreSQL, Oracle e SQL Server."
+    definition: "Serviço de banco de dados relacional gerenciado que facilita configurar, operar e escalar bancos de dados. Suporta MySQL, PostgreSQL, Oracle, SQL Server, MariaDB e Amazon Aurora."
   },
   {
-    term: "AWS CloudFormation",
-    definition: "Serviço de infraestrutura como código que permite modelar e provisionar recursos AWS e de terceiros usando templates. Automatiza e padroniza a criação de infraestrutura."
+    cert: "saa-c03",
+    term: "Amazon Aurora",
+    definition: "Banco de dados relacional compatível com MySQL e PostgreSQL, até 5x mais rápido que MySQL e 3x mais rápido que PostgreSQL. Oferece alta disponibilidade e durabilidade."
   },
   {
+    cert: "saa-c03",
+    term: "Amazon DynamoDB",
+    definition: "Banco de dados NoSQL totalmente gerenciado que fornece performance rápida e previsível com escalabilidade automática. Suporta modelos de dados de documentos e chave-valor."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon ElastiCache",
+    definition: "Serviço de cache em memória totalmente gerenciado que suporta Redis e Memcached. Melhora performance de aplicações recuperando dados de caches rápidos em memória."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon EBS (Elastic Block Store)",
+    definition: "Armazenamento em bloco de alto desempenho para uso com EC2. Oferece volumes persistentes que podem ser anexados a instâncias e suporta snapshots para backup."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon EFS (Elastic File System)",
+    definition: "Sistema de arquivos NFS totalmente gerenciado e elástico para uso com serviços AWS Cloud e recursos on-premises. Escala automaticamente conforme necessário."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Storage Gateway",
+    definition: "Serviço híbrido que permite ambientes on-premises usar armazenamento na nuvem AWS. Oferece integração perfeita entre infraestrutura local e AWS."
+  },
+  {
+    cert: "saa-c03",
     term: "Amazon CloudFront",
-    definition: "Serviço de rede de entrega de conteúdo (CDN) que entrega dados, vídeos, aplicações e APIs com segurança para clientes globalmente com baixa latência e altas velocidades de transferência."
+    definition: "Rede de entrega de conteúdo (CDN) que entrega dados, vídeos, aplicações e APIs globalmente com baixa latência e altas velocidades de transferência usando edge locations."
+  },
+  {
+    cert: "saa-c03",
+    term: "Elastic Load Balancing (ELB)",
+    definition: "Distribui automaticamente tráfego de entrada entre múltiplos destinos. Inclui Application Load Balancer (ALB), Network Load Balancer (NLB) e Gateway Load Balancer."
+  },
+  {
+    cert: "saa-c03",
+    term: "Auto Scaling",
+    definition: "Monitora aplicações e ajusta automaticamente a capacidade para manter performance estável e previsível ao menor custo possível. Funciona com EC2, ECS, DynamoDB e Aurora."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon Route 53",
+    definition: "Serviço de DNS altamente disponível e escalável. Oferece registro de domínio, roteamento de DNS e verificação de integridade com políticas de roteamento avançadas."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Direct Connect",
+    definition: "Conexão de rede dedicada entre seu data center e AWS. Reduz custos de rede, aumenta throughput de banda e fornece experiência de rede mais consistente que conexões baseadas em Internet."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon SQS (Simple Queue Service)",
+    definition: "Serviço de fila de mensagens totalmente gerenciado que permite desacoplar e escalar microsserviços, sistemas distribuídos e aplicações serverless."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon SNS (Simple Notification Service)",
+    definition: "Serviço de mensagens pub/sub totalmente gerenciado para comunicação entre aplicações e pessoas. Suporta SMS, email, push notifications e HTTP/HTTPS."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Lambda",
+    definition: "Serviço de computação serverless que executa código em resposta a eventos. Gerencia automaticamente recursos de computação e você paga apenas pelo tempo de execução."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon API Gateway",
+    definition: "Serviço totalmente gerenciado para criar, publicar, manter, monitorar e proteger APIs REST, HTTP e WebSocket em qualquer escala."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS CloudFormation",
+    definition: "Serviço de infraestrutura como código que permite modelar e provisionar recursos AWS usando templates JSON ou YAML. Automatiza criação e gerenciamento de infraestrutura."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon Kinesis",
+    definition: "Plataforma para coletar, processar e analisar dados de streaming em tempo real. Inclui Kinesis Data Streams, Firehose, Analytics e Video Streams."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Step Functions",
+    definition: "Serviço de orquestração serverless que permite coordenar múltiplos serviços AWS em workflows visuais. Facilita construção de aplicações distribuídas e pipelines de dados."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon Redshift",
+    definition: "Data warehouse totalmente gerenciado e escalável para análise de dados usando SQL. Otimizado para consultas analíticas em grandes volumes de dados."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Glue",
+    definition: "Serviço de ETL (Extract, Transform, Load) serverless que facilita preparar e carregar dados para análise. Descobre, cataloga e transforma dados automaticamente."
+  },
+
+  // ==========================================
+  // DVA-C02: Developer Associate
+  // ==========================================
+  {
+    cert: "dva-c02",
+    term: "AWS CodeCommit",
+    definition: "Serviço de controle de versão totalmente gerenciado que hospeda repositórios Git privados. Elimina necessidade de operar sistema próprio de controle de versão."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS CodeBuild",
+    definition: "Serviço de integração contínua totalmente gerenciado que compila código-fonte, executa testes e produz pacotes de software prontos para deploy."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS CodeDeploy",
+    definition: "Serviço de deployment automatizado para EC2, Lambda, ECS e on-premises. Automatiza deployments de aplicações e minimiza tempo de inatividade."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS CodePipeline",
+    definition: "Serviço de entrega contínua que automatiza pipelines de release para atualizações rápidas e confiáveis. Integra-se com CodeCommit, CodeBuild, CodeDeploy e ferramentas terceiras."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS X-Ray",
+    definition: "Serviço de análise e debug de aplicações distribuídas. Ajuda a entender como aplicações e serviços subjacentes estão performando e identificar gargalos."
+  },
+  {
+    cert: "dva-c02",
+    term: "Amazon Cognito",
+    definition: "Serviço de identidade para aplicações web e mobile. Fornece autenticação, autorização e gerenciamento de usuários com suporte a provedores de identidade social e empresarial."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS Secrets Manager",
+    definition: "Serviço que ajuda a proteger acesso a aplicações, serviços e recursos. Facilita rotação, gerenciamento e recuperação de credenciais de banco de dados, chaves de API e outros segredos."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS Systems Manager Parameter Store",
+    definition: "Armazenamento hierárquico seguro para dados de configuração e segredos. Integra-se com KMS para criptografia e oferece versionamento de parâmetros."
+  },
+  {
+    cert: "dva-c02",
+    term: "Amazon EventBridge",
+    definition: "Barramento de eventos serverless que facilita conectar aplicações usando eventos de suas próprias aplicações, aplicações SaaS e serviços AWS."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS SAM (Serverless Application Model)",
+    definition: "Framework open-source para construir aplicações serverless. Fornece sintaxe simplificada para definir funções Lambda, APIs, bancos de dados e mapeamentos de eventos."
+  },
+  {
+    cert: "dva-c02",
+    term: "Amazon ECS (Elastic Container Service)",
+    definition: "Serviço de orquestração de contêineres totalmente gerenciado que facilita executar, parar e gerenciar contêineres Docker em cluster."
+  },
+  {
+    cert: "dva-c02",
+    term: "Amazon EKS (Elastic Kubernetes Service)",
+    definition: "Serviço gerenciado que facilita executar Kubernetes na AWS sem necessidade de instalar e operar seu próprio plano de controle Kubernetes."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS Fargate",
+    definition: "Motor de computação serverless para contêineres que funciona com ECS e EKS. Remove necessidade de provisionar e gerenciar servidores."
+  },
+  {
+    cert: "dva-c02",
+    term: "Amazon ECR (Elastic Container Registry)",
+    definition: "Registro de contêineres Docker totalmente gerenciado que facilita armazenar, gerenciar e implantar imagens de contêineres."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS AppSync",
+    definition: "Serviço gerenciado de GraphQL que facilita desenvolvimento de aplicações fornecendo consulta segura, atualização e publicação de dados de múltiplas fontes."
+  },
+  {
+    cert: "dva-c02",
+    term: "Amazon CloudWatch Logs",
+    definition: "Serviço para monitorar, armazenar e acessar arquivos de log de EC2, CloudTrail, Lambda e outras fontes. Permite consultar e analisar dados de log."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS Elastic Beanstalk",
+    definition: "Serviço PaaS para deploy e escala de aplicações web. Gerencia automaticamente infraestrutura (EC2, load balancers, auto scaling) enquanto você mantém controle."
+  },
+
+  // ==========================================
+  // AIF-C01: AI Practitioner
+  // ==========================================
+  {
+    cert: "aif-c01",
+    term: "Amazon SageMaker",
+    definition: "Serviço totalmente gerenciado para construir, treinar e implantar modelos de machine learning em escala. Fornece notebooks Jupyter, algoritmos integrados e infraestrutura gerenciada."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Bedrock",
+    definition: "Serviço totalmente gerenciado que oferece modelos de fundação (FMs) de alto desempenho de empresas líderes em IA via API única. Permite construir e escalar aplicações de IA generativa."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Bedrock Barreiras de Proteção",
+    definition: "Recurso que implementa proteções e políticas de segurança para modelos de IA. Inclui filtros de conteúdo, detecção de informações pessoais e validação de saídas do modelo."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Rekognition",
+    definition: "Serviço de análise de imagem e vídeo que identifica objetos, pessoas, texto, cenas e atividades. Também detecta conteúdo inadequado e fornece análise facial."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Comprehend",
+    definition: "Serviço de processamento de linguagem natural (NLP) que usa machine learning para descobrir insights e relacionamentos em texto. Identifica idioma, entidades, sentimentos e tópicos."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Translate",
+    definition: "Serviço de tradução automática neural que fornece tradução de idiomas rápida, de alta qualidade e acessível. Suporta mais de 75 idiomas."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Polly",
+    definition: "Serviço que converte texto em fala realista usando tecnologias de deep learning. Suporta múltiplos idiomas e vozes com pronúncia natural."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Transcribe",
+    definition: "Serviço de reconhecimento automático de fala que converte áudio em texto. Suporta múltiplos idiomas, identificação de falantes e vocabulário personalizado."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Lex",
+    definition: "Serviço para construir interfaces de conversação usando voz e texto. Mesma tecnologia que alimenta Amazon Alexa, permite criar chatbots sofisticados."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Kendra",
+    definition: "Serviço de pesquisa empresarial inteligente alimentado por machine learning. Fornece respostas precisas a perguntas em linguagem natural de documentos corporativos."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Personalize",
+    definition: "Serviço de machine learning que facilita criar recomendações personalizadas para clientes. Usa mesma tecnologia de recomendação da Amazon.com."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Forecast",
+    definition: "Serviço de previsão de séries temporais baseado em machine learning. Usa mesma tecnologia da Amazon.com para prever demanda, recursos e métricas de negócio."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Textract",
+    definition: "Serviço que extrai automaticamente texto, escrita manual e dados de documentos escaneados. Vai além de OCR simples identificando campos de formulários e tabelas."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon SageMaker Ground Truth",
+    definition: "Serviço de rotulagem de dados que facilita construir conjuntos de dados de treinamento precisos para machine learning. Usa rotulagem humana e machine learning ativo."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon SageMaker Clarify",
+    definition: "Ferramenta que ajuda a detectar viés em dados e modelos de ML. Fornece explicabilidade de modelos e monitora previsões para detectar desvios de qualidade."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Augmented AI (A2I)",
+    definition: "Serviço que facilita construir workflows para revisão humana de previsões de ML. Permite implementar revisão humana quando modelo tem baixa confiança."
+  },
+  {
+    cert: "aif-c01",
+    term: "AWS DeepRacer",
+    definition: "Carro de corrida autônomo em escala 1/18 para aprender reinforcement learning. Inclui simulador 3D, liga de corridas global e hardware físico."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon CodeGuru",
+    definition: "Serviço de revisão de código alimentado por ML que fornece recomendações inteligentes para melhorar qualidade do código e identificar linhas mais caras."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon DevOps Guru",
+    definition: "Serviço alimentado por ML que facilita melhorar disponibilidade operacional de aplicações. Detecta automaticamente comportamentos operacionais anormais."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Fraud Detector",
+    definition: "Serviço totalmente gerenciado que usa ML para identificar atividades potencialmente fraudulentas. Detecta fraudes online como criação de contas falsas e pagamentos fraudulentos."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon Lookout for Metrics",
+    definition: "Serviço que usa ML para detectar automaticamente anomalias em métricas de negócio e operacionais. Identifica causa raiz de anomalias."
+  },
+
+  // ==========================================
+  // TERMOS ADICIONAIS IMPORTANTES
+  // ==========================================
+  {
+    cert: "all",
+    term: "AWS CLI (Command Line Interface)",
+    definition: "Ferramenta unificada para gerenciar serviços AWS via linha de comando. Permite automatizar tarefas através de scripts."
+  },
+  {
+    cert: "all",
+    term: "AWS SDK (Software Development Kit)",
+    definition: "Conjunto de ferramentas e bibliotecas para desenvolver aplicações que usam serviços AWS. Disponível em múltiplas linguagens de programação."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Marketplace",
+    definition: "Catálogo digital com milhares de listagens de software de fornecedores independentes. Facilita encontrar, testar, comprar e implantar software que roda na AWS."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Personal Health Dashboard",
+    definition: "Fornece alertas e orientação quando AWS está enfrentando eventos que podem impactar você. Visão personalizada da performance e disponibilidade de serviços AWS."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon FSx",
+    definition: "Família de serviços de sistema de arquivos totalmente gerenciados. Inclui FSx for Windows File Server, FSx for Lustre, FSx for NetApp ONTAP e FSx for OpenZFS."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Transit Gateway",
+    definition: "Serviço que permite conectar VPCs e redes on-premises através de hub central. Simplifica topologia de rede e reduz complexidade operacional."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS PrivateLink",
+    definition: "Fornece conectividade privada entre VPCs, serviços AWS e redes on-premises sem expor tráfego à Internet pública. Melhora segurança e performance."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon Athena",
+    definition: "Serviço de consulta interativa que facilita analisar dados no S3 usando SQL padrão. Serverless, você paga apenas pelas consultas executadas."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Backup",
+    definition: "Serviço centralizado de backup que automatiza e consolida backup de dados entre serviços AWS. Simplifica conformidade com políticas de backup."
+  },
+  {
+    cert: "dva-c02",
+    term: "Amazon DynamoDB Streams",
+    definition: "Captura série ordenada no tempo de modificações em itens de tabela DynamoDB. Permite construir aplicações que reagem a mudanças de dados em tempo real."
+  },
+  {
+    cert: "dva-c02",
+    term: "AWS AppConfig",
+    definition: "Serviço que permite criar, gerenciar e implantar rapidamente configurações de aplicações. Valida configurações e implanta de forma controlada."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon SageMaker Autopilot",
+    definition: "Recurso de AutoML que automaticamente treina e ajusta melhores modelos de ML para dados de classificação ou regressão. Fornece visibilidade completa do modelo."
+  },
+  {
+    cert: "aif-c01",
+    term: "Amazon SageMaker Neo",
+    definition: "Permite treinar modelos de ML uma vez e executar em qualquer lugar na nuvem e na edge. Otimiza modelos para executar até 2x mais rápido com menos de 1/10 do tamanho."
   }
 ];
