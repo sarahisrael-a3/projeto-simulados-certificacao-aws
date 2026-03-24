@@ -289,6 +289,21 @@ body {
 @media (max-width: 640px) {
   body { font-size: 14px; }
   
+  /* Header responsivo */
+  header { 
+    flex-wrap: nowrap !important; 
+    overflow-x: hidden !important;
+  }
+  
+  header h1 { 
+    font-size: 0.875rem !important; 
+    white-space: nowrap;
+  }
+  
+  header .flex.items-center.gap-2 {
+    gap: 0.25rem !important;
+  }
+  
   #screen-start, #screen-quiz, #screen-results { padding: 1.25rem !important; }
   h2.text-3xl { font-size: 1.5rem !important; line-height: 2rem !important; }
   
@@ -298,6 +313,30 @@ body {
   /* Empilha botões verticalmente */
   .mt-auto.pt-6.flex { flex-direction: column; width: 100%; gap: 0.75rem !important; }
   .mt-auto.pt-6.flex button { width: 100%; margin: 0 !important; }
+}
+
+/* Telas Extra Pequenas (até 380px) */
+@media (max-width: 380px) {
+  header {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  header h1 {
+    font-size: 0.75rem !important;
+  }
+  
+  header p {
+    display: none !important;
+  }
+  
+  #btn-language span {
+    font-size: 0.625rem !important;
+  }
+  
+  #score-display {
+    font-size: 0.625rem !important;
+  }
 }
 
 /* Telas Médias (Tablets - 641px a 1024px) */
