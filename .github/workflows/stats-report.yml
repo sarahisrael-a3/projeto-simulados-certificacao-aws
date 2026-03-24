@@ -109,12 +109,7 @@ Pending contributions: ${{ steps.stats.outputs.pending_total }}"
           script: |
             const date = new Date().toISOString().split('T')[0];
             
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `📊 Relatório Semanal de Estatísticas - ${date}`,
-              labels: ['statistics', 'automated'],
-              body: `## 📊 Estatísticas do Projeto - ${date}
+            const body = `## 📊 Estatísticas do Projeto - ${date}
 
 ### 📚 Banco de Questões
 
@@ -144,5 +139,12 @@ Quer ajudar a crescer esses números? Confira nosso [Guia de Contribuição](htt
 
 ---
 
-*Relatório gerado automaticamente por GitHub Actions*`
+*Relatório gerado automaticamente por GitHub Actions*`;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `📊 Relatório Semanal de Estatísticas - ${date}`,
+              labels: ['statistics', 'automated'],
+              body: body
             })

@@ -58,8 +58,8 @@ jobs:
           fi
           
           # Captura estatísticas
-          MERGED=$(ls data/contributions/${{ inputs.cert_id }}/_processed/*.json 2>/dev/null | wc -l || echo "0")
-          PENDING=$(ls data/contributions/${{ inputs.cert_id }}/*.json 2>/dev/null | grep -v "_TEMPLATE" | wc -l || echo "0")
+          MERGED=$(ls data/contributions/${{ inputs.cert_id }}/_processed/*.json 2>/dev/null | wc -l | tr -d ' ' || echo "0")
+          PENDING=$(ls data/contributions/${{ inputs.cert_id }}/*.json 2>/dev/null | grep -v "_TEMPLATE" | wc -l | tr -d ' ' || echo "0")
           TOTAL=$(jq '. | length' data/${{ inputs.cert_id }}.json)
           
           echo "merged=$MERGED" >> $GITHUB_OUTPUT
@@ -76,8 +76,10 @@ jobs:
           echo "📚 Total no banco: ${{ steps.merge.outputs.total }}"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
       
+      # ✅ CORREÇÃO: mensagem multilinha extraída para variável de ambiente
+      #    evita conflito entre aspas do shell e delimitadores ${{ }}
       - name: 💾 Commit changes
-        if: inputs.dry_run == false && steps.merge.outputs.merged > 0
+        if: ${{ inputs.dry_run == false && steps.merge.outputs.merged != '0' }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -86,13 +88,14 @@ jobs:
           git add data/contributions/${{ inputs.cert_id }}/_processed/
           git add data/backups/
           
-          git commit -m "chore(${{ inputs.cert_id }}): merge ${{ steps.merge.outputs.merged }} contributions
-
-- Merged: ${{ steps.merge.outputs.merged }} questions
-- Total: ${{ steps.merge.outputs.total }} questions in database
-- Pending: ${{ steps.merge.outputs.pending }} contributions
-
-Auto-merged by GitHub Actions"
+          # Mensagem separada em variável para evitar problemas de interpolação
+          COMMIT_MSG="chore(${{ inputs.cert_id }}): merge ${{ steps.merge.outputs.merged }} contributions"
+          COMMIT_BODY=$(printf '- Merged: %s questions\n- Total: %s questions in database\n- Pending: %s contributions\n\nAuto-merged by GitHub Actions' \
+            "${{ steps.merge.outputs.merged }}" \
+            "${{ steps.merge.outputs.total }}" \
+            "${{ steps.merge.outputs.pending }}")
+          
+          git commit -m "$COMMIT_MSG" -m "$COMMIT_BODY"
           
           git push
       

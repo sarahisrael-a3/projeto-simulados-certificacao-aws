@@ -57,14 +57,10 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const files = '${{ steps.check-files.outputs.all_changed_files }}'.split(' ');
+            const files = '${{ steps.check-files.outputs.all_changed_files }}'.split(' ').filter(f => f);
             const fileList = files.map(f => `- 🚫 \`${f}\``).join('\n');
             
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## 🚫 Edição Direta de Arquivos Principais Bloqueada
+            const body = `## 🚫 Edição Direta de Arquivos Principais Bloqueada
 
 Este PR tenta editar arquivos principais do banco de questões diretamente, o que não é mais permitido para evitar conflitos de merge.
 
@@ -107,5 +103,11 @@ O novo sistema modular permite que **múltiplos contribuidores trabalhem simulta
 
 ---
 
-Por favor, feche este PR e crie um novo seguindo o fluxo modular. Obrigado! 🙏`
+Por favor, feche este PR e crie um novo seguindo o fluxo modular. Obrigado! 🙏`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
             })
