@@ -84,31 +84,41 @@ export class QuizEngine {
     }
 
     // 3. AVALIAÇÃO
-    submitAnswer(selectedIndex) {
+   submitAnswer(selectedIndex) {
         const q = this.getCurrentQuestion();
         
-        // Verifica se é múltipla resposta (correct é Array)
         let isCorrect;
         if (Array.isArray(q.correct)) {
-            // Múltipla resposta: compara arrays ordenados
             const userSorted = Array.isArray(selectedIndex) ? [...selectedIndex].sort() : [];
             const correctSorted = [...q.correct].sort();
             isCorrect = JSON.stringify(userSorted) === JSON.stringify(correctSorted);
         } else {
-            // Escolha única
             isCorrect = selectedIndex === q.correct;
         }
         
-        // Salva histórico
         this.state.answers.push({ ...q, userSelection: selectedIndex, isCorrect });
-        
-        // Atualiza pontuação global
         if (isCorrect) this.state.score++;
 
-        // Atualiza pontuação do domínio
-        if (this.state.domainScores[q.domain]) {
-            this.state.domainScores[q.domain].total++;
-            if (isCorrect) this.state.domainScores[q.domain].correct++;
+        // --- CORREÇÃO DE BUG DO GRÁFICO (Normalização de Domínios) ---
+        let qDomain = String(q.domain).trim();
+        
+        // 1. Tenta o match exato
+        if (this.state.domainScores[qDomain]) {
+            this.state.domainScores[qDomain].total++;
+            if (isCorrect) this.state.domainScores[qDomain].correct++;
+        } else {
+            // 2. Tenta match flexível (ex: "1" no JSON bate com "1.0" no config)
+            const matchedKey = Object.keys(this.state.domainScores).find(key => 
+                parseFloat(key) === parseFloat(qDomain) || key.includes(qDomain)
+            );
+            
+            if (matchedKey) {
+                this.state.domainScores[matchedKey].total++;
+                if (isCorrect) this.state.domainScores[matchedKey].correct++;
+            } else {
+                // 3. Se for um domínio totalmente desconhecido, cria dinamicamente
+                this.state.domainScores[qDomain] = { total: 1, correct: isCorrect ? 1 : 0 };
+            }
         }
 
         return {
@@ -119,7 +129,6 @@ export class QuizEngine {
             isFinished: this.state.currentIndex === this.state.questions.length - 1
         };
     }
-
     // 4. RESULTADOS FINAIS
     getFinalResults() {
         const total = this.state.questions.length;
