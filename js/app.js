@@ -1212,6 +1212,22 @@ function cancelQuiz() {
     if (confirm('Sair do simulado?')) goHome();
 }
 
+function startMistakesQuiz() {
+    // TODO: Implementar funcionalidade de praticar questões erradas
+    alert('Funcionalidade em desenvolvimento! Em breve você poderá revisar suas questões erradas.');
+}
+
+function clearMistakes() {
+    if (confirm('Tem certeza que deseja limpar o histórico de erros?')) {
+        // TODO: Implementar limpeza de histórico de erros
+        alert('Histórico de erros limpo com sucesso!');
+        const btnPractice = document.getElementById('btn-practice-mistakes');
+        const btnClear = document.getElementById('btn-clear-mistakes');
+        if (btnPractice) btnPractice.classList.add('hidden');
+        if (btnClear) btnClear.classList.add('hidden');
+    }
+}
+
 function generatePerformanceReport() {
     const reportElement = document.getElementById('detailed-report');
     
@@ -1351,3 +1367,5 @@ window.flipFlashcard = flipFlashcard;
 window.nextFlashcard = nextFlashcard;
 window.prevFlashcard = prevFlashcard;
 window.filterFlashcardsByCert = filterFlashcardsByCert;
+window.startMistakesQuiz = startMistakesQuiz;
+window.clearMistakes = clearMistakes;

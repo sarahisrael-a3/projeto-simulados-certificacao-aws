@@ -18,8 +18,9 @@ export function startFlashcards(showScreenFn) {
     
     flashcardState.index = 0;
     flashcardState.flipped = false;
-    flashcardState.currentFilter = 'all';
-    flashcardState.filteredTerms = glossaryTerms;
+    flashcardState.currentFilter = 'general'; // Inicia com Termos Gerais
+    // Filtra apenas termos gerais (cert === 'all')
+    flashcardState.filteredTerms = glossaryTerms.filter(term => term.cert === 'all');
     
     // VALIDAÇÃO: Verifica se showScreenFn é uma função
     if (typeof showScreenFn === 'function') {
@@ -35,20 +36,39 @@ function renderCertificationFilter() {
     const filterContainer = document.getElementById('flashcard-filter');
     if (!filterContainer) return;
     
+    // Conta termos por categoria
+    const counts = {
+        all: glossaryTerms.length,
+        general: glossaryTerms.filter(t => t.cert === 'all').length,
+        'clf-c02': glossaryTerms.filter(t => t.cert === 'clf-c02').length,
+        'saa-c03': glossaryTerms.filter(t => t.cert === 'saa-c03').length,
+        'dva-c02': glossaryTerms.filter(t => t.cert === 'dva-c02').length,
+        'aif-c01': glossaryTerms.filter(t => t.cert === 'aif-c01').length
+    };
+    
     const certifications = [
-        { id: 'all', name: 'Todos os Termos' },
-        { id: 'clf-c02', name: 'Cloud Practitioner' },
-        { id: 'saa-c03', name: 'Solutions Architect' },
-        { id: 'dva-c02', name: 'Developer Associate' },
-        { id: 'aif-c01', name: 'AI Practitioner' }
+        { id: 'all', name: 'Todos', icon: '📚', count: counts.all },
+        { id: 'general', name: 'Termos Gerais', icon: '🌐', count: counts.general },
+        { id: 'clf-c02', name: 'Cloud Practitioner', icon: '☁️', count: counts['clf-c02'] },
+        { id: 'saa-c03', name: 'Solutions Architect', icon: '🏗️', count: counts['saa-c03'] },
+        { id: 'dva-c02', name: 'Developer', icon: '💻', count: counts['dva-c02'] },
+        { id: 'aif-c01', name: 'AI Practitioner', icon: '🤖', count: counts['aif-c01'] }
     ];
     
     filterContainer.innerHTML = certifications.map(cert => `
         <button 
-            class="px-4 py-2 rounded-lg transition-all ${flashcardState.currentFilter === cert.id ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+            class="px-3 py-2 rounded-lg transition-all text-sm font-medium ${
+                flashcardState.currentFilter === cert.id 
+                    ? 'bg-aws-orange text-white shadow-md' 
+                    : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-600'
+            }"
             onclick="window.filterFlashcardsByCert('${cert.id}')"
+            title="${cert.name} (${cert.count} termos)"
         >
-            ${cert.name}
+            <span class="mr-1">${cert.icon}</span>
+            <span class="hidden sm:inline">${cert.name}</span>
+            <span class="inline sm:hidden">${cert.name.split(' ')[0]}</span>
+            <span class="ml-1 text-xs opacity-75">(${cert.count})</span>
         </button>
     `).join('');
 }
@@ -58,11 +78,14 @@ export function filterFlashcardsByCert(certId) {
     flashcardState.currentFilter = certId;
     
     if (certId === 'all') {
+        // Mostra todos os termos
         flashcardState.filteredTerms = glossaryTerms;
+    } else if (certId === 'general') {
+        // Mostra APENAS termos gerais (aplicáveis a todas certificações)
+        flashcardState.filteredTerms = glossaryTerms.filter(term => term.cert === 'all');
     } else {
-        flashcardState.filteredTerms = glossaryTerms.filter(term => 
-            term.cert === certId || term.cert === 'all'
-        );
+        // Mostra APENAS termos específicos da certificação (SEM os gerais)
+        flashcardState.filteredTerms = glossaryTerms.filter(term => term.cert === certId);
     }
     
     flashcardState.index = 0;

@@ -126,10 +126,160 @@ export const glossaryTerms = [
     term: "Modelo de Responsabilidade Compartilhada",
     definition: "Framework que define responsabilidades de segurança entre AWS e cliente. AWS é responsável pela segurança DA nuvem (infraestrutura); cliente é responsável pela segurança NA nuvem (dados, aplicações)."
   },
+  {
+    cert: "clf-c02",
+    term: "AWS Marketplace",
+    definition: "Catálogo digital com milhares de listagens de software de fornecedores independentes. Facilita encontrar, testar, comprar e implantar software que roda na AWS."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Personal Health Dashboard",
+    definition: "Fornece alertas e orientação quando AWS está enfrentando eventos que podem impactar você. Visão personalizada da performance e disponibilidade de serviços AWS."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Service Catalog",
+    definition: "Permite organizações criar e gerenciar catálogos de serviços de TI aprovados para uso na AWS. Ajuda a alcançar governança consistente e atender requisitos de conformidade."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Control Tower",
+    definition: "Serviço que automatiza configuração de ambiente AWS multi-conta seguro e bem arquitetado. Implementa melhores práticas de governança usando blueprints."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS License Manager",
+    definition: "Facilita gerenciar licenças de software de fornecedores como Microsoft, SAP, Oracle e IBM na AWS e on-premises. Ajuda a controlar custos e reduzir riscos de não conformidade."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Compute Optimizer",
+    definition: "Recomenda recursos AWS ideais para suas cargas de trabalho usando machine learning. Analisa métricas históricas de utilização para reduzir custos e melhorar performance."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Cost and Usage Report",
+    definition: "Relatório mais abrangente disponível sobre custos e uso da AWS. Fornece dados detalhados sobre uso de serviços, custos e atributos de recursos."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Savings Plans",
+    definition: "Modelo de preços flexível que oferece preços mais baixos em troca de compromisso de uso consistente (medido em $/hora) por período de 1 ou 3 anos."
+  },
+  {
+    cert: "clf-c02",
+    term: "Reserved Instances",
+    definition: "Modelo de compra que oferece desconto significativo (até 75%) comparado a preços On-Demand em troca de compromisso de uso de instância por 1 ou 3 anos."
+  },
+  {
+    cert: "clf-c02",
+    term: "Spot Instances",
+    definition: "Permite usar capacidade EC2 não utilizada com desconto de até 90% comparado a preços On-Demand. Ideal para cargas de trabalho tolerantes a falhas e flexíveis."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Snow Family",
+    definition: "Família de dispositivos físicos para migração de dados e edge computing. Inclui Snowcone, Snowball e Snowmobile para transferir petabytes de dados."
+  },
+  {
+    cert: "clf-c02",
+    term: "AWS Outposts",
+    definition: "Serviço totalmente gerenciado que estende infraestrutura, serviços, APIs e ferramentas AWS para praticamente qualquer data center, espaço de colocation ou instalação on-premises."
+  },
 
   // ==========================================
   // SAA-C03: Solutions Architect Associate
   // ==========================================
+  {
+    cert: "saa-c03",
+    term: "Amazon S3 Glacier",
+    definition: "Classes de armazenamento de baixo custo para arquivamento de dados e backup de longo prazo. Oferece três opções de recuperação: Expedited, Standard e Bulk."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon S3 Intelligent-Tiering",
+    definition: "Classe de armazenamento S3 que otimiza automaticamente custos movendo dados entre camadas de acesso quando padrões de acesso mudam, sem impacto operacional."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Global Accelerator",
+    definition: "Serviço de rede que melhora disponibilidade e performance de aplicações para usuários globais usando rede global AWS. Fornece IPs estáticos como ponto de entrada fixo."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon Neptune",
+    definition: "Serviço de banco de dados de grafos totalmente gerenciado. Otimizado para armazenar e consultar dados altamente conectados com performance de milissegundos."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS App Mesh",
+    definition: "Service mesh que facilita monitorar e controlar microsserviços. Fornece visibilidade e controle de rede consistente para cada microsserviço em aplicação."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon MQ",
+    definition: "Serviço de message broker gerenciado para Apache ActiveMQ e RabbitMQ. Facilita migrar para nuvem aplicações que usam message brokers tradicionais."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS DataSync",
+    definition: "Serviço de transferência de dados online que simplifica, automatiza e acelera movimentação de dados entre armazenamento on-premises e serviços AWS."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon FSx",
+    definition: "Família de serviços de sistema de arquivos totalmente gerenciados. Inclui FSx for Windows File Server, FSx for Lustre, FSx for NetApp ONTAP e FSx for OpenZFS."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Transit Gateway",
+    definition: "Serviço que permite conectar VPCs e redes on-premises através de hub central. Simplifica topologia de rede e reduz complexidade operacional."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS PrivateLink",
+    definition: "Fornece conectividade privada entre VPCs, serviços AWS e redes on-premises sem expor tráfego à Internet pública. Melhora segurança e performance."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon Athena",
+    definition: "Serviço de consulta interativa que facilita analisar dados no S3 usando SQL padrão. Serverless, você paga apenas pelas consultas executadas."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Backup",
+    definition: "Serviço centralizado de backup que automatiza e consolida backup de dados entre serviços AWS. Simplifica conformidade com políticas de backup."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon ElastiCache for Redis",
+    definition: "Cache em memória compatível com Redis totalmente gerenciado. Oferece alta disponibilidade, backup automático e replicação multi-AZ."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon ElastiCache for Memcached",
+    definition: "Cache em memória compatível com Memcached totalmente gerenciado. Ideal para casos de uso simples de cache com modelo de dados chave-valor."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Certificate Manager (ACM)",
+    definition: "Serviço que facilita provisionar, gerenciar e implantar certificados SSL/TLS públicos e privados para uso com serviços AWS e recursos internos."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon EventBridge",
+    definition: "Barramento de eventos serverless que facilita conectar aplicações usando eventos de suas próprias aplicações, aplicações SaaS e serviços AWS."
+  },
+  {
+    cert: "saa-c03",
+    term: "AWS Systems Manager",
+    definition: "Fornece visibilidade e controle unificados de infraestrutura AWS. Permite automatizar tarefas operacionais em recursos AWS e on-premises."
+  },
+  {
+    cert: "saa-c03",
+    term: "Amazon DocumentDB",
+    definition: "Banco de dados de documentos totalmente gerenciado compatível com MongoDB. Facilita armazenar, consultar e indexar dados JSON com escalabilidade e durabilidade."
+  },
   {
     cert: "saa-c03",
     term: "Amazon VPC (Virtual Private Cloud)",
@@ -453,6 +603,41 @@ export const glossaryTerms = [
     definition: "Conjunto de ferramentas e bibliotecas para desenvolver aplicações que usam serviços AWS. Disponível em múltiplas linguagens de programação."
   },
   {
+    cert: "all",
+    term: "Amazon VPC (Virtual Private Cloud)",
+    definition: "Rede virtual logicamente isolada na AWS onde você pode lançar recursos com controle completo sobre configuração de rede, incluindo sub-redes, tabelas de roteamento e gateways."
+  },
+  {
+    cert: "all",
+    term: "AWS CloudFormation",
+    definition: "Serviço de infraestrutura como código que permite modelar e provisionar recursos AWS usando templates JSON ou YAML. Automatiza criação e gerenciamento de infraestrutura."
+  },
+  {
+    cert: "all",
+    term: "AWS Lambda",
+    definition: "Serviço de computação serverless que executa código em resposta a eventos. Gerencia automaticamente recursos de computação e você paga apenas pelo tempo de execução."
+  },
+  {
+    cert: "all",
+    term: "Amazon RDS (Relational Database Service)",
+    definition: "Serviço de banco de dados relacional gerenciado que facilita configurar, operar e escalar bancos de dados. Suporta MySQL, PostgreSQL, Oracle, SQL Server, MariaDB e Amazon Aurora."
+  },
+  {
+    cert: "all",
+    term: "Amazon CloudWatch",
+    definition: "Serviço de monitoramento e observabilidade que fornece dados e insights para monitorar aplicações, responder a mudanças de performance e otimizar utilização de recursos."
+  },
+  {
+    cert: "all",
+    term: "Elastic Load Balancing (ELB)",
+    definition: "Distribui automaticamente tráfego de entrada entre múltiplos destinos. Inclui Application Load Balancer (ALB), Network Load Balancer (NLB) e Gateway Load Balancer."
+  },
+  {
+    cert: "all",
+    term: "Amazon DynamoDB",
+    definition: "Banco de dados NoSQL totalmente gerenciado que fornece performance rápida e previsível com escalabilidade automática. Suporta modelos de dados de documentos e chave-valor."
+  },
+  {
     cert: "clf-c02",
     term: "AWS Marketplace",
     definition: "Catálogo digital com milhares de listagens de software de fornecedores independentes. Facilita encontrar, testar, comprar e implantar software que roda na AWS."
@@ -508,3 +693,50 @@ export const glossaryTerms = [
     definition: "Permite treinar modelos de ML uma vez e executar em qualquer lugar na nuvem e na edge. Otimiza modelos para executar até 2x mais rápido com menos de 1/10 do tamanho."
   }
 ];
+
+// ============================================
+// CONFIGURAÇÃO DAS CERTIFICAÇÕES
+// ============================================
+
+export const certificationPaths = {
+  "clf-c02": {
+    name: "AWS Certified Cloud Practitioner",
+    code: "CLF-C02",
+    domains: [
+      { id: "conceitos-cloud", name: "Conceitos de Cloud" },
+      { id: "seguranca-conformidade", name: "Segurança e Conformidade" },
+      { id: "tecnologia", name: "Tecnologia" },
+      { id: "faturamento-precos", name: "Faturamento e Preços" }
+    ]
+  },
+  "saa-c03": {
+    name: "AWS Certified Solutions Architect - Associate",
+    code: "SAA-C03",
+    domains: [
+      { id: "design-resiliente", name: "Design de Arquiteturas Resilientes" },
+      { id: "design-alto-desempenho", name: "Design de Alto Desempenho" },
+      { id: "design-seguro", name: "Design de Aplicações Seguras" },
+      { id: "design-otimizado-custos", name: "Design Otimizado para Custos" }
+    ]
+  },
+  "aif-c01": {
+    name: "AWS Certified AI Practitioner",
+    code: "AIF-C01",
+    domains: [
+      { id: "fundamentos-ia", name: "Fundamentos de IA e ML" },
+      { id: "ia-generativa", name: "IA Generativa" },
+      { id: "aplicacoes-ia", name: "Aplicações de IA" },
+      { id: "ia-responsavel", name: "IA Responsável" }
+    ]
+  },
+  "dva-c02": {
+    name: "AWS Certified Developer - Associate",
+    code: "DVA-C02",
+    domains: [
+      { id: "desenvolvimento", name: "Desenvolvimento com Serviços AWS" },
+      { id: "seguranca", name: "Segurança" },
+      { id: "deployment", name: "Deployment" },
+      { id: "troubleshooting", name: "Troubleshooting e Otimização" }
+    ]
+  }
+};

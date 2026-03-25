@@ -109,10 +109,19 @@ graph LR
 
 ### 📚 Modo Flashcards 3D
 
-- **20 termos AWS essenciais** com definições oficiais
+- **96 termos AWS** organizados por certificação
+- **Filtro inteligente com separação clara**:
+  - 🌐 **Termos Gerais** (7): Conceitos fundamentais para todas certificações
+  - ☁️ **Cloud Practitioner** (20): Termos específicos do CLF-C02
+  - 🏗️ **Solutions Architect** (27): Termos específicos do SAA-C03
+  - 💻 **Developer** (19): Termos específicos do DVA-C02
+  - 🤖 **AI Practitioner** (23): Termos específicos do AIF-C01
+  - 📚 **Todos** (96): Visualização completa
+- **Separação estrita**: Termos gerais aparecem APENAS no filtro "Termos Gerais", cada certificação mostra APENAS seus termos específicos
 - **Efeito flip 3D** interativo e responsivo
 - Navegação intuitiva (anterior/próximo)
 - Contador de progresso visual
+- Inicia automaticamente com Termos Gerais
 
 ### 📊 Análise Inteligente de Desempenho
 
@@ -289,16 +298,10 @@ Cada contribuidor cria seu próprio arquivo individual, eliminando conflitos! �
 
 ---
 
-## 📚 Documentação Completa
+## 📚 Documentação
 
-Explore nossa documentação detalhada para entender melhor o projeto:
-
-- 📖 **[Guia de Início Rápido](./docs/guia-inicio-rapido.md)** - Comece em 5 minutos
-- 🤖 **[Guia de Geração de Questões](./docs/guia-geracao.md)** - Pipeline de IA completo
-- 🎴 **[Guia de Flashcards](./docs/guia-flashcards.md)** - Modo de revisão 3D
-- 🌐 **[Status da Tradução](./docs/status-traducao.md)** - Progresso PT-BR → EN-US
-- 🏗️ **[Análise Completa do Projeto](./docs/analise-completa-projeto.md)** - Arquitetura técnica
-- 🔧 **[Resolução de Problemas](./docs/resolucao-problemas.md)** - Troubleshooting
+- 📖 **[Guia Completo](./docs/GUIA-COMPLETO.md)** - Documentação consolidada (usuários e desenvolvedores)
+- 🤝 **[Como Contribuir](./CONTRIBUTING.md)** - Guia de contribuição
 - 📝 **[CHANGELOG](./CHANGELOG.md)** - Histórico de versões
 
 ---
@@ -412,7 +415,7 @@ Este projeto é **código aberto** e está disponível para fins educacionais e 
 
 ### ⭐ Se este projeto foi útil, considere dar uma estrela no GitHub!
 
-**Construído com ❤️ pela Guilda | Aprendizado Colaborativo em Cloud Computing**
+**Construído com ❤️ pela Guilda Z-Maguinhos | Aprendizado Colaborativo em Cloud Computing**
 
 <sub>© 2026 Cloud Certification Study Tool - By Guilda | Todos os direitos reservados</sub>
 
