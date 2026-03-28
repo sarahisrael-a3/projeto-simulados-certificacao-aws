@@ -3967,5 +3967,89 @@
     ],
     "correct": 3,
     "explanation": "A opção SSE-KMS combina o poder da Encriptação de Envelope (usando uma chave de dados única para o ficheiro e protegendo-a com uma Customer Master Key do KMS) com a capacidade robusta de auditoria. Com o KMS, cada chamada para encriptar ou desencriptar o objeto no S3 gera um evento detalhado que fica registado no AWS CloudTrail, cumprindo requisitos exigentes de segurança."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "arquitetura de sistema",
+    "service": "Amazon Route 53",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "roteamento de tráfego",
+      "tolerância a falhas"
+    ],
+    "question": "Um provedor de serviços de streaming de vídeo precisa garantir que seus usuários tenham acesso contínuo ao serviço, mesmo em caso de falha de um dos data centers. Qual serviço/solução AWS pode ser utilizado para rotear o tráfego de forma automática e escalável para os data centers ativos?",
+    "options": [
+      "Amazon Route 53",
+      "AWS Lambda",
+      "Amazon S3",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Route 53 é um serviço de DNS que pode ser utilizado para rotear o tráfego de forma automática e escalável para os data centers ativos, garantindo que os usuários tenham acesso contínuo ao serviço. As outras opções não são adequadas para essa tarefa, pois o AWS Lambda é um serviço de computação sem servidor, o Amazon S3 é um serviço de armazenamento de objetos e o Amazon EC2 é um serviço de computação em nuvem.",
+    "id": 2194
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "análise de custos",
+      "otimização de gastos"
+    ],
+    "question": "Um empresa de tecnologia precisa otimizar seus gastos com a nuvem e identificar áreas de ineficiência. Qual serviço/solução AWS pode ser utilizado para analisar e visualizar os gastos com a nuvem e identificar oportunidades de economia?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudFormation",
+      "AWS CloudTrail"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é um serviço que fornece análise e visualização dos gastos com a nuvem, permitindo que as empresas identifiquem áreas de ineficiência e otimizem seus gastos. As outras opções não são adequadas para essa tarefa, pois o AWS CloudWatch é um serviço de monitoramento, o AWS CloudFormation é um serviço de gerenciamento de infraestrutura e o AWS CloudTrail é um serviço de auditoria.",
+    "id": 2195
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "arquitetura de sistema",
+    "service": "Amazon Route 53",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "roteamento de tráfego",
+      "tolerância a falhas"
+    ],
+    "question": "Um provedor de serviços de streaming de vídeo precisa garantir que seus usuários tenham acesso contínuo ao serviço, mesmo em caso de falha de um dos data centers. Qual serviço/solução AWS pode ser utilizado para rotear o tráfego de forma automática e escalável para os data centers ativos?",
+    "options": [
+      "Amazon Route 53",
+      "AWS Lambda",
+      "Amazon S3",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Route 53 é um serviço de DNS que pode ser utilizado para rotear o tráfego de forma automática e escalável para os data centers ativos, garantindo que os usuários tenham acesso contínuo ao serviço. As outras opções não são adequadas para essa tarefa, pois o AWS Lambda é um serviço de computação sem servidor, o Amazon S3 é um serviço de armazenamento de objetos e o Amazon EC2 é um serviço de computação em nuvem.",
+    "id": 2194
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "análise de custos",
+      "otimização de gastos"
+    ],
+    "question": "Um empresa de tecnologia precisa otimizar seus gastos com a nuvem e identificar áreas de ineficiência. Qual serviço/solução AWS pode ser utilizado para analisar e visualizar os gastos com a nuvem e identificar oportunidades de economia?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudFormation",
+      "AWS CloudTrail"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é um serviço que fornece análise e visualização dos gastos com a nuvem, permitindo que as empresas identifiquem áreas de ineficiência e otimizem seus gastos. As outras opções não são adequadas para essa tarefa, pois o AWS CloudWatch é um serviço de monitoramento, o AWS CloudFormation é um serviço de gerenciamento de infraestrutura e o AWS CloudTrail é um serviço de auditoria.",
+    "id": 2195
   }
 ]

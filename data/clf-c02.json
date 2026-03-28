@@ -6897,5 +6897,93 @@
     ],
     "correct": 0,
     "explanation": "A resposta correta é AWS CloudFormation, pois é um serviço que fornece uma forma de gerenciar e provisionar recursos na nuvem de forma automatizada. AWS CloudWatch é um serviço de monitoramento, Amazon S3 é um serviço de armazenamento de objetos e AWS X-Ray é um serviço de depuração, que não atendem ao requisito de gerenciamento de recursos."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao de dados",
+    "service": "Amazon Macie",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "protecao de dados",
+      "compliance"
+    ],
+    "question": "Uma empresa de saúde precisa armazenar e processar grandes volumes de dados de pacientes, incluindo informações pessoais sensíveis. Qual serviço AWS pode ser utilizado para detectar e classificar esses dados, ajudando a empresa a cumprir com as regulamentações de privacidade de dados?",
+    "options": [
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon Macie",
+      "Amazon CloudWatch"
+    ],
+    "correct": 2,
+    "explanation": "A Amazon Macie é um serviço de segurança da AWS que utiliza inteligência artificial e machine learning para detectar e classificar dados sensíveis, como informações pessoais, em grandes volumes de dados. Isso ajuda as empresas a cumprir com as regulamentações de privacidade de dados e a proteger os dados de seus clientes. As outras opções não são corretas porque o Amazon S3 é um serviço de armazenamento de objetos, o AWS Lambda é um serviço de computação sem servidor e o Amazon CloudWatch é um serviço de monitoramento e logging.",
+    "id": 1001
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao de custos",
+      "financas"
+    ],
+    "question": "Uma empresa de tecnologia está experimentando um crescimento rápido e precisa entender melhor seus gastos com a nuvem para otimizar seus custos. Qual serviço AWS pode ser utilizado para visualizar e analisar os gastos com a nuvem, identificar áreas de otimização e criar orçamentos?",
+    "options": [
+      "AWS Cost Explorer",
+      "Amazon CloudWatch",
+      "AWS Lambda",
+      "Amazon S3"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é um serviço da AWS que fornece uma visão detalhada dos gastos com a nuvem, permitindo que as empresas visualizem e analisem seus gastos, identifiquem áreas de otimização e criem orçamentos. Isso ajuda as empresas a tomar decisões informadas sobre seus gastos com a nuvem e a otimizar seus custos. As outras opções não são corretas porque o Amazon CloudWatch é um serviço de monitoramento e logging, o AWS Lambda é um serviço de computação sem servidor e o Amazon S3 é um serviço de armazenamento de objetos.",
+    "id": 1002
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao de dados",
+    "service": "Amazon Macie",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "protecao de dados",
+      "compliance"
+    ],
+    "question": "Uma empresa de saúde precisa armazenar e processar grandes volumes de dados de pacientes, incluindo informações pessoais sensíveis. Qual serviço AWS pode ser utilizado para detectar e classificar esses dados, ajudando a empresa a cumprir com as regulamentações de privacidade de dados?",
+    "options": [
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon Macie",
+      "Amazon CloudWatch"
+    ],
+    "correct": 2,
+    "explanation": "A Amazon Macie é um serviço de segurança da AWS que utiliza inteligência artificial e machine learning para detectar e classificar dados sensíveis, como informações pessoais, em grandes volumes de dados. Isso ajuda as empresas a cumprir com as regulamentações de privacidade de dados e a proteger os dados de seus clientes. As outras opções não são corretas porque o Amazon S3 é um serviço de armazenamento de objetos, o AWS Lambda é um serviço de computação sem servidor e o Amazon CloudWatch é um serviço de monitoramento e logging.",
+    "id": 1001
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "faturamento",
+      "otimizacao de custos",
+      "financas"
+    ],
+    "question": "Uma empresa de tecnologia está experimentando um crescimento rápido e precisa entender melhor seus gastos com a nuvem para otimizar seus custos. Qual serviço AWS pode ser utilizado para visualizar e analisar os gastos com a nuvem, identificar áreas de otimização e criar orçamentos?",
+    "options": [
+      "AWS Cost Explorer",
+      "Amazon CloudWatch",
+      "AWS Lambda",
+      "Amazon S3"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é um serviço da AWS que fornece uma visão detalhada dos gastos com a nuvem, permitindo que as empresas visualizem e analisem seus gastos, identifiquem áreas de otimização e criem orçamentos. Isso ajuda as empresas a tomar decisões informadas sobre seus gastos com a nuvem e a otimizar seus custos. As outras opções não são corretas porque o Amazon CloudWatch é um serviço de monitoramento e logging, o AWS Lambda é um serviço de computação sem servidor e o Amazon S3 é um serviço de armazenamento de objetos.",
+    "id": 1002
   }
 ]

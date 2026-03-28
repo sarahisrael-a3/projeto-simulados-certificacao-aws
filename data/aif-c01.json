@@ -5333,5 +5333,51 @@
     ],
     "correct": 0,
     "explanation": "Amazon Macie é o serviço AWS mais adequado para detectar e prevenir violações de dados sensíveis, pois oferece recursos e ferramentas para detectar e prevenir acessos não autorizados a dados sensíveis."
+  },
+  {
+    "domain": "fundamentals-genai",
+    "subdomain": "Foundation Models Access",
+    "service": "Amazon Bedrock",
+    "difficulty": "medium",
+    "type": "single_choice",
+    "tags": [
+      "Generative AI",
+      "Foundation Models",
+      "Bedrock",
+      "Managed Service"
+    ],
+    "question": "Qual serviço AWS é o mais adequado para fornecer acesso a uma variedade de modelos de fundação de terceiros e da Amazon, com uma API unificada e recursos de personalização, em um ambiente totalmente gerenciado?",
+    "options": [
+      "Amazon SageMaker",
+      "AWS Lambda",
+      "Amazon Bedrock",
+      "Amazon Comprehend"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon Bedrock é um serviço totalmente gerenciado que oferece acesso a uma seleção de modelos de fundação de alto desempenho da Amazon e de empresas líderes em IA, como Anthropic, AI21 Labs e Cohere, por meio de uma API unificada. Ele simplifica o desenvolvimento de aplicações de IA generativa, eliminando a necessidade de gerenciar a infraestrutura subjacente. O Amazon SageMaker é uma plataforma de ML mais ampla para construir, treinar e implantar modelos, mas o Bedrock é específico para Modelos de Fundação (FMs). AWS Lambda é um serviço de computação sem servidor. Amazon Comprehend é um serviço de NLP pré-treinado.",
+    "id": 1001
+  },
+  {
+    "domain": "fundamentals-genai",
+    "subdomain": "Foundation Models Access",
+    "service": "Amazon Bedrock",
+    "difficulty": "medium",
+    "type": "single_choice",
+    "tags": [
+      "Generative AI",
+      "Foundation Models",
+      "Bedrock",
+      "Managed Service"
+    ],
+    "question": "Qual serviço AWS é o mais adequado para fornecer acesso a uma variedade de modelos de fundação de terceiros e da Amazon, com uma API unificada e recursos de personalização, em um ambiente totalmente gerenciado?",
+    "options": [
+      "Amazon SageMaker",
+      "AWS Lambda",
+      "Amazon Bedrock",
+      "Amazon Comprehend"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon Bedrock é um serviço totalmente gerenciado que oferece acesso a uma seleção de modelos de fundação de alto desempenho da Amazon e de empresas líderes em IA, como Anthropic, AI21 Labs e Cohere, por meio de uma API unificada. Ele simplifica o desenvolvimento de aplicações de IA generativa, eliminando a necessidade de gerenciar a infraestrutura subjacente. O Amazon SageMaker é uma plataforma de ML mais ampla para construir, treinar e implantar modelos, mas o Bedrock é específico para Modelos de Fundação (FMs). AWS Lambda é um serviço de computação sem servidor. Amazon Comprehend é um serviço de NLP pré-treinado.",
+    "id": 1001
   }
 ]
