@@ -28,13 +28,12 @@ Uma interface moderna, responsiva e focada na experiência de aprendizado profun
 
 | Tela Inicial e Filtros | Simulação Realista (Timer e Múltipla Resposta) |
 | :---: | :---: |
-| <img src="./img/tela-inicial.png" alt="Tela Inicial" width="400"/> | <img src="./imagem/simulado.png" alt="Simulação AWS" width="400"/> |
+| <img src="./img/tela-inicial.png" alt="Tela Inicial" width="400"/> | <img src="./img/simulado.png" alt="Simulação AWS" width="400"/> |
+| <img src="./img/tela-inicial-dark.png" alt="Tela Inicial" width="400"/> | <img src="./img/simulado-dark.png" alt="Simulação AWS Dark" width="400"/> |
 
 | Dashboard e Radar de Desempenho | Modo Flashcards 3D (Revisão Rápida) |
 | :---: | :---: |
 | <img src="./img/dashboard.png" alt="Dashboard Chart.js" width="400"/> | <img src="./imagem/flashcards.png" alt="Flashcards Interativos" width="400"/> |
-
-*(Nota: Salve suas capturas de tela na pasta `/imagem/` com os nomes exatos acima para que elas apareçam aqui).*
 
 </div>
 
@@ -47,7 +46,8 @@ O **Cloud Certification Study Tool** vai além de um simulador tradicional. É u
 Através da combinação de um front-end moderno (PWA) e um back-end automatizado por Inteligência Artificial, oferecemos uma experiência de aprendizado adaptativa, offline-first e baseada em dados reais de arquitetura Cloud.
 
 ### Diferenciais Técnicos e Educacionais:
-* 🧠 **Banco de Dados Dinâmico:** Questões inéditas e cenários corporativos gerados via *Google Gemini 2.5 Flash*.
+* 🧠 **Banco de Dados Dinâmico:** Questões inéditas e cenários corporativos gerados via *Google Gemini 2.5 Flash*, com **fallback resiliente via Groq (llama-3.3-70b-versatile)** para garantir 100% de disponibilidade na geração.
+* 📊 **Análise Comportamental:** O sistema avalia seu desempenho usando 11 métricas de IA (burnout, domínios fracos, consistência).
 * 📊 **Análise Comportamental:** O sistema avalia seu desempenho usando 11 métricas de IA (burnout, domínios fracos, consistência).
 * 💾 **100% Offline (PWA):** Estude no metrô ou no avião. O app funciona sem internet após o primeiro acesso.
 * 🌐 **Bilíngue Automatizado:** Suporte nativo a Português e Inglês com tradução neural.
