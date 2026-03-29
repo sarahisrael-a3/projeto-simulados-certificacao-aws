@@ -33,7 +33,7 @@ Uma interface moderna, responsiva e focada na experiência de aprendizado profun
 
 | Dashboard e Radar de Desempenho | Modo Flashcards 3D (Revisão Rápida) |
 | :---: | :---: |
-| <img src="./img/dashboard.png" alt="Dashboard Chart.js" width="400"/> | <img src="./imagem/flashcards.png" alt="Flashcards Interativos" width="400"/> |
+| <img src="./img/dashboard.png" alt="Dashboard Chart.js" width="400"/> | <img src="./img/flashcards.png" alt="Flashcards Interativos" width="400"/> |
 
 </div>
 
