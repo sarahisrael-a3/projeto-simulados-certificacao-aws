@@ -488,9 +488,31 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('PWA Service Worker registado com sucesso!'))
-                    .catch(err => console.error('Erro ao registar o Service Worker:', err));
+                // Desregistar Service Workers antigos antes de registar o novo
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    registrations.forEach(registration => {
+                        registration.unregister().then(() => {
+                            console.log('Service Worker antigo desregistado');
+                        });
+                    });
+                }).then(() => {
+                    // Registar o novo Service Worker
+                    navigator.serviceWorker.register('sw.js')
+                        .then(reg => {
+                            console.log('PWA Service Worker registado com sucesso!');
+                            // Forçar atualização se houver uma nova versão
+                            reg.addEventListener('updatefound', () => {
+                                const newWorker = reg.installing;
+                                newWorker.addEventListener('statechange', () => {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        console.log('Nova versão do Service Worker disponível. Recarregando...');
+                                        window.location.reload();
+                                    }
+                                });
+                            });
+                        })
+                        .catch(err => console.error('Erro ao registar o Service Worker:', err));
+                });
             });
         }
     </script>
