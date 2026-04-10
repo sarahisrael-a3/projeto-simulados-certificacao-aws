@@ -53,7 +53,7 @@
                 <i id="theme-icon" class="fa-solid fa-moon text-base md:text-xl" aria-hidden="true"></i>
             </button>
             
-            <div class="bg-gray-700 px-2 py-1 md:px-3 rounded-full flex items-center gap-1 md:gap-2">
+            <div id="score-container" style="display: none;" class="bg-gray-700 px-2 py-1 md:px-3 rounded-full flex items-center gap-1 md:gap-2">
                 <i class="fa-solid fa-bullseye text-green-400 text-xs md:text-base" aria-hidden="true"></i>
                 <span id="score-display" class="text-xs md:text-sm" aria-live="polite">0 / 0</span>
             </div>
@@ -62,7 +62,7 @@
 
     <main class="flex-grow container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8 max-w-7xl">
         
-        <section class="lg:w-2/3 flex flex-col h-full bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden transition-colors">
+        <section id="main-section" class="lg:w-2/3 flex flex-col h-full bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden transition-colors">
             
             <div id="screen-start" class="p-8 md:p-12 flex flex-col items-center justify-center text-center h-full">
                 <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
@@ -382,7 +382,7 @@
             </div>
         </section>
 
-        <aside class="lg:w-1/3 flex flex-col gap-6">
+        <aside id="side-info" class="lg:w-1/3 flex flex-col gap-6">
 
             <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 transition-colors">
                 <div class="flex justify-between items-center border-b border-gray-200 dark:border-slate-600 pb-2 mb-4">

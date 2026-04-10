@@ -120,7 +120,22 @@ async function startQuiz() {
         const oldReport = document.getElementById('detailed-report');
         if (oldReport) oldReport.remove();
 
+        // --- INÍCIO DAS MODIFICAÇÕES DE LAYOUT ---
         showScreen('quiz');
+
+        const sidebar = document.getElementById('side-info');
+        const mainSection = document.getElementById('main-section');
+        
+        if (sidebar) sidebar.classList.add('hidden'); // Esconde a lateral
+        if (mainSection) {
+            mainSection.classList.remove('lg:w-2/3'); // Remove a largura parcial
+            mainSection.classList.add('w-full');      // Faz ocupar a tela cheia
+        }
+
+        const scoreContainer = document.getElementById('score-container');
+        if (scoreContainer) scoreContainer.style.display = 'flex';
+        // --- FIM DAS MODIFICAÇÕES DE LAYOUT ---
+
         const timerContainer = document.getElementById('timer-container');
         if (filters.mode === 'exam') {
             if (timerContainer) timerContainer.classList.remove('hidden');
@@ -1029,6 +1044,18 @@ function updateLanguageButtonUI() {
 
 function goHome() {
     if (uiState.timerInterval) clearInterval(uiState.timerInterval);
+    
+    const sidebar = document.getElementById('side-info');
+    const mainSection = document.getElementById('main-section');
+    const scoreContainer = document.getElementById('score-container');
+
+    if (sidebar) sidebar.classList.remove('hidden');
+    if (mainSection) {
+        mainSection.classList.add('lg:w-2/3');
+        mainSection.classList.remove('w-full');
+    }
+    if (scoreContainer) scoreContainer.style.display = 'none';
+
     showScreen('start');
     loadLastScore();
 
