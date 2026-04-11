@@ -1,8 +1,3 @@
-/**
- * chartManager.js - Gerenciador de Gráficos (Chart.js)
- * v3 - Debug embutido para diagnosticar gráfico vazio
- */
-
 import { certificationPaths } from './data.js';
 import { storageManager } from './storageManager.js';
 
@@ -14,8 +9,11 @@ export async function renderRadarChart(results, currentCertInfo) {
     
     // Recuperação de segurança do canvas
     if (!canvas) {
-        const container = document.querySelector('.fa-chart-radar')?.closest('div')?.querySelector('.relative.h-\\[300px\\]');
-        if (container) {
+        // Find the container by looking for the parent of the canvas
+        const container = document.querySelector('#screen-results .relative.w-full');
+        if (container && container.querySelector('canvas')) {
+            canvas = container.querySelector('canvas');
+        } else if (container) {
             container.innerHTML = '<canvas id="radarChart"></canvas>';
             canvas = document.getElementById('radarChart');
         } else return;

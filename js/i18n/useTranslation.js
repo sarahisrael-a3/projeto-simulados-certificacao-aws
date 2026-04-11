@@ -1,8 +1,3 @@
-/**
- * useTranslation.js
- * Translation function with variable interpolation support
- */
-
 import { translations } from './translations.js';
 
 /**

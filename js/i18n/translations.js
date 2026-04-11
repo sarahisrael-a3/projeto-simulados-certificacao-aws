@@ -1,8 +1,3 @@
-/**
- * translations.js
- * Centralized translation object for all UI texts
- */
-
 export const translations = {
     pt: {
         // Header
@@ -147,6 +142,22 @@ export const translations = {
         study_suggestion: "Sugestão de Estudo (IA):",
         domain_performance: "Desempenho por Domínio",
         question_details: "Detalhamento das Questões",
+        your_answer_label: "Sua Resposta:",
+        correct_answer_label: "Resposta Correta:",
+        explanation_label: "Explicação:",
+        correct_out_of: "corretas",
+        
+        // AI Recommendations
+        attention_low_performance: "Atenção! O seu desempenho global foi muito baixo.",
+        recommendation_review_basics: "Recomendamos que pare de fazer simulados agora e volte a rever os conceitos base do curso oficial antes de tentar novamente.",
+        excellent_consistency: "Excelente! Você demonstrou consistência.",
+        ready_for_exam: "Continue assim e estará preparado para o exame real.",
+        almost_there_single: "Quase lá!",
+        improvement_opportunity: "A sua maior oportunidade de melhoria está no domínio:",
+        review_official_docs: "Revise a documentação oficial sobre este tema.",
+        attention_critical_areas: "Atenção! Precisa reforçar os estudos nestas áreas críticas:",
+        review_these_topics: "Revise a documentação oficial sobre estes temas.",
+        general_topics: "Tópicos Gerais",
         
         // AI Insights
         start_journey: "Comece sua jornada!",
@@ -172,7 +183,9 @@ export const translations = {
         study_aws_docs: "📚 Estude a documentação AWS",
         keep_practicing_general: "Continue Praticando! 🚀",
         quizzes_completed: "Você já fez {{count}} simulado{{plural}}! Continue assim!",
-        practice_makes_perfect: "💡 A prática leva à perfeição"
+        practice_makes_perfect: "💡 A prática leva à perfeição",
+        quiz_singular: "",
+        quiz_plural: "s"
     },
     
     en: {
@@ -318,6 +331,22 @@ export const translations = {
         study_suggestion: "Study Suggestion (AI):",
         domain_performance: "Domain Performance",
         question_details: "Question Details",
+        your_answer_label: "Your Answer:",
+        correct_answer_label: "Correct Answer:",
+        explanation_label: "Explanation:",
+        correct_out_of: "correct",
+        
+        // AI Recommendations
+        attention_low_performance: "Attention! Your overall performance was very low.",
+        recommendation_review_basics: "We recommend you stop taking quizzes now and go back to review the basic concepts from the official course before trying again.",
+        excellent_consistency: "Excellent! You demonstrated consistency.",
+        ready_for_exam: "Keep it up and you'll be ready for the real exam.",
+        almost_there_single: "Almost there!",
+        improvement_opportunity: "Your biggest improvement opportunity is in the domain:",
+        review_official_docs: "Review the official documentation on this topic.",
+        attention_critical_areas: "Attention! You need to strengthen your studies in these critical areas:",
+        review_these_topics: "Review the official documentation on these topics.",
+        general_topics: "General Topics",
         
         // AI Insights
         start_journey: "Start your journey!",
@@ -343,6 +372,8 @@ export const translations = {
         study_aws_docs: "📚 Study AWS documentation",
         keep_practicing_general: "Keep Practicing! 🚀",
         quizzes_completed: "You've taken {{count}} quiz{{plural}}! Keep it up!",
-        practice_makes_perfect: "💡 Practice makes perfect"
+        practice_makes_perfect: "💡 Practice makes perfect",
+        quiz_singular: "",
+        quiz_plural: "zes"
     }
 };

@@ -1,8 +1,3 @@
-/**
- * APP.JS - Orquestrador de Interface (UI Controller)
- * Integração completa com Módulos ES6 e QuizEngine
- */
-
 import { QuizEngine } from './quizEngine.js';
 import { certificationPaths, glossaryTerms } from './data.js';
 import { storageManager } from './storageManager.js';
@@ -509,15 +504,15 @@ function displayReportFromResult(results) {
         const weakDomains = results.weakDomains || [];
 
         if (results.percentage < 40) {
-            recText.innerHTML = `<strong>Atenção! O seu desempenho global foi muito baixo.</strong> Recomendamos que pare de fazer simulados agora e volte a rever os conceitos base do curso oficial antes de tentar novamente.`;
+            recText.innerHTML = `<strong>${t('attention_low_performance', uiState.language)}</strong> ${t('recommendation_review_basics', uiState.language)}`;
         } else if (weakDomains.length === 0) {
-            recText.innerHTML = `<strong>Excelente! Você demonstrou consistência.</strong> Continue assim e estará preparado para o exame real.`;
+            recText.innerHTML = `<strong>${t('excellent_consistency', uiState.language)}</strong> ${t('ready_for_exam', uiState.language)}`;
         } else if (weakDomains.length === 1) {
-            const domainName = getDomainName(weakDomains[0]) || "Tópicos Gerais";
-            recText.innerHTML = `<strong>Quase lá!</strong> A sua maior oportunidade de melhoria está no domínio: <em>${domainName}</em>. Revise a documentação oficial sobre este tema.`;
+            const domainName = getDomainName(weakDomains[0]) || t('general_topics', uiState.language);
+            recText.innerHTML = `<strong>${t('almost_there_single', uiState.language)}</strong> ${t('improvement_opportunity', uiState.language)} <em>${domainName}</em>. ${t('review_official_docs', uiState.language)}`;
         } else {
             const domainNames = weakDomains.map(id => getDomainName(id)).join(', ');
-            recText.innerHTML = `<strong>Atenção! Precisa reforçar os estudos nestas áreas críticas:</strong> <em>${domainNames}</em>. Revise a documentação oficial sobre estes temas.`;
+            recText.innerHTML = `<strong>${t('attention_critical_areas', uiState.language)}</strong> <em>${domainNames}</em>. ${t('review_these_topics', uiState.language)}`;
         }
     }
 
@@ -552,10 +547,10 @@ function renderDetailedReportUI(results) {
 
     let html = `
         <div class="hidden print:block mb-8 border-b-2 border-black pb-6">
-            <h2 class="text-3xl font-bold mb-4 print-text-black">Relatório Oficial - Simulado AWS</h2>
-            <p class="text-xl mb-4 print-text-black"><strong>Pontuação Final:</strong> ${results.percentage.toFixed(0)}% (${results.score} acertos de ${results.total})</p>
+            <h2 class="text-3xl font-bold mb-4 print-text-black">${t('official_report_title', uiState.language)}</h2>
+            <p class="text-xl mb-4 print-text-black"><strong>${t('final_score', uiState.language)}</strong> ${results.percentage.toFixed(0)}% (${results.score} ${t('correct_answers', uiState.language).toLowerCase()} ${t('of', uiState.language)} ${results.total})</p>
             <div class="border border-black p-4 mt-4">
-                <strong class="text-lg block mb-2 print-text-black">Sugestão de Estudo (IA):</strong>
+                <strong class="text-lg block mb-2 print-text-black">${t('study_suggestion', uiState.language)}</strong>
                 <span class="text-base print-text-black">${recText}</span>
             </div>
         </div>
@@ -564,7 +559,7 @@ function renderDetailedReportUI(results) {
     html += `
         <div class="domain-performance-section mb-8">
             <h3 class="text-xl font-bold aws-text-dark dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-slate-700">
-                <i class="fa-solid fa-chart-bar text-aws-orange mr-2"></i> Desempenho por Domínio
+                <i class="fa-solid fa-chart-bar text-aws-orange mr-2"></i> ${t('domain_performance', uiState.language)}
             </h3>
             <div class="space-y-3">
     `;
@@ -578,7 +573,7 @@ function renderDetailedReportUI(results) {
                     const pct = (scoreData.correct / scoreData.total) * 100;
                     const meets = pct >= 70;
 
-                    const statusText = meets ? "Atende às Competências" : "Precisa de Melhoria";
+                    const statusText = meets ? t('meets_competencies', uiState.language) : t('needs_improvement', uiState.language);
                     const statusColor = meets
                         ? "text-green-700 bg-green-100 dark:bg-green-900/40 dark:text-green-400 border-green-200 dark:border-green-800"
                         : "text-red-700 bg-red-100 dark:bg-red-900/40 dark:text-red-400 border-red-200 dark:border-red-800";
@@ -589,7 +584,7 @@ function renderDetailedReportUI(results) {
                             <div class="flex-1 min-w-0">
                                 <span class="font-bold text-gray-800 dark:text-gray-200 block text-md whitespace-normal">${domain.name}</span>
                                 <span class="text-sm font-medium text-gray-500 dark:text-gray-400 mt-1 block">
-                                    Score do Domínio: ${pct.toFixed(0)}% <span class="opacity-75">(${scoreData.correct} de ${scoreData.total} corretas)</span>
+                                    ${t('domain_score', uiState.language)} ${pct.toFixed(0)}% <span class="opacity-75">(${scoreData.correct} ${t('of', uiState.language)} ${scoreData.total} ${t('correct_out_of', uiState.language)})</span>
                                 </span>
                             </div>
                             <div class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-bold border ${statusColor} shrink-0 whitespace-nowrap">
@@ -607,7 +602,7 @@ function renderDetailedReportUI(results) {
     html += `
         <div class="report-header pb-4 mb-6 border-b border-gray-300 dark:border-slate-700 print:hidden mt-10">
             <h3 class="text-xl font-bold aws-text-dark dark:text-white">
-                <i class="fa-solid fa-list-check text-aws-orange mr-2"></i> Detalhamento das Questões
+                <i class="fa-solid fa-list-check text-aws-orange mr-2"></i> ${t('question_details', uiState.language)}
             </h3>
         </div>
     `;
@@ -636,17 +631,17 @@ function renderDetailedReportUI(results) {
             </div>
             <div class="answer-block mb-3 p-4 rounded-lg bg-gray-50 dark:bg-slate-700/30 border border-gray-100 dark:border-slate-600 print-no-bg">
                 <div class="mb-2">
-                    <span class="font-bold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider block mb-1 print-text-black">Sua Resposta:</span>
+                    <span class="font-bold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider block mb-1 print-text-black">${t('your_answer_label', uiState.language)}</span>
                     <span class="${colorClass} font-semibold block leading-snug">${icon} ${isMulti ? '<br>• ' : ''}${userText}</span>
                 </div>
                 ${!ans.isCorrect ? `
                 <div class="mt-3 pt-3 border-t border-gray-200 dark:border-slate-600 print-border-black">
-                    <span class="font-bold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider block mb-1 print-text-black">Resposta Correta:</span>
+                    <span class="font-bold text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider block mb-1 print-text-black">${t('correct_answer_label', uiState.language)}</span>
                     <span class="print-text-green text-green-600 dark:text-green-400 font-semibold block leading-snug">✅ ${isMulti ? '<br>• ' : ''}${correctText}</span>
                 </div>` : ''}
             </div>
             <div class="explanation-print mt-4 p-4 rounded-lg bg-blue-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 border-l-4 border-l-blue-500 text-sm text-gray-800 dark:text-gray-200 print-no-bg">
-                <strong class="text-blue-800 dark:text-blue-300 block mb-2 print-text-black">Explicação:</strong>
+                <strong class="text-blue-800 dark:text-blue-300 block mb-2 print-text-black">${t('explanation_label', uiState.language)}</strong>
                 <span class="block leading-relaxed print-text-black">${ans.explanation}</span>
             </div>
         </div>
@@ -892,24 +887,81 @@ function generateSmartInsight(history) {
     }
 
     if (testsToday >= 4) {
-        return { icon: 'fa-solid fa-battery-quarter', iconColor: 'text-red-500', title: 'Cuidado com o Burnout!', titleColor: 'text-red-600 dark:text-red-400', message: `Você já fez ${testsToday} simulados hoje. Seu cérebro precisa de descanso.`, action: '💡 Pausas melhoram a retenção em até 30%', actionColor: 'text-blue-600 dark:text-blue-400' };
+        return { 
+            icon: 'fa-solid fa-battery-quarter', 
+            iconColor: 'text-red-500', 
+            title: t('burnout_warning', uiState.language), 
+            titleColor: 'text-red-600 dark:text-red-400', 
+            message: t('tests_today', uiState.language, { count: testsToday }), 
+            action: t('breaks_improve_retention', uiState.language), 
+            actionColor: 'text-blue-600 dark:text-blue-400' 
+        };
     }
     if (passingStreak >= 3 && avgScore >= 80) {
-        return { icon: 'fa-solid fa-trophy', iconColor: 'text-yellow-500', title: 'Você está dominando! 🔥', titleColor: 'text-green-600 dark:text-green-400', message: `${passingStreak} aprovações seguidas com média de ${avgScore.toFixed(0)}%!`, action: '🎯 Próximo passo: Agende seu exame AWS', actionColor: 'text-green-600 dark:text-green-400' };
+        return { 
+            icon: 'fa-solid fa-trophy', 
+            iconColor: 'text-yellow-500', 
+            title: t('dominating', uiState.language), 
+            titleColor: 'text-green-600 dark:text-green-400', 
+            message: t('consecutive_passes', uiState.language, { count: passingStreak, avg: avgScore.toFixed(0) }), 
+            action: t('schedule_exam', uiState.language), 
+            actionColor: 'text-green-600 dark:text-green-400' 
+        };
     }
     if (trend === 'improving' && avgScore >= 60) {
-        return { icon: 'fa-solid fa-chart-line', iconColor: 'text-green-500', title: 'Evolução Consistente! 📈', titleColor: 'text-green-600 dark:text-green-400', message: `Sua pontuação está melhorando! Média atual: ${avgScore.toFixed(0)}%.`, action: '💪 Continue praticando!', actionColor: 'text-blue-600 dark:text-blue-400' };
+        return { 
+            icon: 'fa-solid fa-chart-line', 
+            iconColor: 'text-green-500', 
+            title: t('consistent_evolution', uiState.language), 
+            titleColor: 'text-green-600 dark:text-green-400', 
+            message: t('score_improving', uiState.language, { avg: avgScore.toFixed(0) }), 
+            action: t('keep_practicing', uiState.language), 
+            actionColor: 'text-blue-600 dark:text-blue-400' 
+        };
     }
     if (trend === 'declining') {
-        return { icon: 'fa-solid fa-chart-line-down', iconColor: 'text-orange-500', title: 'Atenção: Queda no Desempenho', titleColor: 'text-orange-600 dark:text-orange-400', message: 'Suas últimas pontuações estão caindo. Considere fazer uma pausa e revisar.', action: '💡 Sugestão: Faça uma pausa e revise', actionColor: 'text-orange-600 dark:text-orange-400' };
+        return { 
+            icon: 'fa-solid fa-chart-line-down', 
+            iconColor: 'text-orange-500', 
+            title: t('performance_decline', uiState.language), 
+            titleColor: 'text-orange-600 dark:text-orange-400', 
+            message: t('scores_declining', uiState.language), 
+            action: t('suggestion_break', uiState.language), 
+            actionColor: 'text-orange-600 dark:text-orange-400' 
+        };
     }
     if (isNearPassing) {
-        return { icon: 'fa-solid fa-bullseye', iconColor: 'text-blue-500', title: 'Quase lá! Falta pouco! 🎯', titleColor: 'text-blue-600 dark:text-blue-400', message: `Você está a apenas ${(70 - avgScore).toFixed(0)}% da aprovação!`, action: '💪 Mais alguns simulados e estará pronto', actionColor: 'text-blue-600 dark:text-blue-400' };
+        return { 
+            icon: 'fa-solid fa-bullseye', 
+            iconColor: 'text-blue-500', 
+            title: t('almost_there', uiState.language), 
+            titleColor: 'text-blue-600 dark:text-blue-400', 
+            message: t('points_to_pass', uiState.language, { points: (70 - avgScore).toFixed(0) }), 
+            action: t('few_more_quizzes', uiState.language), 
+            actionColor: 'text-blue-600 dark:text-blue-400' 
+        };
     }
     if (avgScore < 70) {
-        return { icon: 'fa-solid fa-book-open', iconColor: 'text-orange-500', title: 'Foco nos Estudos Necessário 📖', titleColor: 'text-orange-600 dark:text-orange-400', message: `Pontuação atual: ${avgScore.toFixed(0)}%. Revise os conceitos fundamentais.`, action: '📚 Estude a documentação AWS', actionColor: 'text-orange-600 dark:text-orange-400' };
+        return { 
+            icon: 'fa-solid fa-book-open', 
+            iconColor: 'text-orange-500', 
+            title: t('study_focus_needed', uiState.language), 
+            titleColor: 'text-orange-600 dark:text-orange-400', 
+            message: t('current_score', uiState.language, { score: avgScore.toFixed(0) }), 
+            action: t('study_aws_docs', uiState.language), 
+            actionColor: 'text-orange-600 dark:text-orange-400' 
+        };
     }
-    return { icon: 'fa-solid fa-rocket', iconColor: 'text-blue-500', title: 'Continue Praticando! 🚀', titleColor: 'text-blue-600 dark:text-blue-400', message: `Você já fez ${history.length} simulado${history.length > 1 ? 's' : ''}! Continue assim!`, action: '💡 A prática leva à perfeição', actionColor: 'text-blue-600 dark:text-blue-400' };
+    const plural = history.length > 1 ? t('quiz_plural', uiState.language) : t('quiz_singular', uiState.language);
+    return { 
+        icon: 'fa-solid fa-rocket', 
+        iconColor: 'text-blue-500', 
+        title: t('keep_practicing_general', uiState.language), 
+        titleColor: 'text-blue-600 dark:text-blue-400', 
+        message: t('quizzes_completed', uiState.language, { count: history.length, plural: plural }), 
+        action: t('practice_makes_perfect', uiState.language), 
+        actionColor: 'text-blue-600 dark:text-blue-400' 
+    };
 }
 
 function renderGamification() {
@@ -940,7 +992,7 @@ function updateTopicDropdown() {
     const topicSelect = document.getElementById('topic-filter');
     if (!topicSelect || !uiState.currentCertificationInfo) return;
 
-    topicSelect.innerHTML = '<option value="">Todos os Tópicos</option>';
+    topicSelect.innerHTML = `<option value="">${t('all_topics', uiState.language)}</option>`;
     uiState.currentCertificationInfo.domains.forEach(domain => {
         const option = document.createElement('option');
         option.value = domain.id;
@@ -1030,7 +1082,10 @@ function toggleLanguage() {
     }
 
     const certSelect = document.getElementById('certification-select');
-    if (certSelect) updateDifficultyFilters(certSelect.value);
+    if (certSelect) {
+        updateDifficultyFilters(certSelect.value);
+        updateTopicDropdown(); // Update topic dropdown with new language
+    }
 }
 
 function updateLanguageButtonUI() {

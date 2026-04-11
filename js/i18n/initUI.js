@@ -1,8 +1,3 @@
-/**
- * initUI.js
- * Initialize UI with translations on page load
- */
-
 import { t } from './useTranslation.js';
 
 export function initializeUI(language) {
@@ -59,7 +54,7 @@ export function initializeUI(language) {
     updateElement('label[for="topic-filter"]', null, (el) => {
         el.innerHTML = `<i class="fa-solid fa-filter mr-1 text-aws-orange"></i> ${t('topic_filter', lang)}`;
     });
-    updateElement('#topic-filter option[value=""]', t('all_topics', lang));
+    // Note: Topic options are dynamically populated by updateTopicDropdown() based on selected certification
     
     // Features
     const features = document.querySelectorAll('#screen-start .grid.grid-cols-2 > div');
@@ -212,7 +207,8 @@ export function initializeUI(language) {
         emptyChartText.textContent = t('first_quiz_for_stats', lang);
     }
     
-    const statLabels = document.querySelectorAll('#global-stats-summary .text-[10px]');
+    // Update stat labels using more specific selectors
+    const statLabels = document.querySelectorAll('#global-stats-summary > div > div:last-child');
     if (statLabels.length >= 3) {
         statLabels[0].textContent = t('quizzes', lang);
         statLabels[1].textContent = t('average', lang);
