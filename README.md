@@ -173,9 +173,11 @@ Você pode adicionar novas questões criando um arquivo único. Sem dores de cab
 
 ## 👥 Equipe & Liderança
 
-**Karla Renata A. Rosario** — Fundadora & Desenvolvedora Principal
+O sucesso deste simulador é fruto de um trabalho colaborativo focado em excelência pedagógica e técnica:
 
-💼 [LinkedIn](https://www.linkedin.com/in/karlarenata-rosario/) | 🐙 [GitHub](https://github.com/karlarenatadev) | 🌐 [Portfólio](https://karlarenatadev.github.io/projeto-simulados-certificacao-aws/)
+* **Karla Renata A. Rosario** — *Fundadora & Desenvolvedora Principal* 💼 [LinkedIn](https://www.linkedin.com/in/karlarenata-rosario/) | 🐙 [GitHub](https://github.com/karlarenatadev) | 🌐 [Portfólio](https://karlarenatadev.github.io/portfolio-karla-renata/)
+* **Amanda Veras** — *Idealizadora & Avaliadora*
+* **Otto Jacometo** — *Orientador & Desenvolvedor*
 
 Agradecimento especial a todos os contribuidores da comunidade que ajudam a manter este projeto vivo.
 
