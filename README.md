@@ -175,7 +175,7 @@ Você pode adicionar novas questões criando um arquivo único. Sem dores de cab
 
 O sucesso deste simulador é fruto de um trabalho colaborativo focado em excelência pedagógica e técnica:
 
-* **Karla Renata A. Rosario** — *Fundadora & Desenvolvedora Principal* 💼 [LinkedIn](https://www.linkedin.com/in/karlarenata-rosario/) | 🐙 [GitHub](https://github.com/karlarenatadev) | 🌐 [Portfólio](https://karlarenatadev.github.io/portfolio-karla-renata/)
+* **Karla Renata Rosario** — *Fundadora & Desenvolvedora Principal* 💼 [LinkedIn](https://www.linkedin.com/in/karlarenata-rosario/) | 🐙 [GitHub](https://github.com/karlarenatadev) | 🌐 [Portfólio](https://karlarenatadev.github.io/portfolio-karla-renata/)
 * **Amanda Veras** — *Idealizadora & Avaliadora*
 * **Otto Jacometo** — *Orientador & Desenvolvedor*
 
