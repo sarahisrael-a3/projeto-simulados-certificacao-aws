@@ -5,6 +5,10 @@ import { renderRadarChart, renderGlobalRadarChart, calculateGlobalDomainStats } 
 import { t } from './i18n/useTranslation.js';
 import { initializeUI } from './i18n/initUI.js';
 
+import { renderTrail, unlockNextModule } from './gamificacao/trailManager.js';
+import { renderGuildDashboard } from './gamificacao/leaderboard.js';
+
+
 const APP_CONFIG = {
     PASSING_SCORE: 70,
     STORAGE_KEY: 'aws_sim_'
@@ -1299,6 +1303,12 @@ function initPWAInstall() {
         deferredPrompt = null;
     });
 }
+
+function startJornada() {
+    showScreen('jornada');
+    renderTrail();
+}
+window.startJornada = startJornada; // Expoe globalmente para os botões do HTML para gamificação
 
 // ============================================================================
 // 11. EXPOSIÇÃO GLOBAL
