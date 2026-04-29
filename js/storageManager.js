@@ -289,6 +289,38 @@ export class StorageManager {
   }
 
   /**
+   * Persiste o objeto de gamificação completo no localStorage.
+   * Usado por módulos externos (trailManager, interactiveEngine) que precisam
+   * escrever o estado de gamificação directamente, sem passar pelo updateGamification.
+   *
+   * @param {Object} gamification - Objecto de gamificação a persistir
+   * @param {number}   gamification.totalQuizzes    - Total de simulados realizados
+   * @param {number}   gamification.bestScore       - Melhor pontuação registada (%)
+   * @param {number}   gamification.currentStreak   - Ofensiva actual (dias consecutivos)
+   * @param {string}   gamification.lastDate        - Data do último simulado (YYYY-MM-DD)
+   * @param {string[]} gamification.badges          - IDs das insígnias desbloqueadas
+   * @param {string[]} [gamification.completedStages] - IDs dos módulos da trilha concluídos
+   * @param {string[]} [gamification.unlockedStages]  - IDs dos módulos da trilha desbloqueados
+   * @param {number}   [gamification.labsCompleted]   - Total de labs interactivos concluídos
+   * @returns {boolean} True se persistiu com sucesso, False em caso de erro
+   *
+   * @example
+   * const gam = storageManager.getGamification();
+   * gam.completedStages.push('clf-1');
+   * storageManager.saveGamification(gam);
+   */
+  saveGamification(gamification) {
+    try {
+      const key = this._getKey('gamification');
+      localStorage.setItem(key, JSON.stringify(gamification));
+      return true;
+    } catch (error) {
+      console.error('Erro ao salvar gamificação:', error);
+      return false;
+    }
+  }
+
+  /**
    * Salva uma sessão de foco concluída no log de séries temporais
    * @param {number} minutes - Quantidade de minutos focados
    * @param {string} type - Tipo da sessão ('work', 'shortBreak', 'longBreak')

@@ -22,10 +22,31 @@ class ContributionValidator:
     VALID_TYPES = ['multiple-choice', 'multiple-answer']
     
     VALID_DOMAINS = {
-        'clf-c02': ['conceitos-cloud', 'seguranca', 'tecnologia', 'faturamento'],
-        'saa-c03': ['design-resiliente', 'design-performatico', 'design-seguro', 'design-otimizado'],
-        'aif-c01': ['fundamentos-ia', 'aplicacoes-ia', 'seguranca-ia', 'governanca-ia'],
-        'dva-c02': ['desenvolvimento', 'seguranca', 'deployment', 'troubleshooting']
+        'clf-c02': [
+            'conceitos-cloud',
+            'seguranca',
+            'tecnologia',
+            'faturamento',
+        ],
+        'saa-c03': [
+            'design-resiliente',
+            'design-performance',
+            'seguranca-aplicacoes',
+            'design-custo',
+        ],
+        'aif-c01': [
+            'fundamentals-ai-ml',
+            'fundamentals-genai',
+            'applications-foundation-models',
+            'guidelines-responsible-ai',
+            'security-compliance-governance',
+        ],
+        'dva-c02': [
+            'desenvolvimento-servicos',
+            'implementacao',
+            'seguranca-app',
+            'resolucao-problemas',
+        ],
     }
     
     def __init__(self, file_path: str):

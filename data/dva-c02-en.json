@@ -4530,5 +4530,1947 @@
     "correct": 0,
     "explanation": "AWS Systems Manager Parameter Store is the ideal solution for storing and managing configuration data and secrets in a secure, hierarchical manner. It allows Lambda functions to retrieve these parameters at run time, and updates to the parameters do not require reimplementation of the Lambda code, meeting the dynamic update requirement. AWS Secrets Manager is great for managing database secrets and credentials, but Parameter Store is more comprehensive for general configuration parameters, including secrets. Amazon S3 is for object storage and is not the best choice for dynamic application configuration management. AWS CloudFormation is an infrastructure-as-code tool and not a service for managing runtime configurations for applications.",
     "id": 1046
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "implementacao",
+    "service": "AWS Lambda",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "Serverless",
+      "Triggers"
+    ],
+    "question": "A technology company is developing an application that processes images. The application uses Amazon S3 to store the images and needs a service to process the images once they are uploaded to the bucket. What is the best AWS service to accomplish this task?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon Elastic Container Service (ECS)",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 1,
+    "explanation": "AWS Lambda is the best service to perform this task because it is a serverless service that can be triggered by Amazon S3 events, such as an image upload.",
+    "id": 1047
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "implementacao",
+    "service": "AWS Lambda",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "Serverless",
+      "Triggers"
+    ],
+    "question": "A technology company is developing an application that processes images. The application uses Amazon S3 to store the images and needs a service to process the images once they are uploaded to the bucket. What is the best AWS service to accomplish this task?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon Elastic Container Service (ECS)",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 1,
+    "explanation": "AWS Lambda is the best service to perform this task because it is a serverless service that can be triggered by Amazon S3 events, such as an image upload.",
+    "id": 1047
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "api",
+    "service": "Amazon API Gateway",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "desenvolvimento",
+      "api"
+    ],
+    "question": "A technology startup wants to create an API to expose its products to customers. They need a solution that allows them to manage requests and responses in an efficient and scalable way. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon API Gateway",
+      "AWS Lambda"
+    ],
+    "correct": 2,
+    "explanation": "Amazon API Gateway is the most suitable service for managing API requests and responses in an efficient and scalable way."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "objetos"
+    ],
+    "question": "An e-commerce company needs to store product images in a secure and accessible location. They need a solution that allows them to store and serve files efficiently. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon EBS",
+      "Amazon EFS",
+      "Amazon S3",
+      "Amazon Glacier"
+    ],
+    "correct": 2,
+    "explanation": "Amazon S3 is the most suitable service for storing and serving files efficiently."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao",
+    "service": "Amazon Cognito",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A software company needs to authenticate and authorize users in its web application. They need a solution that allows them to manage identities and permissions efficiently. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon IAM",
+      "Amazon STS",
+      "Amazon Cognito",
+      "AWS Directory Service"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Cognito is the most suitable service for authenticating and authorizing users in a web application."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "monitoramento",
+    "service": "Amazon CloudWatch",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "monitoramento",
+      "logs"
+    ],
+    "question": "A technology company needs to monitor the performance of its application in real time. They need a solution that allows them to efficiently collect and analyze logs and metrics. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon CloudTrail",
+      "AWS X-Ray",
+      "Amazon CloudWatch",
+      "AWS Config"
+    ],
+    "correct": 2,
+    "explanation": "Amazon CloudWatch is the most suitable service for monitoring the performance of an application in real time."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "serverless",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "serverless",
+      "funcções"
+    ],
+    "question": "A technology startup wants to create a serverless application to process requests efficiently. They need a solution that allows them to run code without managing servers. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon EC2",
+      "Amazon Elastic Beanstalk",
+      "AWS Lambda",
+      "Amazon ECS"
+    ],
+    "correct": 2,
+    "explanation": "AWS Lambda is the most suitable service for creating a serverless application."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "bancos-de-dados",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "bancos-de-dados",
+      "relacionais"
+    ],
+    "question": "An e-commerce company needs a relational database to store customer and order information. They need a solution that allows them to manage the database efficiently. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon DynamoDB",
+      "Amazon DocumentDB",
+      "Amazon RDS",
+      "Amazon Redshift"
+    ],
+    "correct": 2,
+    "explanation": "Amazon RDS is the most suitable service for managing a relational database."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "firewalls",
+    "service": "AWS Network Firewall",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "firewalls",
+      "seguranca"
+    ],
+    "question": "A technology company needs a firewall to protect its network against cyber attacks. They need a solution that allows them to manage traffic rules efficiently. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon VPC",
+      "AWS Security Groups",
+      "AWS Network Firewall",
+      "Amazon Route 53"
+    ],
+    "correct": 2,
+    "explanation": "AWS Network Firewall is the most suitable service to protect a network against cyber attacks."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "troubleshooting",
+    "service": "AWS CloudTrail",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "troubleshooting",
+      "logs"
+    ],
+    "question": "A technology company needs to monitor your AWS account activity to identify security issues. They need a solution that allows them to collect and analyze logs efficiently. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon CloudWatch",
+      "AWS X-Ray",
+      "AWS CloudTrail",
+      "AWS Config"
+    ],
+    "correct": 2,
+    "explanation": "AWS CloudTrail is the best service for monitoring the activity of an AWS account."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "microservicos",
+    "service": "Amazon ECS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "microservicos",
+      "containerizacao"
+    ],
+    "question": "A technology startup wants to create a microservices application to process requests efficiently. They need a solution that allows them to manage containers efficiently. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon EC2",
+      "Amazon Elastic Beanstalk",
+      "Amazon ECS",
+      "AWS Lambda"
+    ],
+    "correct": 2,
+    "explanation": "Amazon ECS is the most suitable service for creating a microservices application."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento-objetos",
+    "service": "Amazon Glacier",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento-objetos",
+      "arquivamento"
+    ],
+    "question": "A technology company needs to store files securely and accessibly for archival purposes. They need a solution that allows them to store and retrieve files efficiently. Which AWS service is best suited for this need?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Glacier",
+      "Amazon EFS"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Glacier is the most suitable service for storing files for archival purposes."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "criacao-de-funcoes",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "funcoes",
+      "eventos"
+    ],
+    "question": "An e-commerce company needs to create a function that runs automatically whenever a new order is placed in the system. This function should send a confirmation email to the customer. Which AWS service best meets this need?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon API Gateway"
+    ],
+    "correct": 2,
+    "explanation": "AWS Lambda is a service that lets you create functions that run automatically in response to events, such as the creation of a new order."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento-de-dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "objetos"
+    ],
+    "question": "A web developer needs to store media files for a news website. It needs a service that offers durable and scalable storage for these files. Which AWS service best meets this need?",
+    "options": [
+      "Amazon EBS",
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon EFS"
+    ],
+    "correct": 2,
+    "explanation": "Amazon S3 is an object storage service that provides durable, scalable storage for media files."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao",
+    "service": "Amazon Cognito",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A mobile application developer needs to implement authentication and authorization for an application. He needs a service that offers identity and access management for users. Which AWS service best meets this need?",
+    "options": [
+      "Amazon IAM",
+      "Amazon Cognito",
+      "Amazon STS",
+      "Amazon API Gateway"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Cognito is a service that provides identity and access management for users, including authentication and authorization."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "monitoramento",
+    "service": "Amazon CloudWatch",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "monitoramento",
+      "log"
+    ],
+    "question": "A systems administrator needs to monitor the performance of an application running on AWS. He needs a service that offers monitoring and logging to identify problems and optimize performance. Which AWS service best meets this need?",
+    "options": [
+      "Amazon CloudTrail",
+      "Amazon CloudWatch",
+      "AWS X-Ray",
+      "Amazon CloudFormation"
+    ],
+    "correct": 1,
+    "explanation": "Amazon CloudWatch is a service that provides monitoring and logging to identify issues and optimize the performance of applications running on AWS."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "integracao-de-servicos",
+    "service": "Amazon API Gateway",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "api",
+      "integracao"
+    ],
+    "question": "An application developer needs to create an API that integrates multiple AWS services, including Amazon S3 and AWS Lambda. It needs a service that offers API management and integration with other AWS services. Which AWS service best meets this need?",
+    "options": [
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon API Gateway",
+      "Amazon CloudFront"
+    ],
+    "correct": 2,
+    "explanation": "Amazon API Gateway is a service that provides API management and integration with other AWS services, including Amazon S3 and AWS Lambda."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "rede",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "rede",
+      "seguranca"
+    ],
+    "question": "A systems administrator needs to create a virtual private network for an application running on AWS. It needs a service that provides security and network isolation for the application. Which AWS service best meets this need?",
+    "options": [
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon VPC",
+      "Amazon CloudFront"
+    ],
+    "correct": 2,
+    "explanation": "Amazon VPC is a service that provides security and network isolation for applications running on AWS."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service (KMS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "seguranca"
+    ],
+    "question": "An application developer needs to encrypt sensitive data for an application running in AWS. He needs a service that offers encryption key management and data security. Which AWS service best meets this need?",
+    "options": [
+      "Amazon S3",
+      "AWS Lambda",
+      "AWS Key Management Service (KMS)",
+      "Amazon CloudHSM"
+    ],
+    "correct": 2,
+    "explanation": "The AWS Key Management Service (KMS) is a service that provides encryption and security key management for your data."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "depuracao",
+    "service": "AWS X-Ray",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "depuracao",
+      "analisador"
+    ],
+    "question": "An application developer needs to debug an application running on AWS. He needs a service that offers performance analysis and debugging to identify problems and optimize the application. Which AWS service best meets this need?",
+    "options": [
+      "Amazon CloudWatch",
+      "AWS X-Ray",
+      "Amazon CloudTrail",
+      "Amazon CloudFormation"
+    ],
+    "correct": 1,
+    "explanation": "AWS X-Ray is a service that provides performance analysis and debugging to identify issues and optimize applications running on AWS."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "containerizacao",
+    "service": "Amazon Elastic Container Service (ECS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "containerizacao",
+      "orquestracao"
+    ],
+    "question": "An application developer needs to create a containerized application to run on AWS. It needs a service that offers container orchestration and cluster management for the application. Which AWS service best meets this need?",
+    "options": [
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon Elastic Container Service (ECS)",
+      "Amazon CloudFormation"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Elastic Container Service (ECS) is a service that provides container orchestration and cluster management for applications running on AWS."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "banco-de-dados",
+    "service": "Amazon DynamoDB",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "banco-de-dados",
+      "no-sql"
+    ],
+    "question": "An application developer needs to create a NoSQL database for an application running on AWS. It needs a service that offers scalability and performance for the database. Which AWS service best meets this need?",
+    "options": [
+      "Amazon RDS",
+      "Amazon Redshift",
+      "Amazon DynamoDB",
+      "Amazon DocumentDB"
+    ],
+    "correct": 2,
+    "explanation": "Amazon DynamoDB is a service that provides scalability and performance for NoSQL databases running on AWS."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "funções",
+      "serverless"
+    ],
+    "question": "A technology company wants to create an application that processes images sent by users and automatically resizes them. What is the most suitable service to perform this task?",
+    "options": [
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon Elastic Container Service",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 0,
+    "explanation": "AWS Lambda is the most suitable service for this task, as it allows you to run serverless functions that can be triggered by events, such as image uploads, and process the images without having to manage servers."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento-de-dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "objetos"
+    ],
+    "question": "A media company needs to store large amounts of video and audio files for streaming. What is the most suitable service to store these files?",
+    "options": [
+      "Amazon S3",
+      "Amazon Elastic Block Store",
+      "Amazon Elastic File System",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 is the most suitable service for storing these files because it is an object storage service that allows you to store large amounts of data and provide fast, scalable access to that data."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao",
+    "service": "Amazon Cognito",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A mobile app development company needs to implement authentication and authorization for its users. What is the most suitable service for this task?",
+    "options": [
+      "Amazon Cognito",
+      "Amazon IAM",
+      "Amazon STS",
+      "Amazon Directory Service"
+    ],
+    "correct": 0,
+    "explanation": "Amazon Cognito is the best-suited service for this task as it provides a scalable and secure authentication and authorization solution for mobile and web applications."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "monitoramento",
+    "service": "Amazon CloudWatch",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "monitoramento",
+      "logs"
+    ],
+    "question": "A technology company needs to monitor the logs of its cloud applications and services to identify problems and improve performance. What is the most suitable service for this task?",
+    "options": [
+      "Amazon CloudWatch",
+      "Amazon CloudTrail",
+      "Amazon X-Ray",
+      "Amazon CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "Amazon CloudWatch is the best-suited service for this task as it provides a monitoring and log analysis solution for cloud applications and services."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-web",
+    "service": "Amazon API Gateway",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "api",
+      "gateway"
+    ],
+    "question": "A web application development company needs to create an API for its customers. What is the most suitable service to create and manage this API?",
+    "options": [
+      "Amazon API Gateway",
+      "Amazon EC2",
+      "Amazon Elastic Beanstalk",
+      "Amazon Elastic Container Service"
+    ],
+    "correct": 0,
+    "explanation": "Amazon API Gateway is the most suitable service for creating and managing this API, as it provides a scalable and secure API gateway solution for web applications."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "rede",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "rede",
+      "subnet"
+    ],
+    "question": "A technology company needs to create a virtual private network for its cloud applications and services. What is the most suitable service to create and manage this network?",
+    "options": [
+      "Amazon VPC",
+      "Amazon EC2",
+      "Amazon Elastic Container Service",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 0,
+    "explanation": "Amazon VPC is the best-suited service for creating and managing this network, as it provides a scalable and secure virtual private network solution for cloud applications and services."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "chaves"
+    ],
+    "question": "A technology company needs to encrypt its data in the cloud. What is the most suitable service for creating and managing encryption keys?",
+    "options": [
+      "AWS Key Management Service",
+      "Amazon S3",
+      "Amazon EC2",
+      "Amazon Elastic Container Service"
+    ],
+    "correct": 0,
+    "explanation": "AWS Key Management Service is the most suitable service for creating and managing encryption keys, as it provides a scalable and secure encryption key management solution for cloud applications and services."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "depuracao",
+    "service": "AWS X-Ray",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "depuracao",
+      "análise"
+    ],
+    "question": "An application development company needs to debug and analyze the performance of its applications in the cloud. What is the most suitable service for this task?",
+    "options": [
+      "AWS X-Ray",
+      "Amazon CloudWatch",
+      "Amazon CloudTrail",
+      "Amazon CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "AWS X-Ray is the best-suited service for this task as it provides a debugging and performance analysis solution for cloud applications."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "funções",
+      "serverless"
+    ],
+    "question": "A technology company wants to create an application that processes customer orders and updates inventory automatically. What is the most suitable service to perform this task?",
+    "options": [
+      "AWS Lambda",
+      "Amazon EC2",
+      "Amazon Elastic Container Service",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 0,
+    "explanation": "AWS Lambda is the most suitable service for this task, as it allows you to run serverless functions that can be triggered by events, such as receiving orders, and process inventory updates without the need to manage servers."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento-de-dados",
+    "service": "Amazon DynamoDB",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "noSQL"
+    ],
+    "question": "A media company needs to store large amounts of user data for its mobile applications. What is the most suitable service to store this data?",
+    "options": [
+      "Amazon DynamoDB",
+      "Amazon S3",
+      "Amazon Elastic Block Store",
+      "Amazon Elastic File System"
+    ],
+    "correct": 0,
+    "explanation": "Amazon DynamoDB is the most suitable service to store this data as it is a NoSQL data storage service that provides a scalable and secure data storage solution for mobile and web applications."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "aplicativos-serverless",
+      "funcoes"
+    ],
+    "question": "A technology company is developing an application that needs to process requests asynchronously. They need a solution that can automatically scale based on demand. What is the best option for this company?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon Elastic Container Service (ECS)",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 1,
+    "explanation": "AWS Lambda is the best option because it provides a serverless processing solution that can automatically scale based on demand."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento-de-dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento-de-dados",
+      "objetos"
+    ],
+    "question": "A marketing department needs to store and share large media files, such as videos and images, with its partners. They need a solution that is scalable, secure and easy to use. What is the best option for this company?",
+    "options": [
+      "Amazon Elastic Block Store (EBS)",
+      "Amazon S3",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Glacier"
+    ],
+    "correct": 1,
+    "explanation": "Amazon S3 is the best option because it provides a scalable, secure, and easy-to-use object storage solution for storing and sharing large media files."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao",
+    "service": "Amazon Cognito",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A mobile app developer needs a solution to manage user authentication and authorization on their app. They need a solution that is easy to integrate and scalable. What is the best option for this company?",
+    "options": [
+      "Amazon IAM",
+      "Amazon Cognito",
+      "Amazon STS",
+      "Amazon Directory Service"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Cognito is the best option because it provides an easy-to-integrate and scalable authentication and authorization solution for mobile and web applications."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "monitoramento",
+    "service": "Amazon CloudWatch",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "monitoramento",
+      "logs"
+    ],
+    "question": "An operations team needs to monitor and analyze logs from its applications running on AWS. They need a solution that can centrally collect, monitor, and analyze logs. What is the best option for this company?",
+    "options": [
+      "Amazon CloudTrail",
+      "Amazon CloudWatch",
+      "AWS X-Ray",
+      "Amazon Kinesis"
+    ],
+    "correct": 1,
+    "explanation": "Amazon CloudWatch is the best option because it provides a centralized monitoring and log analysis solution for applications running on AWS."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS API Gateway",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "aplicativos-serverless",
+      "apis"
+    ],
+    "question": "An application developer needs to create a RESTful API to expose functionality of a serverless application. They need a solution that can manage API requests and integrate with other AWS solutions. What is the best option for this company?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "AWS API Gateway",
+      "Amazon Elastic Beanstalk"
+    ],
+    "correct": 2,
+    "explanation": "AWS API Gateway is the best option because it provides a solution for creating and managing RESTful APIs and integrating with other AWS solutions, such as AWS Lambda."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "api",
+    "service": "AWS Lambda",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "desenvolvimento de serviços",
+      "aplicativos escaláveis"
+    ],
+    "question": "A technology company is developing a mobile app that allows users to upload photos and share them on their social networks. The application needs to be scalable and secure, with the ability to handle a large volume of photo uploads. What is the best approach to implementing the application's business logic, considering scalability and security?",
+    "options": [
+      "Use Amazon EC2 to create a server instance that runs your application's business logic",
+      "Use AWS Lambda to create a serverless function that runs your application's business logic",
+      "Use Amazon S3 to store photos and Amazon RDS to run your application's business logic",
+      "Use Amazon Elastic Container Service to create a container that runs your application's business logic"
+    ],
+    "correct": 1,
+    "explanation": "The correct answer is to use AWS Lambda to create a serverless function that runs your application's business logic. That's because AWS Lambda is a serverless compute service that lets you create functions that run automatically in response to events, which is ideal for applications that need to handle a high volume of photo uploads. Additionally, AWS Lambda is secure and scalable, which meets business requirements."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "segurança",
+    "service": "Amazon VPC",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "segurança de rede",
+      "isolamento de recursos"
+    ],
+    "question": "A finance company is moving its applications to the cloud and needs to ensure its resources are isolated and secure. What is the best approach to implementing network security and resource isolation in the cloud?",
+    "options": [
+      "Use Amazon VPC to create an isolated, virtual private network for your company's applications",
+      "Use Amazon EC2 to create server instances that run on a public network",
+      "Use Amazon S3 to store your company data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use Amazon VPC to create an isolated, private virtual network for your company's applications. This is because Amazon VPC is a virtual network service that allows you to create private and isolated networks in the cloud, which is ideal for companies that need to guarantee the security and isolation of their resources."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao",
+    "service": "Amazon Cognito",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "autenticação de usuários",
+      "gerenciamento de identidades"
+    ],
+    "question": "A technology company is developing a mobile application that needs to authenticate users in a secure and scalable way. What is the best approach to implementing in-app user authentication?",
+    "options": [
+      "Using Amazon Cognito to create a scalable and secure user authentication service",
+      "Use Amazon EC2 to create a server instance that performs application authentication logic",
+      "Using Amazon S3 to store user authentication credentials",
+      "Use Amazon RDS to create a database that stores user authentication information"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use Amazon Cognito to create a user authentication service that is scalable and secure. That's because Amazon Cognito is a user authentication service that allows you to create authentication services that are scalable and secure, which is ideal for applications that need to authenticate users in a secure and scalable way."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "desempenho",
+    "service": "Amazon CloudWatch",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "monitoramento de desempenho",
+      "otimização de recursos"
+    ],
+    "question": "A technology company is experiencing performance issues in its cloud applications and needs to monitor and optimize resource performance. What is the best approach to monitoring and optimizing the performance of cloud resources?",
+    "options": [
+      "Use Amazon CloudWatch to monitor resource performance and optimize resource usage",
+      "Use Amazon EC2 to create server instances that run on a public network",
+      "Use Amazon S3 to store your company data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use Amazon CloudWatch to monitor resource performance and optimize resource usage. That's because Amazon CloudWatch is a performance monitoring service that allows you to monitor the performance of cloud resources and optimize resource usage, which is ideal for companies that need to ensure resource performance and efficiency."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "api",
+    "service": "AWS API Gateway",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "desenvolvimento de APIs",
+      "gerenciamento de APIs"
+    ],
+    "question": "A technology company is developing an API that needs to be managed and secure. What is the best approach to implementing the API and ensuring security and management?",
+    "options": [
+      "Use AWS API Gateway to create and manage the API",
+      "Use Amazon EC2 to create a server instance that runs the API",
+      "Use Amazon S3 to store your API data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use AWS API Gateway to create and manage the API. This is because AWS API Gateway is an API management service that allows you to create and manage APIs in a secure and scalable way, which is ideal for companies that need to ensure the security and management of APIs."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "segurança",
+    "service": "AWS IAM",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "segurança de acesso",
+      "gerenciamento de identidades"
+    ],
+    "question": "A technology company is implementing an access security solution for its cloud resources and needs to ensure that users only have access to the resources they need. What is the best approach to implementing access security and identity management?",
+    "options": [
+      "Use AWS IAM to create and manage access policies and user identities",
+      "Use Amazon EC2 to create server instances that run on a public network",
+      "Use Amazon S3 to store your company data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use AWS IAM to create and manage access policies and user identities. That's because AWS IAM is an identity and access management service that allows you to create and manage access policies and user identities in a secure and scalable way, which is ideal for companies that need to ensure access security and identity management."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "protecao",
+    "service": "AWS Shield",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "proteção contra ataques",
+      "segurança de aplicativos"
+    ],
+    "question": "A technology company is developing an application that needs to be protected against denial-of-service attacks and other types of attacks. What is the best approach to implementing attack protection and ensuring application security?",
+    "options": [
+      "Use AWS Shield to protect your application against denial-of-service attacks and other types of attacks",
+      "Use Amazon EC2 to create server instances that run on a public network",
+      "Use Amazon S3 to store your company data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use AWS Shield to protect your application against denial-of-service attacks and other types of attacks. That's because AWS Shield is an attack protection service that allows you to protect applications against denial-of-service attacks and other types of attacks in a secure and scalable way, which is ideal for companies that need to ensure application security."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "desempenho",
+    "service": "Amazon X-Ray",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "análise de desempenho",
+      "otimização de aplicativos"
+    ],
+    "question": "A technology company is experiencing performance issues in its applications and needs to analyze and optimize application performance. What is the best approach to analyzing and optimizing application performance?",
+    "options": [
+      "Use Amazon X-Ray to analyze and optimize application performance",
+      "Use Amazon EC2 to create server instances that run on a public network",
+      "Use Amazon S3 to store your company data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use Amazon X-Ray to analyze and optimize application performance. That's because Amazon X-Ray is a performance analysis service that allows you to analyze and optimize application performance in a secure and scalable way, which is ideal for companies that need to ensure application performance and efficiency."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "mensagem",
+    "service": "Amazon SQS",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "filas de mensagens",
+      "gerenciamento de mensagens"
+    ],
+    "question": "A technology company is developing an application that needs to send and receive messages in a secure and scalable way. What is the best approach to implementing message queues and ensuring security and management?",
+    "options": [
+      "Use Amazon SQS to create message queues that are secure and scalable",
+      "Use Amazon EC2 to create server instances that run on a public network",
+      "Use Amazon S3 to store your company data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use Amazon SQS to create message queues that are secure and scalable. This is because Amazon SQS is a message queuing service that allows you to create message queues that are secure and scalable in a secure and scalable way, which is ideal for companies that need to ensure message security and management."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "segurança",
+    "service": "AWS Key Management Service",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de chaves",
+      "segurança de dados"
+    ],
+    "question": "A technology company is implementing a data security solution for its cloud resources and needs to ensure that encryption keys are managed securely. What is the best approach to implementing key management and ensuring data security?",
+    "options": [
+      "Use the AWS Key Management Service to manage encryption keys",
+      "Use Amazon EC2 to create server instances that run on a public network",
+      "Use Amazon S3 to store your company data and Amazon RDS to run your databases",
+      "Use Amazon Elastic Container Service to create containers that run on a public network"
+    ],
+    "correct": 0,
+    "explanation": "The correct answer is to use the AWS Key Management Service to manage encryption keys. This is because AWS Key Management Service is a key management service that allows you to manage encryption keys in a secure and scalable way, which is ideal for companies that need to ensure data security."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS Lambda",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "funções lambda",
+      "triggers"
+    ],
+    "question": "A technology company is developing a serverless application that uses lambda functions to process purchase orders. However, developers are facing difficulties in managing the different versions of lambda functions and ensuring that changes are deployed correctly. What is the best approach for this company?",
+    "options": [
+      "Use Amazon S3 to store different versions of lambda functions",
+      "Use AWS Lambda Aliases to manage different versions of lambda functions",
+      "Use Amazon CloudWatch to monitor lambda functions and detect changes",
+      "Using AWS CodePipeline to automate the deployment of lambda functions"
+    ],
+    "correct": 1,
+    "explanation": "AWS Lambda Aliases allow developers to manage different versions of a lambda function, which is useful for testing and deploying changes without affecting the production version."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca",
+    "service": "Amazon IAM",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "acesso",
+      "políticas"
+    ],
+    "question": "A financial services company is migrating its applications to the AWS cloud and needs to ensure that employees only have access to the resources they need to perform their tasks. What is the best approach for this company?",
+    "options": [
+      "Create a security group on Amazon EC2 to control access to resources",
+      "Use Amazon IAM to create custom access policies for each employee",
+      "Use Amazon Cognito to manage employee identity and access",
+      "Using AWS Organizations to control access to resources"
+    ],
+    "correct": 1,
+    "explanation": "Amazon IAM allows companies to create personalized access policies for each employee, which helps ensure that employees have access to only the resources they need to perform their tasks."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "protecao-dados",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "criptografia"
+    ],
+    "question": "A healthcare company is storing sensitive patient data in Amazon S3 and needs to ensure that this data is protected from unauthorized access. What is the best approach for this company?",
+    "options": [
+      "Use Amazon S3 Server-Side Encryption to encrypt your data",
+      "Use Amazon S3 Bucket Policies to control data access",
+      "Use the AWS Key Management Service (KMS) to manage encryption keys",
+      "Using Amazon CloudHSM to store encryption keys"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 Server-Side Encryption enables companies to encrypt data stored in S3, which helps protect data from unauthorized access."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "análise-de-desempenho",
+    "service": "Amazon CloudWatch",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "monitoramento",
+      "desempenho"
+    ],
+    "question": "An e-commerce company is experiencing performance issues in its web application and needs to identify the root cause of the problem. What is the best approach for this company?",
+    "options": [
+      "Use Amazon CloudWatch to monitor application logs and identify error patterns",
+      "Use AWS X-Ray to analyze application performance and identify bottlenecks",
+      "Use Amazon S3 to store application logs and analyze them manually",
+      "Use AWS Lambda to process application logs and generate reports"
+    ],
+    "correct": 0,
+    "explanation": "Amazon CloudWatch enables companies to monitor application logs and identify error patterns, which helps identify the root cause of performance issues."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS API Gateway",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "api",
+      "rest"
+    ],
+    "question": "A technology company is developing a serverless application that uses AWS API Gateway to expose a REST API to customers. However, developers are facing difficulties in managing the different API versions and ensuring that changes are deployed correctly. What is the best approach for this company?",
+    "options": [
+      "Using AWS API Gateway to create different versions of the API",
+      "Use Amazon S3 to store different API versions",
+      "Use AWS Lambda to process API requests and manage different versions",
+      "Use AWS CodePipeline to automate API deployment"
+    ],
+    "correct": 0,
+    "explanation": "AWS API Gateway allows companies to create different API versions and manage changes efficiently."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca",
+    "service": "Amazon VPC",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "rede",
+      "seguranca"
+    ],
+    "question": "A financial services company is migrating its applications to the AWS cloud and needs to ensure that resources are only accessed by authorized IPs. What is the best approach for this company?",
+    "options": [
+      "Use Amazon VPC to create a virtual private network and control access to resources",
+      "Use Amazon EC2 to create a security instance and control access to resources",
+      "Use AWS IAM to create custom access policies for each resource",
+      "Using AWS Organizations to control access to resources"
+    ],
+    "correct": 0,
+    "explanation": "Amazon VPC allows companies to create a virtual private network and control access to resources, which helps ensure that resources are only accessed by authorized IPs."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "protecao-dados",
+    "service": "AWS Key Management Service (KMS)",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "chaves"
+    ],
+    "question": "A healthcare company is storing sensitive patient data in Amazon S3 and needs to ensure that encryption keys are managed securely. What is the best approach for this company?",
+    "options": [
+      "Use the AWS Key Management Service (KMS) to manage encryption keys",
+      "Use Amazon S3 Server-Side Encryption to encrypt your data",
+      "Using Amazon CloudHSM to store encryption keys",
+      "Using AWS Lambda to process encryption keys"
+    ],
+    "correct": 0,
+    "explanation": "AWS Key Management Service (KMS) enables companies to manage encryption keys in a secure and scalable way."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "análise-de-desempenho",
+    "service": "AWS X-Ray",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "desempenho",
+      "análise"
+    ],
+    "question": "An e-commerce company is experiencing performance issues in its web application and needs to identify the root cause of the problem. What is the best approach for this company?",
+    "options": [
+      "Use AWS X-Ray to analyze application performance and identify bottlenecks",
+      "Use Amazon CloudWatch to monitor application logs and identify error patterns",
+      "Use Amazon S3 to store application logs and analyze them manually",
+      "Use AWS Lambda to process application logs and generate reports"
+    ],
+    "correct": 0,
+    "explanation": "AWS X-Ray enables companies to analyze application performance and identify bottlenecks, which helps identify the root cause of the performance issue."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS Lambda",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "funções lambda",
+      "triggers"
+    ],
+    "question": "A technology company is developing a serverless application that uses lambda functions to process purchase orders. However, developers are facing difficulties in managing the different versions of lambda functions and ensuring that changes are deployed correctly. What is the best approach for this company?",
+    "options": [
+      "Use AWS Lambda Aliases to manage different versions of lambda functions",
+      "Use Amazon S3 to store different versions of lambda functions",
+      "Using AWS CodePipeline to automate the deployment of lambda functions",
+      "Use AWS CloudFormation to manage different versions of lambda functions"
+    ],
+    "correct": 0,
+    "explanation": "AWS Lambda Aliases allow developers to manage different versions of a lambda function, which is useful for testing and deploying changes without affecting the production version."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "aplicativos-serverless",
+    "service": "AWS Lambda",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "aplicativos-serverless",
+      "armazenamento"
+    ],
+    "question": "A technology company is developing an application that allows users to upload and process images. The loading and processing process must be carried out asynchronously to avoid server congestion. Additionally, the application must store the processed images in a secure and scalable location. What is the best approach to implementing this functionality?",
+    "options": [
+      "Use Amazon S3 to store images and Amazon SQS to manage processing queues, with AWS Lambda to process images",
+      "Use Amazon DynamoDB to store images and Amazon API Gateway to manage requests, with AWS Lambda to process images",
+      "Use Amazon Elastic Container Service (ECS) to manage processing containers and Amazon Elastic File System (EFS) to store images",
+      "Use Amazon Elastic MapReduce (EMR) to process the images and Amazon Simple Storage Service (S3) to store the images"
+    ],
+    "correct": 0,
+    "explanation": "The combination of Amazon S3 for storage, Amazon SQS for queue management, and AWS Lambda for asynchronous processing is the best solution for this scenario, offering scalability, security, and efficiency."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca",
+    "service": "Amazon IAM",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "identidade"
+    ],
+    "question": "A financial services company is migrating its systems to the AWS cloud and needs to ensure that access is controlled and audited. They have a strict security policy that requires two-factor authentication for all users accessing cloud resources. What is the best way to implement this security policy?",
+    "options": [
+      "Use Amazon IAM to create access profiles and Amazon Cognito for two-factor authentication",
+      "Use Amazon IAM to create access profiles and AWS Directory Service for two-factor authentication",
+      "Use Amazon IAM to create access profiles and AWS Single Sign-On (SSO) for two-factor authentication",
+      "Use Amazon IAM to create access profiles and AWS Organizations for two-factor authentication"
+    ],
+    "correct": 0,
+    "explanation": "Amazon IAM is the most suitable service for managing access, and Amazon Cognito offers a two-factor authentication solution to meet your company's security needs."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "protecao-dados",
+    "service": "Amazon Macie",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "protecao-dados",
+      "seguranca"
+    ],
+    "question": "A healthcare provider is concerned about protecting sensitive patient data and needs a solution to detect and prevent data leaks. What is the best approach to implementing this functionality?",
+    "options": [
+      "Use Amazon Macie to detect and prevent data leaks, with Amazon S3 for data storage",
+      "Use Amazon Inspector to detect and prevent data leaks, with Amazon EC2 for application hosting",
+      "Use Amazon CloudWatch to monitor access logs and Amazon CloudTrail to audit activity",
+      "Use AWS Config to manage compliance and AWS CloudHSM for data encryption"
+    ],
+    "correct": 0,
+    "explanation": "Amazon Macie is a specialized data leak detection and prevention solution using machine learning algorithms to identify and classify sensitive data."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "desempenho-aplicativos",
+    "service": "Amazon CloudWatch",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "desempenho-aplicativos",
+      "monitoramento"
+    ],
+    "question": "A web application developer is facing performance issues in his application and needs a tool to monitor and analyze performance. What is the best approach to implementing this functionality?",
+    "options": [
+      "Use Amazon CloudWatch to monitor application logs and Amazon X-Ray for performance analysis",
+      "Use AWS CloudTrail to audit activities and AWS Config to manage compliance",
+      "Use Amazon Elastic Container Service (ECS) to manage application containers and Amazon Elastic File System (EFS) for data storage",
+      "Use AWS Lambda to process requests and Amazon API Gateway to manage requests"
+    ],
+    "correct": 0,
+    "explanation": "Amazon CloudWatch is a monitoring solution that provides capabilities for collecting and analyzing application logs, while Amazon X-Ray provides a detailed view of application performance."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "arquitetura-microservicos",
+    "service": "Amazon ECS",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "arquitetura-microservicos",
+      "orquestracao"
+    ],
+    "question": "A development team is creating an application made up of several microservices and needs a solution to manage and orchestrate these services. What is the best approach to implementing this functionality?",
+    "options": [
+      "Use Amazon ECS to manage microservices containers and Amazon EKS for orchestration",
+      "Use AWS Lambda to process requests and Amazon API Gateway to manage requests",
+      "Use Amazon Elastic Beanstalk to manage application environments and Amazon RDS for data storage",
+      "Use AWS CloudFormation to manage infrastructure as code and AWS CodePipeline for continuous delivery"
+    ],
+    "correct": 0,
+    "explanation": "Amazon ECS is a solution for managing containers, and Amazon EKS provides container orchestration with Kubernetes, meeting microservices management needs."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "armazenamento",
+      "seguranca"
+    ],
+    "question": "A media company is looking for a storage solution for its video and audio files, which must be accessed frequently. Furthermore, the company needs to ensure that files are stored securely and with redundancy. What is the best approach to implementing this functionality?",
+    "options": [
+      "Use Amazon S3 for file storage, with Amazon CloudFront for content distribution, and Amazon IAM for access control",
+      "Use Amazon EBS for block storage, with Amazon EC2 for application hosting, and Amazon VPC for network security",
+      "Use Amazon Elastic File System (EFS) for file storage, with Amazon EC2 for application hosting, and Amazon VPC for network security",
+      "Use Amazon Glacier for file storage, with Amazon S3 for metadata storage, and Amazon IAM for access control"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 is a scalable and secure object storage solution, while Amazon CloudFront provides efficient content distribution and Amazon IAM ensures file access control."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "arquitetura-de-servicos",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Serverless",
+      "Arquitetura de Serviços"
+    ],
+    "question": "A technology company is developing a mobile application that needs to process images uploaded by users. Image processing is an intensive task and requires high availability and scalability. The company wants to minimize operational cost and effort. What is the best approach to implementing image processing?",
+    "options": [
+      "Use Amazon EC2 with Auto Scaling to ensure scalability and high availability",
+      "Use AWS Lambda with Amazon S3 to store images and process them serverless",
+      "Using Amazon ECS with Docker containers to orchestrate image processing",
+      "Use Amazon Elastic Beanstalk to deploy the application and process the images"
+    ],
+    "correct": 1,
+    "explanation": "Using AWS Lambda with Amazon S3 enables a serverless, scalable, high-availability approach, minimizing cost and operational effort."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca-da-infraestrutura",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Segurança",
+      "Infraestrutura"
+    ],
+    "question": "A finance company is deploying a critical application on a cloud infrastructure and needs to ensure that all access is secure and monitored. The company wants to ensure that all access is only through a secure VPN tunnel. What is the best way to implement this?",
+    "options": [
+      "Use Amazon VPC with VPN gateway to establish a secure connection",
+      "Use Amazon Direct Connect to establish a direct connection to your company's infrastructure",
+      "Use Amazon Route 53 to route network traffic",
+      "Using Amazon CloudWatch to monitor network traffic"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon VPC with an VPN gateway allows you to establish a secure and monitored connection, ensuring that all access is made only through a secure VPN tunnel."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao-e-autorizacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Autenticação",
+      "Autorização"
+    ],
+    "question": "A mobile application developer is creating an application that requires authentication and authorization to access protected resources. The developer wants to implement an authentication solution that is scalable, secure, and easy to integrate. What is the best approach to implementing authentication and authorization?",
+    "options": [
+      "Use Amazon Cognito to manage authentication and authorization",
+      "Use Amazon IAM to manage authentication and authorization",
+      "Using Amazon STS to manage authentication and authorization",
+      "Use Amazon CloudDirectory to manage authentication and authorization"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon Cognito allows you to implement a scalable, secure, and easy-to-integrate authentication solution, managing authentication and authorization effectively."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "otimizacao-de-desempenho",
+    "service": "Amazon CloudWatch",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Otimização de Desempenho",
+      "Monitoramento"
+    ],
+    "question": "An IT operations team is experiencing performance issues in a critical application and needs to identify the root cause of the problem. The team wants to monitor the application's performance and receive real-time notifications when problems occur. What is the best way to implement monitoring and notification?",
+    "options": [
+      "Use Amazon CloudWatch to monitor performance and receive notifications",
+      "Use Amazon X-Ray to monitor performance and receive notifications",
+      "Use Amazon CloudTrail to monitor performance and receive notifications",
+      "Use Amazon Config to monitor performance and receive notifications"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon CloudWatch allows you to monitor your application performance and receive real-time notifications when issues occur, helping you identify the root cause of the issue."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "arquitetura-de-microservicos",
+    "service": "Amazon ECS",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Microserviços",
+      "Orquestração"
+    ],
+    "question": "A technology company is developing a complex application that consists of several microservices. The company wants to orchestrate microservices in an efficient and scalable way. What is the best approach to implementing microservices orchestration?",
+    "options": [
+      "Use Amazon ECS to orchestrate microservices",
+      "Use Amazon EKS to orchestrate microservices",
+      "Use Amazon Elastic Beanstalk to deploy microservices",
+      "Use Amazon CloudFormation to provision microservices"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon ECS allows you to orchestrate microservices in an efficient and scalable way, managing the deployment, scaling, and monitoring of microservices."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca-da-infraestrutura",
+    "service": "Amazon Inspector",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Segurança",
+      "Infraestrutura"
+    ],
+    "question": "A finance company is deploying cloud infrastructure and needs to ensure that the security of the infrastructure complies with security regulations. The company wants to perform a security assessment of the infrastructure to identify vulnerabilities. What is the best way to implement security assessment?",
+    "options": [
+      "Use Amazon Inspector to perform the security assessment",
+      "Using Amazon CloudWatch to monitor infrastructure security",
+      "Use Amazon CloudTrail for security auditing",
+      "Using Amazon Config to assess security compliance"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon Inspector allows you to perform a security assessment of your infrastructure to identify vulnerabilities and ensure compliance with security regulations."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "protecao-de-dados",
+    "service": "Amazon Key Management Service (KMS)",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Proteção de Dados",
+      "Criptografia"
+    ],
+    "question": "A mobile app developer is creating an app that stores users' sensitive data. The developer wants to protect data with encryption and manage encryption keys securely. What is the best approach to implementing data protection?",
+    "options": [
+      "Use Amazon KMS to manage encryption keys",
+      "Use Amazon CloudHSM to manage encryption keys",
+      "Use Amazon S3 to store encrypted data",
+      "Use Amazon CloudWatch to monitor encryption"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon KMS allows you to securely manage your encryption keys and protect your data with encryption, ensuring data confidentiality and integrity."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "otimizacao-de-custo",
+    "service": "Amazon Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Otimização de Custo",
+      "Análise de Custo"
+    ],
+    "question": "A technology company is facing cost issues in its cloud infrastructure and needs to identify areas for cost optimization. The company wants to analyze expenses and optimize the cost of infrastructure. What is the best way to implement cost analysis?",
+    "options": [
+      "Use Amazon Cost Explorer to analyze spend and optimize cost",
+      "Use Amazon CloudWatch to monitor infrastructure cost",
+      "Use Amazon CloudTrail for cost audit",
+      "Use Amazon Config to assess cost compliance"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon Cost Explorer allows you to analyze spending and optimize the cost of your infrastructure, helping you identify areas for cost optimization and reduce spending."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "arquitetura-de-api",
+    "service": "Amazon API Gateway",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "API",
+      "Arquitetura de API"
+    ],
+    "question": "A technology company is developing an application that consists of several microservices and wants to expose the services as a unified API. The company wants to manage the API in an efficient and scalable way. What is the best approach to implementing API architecture?",
+    "options": [
+      "Use Amazon API Gateway to manage the API",
+      "Use Amazon Elastic Beanstalk to deploy the API",
+      "Use Amazon CloudFormation to provision the API",
+      "Use Amazon CloudWatch to monitor the API"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon API Gateway allows you to manage the API in an efficient and scalable way, providing a unified and secure API for microservices."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca-da-infraestrutura",
+    "service": "Amazon CloudHSM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Segurança",
+      "Infraestrutura"
+    ],
+    "question": "A finance company is deploying cloud infrastructure and needs to ensure that the security of the infrastructure complies with security regulations. The company wants to protect encryption keys with a hardware security module. What is the best way to implement encryption key protection?",
+    "options": [
+      "Use Amazon CloudHSM to protect encryption keys",
+      "Use Amazon KMS to manage encryption keys",
+      "Use Amazon CloudWatch to monitor encryption",
+      "Using Amazon Config to assess security compliance"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon CloudHSM allows you to protect your encryption keys with a hardware security module, ensuring security and compliance with security regulations."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "arquitetura-de-microservicos",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "serverless",
+      "escalabilidade"
+    ],
+    "question": "A technology company is developing an image processing application that must be able to handle a large volume of simultaneous requests. The application uses AWS Lambda as its processing layer, but developers are facing challenges managing the service's scalability and latency. What is the best approach to optimize application performance and reduce costs?",
+    "options": [
+      "Use Amazon EC2 to provision server instances to handle image processing",
+      "Implement Amazon API Gateway to manage your application's inbound and outbound requests",
+      "Use Amazon S3 to store images and AWS Lambda to process them",
+      "Implement Amazon CloudFront as a content delivery layer to reduce latency"
+    ],
+    "correct": 2,
+    "explanation": "Using Amazon S3 to store the images and AWS Lambda to process them is the best approach as it allows for automatic scaling and reduces latency. Additionally, AWS Lambda is a more cost-effective option than Amazon EC2 because you only pay for the processing time used."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca-da-infraestrutura",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "rede"
+    ],
+    "question": "A finance company is moving its infrastructure to the cloud and needs to ensure its network is secure and isolated. The company has several departments with different security and network access needs. What is the best approach to implementing network security in the cloud?",
+    "options": [
+      "Use Amazon VPC to create a virtual private network and configure security traffic rules",
+      "Implement Amazon EC2 to provision server instances and configure firewalls",
+      "Using Amazon S3 to store sensitive data and configure access policies",
+      "Implement Amazon CloudWatch to monitor network security"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon VPC to create a virtual private network and configure security traffic rules is the best approach because it allows you to create a secure, isolated network in the cloud. Additionally, Amazon VPC provides advanced security features such as security groups and route tables."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao-e-autorizacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A technology company is developing a mobile application that requires user authentication and authorization. The company needs to ensure that authentication is secure and scalable. What is the best approach to implementing authentication and authorization in the application?",
+    "options": [
+      "Use Amazon Cognito to manage user authentication and authorization",
+      "Implement Amazon EC2 to provision server instances and configure authentication",
+      "Use Amazon S3 to store user data and configure access policies",
+      "Implement Amazon CloudWatch to monitor authentication and authorization"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon Cognito to manage user authentication and authorization is the best approach as it provides a scalable and secure authentication solution. Additionally, Amazon Cognito easily integrates with other AWS services, such as AWS Lambda and Amazon API Gateway."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "analise-de-log",
+    "service": "Amazon CloudWatch",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "analise-de-log",
+      "monitoramento"
+    ],
+    "question": "A technology company is experiencing performance issues in its application and needs to identify the root cause of the problem. The company has a large amount of application logs and needs a tool to analyze them. What is the best approach to analyzing application logs and identifying the cause of the problem?",
+    "options": [
+      "Use Amazon CloudWatch to collect and analyze application logs",
+      "Implement Amazon EC2 to provision server instances and configure log analysis",
+      "Use Amazon S3 to store application logs and configure access policies",
+      "Implement Amazon CloudTrail to monitor application activity"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon CloudWatch to collect and analyze application logs is the best approach because it provides a scalable and secure log analysis solution. Additionally, Amazon CloudWatch easily integrates with other AWS services, such as AWS Lambda and Amazon API Gateway."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "arquitetura-de-microservicos",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "serverless",
+      "escalabilidade"
+    ],
+    "question": "A technology company is developing a data processing application that must be able to handle a large volume of simultaneous requests. The application uses AWS Lambda as its processing layer, but developers are facing challenges managing the service's scalability and latency. What is the best approach to optimize application performance and reduce costs?",
+    "options": [
+      "Use Amazon EC2 to provision server instances to handle data processing",
+      "Implement Amazon API Gateway to manage your application's inbound and outbound requests",
+      "Use Amazon S3 to store the data and AWS Lambda to process it",
+      "Implement Amazon CloudFront as a content delivery layer to reduce latency"
+    ],
+    "correct": 2,
+    "explanation": "Using Amazon S3 to store the data and AWS Lambda to process it is the best approach because it allows automatic scaling and reduces latency. Additionally, AWS Lambda is a more cost-effective option than Amazon EC2 because you only pay for the processing time used."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca-da-infraestrutura",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "rede"
+    ],
+    "question": "A finance company is moving its infrastructure to the cloud and needs to ensure its network is secure and isolated. The company has several departments with different security and network access needs. What is the best approach to implementing network security in the cloud?",
+    "options": [
+      "Use Amazon VPC to create a virtual private network and configure security traffic rules",
+      "Implement Amazon EC2 to provision server instances and configure firewalls",
+      "Using Amazon S3 to store sensitive data and configure access policies",
+      "Implement Amazon CloudWatch to monitor network security"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon VPC to create a virtual private network and configure security traffic rules is the best approach because it allows you to create a secure, isolated network in the cloud. Additionally, Amazon VPC provides advanced security features such as security groups and route tables."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao-e-autorizacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A technology company is developing a mobile application that requires user authentication and authorization. The company needs to ensure that authentication is secure and scalable. What is the best approach to implementing authentication and authorization in the application?",
+    "options": [
+      "Use Amazon Cognito to manage user authentication and authorization",
+      "Implement Amazon EC2 to provision server instances and configure authentication",
+      "Use Amazon S3 to store user data and configure access policies",
+      "Implement Amazon CloudWatch to monitor authentication and authorization"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon Cognito to manage user authentication and authorization is the best approach as it provides a scalable and secure authentication solution. Additionally, Amazon Cognito easily integrates with other AWS services, such as AWS Lambda and Amazon API Gateway."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "analise-de-log",
+    "service": "Amazon CloudWatch",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "analise-de-log",
+      "monitoramento"
+    ],
+    "question": "A technology company is experiencing performance issues in its application and needs to identify the root cause of the problem. The company has a large amount of application logs and needs a tool to analyze them. What is the best approach to analyzing application logs and identifying the cause of the problem?",
+    "options": [
+      "Use Amazon CloudWatch to collect and analyze application logs",
+      "Implement Amazon EC2 to provision server instances and configure log analysis",
+      "Use Amazon S3 to store application logs and configure access policies",
+      "Implement Amazon CloudTrail to monitor application activity"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon CloudWatch to collect and analyze application logs is the best approach because it provides a scalable and secure log analysis solution. Additionally, Amazon CloudWatch easily integrates with other AWS services, such as AWS Lambda and Amazon API Gateway."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "arquitetura-de-microservicos",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "serverless",
+      "escalabilidade"
+    ],
+    "question": "A technology company is developing a data processing application that must be able to handle a large volume of simultaneous requests. The application uses AWS Lambda as its processing layer, but developers are facing challenges managing the service's scalability and latency. What is the best approach to optimize application performance and reduce costs?",
+    "options": [
+      "Use Amazon EC2 to provision server instances to handle data processing",
+      "Implement Amazon API Gateway to manage your application's inbound and outbound requests",
+      "Use Amazon S3 to store the data and AWS Lambda to process it",
+      "Implement Amazon CloudFront as a content delivery layer to reduce latency"
+    ],
+    "correct": 2,
+    "explanation": "Using Amazon S3 to store the data and AWS Lambda to process it is the best approach because it allows automatic scaling and reduces latency. Additionally, AWS Lambda is a more cost-effective option than Amazon EC2 because you only pay for the processing time used."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca-da-infraestrutura",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "seguranca",
+      "rede"
+    ],
+    "question": "A finance company is moving its infrastructure to the cloud and needs to ensure its network is secure and isolated. The company has several departments with different security and network access needs. What is the best approach to implementing network security in the cloud?",
+    "options": [
+      "Use Amazon VPC to create a virtual private network and configure security traffic rules",
+      "Implement Amazon EC2 to provision server instances and configure firewalls",
+      "Using Amazon S3 to store sensitive data and configure access policies",
+      "Implement Amazon CloudWatch to monitor network security"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon VPC to create a virtual private network and configure security traffic rules is the best approach because it allows you to create a secure, isolated network in the cloud. Additionally, Amazon VPC provides advanced security features such as security groups and route tables."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao-e-autorizacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A technology company is developing a mobile application that requires user authentication and authorization. The company needs to ensure that authentication is secure and scalable. What is the best approach to implementing authentication and authorization in the application?",
+    "options": [
+      "Use Amazon Cognito to manage user authentication and authorization",
+      "Implement Amazon EC2 to provision server instances and configure authentication",
+      "Use Amazon S3 to store user data and configure access policies",
+      "Implement Amazon CloudWatch to monitor authentication and authorization"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon Cognito to manage user authentication and authorization is the best approach as it provides a scalable and secure authentication solution. Additionally, Amazon Cognito easily integrates with other AWS services, such as AWS Lambda and Amazon API Gateway."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "api",
+    "service": "Amazon API Gateway",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "API",
+      "Gateway"
+    ],
+    "question": "A technology company is developing a RESTful API to manage customer orders. The API needs to be highly available, secure and scalable. Additionally, the company needs to manage API keys and monitor API usage. What is the best option for this company?",
+    "options": [
+      "Use Amazon API Gateway to create and manage the API, and AWS Lambda to process requests",
+      "Use Amazon EC2 to host the API and Amazon RDS to store the data",
+      "Use Amazon S3 to store the API data and Amazon CloudFront to distribute the API",
+      "Use Amazon Elastic Beanstalk to deploy the API and Amazon CloudWatch to monitor API usage"
+    ],
+    "correct": 0,
+    "explanation": "Amazon API Gateway is the most suitable service for creating and managing RESTful APIs, as it offers security, scalability, and API key management features. Additionally, AWS Lambda can be used to process API requests in a serverless manner."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Armazenamento",
+      "S3"
+    ],
+    "question": "A media company is looking for a storage solution for its video and audio files. The company needs to store more than 100 TB of data and needs to ensure that files are accessible quickly and securely. Additionally, the company needs to reduce storage costs and manage data efficiently. What is the best option for this company?",
+    "options": [
+      "Use Amazon S3 Standard to store files and Amazon Glacier to archive data",
+      "Use Amazon EBS to store the files and Amazon EC2 to process the data",
+      "Use Amazon Elastic File System (EFS) to store files and Amazon CloudWatch to monitor usage",
+      "Use Amazon Elastic Block Store (EBS) to store files and Amazon RDS to manage data"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 is the most suitable service for storing large amounts of data as it offers scalable, secure, and durable storage capabilities. Additionally, Amazon Glacier can be used to archive data that is not frequently accessed, reducing storage costs."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "autenticacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Autenticação",
+      "Cognito"
+    ],
+    "question": "A mobile app development company is looking for an authentication solution for its users. The company needs to ensure that users are securely authenticated and that data is protected. Additionally, the company needs to manage user identities and provide access to company resources. What is the best option for this company?",
+    "options": [
+      "Use Amazon Cognito to manage user identities and provide access to company resources",
+      "Use Amazon IAM to manage user identities and provide access to company resources",
+      "Use Amazon EC2 to host the authentication solution and Amazon RDS to store the data",
+      "Use Amazon Elastic Beanstalk to deploy the authentication solution and Amazon CloudWatch to monitor usage"
+    ],
+    "correct": 0,
+    "explanation": "Amazon Cognito is the best-suited service for managing user identities and providing access to company resources, as it offers authentication, authorization, and identity management capabilities. Additionally, Amazon Cognito is easy to integrate with mobile and web apps."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "monitoreamento",
+    "service": "Amazon CloudWatch",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Monitoreamento",
+      "CloudWatch"
+    ],
+    "question": "A technology company is experiencing performance issues with its web application. The company needs to monitor application performance and identify the causes of problems. Additionally, the company needs to receive notifications when application performance is affected. What is the best option for this company?",
+    "options": [
+      "Use Amazon CloudWatch to monitor application performance and receive notifications",
+      "Use Amazon X-Ray to monitor application performance and identify causes of issues",
+      "Use Amazon EC2 to host the application and Amazon RDS to store the data",
+      "Use Amazon Elastic Beanstalk to deploy the application and Amazon CloudTrail to monitor activity"
+    ],
+    "correct": 0,
+    "explanation": "Amazon CloudWatch is the most suitable service for monitoring application performance and receiving notifications, as it offers performance monitoring, logging, and notification capabilities. Additionally, Amazon CloudWatch is easy to integrate with web applications and can be used to monitor AWS and non-AWS resources."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "microservicos",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Microserviços",
+      "Lambda"
+    ],
+    "question": "A technology company is developing an application based on microservices. The company needs to create a function that runs serverless and can scale automatically. Furthermore, the company needs to reduce infrastructure costs and manage resources efficiently. What is the best option for this company?",
+    "options": [
+      "Use AWS Lambda to create the serverless function and Amazon API Gateway to manage requests",
+      "Use Amazon EC2 to host the function and Amazon RDS to store the data",
+      "Use Amazon Elastic Beanstalk to deploy the function and Amazon CloudWatch to monitor usage",
+      "Use Amazon Elastic Container Service (ECS) to host the function and Amazon CloudTrail to monitor activity"
+    ],
+    "correct": 0,
+    "explanation": "AWS Lambda is the most suitable service for building serverless functions, as it offers serverless code execution capabilities, automatic scaling, and reduced infrastructure costs. Additionally, AWS Lambda is easy to integrate with web applications and microservices."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "rede",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Rede",
+      "VPC"
+    ],
+    "question": "A technology company is deploying a virtual private network in the cloud. Your company needs to create a secure, isolated network for your AWS resources. Additionally, the company needs to manage traffic rules and provide access to company resources. What is the best option for this company?",
+    "options": [
+      "Use Amazon VPC to create the virtual private network and Amazon EC2 to host the resources",
+      "Use Amazon EC2 to host your resources and Amazon RDS to store your data",
+      "Use Amazon Elastic Beanstalk to deploy resources and Amazon CloudWatch to monitor usage",
+      "Use Amazon Elastic File System (EFS) to store data and Amazon CloudTrail to monitor activity"
+    ],
+    "correct": 0,
+    "explanation": "Amazon VPC is the most suitable service for creating a virtual private network because it offers secure, isolated networking capabilities, managing traffic rules, and providing access to company resources. Additionally, Amazon VPC is easy to integrate with AWS and non-AWS resources."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "criptografia",
+    "service": "Amazon Key Management Service (KMS)",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Criptografia",
+      "KMS"
+    ],
+    "question": "A technology company is looking for an encryption solution to protect its data. The company needs to create encryption keys and manage access permissions. Additionally, the company needs to integrate the encryption solution with its AWS capabilities. What is the best option for this company?",
+    "options": [
+      "Use the Amazon Key Management Service (KMS) to create and manage encryption keys",
+      "Use Amazon EC2 to host the encryption solution and Amazon RDS to store the data",
+      "Use Amazon Elastic Beanstalk to deploy the encryption solution and Amazon CloudWatch to monitor usage",
+      "Use Amazon Elastic File System (EFS) to store data and Amazon CloudTrail to monitor activity"
+    ],
+    "correct": 0,
+    "explanation": "Amazon Key Management Service (KMS) is the best service for creating and managing encryption keys because it offers encryption capabilities, key management, and integration with AWS capabilities. Additionally, Amazon KMS is easy to integrate with web applications and microservices."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "otimizacao",
+    "service": "Amazon CloudWatch",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Otimização",
+      "CloudWatch"
+    ],
+    "question": "A technology company is experiencing performance issues with its web application. The company needs to monitor application performance and identify the causes of problems. Additionally, the company needs to optimize application performance and reduce infrastructure costs. What is the best option for this company?",
+    "options": [
+      "Use Amazon CloudWatch to monitor application performance and optimize performance",
+      "Use Amazon X-Ray to monitor application performance and identify causes of issues",
+      "Use Amazon EC2 to host the application and Amazon RDS to store the data",
+      "Use Amazon Elastic Beanstalk to deploy the application and Amazon CloudTrail to monitor activity"
+    ],
+    "correct": 0,
+    "explanation": "Amazon CloudWatch is the most suitable service for monitoring application performance and optimizing performance as it offers performance monitoring, logging, and notifications capabilities. Additionally, Amazon CloudWatch is easy to integrate with web applications and can be used to monitor AWS and non-AWS resources."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "api",
+    "service": "Amazon API Gateway",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "API",
+      "Gateway"
+    ],
+    "question": "A technology company is developing a RESTful API to manage customer orders. The company needs to create an API that is highly available, secure, and scalable. Additionally, the company needs to manage API keys and monitor API usage. What is the best option for this company?",
+    "options": [
+      "Use Amazon API Gateway to create and manage the API",
+      "Use Amazon EC2 to host the API and Amazon RDS to store the data",
+      "Use Amazon Elastic Beanstalk to deploy the API and Amazon CloudWatch to monitor usage",
+      "Use Amazon Elastic File System (EFS) to store data and Amazon CloudTrail to monitor activity"
+    ],
+    "correct": 0,
+    "explanation": "Amazon API Gateway is the most suitable service for creating and managing RESTful APIs, as it offers API creation, API key management, and API usage monitoring capabilities. Additionally, Amazon API Gateway is easy to integrate with web applications and microservices."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "Armazenamento",
+      "S3"
+    ],
+    "question": "A media company is looking for a storage solution for its video and audio files. The company needs to store more than 100 TB of data and needs to ensure that files are accessible quickly and securely. Additionally, the company needs to reduce storage costs and manage data efficiently. What is the best option for this company?",
+    "options": [
+      "Use Amazon S3 to store files and Amazon Glacier to archive data",
+      "Use Amazon EBS to store the files and Amazon EC2 to process the data",
+      "Use Amazon Elastic File System (EFS) to store files and Amazon CloudWatch to monitor usage",
+      "Use Amazon Elastic Block Store (EBS) to store files and Amazon RDS to manage data"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 is the most suitable service for storing large amounts of data as it offers scalable, secure, and durable storage capabilities. Additionally, Amazon Glacier can be used to archive data that is not frequently accessed, reducing storage costs."
+  },
+  {
+    "domain": "desenvolvimento-servicos",
+    "subdomain": "servicos-de-aplicacao",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "arquitetura-serverless",
+      "gerenciamento-de-custo"
+    ],
+    "question": "A technology company is developing a serverless application that uses AWS Lambda functions to process customer orders. The company wants to minimize the costs of running Lambda functions, considering that orders are processed in batches and that the application must be scalable and highly available. What is the best approach to meet these requirements?",
+    "options": [
+      "Use AWS Lambda roles with capacity provisioning to ensure scalability and minimize costs",
+      "Implement an ELB load balancer to distribute requests across multiple Lambda roles",
+      "Use Amazon S3 as a data source for Lambda functions, reducing the need for capacity provisioning",
+      "Implement an SQS queue mechanism to process requests in batches and reduce overhead for Lambda functions"
+    ],
+    "correct": 0,
+    "explanation": "Using AWS Lambda functions with capacity provisioning allows the company to minimize execution costs, as it only pays for the actual execution time of the functions. Additionally, capacity provisioning ensures application scalability, as Lambda functions can run in parallel to meet demand."
+  },
+  {
+    "domain": "implementacao",
+    "subdomain": "seguranca-da-aplicacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "A mobile application developer wants to implement an authentication and authorization solution for an application that uses Amazon Cognito. The application requires users to authenticate with their social media profiles and be authorized to access specific resources based on their roles. What is the best approach to meet these requirements?",
+    "options": [
+      "Use Amazon Cognito User Pools to manage user identities and Amazon Cognito Identity Pools to manage access permissions",
+      "Implement an authentication solution with Amazon Cognito and Amazon IAM to manage access permissions",
+      "Use Amazon Cognito Identity Pools to manage user identities and Amazon Cognito User Pools to manage access permissions",
+      "Implement an authentication solution with Amazon Cognito and AWS STS to manage access permissions"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon Cognito User Pools to manage user identities and Amazon Cognito Identity Pools to manage access permissions is the best approach to meeting your application authentication and authorization requirements."
+  },
+  {
+    "domain": "seguranca-app",
+    "subdomain": "protecao-de-dados",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "protecao-de-dados",
+      "gerenciamento-de-acesso"
+    ],
+    "question": "A healthcare company wants to store patient data in Amazon S3, ensuring that the data is protected from unauthorized access and stored in accordance with data privacy regulations. What is the best approach to meet these requirements?",
+    "options": [
+      "Use Amazon S3 Server-Side Encryption with keys managed by AWS Key Management Service (KMS) to protect your data",
+      "Implement a role-based Amazon S3 access policy, using Amazon IAM to manage access permissions",
+      "Use Amazon S3 Bucket Policy to define data access permissions and Amazon CloudWatch to monitor activity",
+      "Implement a data encryption solution with Amazon S3 and AWS Certificate Manager to protect your data"
+    ],
+    "correct": 0,
+    "explanation": "Using Amazon S3 Server-Side Encryption with keys managed by AWS KMS is the best approach to protecting patient data by ensuring that data is encrypted and keys are managed securely."
+  },
+  {
+    "domain": "resolucao-problemas",
+    "subdomain": "analise-de-desempenho",
+    "service": "Amazon CloudWatch",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "monitoramento",
+      "analise-de-desempenho"
+    ],
+    "question": "A web application developer is experiencing performance issues in an application that uses Amazon EC2 and Amazon RDS. The developer wants to monitor application performance metrics and identify the root causes of problems. What is the best approach to meet these requirements?",
+    "options": [
+      "Use Amazon CloudWatch to collect application performance metrics and Amazon EC2, and Amazon CloudTrail to monitor security activities",
+      "Implement a monitoring solution with Amazon CloudWatch and Amazon X-Ray to analyze performance metrics and identify root causes of issues",
+      "Use Amazon CloudWatch to collect application performance metrics and Amazon CloudFormation to monitor infrastructure changes",
+      "Implement a monitoring solution with Amazon CloudWatch and AWS CloudFormation to analyze performance metrics and identify root causes of issues"
+    ],
+    "correct": 1,
+    "explanation": "Using Amazon CloudWatch to collect application performance metrics and Amazon EC2, and Amazon X-Ray to analyze performance metrics and identify root causes of issues is the best approach to meeting your performance monitoring and analysis requirements."
   }
 ]

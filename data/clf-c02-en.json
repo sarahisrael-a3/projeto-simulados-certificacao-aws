@@ -7441,5 +7441,1239 @@
       3
     ],
     "explanation": "Enabling MFA (option 1) and applying the principle of least privilege (option 3) are essential security practices. You should never share root keys (option 0) or grant full permissions by default (option 2)."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "beneficios-da-nuvem",
+    "service": "AWS Cloud",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Elasticidade",
+      "Escalabilidade",
+      "Nuvem"
+    ],
+    "question": "An e-commerce startup experiences unpredictable traffic spikes during promotions and holidays. They need an infrastructure that can automatically increase its capacity to handle extra demand and then scale back when traffic returns to normal, avoiding unnecessary costs.",
+    "options": [
+      "Scalability",
+      "Elasticity",
+      "High Availability",
+      "Globalization"
+    ],
+    "correct": 1,
+    "explanation": "Elasticity allows computing resources to be automatically scaled up or down, depending on demand, optimizing costs and ensuring performance during traffic peaks. Scalability is the ability to grow, but elasticity adds automatic adjustment and shrinkage, which is crucial to avoiding unnecessary costs."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelos-de-preco",
+    "service": "AWS Faturamento",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Custo",
+      "Pagamento",
+      "Otimização de Custos"
+    ],
+    "question": "A new software development company is launching its first product and wants to minimize initial infrastructure costs. They need a pricing model that allows them to pay only for the resources they actually consume, without long-term commitments or heavy hardware investments.",
+    "options": [
+      "Prepay for Reserved Instances",
+      "Pay-as-you-go model",
+      "Purchasing hardware on-premises",
+      "Long-term contracts with data center providers"
+    ],
+    "correct": 1,
+    "explanation": "The pay-as-you-go model in AWS allows companies to pay only for the compute resources, storage, and other services they consume, with no upfront costs or long-term commitments. This is ideal for startups who want to minimize initial financial risk."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Acesso",
+      "Permissões",
+      "Segurança"
+    ],
+    "question": "A company needs to implement a robust system to manage the access of its employees and applications to AWS resources, ensuring that each person has only the necessary permissions to perform their tasks, following the principle of least privilege.",
+    "options": [
+      "AWS Identity and Access Management (IAM)",
+      "AWS Key Management Service (KMS)",
+      "AWS WAF (Web Application Firewall)",
+      "Amazon GuardDuty"
+    ],
+    "correct": 0,
+    "explanation": "AWS Identity and Access Management (IAM) is the service that allows you to manage access for users and AWS services to your cloud resources. With IAM, you can create and manage users, groups, and roles, and assign detailed permissions to control who can do what, following the principle of least privilege."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "computacao",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Servidores Virtuais",
+      "Computação",
+      "Instâncias"
+    ],
+    "question": "A development team needs scalable virtual servers in the cloud to host their web applications and APIs. They want the flexibility to choose different types of virtual hardware and the ability to scale those servers as demand dictates.",
+    "options": [
+      "Amazon Elastic Compute Cloud (EC2)",
+      "AWS Lambda",
+      "Amazon Elastic Container Service (ECS)",
+      "Amazon Simple Storage Service (S3)"
+    ],
+    "correct": 0,
+    "explanation": "Amazon EC2 (Elastic Compute Cloud) provides secure, scalable compute capacity in the cloud as virtual servers, known as instances. It offers flexibility in choosing instance types, operating systems and the ability to scale quickly, making it ideal for hosting applications."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "infraestrutura-global",
+    "service": "AWS Cloud",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Alta Disponibilidade",
+      "Resiliência",
+      "Recuperação de Desastres"
+    ],
+    "question": "A financial services company needs to ensure that its critical application is always available, even in the event of a complete failure of a data center within an AWS region. They seek a strategy to achieve high availability and fault tolerance.",
+    "options": [
+      "Use multiple Availability Zones",
+      "Configuse AWS Direct Connect",
+      "Implement AWS Storage Gateway",
+      "Use AWS Snowball for data migration"
+    ],
+    "correct": 0,
+    "explanation": "Availability Zones (AZs) are physically separate and isolated locations within an AWS Region. By deploying applications across multiple AZs, the company ensures that if one AZ fails, the application will continue to function in the remaining AZs, providing high availability and resilience against data center failures."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "conformidade",
+    "service": "AWS Shared Responsibility Model",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Segurança",
+      "Responsabilidade",
+      "Conformidade"
+    ],
+    "question": "A new security team at a company using AWS needs to clearly understand what the AWS security obligations are and what their own responsibilities are when operating in the cloud. They look for a model that defines these boundaries.",
+    "options": [
+      "AWS Shared Responsibility Model",
+      "AWS Security Hub",
+      "AWS Config",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 0,
+    "explanation": "The AWS Shared Responsibility Model defines the security responsibilities between AWS and the customer. AWS is responsible for 'cloud security' (underlying infrastructure), while the customer is responsible for 'cloud security' (configuration of their data, applications, and operating systems)."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "rede",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Rede",
+      "Isolamento",
+      "Nuvem Privada"
+    ],
+    "question": "A technology company needs an isolated network environment on AWS to launch its resources, such as EC2 instances and databases, with full control over the network configuration, including IP ranges, subnets, and route tables.",
+    "options": [
+      "Amazon Virtual Private Cloud (VPC)",
+      "AWS Direct Connect",
+      "Amazon Route 53",
+      "AWS Transit Gateway"
+    ],
+    "correct": 0,
+    "explanation": "Amazon VPC (Virtual Private Cloud) allows you to provision an isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual network environment, including selecting your own IP address ranges, creating subnets, and configuring route tables and network gateways."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-de-custos",
+    "service": "AWS Trusted Advisor",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Otimização",
+      "Custo",
+      "Performance",
+      "Segurança"
+    ],
+    "question": "A company is looking for an AWS tool that can provide real-time recommendations to optimize its costs, improve performance, and increase security and fault tolerance of its cloud resources.",
+    "options": [
+      "AWS Trusted Advisor",
+      "AWS Budgets",
+      "AWS Cost Explorer",
+      "AWS Organizations"
+    ],
+    "correct": 0,
+    "explanation": "AWS Trusted Advisor is a service that acts as a personalized advisor, analyzing your AWS environment and providing recommendations to optimize costs, improve performance, increase security, fault tolerance, and compliance, based on AWS best practices."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "tipos-de-nuvem",
+    "service": "AWS Cloud",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Nuvem Pública",
+      "Modelos de Implantação",
+      "Compartilhada"
+    ],
+    "question": "A small startup needs an IT infrastructure that is fully managed by an external provider, accessible via the internet and shared with other customers. They look for a cloud model that offers high scalability and low initial cost.",
+    "options": [
+      "Public Cloud",
+      "Private Cloud",
+      "Hybrid Cloud",
+      "Community Cloud"
+    ],
+    "correct": 0,
+    "explanation": "Public cloud is a cloud computing model where a third-party cloud service provider (such as AWS) owns and operates computing resources, such as servers and storage, and makes them available over the internet to the general public or large industry groups. It is characterized by being shared, scalable and with low initial cost."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": " modelo de entrega de serviços",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelo de entrega de serviços",
+      "conceitos cloud"
+    ],
+    "question": "A technology company needs to implement an IT infrastructure solution that allows for scalability and flexibility. What is the most appropriate service delivery model to meet this need?",
+    "options": [
+      "Software-as-a-Service (SaaS) service delivery model",
+      "Platform-as-a-Service (PaaS) service delivery model",
+      "Infrastructure-as-a-Service (IaaS) service delivery model",
+      "Storage-as-a-Service Delivery Model"
+    ],
+    "correct": 2,
+    "explanation": "The infrastructure-as-a-service (IaaS) service delivery model is best suited to meet the company's scalability and flexibility needs, as it allows infrastructure resources to be dynamically provisioned and managed."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticação e autorização",
+    "service": "Amazon Cognito",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticação e autorização",
+      "segurança"
+    ],
+    "question": "A mobile app developer needs to implement an authentication and authorization solution to protect user data. What is the best AWS service to meet this need?",
+    "options": [
+      "Amazon Cognito",
+      "Amazon IAM",
+      "Amazon STS",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "Amazon Cognito is the best-suited AWS service to meet developer authentication and authorization needs as it provides a scalable and secure solution for managing user identities and access."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "tecnologia"
+    ],
+    "question": "A data analytics company needs to process large volumes of data in real time. What is the best AWS service to meet this need?",
+    "options": [
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon DynamoDB",
+      "Amazon Redshift"
+    ],
+    "correct": 0,
+    "explanation": "Amazon EC2 is the AWS service best suited to meet your company's data processing needs as it provides a scalable and flexible solution for provisioning high-performance compute instances."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelos de precificação",
+    "service": "AWS Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelos de precificação",
+      "faturamento"
+    ],
+    "question": "An IT administrator needs to understand how costs for using AWS services are calculated and how to optimize spending. What is the best AWS service to meet this need?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudTrail",
+      "AWS X-Ray"
+    ],
+    "correct": 0,
+    "explanation": "AWS Cost Explorer is the AWS service best suited to meet your administrator's cost understanding and optimization needs, as it provides a detailed view of the costs of using AWS services and recommendations for reducing spending."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "benefícios do cloud computing",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "benefícios do cloud computing",
+      "conceitos cloud"
+    ],
+    "question": "A technology company is considering migrating its systems to the cloud. What is the most significant benefit of cloud computing for the company?",
+    "options": [
+      "Infrastructure cost reduction",
+      "Increased data security",
+      "Improved scalability and flexibility",
+      "Simplifying IT management"
+    ],
+    "correct": 2,
+    "explanation": "Improving scalability and flexibility is the most significant benefit of cloud computing for the company, as it allows IT resources to be provisioned and managed in a dynamic and scalable way."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia de dados",
+    "service": "Amazon Key Management Service (KMS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia de dados",
+      "segurança"
+    ],
+    "question": "An application developer needs to protect users' sensitive data with encryption. What is the best AWS service to meet this need?",
+    "options": [
+      "Amazon Key Management Service (KMS)",
+      "Amazon CloudHSM",
+      "Amazon CloudWatch",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "The Amazon Key Management Service (KMS) is the AWS service best suited to meet your developer's data encryption needs because it provides a secure and scalable solution for managing encryption keys."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "serviços de armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "serviços de armazenamento",
+      "tecnologia"
+    ],
+    "question": "A media company needs to store and serve large volumes of media data. What is the best AWS service to meet this need?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "Amazon S3 is the AWS service best suited to meet your company's media data storage needs because it provides a scalable and durable solution for storing and serving media data."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelos de precificação",
+    "service": "AWS Pricing Calculator",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelos de precificação",
+      "faturamento"
+    ],
+    "question": "An IT administrator needs to estimate the costs of using AWS services for a project. What is the best AWS service to meet this need?",
+    "options": [
+      "AWS Pricing Calculator",
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudTrail"
+    ],
+    "correct": 0,
+    "explanation": "The AWS Pricing Calculator is the AWS service best suited to meet your administrator's cost estimating needs because it provides an interactive tool for estimating the costs of using AWS services."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelos de implantação",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelos de implantação",
+      "conceitos cloud"
+    ],
+    "question": "A technology company is considering deploying a hybrid cloud solution. What is the most suitable deployment model for the company?",
+    "options": [
+      "Public cloud",
+      "Private Cloud",
+      "Hybrid Cloud",
+      "On-premises cloud"
+    ],
+    "correct": 2,
+    "explanation": "The hybrid cloud is the most suitable deployment model for the company, as it allows IT resources to be provisioned and managed in a flexible and scalable way, combining the benefits of the public and private cloud."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "segurança de rede",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "segurança de rede",
+      "segurança"
+    ],
+    "question": "An application developer needs to protect users' network traffic with network security. What is the best AWS service to meet this need?",
+    "options": [
+      "Amazon VPC",
+      "Amazon CloudWatch",
+      "Amazon CloudTrail",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "Amazon VPC is the AWS service best suited to meet your developer's network security needs because it provides a secure and scalable solution for creating and managing virtual private networks."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelos de implantação",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelo de implantação",
+      "cloud"
+    ],
+    "question": "A technology company wants to migrate its systems to the cloud. They seek a deployment model that allows resource management in a centralized and scalable way. What is the most suitable deployment model for this company?",
+    "options": [
+      "Hybrid deployment model",
+      "Public cloud deployment model",
+      "Private Cloud Deployment Model",
+      "On-premises deployment model"
+    ],
+    "correct": 1,
+    "explanation": "The public cloud deployment model is the most suitable for this company, as it allows the management of resources in a centralized and scalable way, in addition to offering a wide range of services and resources."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "controle de acesso",
+    "service": "Amazon IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "controle de acesso",
+      "autenticação"
+    ],
+    "question": "An e-commerce company wants to control employee access to company resources. They are looking for a service that allows them to create user profiles and manage permissions centrally. What is the most suitable service for this company?",
+    "options": [
+      "Amazon Cognito",
+      "Amazon IAM",
+      "Amazon EC2",
+      "Amazon S3"
+    ],
+    "correct": 1,
+    "explanation": "Amazon IAM is the most suitable service for this company, as it allows you to create user profiles and manage permissions centrally, as well as offering a wide range of security and access control features."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "objetos"
+    ],
+    "question": "A media company wants to store and serve large amounts of media data. They are looking for a service that allows them to store and serve objects in a scalable and reliable way. What is the most suitable service for this company?",
+    "options": [
+      "Amazon EBS",
+      "Amazon S3",
+      "Amazon EFS",
+      "Amazon Glacier"
+    ],
+    "correct": 1,
+    "explanation": "Amazon S3 is the best-suited service for this company because it allows you to store and serve objects in a scalable and reliable way, and offers a wide range of data storage and management capabilities."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "Amazon CloudWatch",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de custos",
+      "monitoramento"
+    ],
+    "question": "A technology company wants to monitor and manage the company's resource costs. They are looking for a service that allows them to monitor resource usage and manage costs centrally. What is the most suitable service for this company?",
+    "options": [
+      "Amazon CloudTrail",
+      "Amazon CloudWatch",
+      "Amazon Cost Explorer",
+      "Amazon X-Ray"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Cost Explorer is the best-suited service for this business as it allows you to monitor resource usage and manage costs centrally, as well as offering a wide range of cost management and optimization capabilities."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "escalabilidade",
+      "instâncias"
+    ],
+    "question": "An e-commerce company wants to scale the company's resources to meet growing demand. They are looking for a service that allows them to create and manage instances in a scalable and flexible way. What is the most suitable service for this company?",
+    "options": [
+      "Amazon EC2",
+      "Amazon Lambda",
+      "Amazon Elastic Beanstalk",
+      "Amazon Elastic Container Service"
+    ],
+    "correct": 0,
+    "explanation": "Amazon EC2 is the best-suited service for this company, as it allows you to create and manage instances in a scalable and flexible way, and offers a wide range of instance management and scalability features."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "Amazon Key Management Service (KMS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "gerenciamento de chaves"
+    ],
+    "question": "A technology company wants to encrypt company data and manage keys centrally. They are looking for a service that allows them to create and manage keys in a secure and scalable way. What is the most suitable service for this company?",
+    "options": [
+      "Amazon CloudHSM",
+      "Amazon Key Management Service (KMS)",
+      "Amazon Certificate Manager",
+      "Amazon CloudWatch"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Key Management Service (KMS) is the best-suited service for this company because it allows you to create and manage keys in a secure, scalable way, and offers a wide range of encryption and key management capabilities."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "bases de dados",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "bases de dados",
+      "relacionais"
+    ],
+    "question": "An e-commerce company wants to create and manage relational databases in a scalable and reliable way. They are looking for a service that allows them to create and manage databases in a centralized and secure way. What is the most suitable service for this company?",
+    "options": [
+      "Amazon DynamoDB",
+      "Amazon RDS",
+      "Amazon DocumentDB",
+      "Amazon Neptune"
+    ],
+    "correct": 1,
+    "explanation": "Amazon RDS is the most suitable service for this company, as it allows you to create and manage relational databases in a scalable and reliable way, as well as offering a wide range of database management and security features."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimização de custos",
+    "service": "Amazon Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "gerenciamento de custos"
+    ],
+    "question": "A technology company wants to optimize the company's resource costs and identify savings opportunities. They are looking for a service that allows them to analyze and manage costs in a centralized and detailed way. What is the most suitable service for this company?",
+    "options": [
+      "Amazon CloudWatch",
+      "Amazon Cost Explorer",
+      "Amazon CloudTrail",
+      "Amazon X-Ray"
+    ],
+    "correct": 1,
+    "explanation": "Amazon Cost Explorer is the most suitable service for this company, as it allows you to analyze and manage costs in a centralized and detailed way, in addition to offering a wide range of cost optimization resources and identifying savings opportunities."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "migração para a nuvem",
+    "service": "Amazon Cloud Adoption Framework (CAF)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "migração para a nuvem",
+      "framework"
+    ],
+    "question": "A technology company wants to migrate systems to the cloud securely and efficiently. They are looking for a framework that allows them to plan and execute migration in a centralized and structured way. What is the most suitable framework for this company?",
+    "options": [
+      "Amazon Cloud Adoption Framework (CAF)",
+      "Amazon Web Services (AWS) Well-Architected Framework",
+      "Amazon Cloud Development Kit (CDK)",
+      "Amazon CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "The Amazon Cloud Adoption Framework (CAF) is the most suitable framework for this company, as it allows you to plan and execute cloud migration in a centralized and structured way, in addition to offering a wide range of cloud migration and adoption resources."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "compliance",
+    "service": "Amazon Compliance Hub",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "compliance",
+      "regulamentação"
+    ],
+    "question": "A technology company wants to ensure compliance with data privacy laws and regulations. They are looking for a service that allows them to manage and demonstrate compliance in a centralized and efficient way. What is the most suitable service for this company?",
+    "options": [
+      "Amazon Compliance Hub",
+      "Amazon CloudWatch",
+      "Amazon CloudTrail",
+      "Amazon Artifact"
+    ],
+    "correct": 0,
+    "explanation": "Amazon Compliance Hub is the best-suited service for this company, enabling you to centrally and efficiently manage and demonstrate compliance and offering a broad range of compliance and regulatory resources."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "escalabilidade",
+      "elasticidade",
+      "infraestrutura",
+      "custo"
+    ],
+    "question": "An e-commerce startup experiences unpredictable traffic spikes during promotions and holidays. They need a solution that allows their web application to handle these increases in demand automatically, without having to permanently over-provision resources, which would result in unnecessary costs. What benefit of cloud computing allows capacity to be dynamically adjusted to meet these traffic fluctuations?",
+    "options": [
+      "High Availability",
+      "Elasticity",
+      "Enhanced Security",
+      "Identity Management"
+    ],
+    "correct": 1,
+    "explanation": "Elasticity allows cloud systems to automatically expand or contract to handle changes in demand, provisioning or deprovisioning resources as needed. This ensures that the application can handle traffic spikes without overload and that costs are optimized, as the startup only pays for the resources it uses."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "iam",
+      "seguranca",
+      "permissoes",
+      "acesso"
+    ],
+    "question": "A software development company needs to ensure that only authorized users can access its resources in AWS, such as Amazon S3 buckets and Amazon EC2 instances. They also want to define exactly what actions each user or group of users can perform. Which AWS service should be used to centrally and granularly manage identities and access permissions?",
+    "options": [
+      "AWS WAF",
+      "Amazon GuardDuty",
+      "AWS Identity and Access Management (IAM)",
+      "AWS Key Management Service (KMS)"
+    ],
+    "correct": 2,
+    "explanation": "AWS Identity and Access Management (IAM) is the AWS service that allows you to securely manage access to AWS services and resources. With IAM, you can create and manage users, groups, and roles, and assign detailed permissions to control who can do what in your AWS account."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "armazenamento",
+      "objetos",
+      "dados",
+      "durabilidade"
+    ],
+    "question": "A digital advertising agency needs a highly durable and scalable storage solution for its vast media files, including high-resolution videos, images and project documents. These files need to be easily accessible for editing and global distribution without worrying about underlying storage capacity. Which AWS service is best suited to storing these objects cost-effectively and reliably?",
+    "options": [
+      "Amazon Elastic Block Store (EBS)",
+      "Amazon S3",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Relational Database Service (RDS)"
+    ],
+    "correct": 1,
+    "explanation": "Amazon S3 (Simple Storage Service) is a highly scalable, durable, and available object storage service. It is ideal for storing large volumes of unstructured data such as media files, backups and log files, offering easy access via HTTP/HTTPS and only paying for what is stored and transferred."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelo-de-precos",
+    "service": "AWS Billing",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "custo",
+      "faturamento",
+      "pague-pelo-uso",
+      "economia"
+    ],
+    "question": "A small business starting its cloud journey with AWS wants to avoid large upfront infrastructure investments. They seek a pricing model that allows them to pay only for the compute, storage, and networking resources they actually consume, without long-term commitments or minimum fees. What core AWS pricing principle best aligns with this need?",
+    "options": [
+      "Prepay for Reserved Instances",
+      "Pay-as-you-go",
+      "Volume discounts",
+      "Monthly fixed costs"
+    ],
+    "correct": 1,
+    "explanation": "AWS's pay-as-you-go pricing model allows customers to pay only for the resources they use, without the need for upfront hardware investments or long-term commitments. This offers flexibility and helps control costs, especially for startups and companies with variable demands."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "seguranca",
+    "service": "AWS Shared Responsibility Model",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "seguranca",
+      "responsabilidade-compartilhada",
+      "nuvem",
+      "conformidade"
+    ],
+    "question": "A financial services company is migrating its sensitive data to AWS and needs to understand its security obligations in the cloud environment. According to the AWS Shared Responsibility Model, security is a shared responsibility. Which of the following represents a *customer* responsibility under this model?",
+    "options": [
+      "Security of physical cloud infrastructure",
+      "Server hardware maintenance",
+      "Security of customer data and configuration of access controls",
+      "AWS Global Network Protection"
+    ],
+    "correct": 2,
+    "explanation": "In the Shared Responsibility Model, AWS is responsible for \"security *of* the cloud\" (physical infrastructure, global network, hardware). You are responsible for \"security *in* the cloud,\" which includes securing your data, correctly configuring access controls (such as security groups and IAM policies), encrypting your data, and managing your guest operating system."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "computacao",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "computacao",
+      "servidores",
+      "maquinas-virtuais",
+      "flexibilidade"
+    ],
+    "question": "An online game development company needs flexible and scalable computing power to host its game servers. They want to provision virtual servers on demand, choose specific operating systems, and have full control over the execution environment without worrying about maintaining the underlying hardware. Which AWS service provides configurable virtual machines in the cloud to meet this need?",
+    "options": [
+      "AWS Lambda",
+      "Amazon Simple Storage Service (S3)",
+      "Amazon Elastic Compute Cloud (EC2)",
+      "Amazon Relational Database Service (RDS)"
+    ],
+    "correct": 2,
+    "explanation": "Amazon Elastic Compute Cloud (EC2) provides scalable compute capacity in the cloud in the form of virtual machines (instances). It allows users to have full control over the operating system and execution environment, making it ideal for hosting applications that require dedicated servers and configuration flexibility."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento-de-custos",
+    "service": "AWS Organizations",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "faturamento",
+      "custos",
+      "governança",
+      "multi-contas"
+    ],
+    "question": "A global company with multiple business units is migrating its operations to AWS. They need to consolidate billing across all accounts, centrally apply spend control policies, and ensure each department has granular visibility into its own costs. Furthermore, the solution must minimize the administrative effort and cost of managing the billing infrastructure. What is the most effective strategy to meet these stringent requirements?",
+    "options": [
+      "Create separate AWS accounts for each business unit and use AWS Cost Explorer in each account to track spending individually.",
+      "Use AWS Organizations to create a consolidated account structure, apply spend control policies via Service Control Policies (SCPs), and use AWS Cost Explorer with tags for granular visibility.",
+      "Configcreate a single AWS environment with multiple VPCs for each business unit and use Amazon CloudWatch usage reports to monitor costs.",
+      "Implement AWS Budgets in each account for spend alerts and use Amazon S3 reports to store billing logs for manual analysis."
+    ],
+    "correct": 1,
+    "explanation": "The most effective option is to use AWS Organizations. It allows you to consolidate the billing of all company accounts under a single paying account, simplifying the payment process. Service Control Policies (SCPs) within Organizations allow you to apply permissions restrictions to all member accounts, which can be used to enforce spend control policies. AWS Cost Explorer, in conjunction with resource tagging, provides the granular visibility needed for each department to track its costs, all with minimal administrative effort and no additional cost for using Organizations."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao-de-aplicacoes",
+    "service": "AWS WAF",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "web",
+      "ddos",
+      "aplicação"
+    ],
+    "question": "A high-traffic e-commerce company faces volumetric DDoS and persistent SQL injection and cross-site scripting (XSS) attacks against its web application. The priority is to protect your application against these threats, minimize latency for global users, and ensure the lowest possible cost for protecting against DDoS at scale. Which combination of AWS services most completely and efficiently meets these requirements?",
+    "options": [
+      "Amazon GuardDuty for threat detection and Network ACLs to block malicious IPs.",
+      "Amazon CloudFront for low-latency global content delivery, AWS WAF for protection against Layer 7 attacks, and AWS Shield Advanced for DDoS protection and cost savings.",
+      "Security Groups to control inbound and outbound traffic of the EC2 and Amazon Inspector instances for vulnerability assessment.",
+      "AWS Shield Standard for DDoS protection and Amazon Macie for sensitive data detection."
+    ],
+    "correct": 1,
+    "explanation": "The combination of Amazon CloudFront, AWS WAF and AWS Shield Advanced is the most complete and efficient. Amazon CloudFront acts as a CDN, reducing latency for global users and serving as a first line of defense. AWS WAF provides protection against layer 7 attacks such as SQL and XSS injection. AWS Shield Advanced provides more robust, managed DDoS protection, including protections against volumetric attacks, and can result in large-scale cost savings by covering the costs of scaling other services during an DDoS attack."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "armazenamento",
+      "s3",
+      "otimização-de-custos",
+      "gerenciamento-de-ciclo-de-vida"
+    ],
+    "question": "A media company stores a vast collection of high-resolution videos on Amazon S3. The access pattern for these files is quite specific: they are frequently accessed within the first 30 days after upload, occasionally between 30 and 90 days, and very rarely after 90 days. However, all files must be available for retrieval in different time frames, and the company wants to optimize storage cost without the need to manually manage transitions between storage classes. Which Amazon S3 storage class is best suited for this scenario?",
+    "options": [
+      "Amazon S3 Standard, applying lifecycle policies to transition to S3 Glacier after 90 days.",
+      "Amazon S3 Standard-IA as it offers a good balance between cost and availability for infrequent access.",
+      "Amazon S3 Intelligent-Tiering, which automatically moves objects between access classes without manual intervention.",
+      "Amazon S3 One Zone-IA, to optimize costs, as redundancy across multiple Availability Zones is not critical for rarely accessed files."
+    ],
+    "correct": 2,
+    "explanation": "Amazon S3 Intelligent-Tiering is the ideal solution. It is designed to automatically optimize storage costs when data access patterns change, without impacting performance or requiring manual management. It moves objects between two access tiers (one for frequent access and one for infrequent access) and optionally to archive tiers (S3 Glacier and S3 Glacier Deep Archive) after a period of inactivity, ensuring that data is stored in the lowest cost class without user intervention."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "resiliencia",
+    "service": "Recuperação de Desastres",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "resiliência",
+      "disponibilidade",
+      "recuperação-de-desastres",
+      "rpo-rto"
+    ],
+    "question": "A financial institution operates a critical application that must withstand not only Availability Zone failures, but also failures of an entire AWS Region. Disaster recovery requirements are stringent: an RPO (Recovery Point Objective) of minutes and an RTO (Recovery Time Objective) of hours. The company seeks the most robust and efficient architecture to meet these requirements, minimizing downtime and data loss. Which disaster recovery strategy is most appropriate?",
+    "options": [
+      "Backup and restore to a single AWS Region, using snapshots from Amazon EBS and backups from Amazon S3.",
+      "Implement a multi-AZ architecture within a single AWS Region for high availability and redundancy.",
+      "Configuse a multi-region architecture with continuous data replication and a well-defined failover plan for the disaster recovery region.",
+      "Use Spot instances for the main application and On-Demand instances for recovery, aiming to optimize costs."
+    ],
+    "correct": 2,
+    "explanation": "To meet an RPO of minutes and an RTO of hours, and protect against region-wide failures, a multi-region architecture with continuous data replication is essential. This strategy allows the application to be quickly recovered in another region in the event of a regional disaster, with minimal data loss. Backup and restoring to a single region would not protect against a regional failure. A multi-AZ architecture protects against Availability Zone but not Region failures. Spot Instances are not suitable for critical applications that require high availability and fast recovery."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade",
+    "service": "AWS SSO",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "iam",
+      "sso",
+      "multi-contas",
+      "governança"
+    ],
+    "question": "A multinational corporation with hundreds of employees needs to manage access to dozens of AWS accounts, ensuring the principle of least privilege, compliance with corporate policies, and a unified login experience. The solution should minimize administrative effort to provision and deprovision users and integrate with the company's existing identity directory. What is the most efficient and secure approach to implementing this access control?",
+    "options": [
+      "Create IAM users and groups in each AWS account individually and manage permissions manually.",
+      "Use AWS Organizations to consolidate accounts and AWS Single Sign-On (SSO) to manage centralized access and integrate with your existing identity directory.",
+      "Configuse the AWS Directory Service for Microsoft Active Directory in each AWS account and synchronize with the on-premises directory.",
+      "Distribute IAM access keys to each employee and require them to manage their own credentials."
+    ],
+    "correct": 1,
+    "explanation": "The most efficient and secure approach is to use AWS Organizations in conjunction with AWS Single Sign-On (SSO). AWS Organizations allows you to centrally structure and manage multiple accounts. AWS SSO, in turn, facilitates centralized access management for these accounts, allowing users to sign in once and access all authorized AWS accounts and applications. It easily integrates with existing identity directories (such as Active Directory or SAML 2.0 identity providers), minimizing administrative effort and ensuring least privilege through configurable permission sets."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "computacao-sem-servidor",
+    "service": "Amazon SQS",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "serveless",
+      "mensageria",
+      "escala",
+      "tolerancia-a-falhas",
+      "custo"
+    ],
+    "question": "An IoT company collects millions of events per second from globally distributed devices. These events need to be processed in an asynchronous, fault-tolerant manner, and for certain groups of messages, the order of processing must be maintained. After processing, the data is stored in a NoSQL database. The solution must automatically scale to handle traffic spikes and have the lowest possible operational cost. Which combination of AWS services is best suited for this scenario?",
+    "options": [
+      "Amazon Kinesis Data Streams for ingestion and processing, and Amazon RDS for storage.",
+      "Amazon SNS for publishing the events, EC2 instances with a custom consumer for processing, and Amazon Aurora for storage.",
+      "Amazon SQS FIFO for ensuring order and fault tolerance, AWS Lambda for serverless processing and automatic scaling, and Amazon DynamoDB for scalable NoSQL storage.",
+      "Amazon MQ for message queuing and AWS Batch for batch processing, with Amazon Redshift for data storage."
+    ],
+    "correct": 2,
+    "explanation": "The combination of Amazon SQS FIFO, AWS Lambda, and Amazon DynamoDB is best suited. The Amazon SQS FIFO (First-In, First-Out) ensures that messages are processed exactly once and in the order in which they were sent to a message group, and is fault tolerant. AWS Lambda provides serverless processing power, automatically scaling with demand and with low operating costs (pay-per-use). Amazon DynamoDB is a fully managed NoSQL database that offers high performance, scalability, and availability for storing processed data."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-de-custos",
+    "service": "Savings Plans",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "faturamento",
+      "custos",
+      "otimização",
+      "ec2",
+      "fargate"
+    ],
+    "question": "A fast-growing startup is looking to significantly optimize its AWS spend, especially on Amazon EC2 instances and AWS Fargate usage. The company has workloads with unpredictable spikes in usage, but it also has stable workloads that can be compromised. The objective is to reduce Total Cost of Ownership (TCO) without compromising flexibility for future architectural changes and to have clear visibility of savings. Which cost optimization strategy would be the most efficient and flexible for this startup?",
+    "options": [
+      "Purchase Reserved Instances (RIs) for all EC2 instances and use only On-Demand instances for AWS Fargate.",
+      "Use a combination of Savings Plans (for EC2 and Fargate) to cover a consistent amount of compute, supplementing with On-Demand instances for spikes and AWS Cost Explorer for monitoring.",
+      "Run all workloads on Spot instances for EC2 and AWS Fargate, taking advantage of lower costs.",
+      "Configuse AWS Budgets to alert about overspending and use Trusted Advisor for resource optimization recommendations."
+    ],
+    "correct": 1,
+    "explanation": "The most efficient and flexible strategy is to use Savings Plans. They offer significant discounts (up to 72%) in exchange for a computing usage commitment (in USD/hour) for a period of 1 or 3 years. Savings Plans are more flexible than Reserved Instances because they automatically apply to the use of EC2 (regardless of instance family, operating system, or region) and also to the use of AWS Fargate, which is crucial for startup workloads. Supplementing with On-Demand instances for spikes and using AWS Cost Explorer for visibility and identifying opportunities is the ideal approach. Spot Instances are not suitable for stable workloads due to their interruptible nature, and RIs are less flexible for Fargate and architectural changes."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-segredos",
+    "service": "AWS Secrets Manager",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "credenciais",
+      "criptografia",
+      "auditoria",
+      "automacao"
+    ],
+    "question": "An enterprise application deals with highly sensitive data and requires the secure storage and management of API keys, database credentials, and other secrets. The company requires that the solution allows automatic rotation of these secrets, granular role-based access control, and full auditing of all attempts to access the secrets. The objective is to achieve these requirements with the least possible operational effort. Which AWS service should be primarily used to manage these secrets?",
+    "options": [
+      "AWS Systems Manager Parameter Store to store secrets as secure parameters.",
+      "AWS Key Management Service (KMS) to generate and manage encryption keys for secrets.",
+      "AWS Secrets Manager to store, manage, and automatically rotate secrets, using AWS KMS for encryption and AWS CloudTrail for auditing.",
+      "Store secrets in environment variables of EC2 instances and manage rotation through custom scripts."
+    ],
+    "correct": 2,
+    "explanation": "AWS Secrets Manager is the ideal service for this scenario. It is specifically designed to securely store, manage, and rotate credentials and other secrets. It natively integrates with AWS KMS to encrypt secrets at rest and AWS CloudTrail for access auditing. Automatic secret rotation is a key feature of Secrets Manager, which can be configured for databases, API keys, and other credentials, minimizing operational effort. Although AWS Systems Manager Parameter Store can store secrets, it does not natively offer auto-rotation and is best suited for configuration parameters."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "rede",
+    "service": "AWS Direct Connect",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "rede",
+      "conectividade",
+      "hibrida",
+      "latencia",
+      "redundancia"
+    ],
+    "question": "A company with an existing on-premises data center needs to extend its network to AWS, ensuring a secure, high-bandwidth, low-latency network connection between its on-premises servers and cloud resources. The solution must be redundant to ensure business continuity and optimized for cost. Which combination of AWS services is best suited to meet these stringent requirements?",
+    "options": [
+      "Configuse multiple VPNs AWS Site-to-Site over the public internet for redundancy and security.",
+      "Use AWS Direct Connect for a dedicated high-bandwidth, low-latency connection, combined with a VPN AWS Site-to-Site as a redundancy backup.",
+      "Establish a VPC Peering between an VPC on AWS and a locally hosted VPC for direct connectivity.",
+      "Implement an AWS Transit Gateway for centralized routing between the VPCs and the on-premises data center through a single VPN AWS Site-to-Site."
+    ],
+    "correct": 1,
+    "explanation": "Combining AWS Direct Connect with a VPN AWS Site-to-Site provides the most robust and cost-optimized solution. AWS Direct Connect provides a dedicated high-bandwidth, low-latency network connection from the on-premises data center to AWS, which is essential for latency-sensitive applications and large volumes of data. Adding a VPN AWS Site-to-Site as a backup ensures redundancy and business continuity if the Direct Connect connection fails. Site-to-Site VPNs alone may not provide the required bandwidth and latency, and VPC Peering is for communication between VPCs, not with a local data center."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "seguranca",
+    "service": "Modelo de Responsabilidade Compartilhada",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "responsabilidade-compartilhada",
+      "governança",
+      "cloud"
+    ],
+    "question": "A security team at a large enterprise is reviewing its AWS responsibilities after migrating several applications to the cloud, operating primarily with Amazon EC2 instances. They need to understand who is responsible for guest operating system security, network firewall configuration (Security Groups), and physical security of the global AWS infrastructure. According to the AWS Shared Responsibility Model, what are the correct assignments?",
+    "options": [
+      "AWS is responsible for guest operating system security and physical security, while the customer is responsible for configuring the network firewall.",
+      "The customer is responsible for guest operating system security and network firewall configuration, while AWS is responsible for the physical security of the global infrastructure.",
+      "All responsibility for cloud security lies with the customer, as they manage the resources.",
+      "AWS is responsible for all layers of security, from physical security to application."
+    ],
+    "correct": 1,
+    "explanation": "Under the AWS Shared Responsibility Model, AWS is responsible for 'cloud security', which includes the physical security of data centers, the global infrastructure, and the security of the hardware, software, network, and facilities that run AWS services. The customer is responsible for 'cloud security', which includes guest operating system security (for EC2), configuration of Security Groups and Network ACLs (network firewall), data management, platform and access configuration."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "roteamento"
+    ],
+    "question": "A technology company wants to create a highly available and secure cloud architecture for its applications using Amazon VPC. The company has multiple geographic regions and wants to ensure data is stored and processed securely and efficiently. What is the best approach to implementing a network traffic routing scheme that meets the security and performance needs of the enterprise?",
+    "options": [
+      "Implement a network traffic routing scheme using Amazon Route 53",
+      "Use Amazon VPC to create isolated subnets and route network traffic",
+      "Implement a network traffic routing scheme using Amazon CloudFront",
+      "Use Amazon Direct Connect to connect geographies and route network traffic"
+    ],
+    "correct": 1,
+    "explanation": "The best approach is to use Amazon VPC to create isolated subnets and route network traffic, as this allows for greater flexibility and control over network traffic and meets your organization's security and performance needs."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "controle de acesso",
+    "service": "AWS IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "A financial services company wants to implement an access control system for its cloud resources using AWS IAM. The company has multiple teams and departments, and wants to ensure that each team has access to only the resources they need to perform their tasks. What is the best approach to implementing an access control system that meets your company's security and compliance needs?",
+    "options": [
+      "Create IAM groups for each team and department, and assign specific permissions to each group",
+      "Using AWS Organizations to create a hierarchical access control structure",
+      "Implement a two-factor authentication system using AWS Cognito",
+      "Using AWS Lake Formation to create a secure, controlled data store"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to create IAM groups for each team and department, and assign specific permissions to each group, as this allows for greater flexibility and control over access to resources, as well as meeting your company's security and compliance needs."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "processamento de dados"
+    ],
+    "question": "A technology company wants to create a data processing system for its customer data using Amazon S3. The company has a large amount of data and wants to ensure that the data is processed in an efficient and scalable way. What is the best approach to implementing a data processing system that meets the company's performance and scalability needs?",
+    "options": [
+      "Use Amazon S3 to store the data and process it using Amazon EMR",
+      "Implement a data processing system using Amazon Redshift",
+      "Use Amazon S3 to store the data and process it using AWS Glue",
+      "Implement a data processing system using Amazon DynamoDB"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to use Amazon S3 to store the data and process it using Amazon EMR, as this allows for great flexibility and scalability in data processing, as well as meeting your company's performance needs."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gestão de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gestão de custos",
+      "otimização de custos"
+    ],
+    "question": "A technology company wants to create a cost management system for its cloud resources using AWS Cost Explorer. The company has multiple teams and departments, and wants to ensure that each team has a clear view of the costs associated with their resources. What is the best approach to implementing a cost management system that meets the company's cost visibility and optimization needs?",
+    "options": [
+      "Use AWS Cost Explorer to create custom cost reports for each team and department",
+      "Implement a cost management system using AWS Budgets",
+      "Use AWS Cost Explorer to create a hierarchical cost structure",
+      "Implement a cost management system using AWS CloudWatch"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to use AWS Cost Explorer to create custom cost reports for each team and department, as this allows for great flexibility and visibility into costs, as well as meeting your company's cost optimization needs."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "desempenho"
+    ],
+    "question": "A technology company wants to create a highly available and secure cloud architecture for its applications using Amazon EC2. The company has multiple geographic regions and wants to ensure applications run efficiently and scalably. What is the best approach to implementing a security and performance scheme that meets the company's needs?",
+    "options": [
+      "Implement a security scheme using Amazon VPC and Amazon EC2",
+      "Use Amazon EC2 to create secure, isolated virtual machine instances",
+      "Implementar um esquema de desempenho utilizando o Amazon CloudFront e o Amazon EC2",
+      "Use Amazon Direct Connect to connect geographies and improve performance"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to implement a security scheme using Amazon VPC and Amazon EC2, as this allows great flexibility and control over the security and performance of your applications, as well as meeting your company's availability and scalability needs."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "segurança de dados"
+    ],
+    "question": "A technology company wants to create an encryption system for its customer data using the AWS Key Management Service. The company has a large amount of data and wants to ensure that the data is encrypted securely and efficiently. What is the best approach to implementing an encryption system that meets the company's security and compliance needs?",
+    "options": [
+      "Use the AWS Key Management Service to create custom encryption keys",
+      "Implement a cryptography system using Amazon S3 and AWS Key Management Service",
+      "Use the AWS Key Management Service to encrypt data at rest",
+      "Implement an encryption system using Amazon CloudHSM"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to use the AWS Key Management Service to create custom encryption keys, as this allows you great flexibility and control over data encryption and meets your company's security and compliance needs."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "AWS Glue",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "armazenamento de dados"
+    ],
+    "question": "A technology company wants to create a data processing system for its customer data using AWS Glue. The company has a large amount of data and wants to ensure that the data is processed in an efficient and scalable way. What is the best approach to implementing a data processing system that meets the company's performance and scalability needs?",
+    "options": [
+      "Using AWS Glue to create a custom data processing pipeline",
+      "Implement a data processing system using Amazon EMR and AWS Glue",
+      "Use AWS Glue to create a centralized data store",
+      "Implement a data processing system using Amazon Redshift and AWS Glue"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to use AWS Glue to create a custom data processing pipeline, as this allows for greater flexibility and control over data processing and meets your business's performance and scalability needs."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gestão de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gestão de custos",
+      "otimização de custos"
+    ],
+    "question": "A technology company wants to create a cost management system for its cloud resources using AWS Cost Explorer. The company has multiple teams and departments, and wants to ensure that each team has a clear view of the costs associated with their resources. What is the best approach to implementing a cost management system that meets the company's cost visibility and optimization needs?",
+    "options": [
+      "Use AWS Cost Explorer to create custom cost reports for each team and department",
+      "Implement a cost management system using AWS Budgets",
+      "Use AWS Cost Explorer to create a hierarchical cost structure",
+      "Implement a cost management system using AWS CloudWatch"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to use AWS Cost Explorer to create custom cost reports for each team and department, as this allows for great flexibility and visibility into costs, as well as meeting your company's cost optimization needs."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "roteamento"
+    ],
+    "question": "A technology company wants to create a highly available and secure cloud architecture for its applications using Amazon VPC. The company has multiple geographic regions and wants to ensure applications run efficiently and scalably. What is the best approach to implementing a security and routing scheme that meets the company's needs?",
+    "options": [
+      "Implement a security scheme using Amazon VPC and Amazon EC2",
+      "Use Amazon VPC to create isolated subnets and route network traffic",
+      "Implement a routing scheme using Amazon Route 53 and Amazon VPC",
+      "Use Amazon Direct Connect to connect geographies and improve performance"
+    ],
+    "correct": 1,
+    "explanation": "The best approach is to use Amazon VPC to create isolated subnets and route network traffic, as this allows for greater flexibility and control over the security and routing of applications, as well as meeting your company's availability and scalability needs."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "controle de acesso",
+    "service": "AWS IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "A financial services company wants to implement an access control system for its cloud resources using AWS IAM. The company has multiple teams and departments, and wants to ensure that each team has access to only the resources they need to perform their tasks. What is the best approach to implementing an access control system that meets your company's security and compliance needs?",
+    "options": [
+      "Create IAM groups for each team and department, and assign specific permissions to each group",
+      "Using AWS Organizations to create a hierarchical access control structure",
+      "Implement a two-factor authentication system using AWS Cognito",
+      "Using AWS Lake Formation to create a secure, controlled data store"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to create IAM groups for each team and department, and assign specific permissions to each group, as this allows for greater flexibility and control over access to resources, as well as meeting your company's security and compliance needs."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon EMR",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "armazenamento de dados"
+    ],
+    "question": "A technology company wants to create a data processing system for its customer data using Amazon EMR. The company has a large amount of data and wants to ensure that the data is processed in an efficient and scalable way. What is the best approach to implementing a data processing system that meets the company's performance and scalability needs?",
+    "options": [
+      "Using Amazon EMR to create a custom data processing cluster",
+      "Implement a data processing system using Amazon Redshift and Amazon EMR",
+      "Use Amazon EMR to create a centralized data store",
+      "Implement a data processing system using Amazon DynamoDB and Amazon EMR"
+    ],
+    "correct": 0,
+    "explanation": "The best approach is to use Amazon EMR to create a custom data processing cluster, as this allows for greater flexibility and control over data processing and meets your business's performance and scalability needs."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "rede",
+    "service": "AWS Transit Gateway",
+    "difficulty": "hard",
+    "tags": [
+      "rede",
+      "conectividade",
+      "hibrido",
+      "vpn",
+      "seguranca"
+    ],
+    "question": "A large multinational corporation is in the process of migrating its IT infrastructure to AWS, but needs to maintain secure, low-latency connectivity with its on-premises data center to access legacy systems and critical databases. The company has several VPCs in AWS, distributed across different regions, and seeks to consolidate network routing between these VPCs and the local data center through a single entry/exit point. The objective is to minimize operational overhead and ensure high availability of the connection. Which combination of AWS services meets these requirements most efficiently and cost-effectively?",
+    "options": [
+      "Configuse multiple AWS Site-to-Site VPN connections directly between each VPC and the on-premises data center, using static routes.",
+      "Implement AWS Direct Connect for each VPC individually and manage the routes in each VPC separately.",
+      "Using an AWS Transit Gateway in a central region, connecting all VPCs to it and establishing a single AWS Site-to-Site VPN connection between the Transit Gateway and the local data center.",
+      "Create an AWS Client VPN connection for each user in the on-premises data center and configure access to VPCs through internet gateways."
+    ],
+    "correct": 2,
+    "explanation": "The most efficient and cost-effective option for this scenario is to use an AWS Transit Gateway. Transit Gateway acts as a central network hub, allowing all VPCs to connect to it and, in turn, to the on-premises data center through a single AWS Site-to-Site VPN connection. This dramatically simplifies network management, reduces routing complexity, and provides scalability and high availability if configured with redundant VPN tunnels. Configusing multiple direct VPNs for each VPC would increase complexity and cost. AWS Direct Connect is a higher bandwidth, lower latency solution, but generally more expensive and complex to configure than VPN for this consolidation scenario, and would still require an Transit Gateway for connectivity between multiple VPCs optimally. The AWS Client VPN is designed for individual client access, not large-scale VPC-to-on-premises connectivity."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-custos",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "tags": [
+      "ec2",
+      "custos",
+      "otimizacao",
+      "savings-plans",
+      "spot-instances"
+    ],
+    "question": "A fast-growing SaaS company is looking to aggressively optimize its infrastructure costs on AWS, particularly for its Amazon EC2 instances. They have two main categories of workloads: a stable microservices foundation that operates 24/7 with predictable capacity requirements, and analytical and batch processing workloads that are highly elastic, interruptible, and have spikes in demand. The goal is to achieve the greatest possible cost reduction while maintaining availability for microservices and flexibility for analytical workloads. What EC2 instance pricing strategy should the company prioritize to achieve these goals?",
+    "options": [
+      "Exclusively utilize On-Demand instances for all workloads, leveraging full flexibility for scalability.",
+      "Purchase Compute Savings Plans (Savings Plans) for your microservices and use Spot instances for your analytics workloads.",
+      "Purchase Reserved Instances (Reserved Instances) for all workloads, ensuring the greatest possible savings with committed usage.",
+      "Implement an autoscaling strategy with On-Demand instances for all workloads, with no usage commitment."
+    ],
+    "correct": 1,
+    "explanation": "To aggressively optimize costs, the best strategy is to combine Savings Plans (Savings Plans) with Spot Instances. Savings Plans offer substantial discounts in exchange for a 1- or 3-year usage commitment and are ideal for stable and predictable microservices workloads, ensuring availability and reduced cost. Spot Instances, which allow you to bid on unused EC2 capacity, are perfect for batch processing and analytical workloads that can be stopped and restarted, offering the biggest cost savings. Using only On-Demand instances would be expensive. Reserved Instances for all workloads do not provide the flexibility needed for elastic workloads and may not be as optimized as an Savings Plan for general computing use. Autoscaling with On-Demand instances would still be more expensive than the combination of Savings Plans and Spot."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "tags": [
+      "s3",
+      "armazenamento",
+      "cdn",
+      "custos",
+      "midia",
+      "streaming"
+    ],
+    "question": "A video streaming company is designing its new architecture on AWS to host a vast catalog of videos, ranging from popular content that is frequently accessed to older archive files that are rarely accessed but need to be available on demand. Requirements include 99.999999999% (eleven nines) durability, high availability, ultra-low access latency for globally popular content, and the lowest possible total storage cost. What combination of AWS services and configurations most effectively meets these requirements?",
+    "options": [
+      "Store all videos in Amazon EBS and use a load balancer to distribute streaming traffic globally.",
+      "Store all videos in Amazon S3 Standard and distribute content exclusively via Amazon CloudFront for low latency.",
+      "Store popular content in Amazon S3 Standard, less popular content in Amazon S3 Infrequent Access (IA), and archive content in Amazon S3 Glacier Flexible Retrieval, all distributed via Amazon CloudFront.",
+      "Store all videos in Amazon EFS and use auto-scaling EC2 instances to serve content globally."
+    ],
+    "correct": 2,
+    "explanation": "The most effective strategy to meet all requirements is to use a combination of Amazon S3 and Amazon CloudFront storage classes. The Amazon S3 Standard provides high availability and performance for popular content. Amazon S3 Infrequent Access (IA) is ideal for less frequently accessed content with a lower storage cost but still fast retrieval. Amazon S3 Glacier Flexible Retrieval is perfect for rarely accessed files with minimal storage cost. Amazon CloudFront, a content delivery network (CDN), ensures low latency for end users globally by caching content at the edges of the AWS network. Amazon EBS and Amazon EFS are not scalable or cost-effective for storing large-scale objects like videos. Storing everything in S3 Standard would be more expensive than using access-optimized storage classes, and would not optimize the total storage cost."
   }
 ]

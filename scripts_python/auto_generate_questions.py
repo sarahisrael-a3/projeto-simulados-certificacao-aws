@@ -11,34 +11,38 @@ USO:
 import json
 import sys
 import os
+import time
 from pathlib import Path
 from generator import fabricar_questoes, EXAMES_CONFIG
+
+# Número máximo de falhas consecutivas antes de abortar um lote
+MAX_CONSECUTIVE_FAILURES = 3
 
 # Metas de distribuição ideal por certificação (Padrão Ouro: 65 de cada)
 TARGET_DISTRIBUTION = {
     "clf-c02": {
-        "easy": 65,
-        "medium": 65,
-        "hard": 65,
-        "total": 195
+        "easy": 100,
+        "medium": 100,
+        "hard": 100,
+        "total": 300
     },
     "saa-c03": {
-        "easy": 65,
-        "medium": 65,
-        "hard": 65,
-        "total": 195
+        "easy": 100,
+        "medium": 100,
+        "hard": 100,
+        "total": 300
     },
     "dva-c02": {
-        "easy": 65,
-        "medium": 65,
-        "hard": 65,
-        "total": 195
+        "easy": 100,
+        "medium": 100,
+        "hard": 100,
+        "total": 300
     },
     "aif-c01": {
-        "easy": 65,
-        "medium": 65,
-        "hard": 65,
-        "total": 195
+        "easy": 100,
+        "medium": 100,
+        "hard": 100,
+        "total": 300
     }
 }
 
@@ -97,33 +101,56 @@ def calculate_needed_questions(cert_id):
 
 def generate_questions_for_level(cert_id, difficulty, quantity):
     """
-    Gera questões para um nível específico.
+    Gera questões para um nível específico com proteção contra loop infinito.
+
+    Aborta automaticamente após MAX_CONSECUTIVE_FAILURES falhas seguidas,
+    evitando que o script fique preso indefinidamente quando a API está
+    indisponível ou a quota foi esgotada.
     """
     if quantity <= 0:
         return []
-    
+
     print(f"\n{'='*70}")
     print(f"🎯 Gerando {quantity} questões de nível '{difficulty}' para {cert_id.upper()}")
     print(f"{'='*70}")
-    
+
     all_generated = []
     remaining = quantity
-    
+    consecutive_failures = 0
+
     while remaining > 0:
+        # Guarda de segurança: aborta se atingir o limite de falhas consecutivas
+        if consecutive_failures >= MAX_CONSECUTIVE_FAILURES:
+            print(
+                f"\n⛔ Limite de {MAX_CONSECUTIVE_FAILURES} falhas consecutivas atingido. "
+                f"Abortando geração de '{difficulty}' para {cert_id.upper()}."
+            )
+            print(
+                f"   Questões geradas até ao momento: {len(all_generated)}/{quantity}. "
+                f"Verifique a quota da API e tente novamente."
+            )
+            break
+
         batch_size = min(BATCH_SIZE, remaining)
-        print(f"\n📦 Lote: {batch_size} questões...")
-        
+        print(f"\n📦 Lote: {batch_size} questões... (falhas consecutivas: {consecutive_failures}/{MAX_CONSECUTIVE_FAILURES})")
+
         questions = fabricar_questoes(cert_id, difficulty, batch_size)
-        
+
         if questions:
             all_generated.extend(questions)
             remaining -= len(questions)
+            consecutive_failures = 0  # Reseta o contador após sucesso
             print(f"✅ Geradas: {len(questions)} questões")
             print(f"📊 Progresso: {len(all_generated)}/{quantity}")
         else:
-            print(f"❌ Falha ao gerar questões. Tentando novamente...")
-            continue
-    
+            consecutive_failures += 1
+            wait_seconds = 10 * consecutive_failures  # Backoff progressivo: 10s, 20s, 30s
+            print(
+                f"❌ Falha #{consecutive_failures}/{MAX_CONSECUTIVE_FAILURES}. "
+                f"Aguardando {wait_seconds}s antes de tentar novamente..."
+            )
+            time.sleep(wait_seconds)
+
     return all_generated
 
 

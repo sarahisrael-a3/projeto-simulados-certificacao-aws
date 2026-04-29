@@ -7419,24 +7419,1261 @@
     "explanation": "A orquestração autônoma de alertas baseada em eventos para o gerenciamento do Savings Plans utiliza a configuração do Amazon EventBridge[cite: 169]. O sistema atua lendo o evento 'Savings Plans state change alert event', que pode ser programado para prever transições numa janela única de 1 ou 7 dias antes da execução final[cite: 170, 171]. Este alerta pode disparar ativações sistêmicas nativas num tópico do Amazon SNS ou funções no AWS Lambda[cite: 172]."
   },
   {
-  "domain": "seguranca",
-  "subdomain": "controle-de-acesso",
-  "service": "AWS IAM",
-  "difficulty": "medium",
-  "type": "multiple-answer", 
-  "tags": [
-    "iam",
-    "segurança",
-    "mfa"
-  ],
-  "question": "Quais das seguintes opções são práticas recomendadas de segurança para o AWS Identity and Access Management (IAM)? (Escolha 2)",
-  "options": [
-    "Compartilhar as chaves de acesso do usuário root com a equipe de desenvolvimento.",
-    "Habilitar o Multi-Factor Authentication (MFA) para usuários privilegiados.",
-    "Conceder permissões administrativas totais por padrão para agilizar o trabalho.",
-    "Aplicar o princípio do menor privilégio (Least Privilege) usando políticas do IAM."
-  ],
-  "correct": [1, 3],
-  "explanation": "Habilitar o MFA (opção 1) e aplicar o princípio do menor privilégio (opção 3) são práticas essenciais de segurança. Nunca se deve compartilhar as chaves do root (opção 0) ou conceder permissões totais por padrão (opção 2)."
-}
+    "domain": "seguranca",
+    "subdomain": "controle-de-acesso",
+    "service": "AWS IAM",
+    "difficulty": "medium",
+    "type": "multiple-answer",
+    "tags": [
+      "iam",
+      "segurança",
+      "mfa"
+    ],
+    "question": "Quais das seguintes opções são práticas recomendadas de segurança para o AWS Identity and Access Management (IAM)? (Escolha 2)",
+    "options": [
+      "Compartilhar as chaves de acesso do usuário root com a equipe de desenvolvimento.",
+      "Habilitar o Multi-Factor Authentication (MFA) para usuários privilegiados.",
+      "Conceder permissões administrativas totais por padrão para agilizar o trabalho.",
+      "Aplicar o princípio do menor privilégio (Least Privilege) usando políticas do IAM."
+    ],
+    "correct": [
+      1,
+      3
+    ],
+    "explanation": "Habilitar o MFA (opção 1) e aplicar o princípio do menor privilégio (opção 3) são práticas essenciais de segurança. Nunca se deve compartilhar as chaves do root (opção 0) ou conceder permissões totais por padrão (opção 2)."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "beneficios-da-nuvem",
+    "service": "AWS Cloud",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Elasticidade",
+      "Escalabilidade",
+      "Nuvem"
+    ],
+    "question": "Uma startup de e-commerce experimenta picos de tráfego imprevisíveis durante promoções e feriados. Eles precisam de uma infraestrutura que possa aumentar automaticamente sua capacidade para lidar com a demanda extra e, em seguida, diminuir quando o tráfego retornar ao normal, evitando custos desnecessários.",
+    "options": [
+      "Escalabilidade",
+      "Elasticidade",
+      "Alta Disponibilidade",
+      "Globalização"
+    ],
+    "correct": 1,
+    "explanation": "A elasticidade permite que os recursos de computação sejam dimensionados automaticamente para cima ou para baixo, conforme a demanda, otimizando custos e garantindo performance durante picos de tráfego. Escalabilidade é a capacidade de crescer, mas elasticidade adiciona o ajuste automático e o encolhimento, que é crucial para evitar custos desnecessários."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelos-de-preco",
+    "service": "AWS Faturamento",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Custo",
+      "Pagamento",
+      "Otimização de Custos"
+    ],
+    "question": "Uma nova empresa de desenvolvimento de software está lançando seu primeiro produto e deseja minimizar os custos iniciais de infraestrutura. Eles precisam de um modelo de precificação que lhes permita pagar apenas pelos recursos que realmente consomem, sem compromissos de longo prazo ou investimentos pesados em hardware.",
+    "options": [
+      "Pagamento antecipado por instâncias reservadas",
+      "Modelo de pagamento conforme o uso",
+      "Compra de hardware no local (on-premises)",
+      "Contratos de longo prazo com provedores de datacenter"
+    ],
+    "correct": 1,
+    "explanation": "O modelo de pagamento conforme o uso na AWS permite que as empresas paguem apenas pelos recursos de computação, armazenamento e outros serviços que consomem, sem custos iniciais ou compromissos de longo prazo. Isso é ideal para startups que desejam minimizar o risco financeiro inicial."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Acesso",
+      "Permissões",
+      "Segurança"
+    ],
+    "question": "Uma empresa precisa implementar um sistema robusto para gerenciar o acesso de seus funcionários e aplicações aos recursos da AWS, garantindo que cada um tenha apenas as permissões necessárias para realizar suas tarefas, seguindo o princípio do privilégio mínimo.",
+    "options": [
+      "AWS Identity and Access Management (IAM)",
+      "AWS Key Management Service (KMS)",
+      "AWS WAF (Web Application Firewall)",
+      "Amazon GuardDuty"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Identity and Access Management (IAM) é o serviço que permite gerenciar o acesso de usuários e serviços AWS aos seus recursos na nuvem. Com o IAM, você pode criar e gerenciar usuários, grupos e funções, e atribuir permissões detalhadas para controlar quem pode fazer o quê, seguindo o princípio do privilégio mínimo."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "computacao",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Servidores Virtuais",
+      "Computação",
+      "Instâncias"
+    ],
+    "question": "Uma equipe de desenvolvimento precisa de servidores virtuais redimensionáveis na nuvem para hospedar suas aplicações web e APIs. Eles querem a flexibilidade de escolher diferentes tipos de hardware virtual e a capacidade de escalar esses servidores conforme a demanda.",
+    "options": [
+      "Amazon Elastic Compute Cloud (EC2)",
+      "AWS Lambda",
+      "Amazon Elastic Container Service (ECS)",
+      "Amazon Simple Storage Service (S3)"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon EC2 (Elastic Compute Cloud) fornece capacidade computacional segura e redimensionável na nuvem como servidores virtuais, conhecidos como instâncias. Ele oferece flexibilidade na escolha de tipos de instância, sistemas operacionais e a capacidade de escalar rapidamente, sendo ideal para hospedar aplicações."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "infraestrutura-global",
+    "service": "AWS Cloud",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Alta Disponibilidade",
+      "Resiliência",
+      "Recuperação de Desastres"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa garantir que sua aplicação crítica esteja sempre disponível, mesmo no caso de uma falha completa de um data center dentro de uma região da AWS. Eles buscam uma estratégia para alcançar alta disponibilidade e tolerância a falhas.",
+    "options": [
+      "Utilizar múltiplas Zonas de Disponibilidade",
+      "Configurar o AWS Direct Connect",
+      "Implementar o AWS Storage Gateway",
+      "Usar o AWS Snowball para migração de dados"
+    ],
+    "correct": 0,
+    "explanation": "As Zonas de Disponibilidade (AZs) são locais fisicamente separados e isolados dentro de uma Região da AWS. Ao implantar aplicações em múltiplas AZs, a empresa garante que, se uma AZ falhar, a aplicação continuará funcionando nas AZs restantes, proporcionando alta disponibilidade e resiliência contra falhas de data center."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "conformidade",
+    "service": "AWS Shared Responsibility Model",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Segurança",
+      "Responsabilidade",
+      "Conformidade"
+    ],
+    "question": "Uma nova equipe de segurança em uma empresa que usa a AWS precisa entender claramente quais são as obrigações de segurança da AWS e quais são suas próprias responsabilidades ao operar na nuvem. Eles buscam um modelo que defina essas fronteiras.",
+    "options": [
+      "Modelo de Responsabilidade Compartilhada da AWS",
+      "AWS Security Hub",
+      "AWS Config",
+      "AWS Trusted Advisor"
+    ],
+    "correct": 0,
+    "explanation": "O Modelo de Responsabilidade Compartilhada da AWS define as responsabilidades de segurança entre a AWS e o cliente. A AWS é responsável pela 'segurança da nuvem' (infraestrutura subjacente), enquanto o cliente é responsável pela 'segurança na nuvem' (configuração de seus dados, aplicações e sistemas operacionais)."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "rede",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Rede",
+      "Isolamento",
+      "Nuvem Privada"
+    ],
+    "question": "Uma empresa de tecnologia precisa de um ambiente de rede isolado na AWS para lançar seus recursos, como instâncias EC2 e bancos de dados, com controle total sobre a configuração da rede, incluindo intervalos de IP, sub-redes e tabelas de rotas.",
+    "options": [
+      "Amazon Virtual Private Cloud (VPC)",
+      "AWS Direct Connect",
+      "Amazon Route 53",
+      "AWS Transit Gateway"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon VPC (Virtual Private Cloud) permite que você provisione uma seção isolada da Nuvem AWS onde pode lançar recursos AWS em uma rede virtual que você define. Você tem controle completo sobre seu ambiente de rede virtual, incluindo seleção de seus próprios intervalos de endereço IP, criação de sub-redes e configuração de tabelas de rota e gateways de rede."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-de-custos",
+    "service": "AWS Trusted Advisor",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Otimização",
+      "Custo",
+      "Performance",
+      "Segurança"
+    ],
+    "question": "Uma empresa está buscando uma ferramenta da AWS que possa fornecer recomendações em tempo real para otimizar seus custos, melhorar a performance, aumentar a segurança e a tolerância a falhas de seus recursos na nuvem.",
+    "options": [
+      "AWS Trusted Advisor",
+      "AWS Budgets",
+      "AWS Cost Explorer",
+      "AWS Organizations"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Trusted Advisor é um serviço que atua como um consultor personalizado, analisando seu ambiente AWS e fornecendo recomendações para otimizar custos, melhorar o desempenho, aumentar a segurança, a tolerância a falhas e a conformidade, com base nas melhores práticas da AWS."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "tipos-de-nuvem",
+    "service": "AWS Cloud",
+    "difficulty": "easy",
+    "type": "multiple-choice-single-answer",
+    "tags": [
+      "Nuvem Pública",
+      "Modelos de Implantação",
+      "Compartilhada"
+    ],
+    "question": "Uma pequena startup precisa de uma infraestrutura de TI que seja totalmente gerenciada por um provedor externo, acessível pela internet e compartilhada com outros clientes. Eles buscam um modelo de nuvem que ofereça alta escalabilidade e baixo custo inicial.",
+    "options": [
+      "Nuvem Pública",
+      "Nuvem Privada",
+      "Nuvem Híbrida",
+      "Nuvem Comunitária"
+    ],
+    "correct": 0,
+    "explanation": "A nuvem pública é um modelo de computação em nuvem onde um provedor de serviços de nuvem de terceiros (como a AWS) possui e opera os recursos de computação, como servidores e armazenamento, e os disponibiliza pela internet para o público em geral ou para grandes grupos da indústria. Caracteriza-se por ser compartilhada, escalável e de baixo custo inicial."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": " modelo de entrega de serviços",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelo de entrega de serviços",
+      "conceitos cloud"
+    ],
+    "question": "Uma empresa de tecnologia precisa implantar uma solução de infraestrutura de TI que permita escalabilidade e flexibilidade. Qual é o modelo de entrega de serviços mais adequado para atender a essa necessidade?",
+    "options": [
+      "Modelo de entrega de serviços de software como serviço (SaaS)",
+      "Modelo de entrega de serviços de plataforma como serviço (PaaS)",
+      "Modelo de entrega de serviços de infraestrutura como serviço (IaaS)",
+      "Modelo de entrega de serviços de armazenamento como serviço"
+    ],
+    "correct": 2,
+    "explanation": "O modelo de entrega de serviços de infraestrutura como serviço (IaaS) é o mais adequado para atender às necessidades de escalabilidade e flexibilidade da empresa, pois permite que os recursos de infraestrutura sejam provisionados e gerenciados de forma dinâmica."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "autenticação e autorização",
+    "service": "Amazon Cognito",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "autenticação e autorização",
+      "segurança"
+    ],
+    "question": "Um desenvolvedor de aplicativos móveis precisa implementar uma solução de autenticação e autorização para proteger os dados dos usuários. Qual é o serviço AWS mais adequado para atender a essa necessidade?",
+    "options": [
+      "Amazon Cognito",
+      "Amazon IAM",
+      "Amazon STS",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Cognito é o serviço AWS mais adequado para atender às necessidades de autenticação e autorização do desenvolvedor, pois fornece uma solução escalável e segura para gerenciar identidades e acessos de usuários."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "tecnologia"
+    ],
+    "question": "Uma empresa de análise de dados precisa processar grandes volumes de dados em tempo real. Qual é o serviço AWS mais adequado para atender a essa necessidade?",
+    "options": [
+      "Amazon EC2",
+      "Amazon S3",
+      "Amazon DynamoDB",
+      "Amazon Redshift"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon EC2 é o serviço AWS mais adequado para atender às necessidades de processamento de dados da empresa, pois fornece uma solução escalável e flexível para provisionar instâncias de computação de alta performance."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelos de precificação",
+    "service": "AWS Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelos de precificação",
+      "faturamento"
+    ],
+    "question": "Um administrador de TI precisa entender como os custos de uso de serviços AWS são calculados e como otimizar os gastos. Qual é o serviço AWS mais adequado para atender a essa necessidade?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudTrail",
+      "AWS X-Ray"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é o serviço AWS mais adequado para atender às necessidades de entendimento e otimização de custos do administrador, pois fornece uma visão detalhada dos custos de uso de serviços AWS e recomendações para reduzir os gastos."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "benefícios do cloud computing",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "benefícios do cloud computing",
+      "conceitos cloud"
+    ],
+    "question": "Uma empresa de tecnologia está considerando migrar seus sistemas para a nuvem. Qual é o benefício mais significativo do cloud computing para a empresa?",
+    "options": [
+      "Redução de custos de infraestrutura",
+      "Aumento da segurança dos dados",
+      "Melhoria da escalabilidade e flexibilidade",
+      "Simplificação da gestão de TI"
+    ],
+    "correct": 2,
+    "explanation": "A melhoria da escalabilidade e flexibilidade é o benefício mais significativo do cloud computing para a empresa, pois permite que os recursos de TI sejam provisionados e gerenciados de forma dinâmica e escalável."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia de dados",
+    "service": "Amazon Key Management Service (KMS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia de dados",
+      "segurança"
+    ],
+    "question": "Um desenvolvedor de aplicativos precisa proteger os dados sensíveis dos usuários com criptografia. Qual é o serviço AWS mais adequado para atender a essa necessidade?",
+    "options": [
+      "Amazon Key Management Service (KMS)",
+      "Amazon CloudHSM",
+      "Amazon CloudWatch",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Key Management Service (KMS) é o serviço AWS mais adequado para atender às necessidades de criptografia de dados do desenvolvedor, pois fornece uma solução segura e escalável para gerenciar chaves de criptografia."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "serviços de armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "serviços de armazenamento",
+      "tecnologia"
+    ],
+    "question": "Uma empresa de mídia precisa armazenar e servir grandes volumes de dados de mídia. Qual é o serviço AWS mais adequado para atender a essa necessidade?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Glacier"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 é o serviço AWS mais adequado para atender às necessidades de armazenamento de dados de mídia da empresa, pois fornece uma solução escalável e durável para armazenar e servir dados de mídia."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelos de precificação",
+    "service": "AWS Pricing Calculator",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelos de precificação",
+      "faturamento"
+    ],
+    "question": "Um administrador de TI precisa estimar os custos de uso de serviços AWS para um projeto. Qual é o serviço AWS mais adequado para atender a essa necessidade?",
+    "options": [
+      "AWS Pricing Calculator",
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudTrail"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Pricing Calculator é o serviço AWS mais adequado para atender às necessidades de estimativa de custos do administrador, pois fornece uma ferramenta interativa para estimar os custos de uso de serviços AWS."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelos de implantação",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelos de implantação",
+      "conceitos cloud"
+    ],
+    "question": "Uma empresa de tecnologia está considerando implantar uma solução de nuvem híbrida. Qual é o modelo de implantação mais adequado para a empresa?",
+    "options": [
+      "Nuvem pública",
+      "Nuvem privada",
+      "Nuvem híbrida",
+      "Nuvem local"
+    ],
+    "correct": 2,
+    "explanation": "A nuvem híbrida é o modelo de implantação mais adequado para a empresa, pois permite que os recursos de TI sejam provisionados e gerenciados de forma flexível e escalável, combinando os benefícios da nuvem pública e privada."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "segurança de rede",
+    "service": "Amazon VPC",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "segurança de rede",
+      "segurança"
+    ],
+    "question": "Um desenvolvedor de aplicativos precisa proteger o tráfego de rede dos usuários com segurança de rede. Qual é o serviço AWS mais adequado para atender a essa necessidade?",
+    "options": [
+      "Amazon VPC",
+      "Amazon CloudWatch",
+      "Amazon CloudTrail",
+      "Amazon Inspector"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon VPC é o serviço AWS mais adequado para atender às necessidades de segurança de rede do desenvolvedor, pois fornece uma solução segura e escalável para criar e gerenciar redes virtuais privadas."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "modelos de implantação",
+    "service": "Amazon Web Services (AWS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "modelo de implantação",
+      "cloud"
+    ],
+    "question": "Uma empresa de tecnologia deseja migrar seus sistemas para a nuvem. Eles buscam um modelo de implantação que permita o gerenciamento de recursos de forma centralizada e escalável. Qual é o modelo de implantação mais adequado para essa empresa?",
+    "options": [
+      "Modelo de implantação híbrida",
+      "Modelo de implantação em nuvem pública",
+      "Modelo de implantação em nuvem privada",
+      "Modelo de implantação em local"
+    ],
+    "correct": 1,
+    "explanation": "O modelo de implantação em nuvem pública é o mais adequado para essa empresa, pois permite o gerenciamento de recursos de forma centralizada e escalável, além de oferecer uma ampla gama de serviços e recursos."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "controle de acesso",
+    "service": "Amazon IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "controle de acesso",
+      "autenticação"
+    ],
+    "question": "Uma empresa de comércio eletrônico deseja controlar o acesso dos funcionários aos recursos da empresa. Eles buscam um serviço que permita criar perfis de usuário e gerenciar permissões de forma centralizada. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon Cognito",
+      "Amazon IAM",
+      "Amazon EC2",
+      "Amazon S3"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon IAM é o serviço mais adequado para essa empresa, pois permite criar perfis de usuário e gerenciar permissões de forma centralizada, além de oferecer uma ampla gama de recursos de segurança e controle de acesso."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento de dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "objetos"
+    ],
+    "question": "Uma empresa de mídia deseja armazenar e servir grandes quantidades de dados de mídia. Eles buscam um serviço que permita armazenar e servir objetos de forma escalável e confiável. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon EBS",
+      "Amazon S3",
+      "Amazon EFS",
+      "Amazon Glacier"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon S3 é o serviço mais adequado para essa empresa, pois permite armazenar e servir objetos de forma escalável e confiável, além de oferecer uma ampla gama de recursos de armazenamento e gerenciamento de dados."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento de custos",
+    "service": "Amazon CloudWatch",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "gerenciamento de custos",
+      "monitoramento"
+    ],
+    "question": "Uma empresa de tecnologia deseja monitorar e gerenciar os custos dos recursos da empresa. Eles buscam um serviço que permita monitorar o uso de recursos e gerenciar os custos de forma centralizada. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon CloudTrail",
+      "Amazon CloudWatch",
+      "Amazon Cost Explorer",
+      "Amazon X-Ray"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon Cost Explorer é o serviço mais adequado para essa empresa, pois permite monitorar o uso de recursos e gerenciar os custos de forma centralizada, além de oferecer uma ampla gama de recursos de gerenciamento de custos e otimização."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "escalabilidade",
+      "instâncias"
+    ],
+    "question": "Uma empresa de comércio eletrônico deseja escalonar os recursos da empresa para atender à demanda crescente. Eles buscam um serviço que permita criar e gerenciar instâncias de forma escalável e flexível. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon EC2",
+      "Amazon Lambda",
+      "Amazon Elastic Beanstalk",
+      "Amazon Elastic Container Service"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon EC2 é o serviço mais adequado para essa empresa, pois permite criar e gerenciar instâncias de forma escalável e flexível, além de oferecer uma ampla gama de recursos de gerenciamento de instâncias e escalabilidade."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "Amazon Key Management Service (KMS)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "gerenciamento de chaves"
+    ],
+    "question": "Uma empresa de tecnologia deseja criptografar os dados da empresa e gerenciar as chaves de forma centralizada. Eles buscam um serviço que permita criar e gerenciar chaves de forma segura e escalável. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon CloudHSM",
+      "Amazon Key Management Service (KMS)",
+      "Amazon Certificate Manager",
+      "Amazon CloudWatch"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Key Management Service (KMS) é o serviço mais adequado para essa empresa, pois permite criar e gerenciar chaves de forma segura e escalável, além de oferecer uma ampla gama de recursos de criptografia e gerenciamento de chaves."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "bases de dados",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "bases de dados",
+      "relacionais"
+    ],
+    "question": "Uma empresa de comércio eletrônico deseja criar e gerenciar bases de dados relacionais de forma escalável e confiável. Eles buscam um serviço que permita criar e gerenciar bases de dados de forma centralizada e segura. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon DynamoDB",
+      "Amazon RDS",
+      "Amazon DocumentDB",
+      "Amazon Neptune"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon RDS é o serviço mais adequado para essa empresa, pois permite criar e gerenciar bases de dados relacionais de forma escalável e confiável, além de oferecer uma ampla gama de recursos de gerenciamento de bases de dados e segurança."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimização de custos",
+    "service": "Amazon Cost Explorer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "gerenciamento de custos"
+    ],
+    "question": "Uma empresa de tecnologia deseja otimizar os custos dos recursos da empresa e identificar oportunidades de economia. Eles buscam um serviço que permita analisar e gerenciar os custos de forma centralizada e detalhada. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon CloudWatch",
+      "Amazon Cost Explorer",
+      "Amazon CloudTrail",
+      "Amazon X-Ray"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Cost Explorer é o serviço mais adequado para essa empresa, pois permite analisar e gerenciar os custos de forma centralizada e detalhada, além de oferecer uma ampla gama de recursos de otimização de custos e identificação de oportunidades de economia."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "migração para a nuvem",
+    "service": "Amazon Cloud Adoption Framework (CAF)",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "migração para a nuvem",
+      "framework"
+    ],
+    "question": "Uma empresa de tecnologia deseja migrar os sistemas para a nuvem de forma segura e eficiente. Eles buscam um framework que permita planejar e executar a migração de forma centralizada e estruturada. Qual é o framework mais adequado para essa empresa?",
+    "options": [
+      "Amazon Cloud Adoption Framework (CAF)",
+      "Amazon Web Services (AWS) Well-Architected Framework",
+      "Amazon Cloud Development Kit (CDK)",
+      "Amazon CloudFormation"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Cloud Adoption Framework (CAF) é o framework mais adequado para essa empresa, pois permite planejar e executar a migração para a nuvem de forma centralizada e estruturada, além de oferecer uma ampla gama de recursos de migração e adoção de nuvem."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "compliance",
+    "service": "Amazon Compliance Hub",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "compliance",
+      "regulamentação"
+    ],
+    "question": "Uma empresa de tecnologia deseja garantir a conformidade com as regulamentações e leis de privacidade de dados. Eles buscam um serviço que permita gerenciar e demonstrar a conformidade de forma centralizada e eficiente. Qual é o serviço mais adequado para essa empresa?",
+    "options": [
+      "Amazon Compliance Hub",
+      "Amazon CloudWatch",
+      "Amazon CloudTrail",
+      "Amazon Artifact"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Compliance Hub é o serviço mais adequado para essa empresa, pois permite gerenciar e demonstrar a conformidade de forma centralizada e eficiente, além de oferecer uma ampla gama de recursos de conformidade e regulamentação."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "escalabilidade",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "escalabilidade",
+      "elasticidade",
+      "infraestrutura",
+      "custo"
+    ],
+    "question": "Uma startup de e-commerce experimenta picos de tráfego imprevisíveis durante promoções e feriados. Eles precisam de uma solução que permita que sua aplicação web lide com esses aumentos de demanda automaticamente, sem que precisem provisionar recursos em excesso permanentemente, o que resultaria em custos desnecessários. Qual benefício da computação em nuvem permite que a capacidade seja ajustada dinamicamente para atender a essas flutuações de tráfego?",
+    "options": [
+      "Alta Disponibilidade",
+      "Elasticidade",
+      "Segurança Aprimorada",
+      "Gerenciamento de Identidades"
+    ],
+    "correct": 1,
+    "explanation": "A elasticidade permite que os sistemas em nuvem se expandam ou contraiam automaticamente para lidar com as mudanças na demanda, provisionando ou desprovisionando recursos conforme necessário. Isso garante que a aplicação possa lidar com picos de tráfego sem sobrecarga e que os custos sejam otimizados, pois a startup paga apenas pelos recursos que utiliza."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade-e-acesso",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "iam",
+      "seguranca",
+      "permissoes",
+      "acesso"
+    ],
+    "question": "Uma empresa de desenvolvimento de software precisa garantir que apenas usuários autorizados possam acessar seus recursos na AWS, como buckets do Amazon S3 e instâncias do Amazon EC2. Eles também querem definir exatamente quais ações cada usuário ou grupo de usuários pode realizar. Qual serviço da AWS deve ser utilizado para gerenciar identidades e permissões de acesso de forma centralizada e granular?",
+    "options": [
+      "AWS WAF",
+      "Amazon GuardDuty",
+      "AWS Identity and Access Management (IAM)",
+      "AWS Key Management Service (KMS)"
+    ],
+    "correct": 2,
+    "explanation": "O AWS Identity and Access Management (IAM) é o serviço da AWS que permite gerenciar o acesso a serviços e recursos da AWS de forma segura. Com o IAM, é possível criar e gerenciar usuários, grupos e funções, além de atribuir permissões detalhadas para controlar quem pode fazer o quê na conta da AWS."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "armazenamento",
+      "objetos",
+      "dados",
+      "durabilidade"
+    ],
+    "question": "Uma agência de publicidade digital precisa de uma solução de armazenamento altamente durável e escalável para seus vastos arquivos de mídia, incluindo vídeos de alta resolução, imagens e documentos de projetos. Esses arquivos precisam ser facilmente acessíveis para edição e distribuição global, sem se preocupar com a capacidade de armazenamento subjacente. Qual serviço AWS é o mais adequado para armazenar esses objetos de forma econômica e confiável?",
+    "options": [
+      "Amazon Elastic Block Store (EBS)",
+      "Amazon S3",
+      "Amazon Elastic File System (EFS)",
+      "Amazon Relational Database Service (RDS)"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon S3 (Simple Storage Service) é um serviço de armazenamento de objetos altamente escalável, durável e disponível. É ideal para armazenar grandes volumes de dados não estruturados, como arquivos de mídia, backups e arquivos de log, oferecendo acesso fácil via HTTP/HTTPS e pagando apenas pelo que é armazenado e transferido."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "modelo-de-precos",
+    "service": "AWS Billing",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "custo",
+      "faturamento",
+      "pague-pelo-uso",
+      "economia"
+    ],
+    "question": "Uma pequena empresa que está começando sua jornada na nuvem com a AWS quer evitar grandes investimentos iniciais em infraestrutura. Eles buscam um modelo de precificação que lhes permita pagar apenas pelos recursos de computação, armazenamento e rede que realmente consomem, sem compromissos de longo prazo ou taxas mínimas. Qual é o princípio fundamental de precificação da AWS que melhor se alinha a essa necessidade?",
+    "options": [
+      "Pagamento antecipado por instâncias reservadas",
+      "Pagamento por uso (Pay-as-you-go)",
+      "Descontos por volume",
+      "Custos fixos mensais"
+    ],
+    "correct": 1,
+    "explanation": "O modelo de precificação \"pagamento por uso\" (Pay-as-you-go) da AWS permite que os clientes paguem apenas pelos recursos que utilizam, sem a necessidade de investimentos iniciais em hardware ou compromissos de longo prazo. Isso oferece flexibilidade e ajuda a controlar os custos, especialmente para startups e empresas com demandas variáveis."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "seguranca",
+    "service": "AWS Shared Responsibility Model",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "seguranca",
+      "responsabilidade-compartilhada",
+      "nuvem",
+      "conformidade"
+    ],
+    "question": "Uma empresa de serviços financeiros está migrando seus dados sensíveis para a AWS e precisa entender suas obrigações de segurança no ambiente de nuvem. De acordo com o Modelo de Responsabilidade Compartilhada da AWS, a segurança é uma responsabilidade dividida. Qual das seguintes opções representa uma responsabilidade do *cliente* sob este modelo?",
+    "options": [
+      "Segurança da infraestrutura física da nuvem",
+      "Manutenção do hardware dos servidores",
+      "Segurança dos dados do cliente e configuração dos controles de acesso",
+      "Proteção global da rede da AWS"
+    ],
+    "correct": 2,
+    "explanation": "No Modelo de Responsabilidade Compartilhada, a AWS é responsável pela \"segurança *da* nuvem\" (infraestrutura física, rede global, hardware). O cliente é responsável pela \"segurança *na* nuvem\", que inclui a segurança dos seus dados, a configuração correta dos controles de acesso (como grupos de segurança e políticas do IAM), a criptografia dos dados e a gestão do sistema operacional convidado."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "computacao",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple_choice",
+    "tags": [
+      "computacao",
+      "servidores",
+      "maquinas-virtuais",
+      "flexibilidade"
+    ],
+    "question": "Uma empresa de desenvolvimento de jogos online precisa de capacidade computacional flexível e escalável para hospedar seus servidores de jogos. Eles desejam provisionar servidores virtuais sob demanda, escolher sistemas operacionais específicos e ter controle total sobre o ambiente de execução, sem se preocupar com a manutenção do hardware subjacente. Qual serviço AWS oferece máquinas virtuais configuráveis na nuvem para atender a essa necessidade?",
+    "options": [
+      "AWS Lambda",
+      "Amazon Simple Storage Service (S3)",
+      "Amazon Elastic Compute Cloud (EC2)",
+      "Amazon Relational Database Service (RDS)"
+    ],
+    "correct": 2,
+    "explanation": "O Amazon Elastic Compute Cloud (EC2) fornece capacidade computacional escalável na nuvem na forma de máquinas virtuais (instâncias). Ele permite que os usuários tenham controle total sobre o sistema operacional e o ambiente de execução, sendo ideal para hospedar aplicações que requerem servidores dedicados e flexibilidade na configuração."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gerenciamento-de-custos",
+    "service": "AWS Organizations",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "faturamento",
+      "custos",
+      "governança",
+      "multi-contas"
+    ],
+    "question": "Uma empresa global com diversas unidades de negócio está migrando suas operações para a AWS. Eles precisam consolidar o faturamento de todas as contas, aplicar políticas de controle de gastos de forma centralizada e garantir que cada departamento tenha visibilidade granular de seus próprios custos. Além disso, a solução deve minimizar o esforço administrativo e o custo de gerenciamento da infraestrutura de faturamento. Qual é a estratégia mais eficaz para atender a esses requisitos rigorosos?",
+    "options": [
+      "Criar contas AWS separadas para cada unidade de negócio e usar o AWS Cost Explorer em cada conta para monitorar os gastos individualmente.",
+      "Utilizar o AWS Organizations para criar uma estrutura de contas consolidadas, aplicar políticas de controle de gastos via Service Control Policies (SCPs) e usar o AWS Cost Explorer com tags para visibilidade granular.",
+      "Configurar um único ambiente AWS com múltiplas VPCs para cada unidade de negócio e usar relatórios de uso do Amazon CloudWatch para monitorar os custos.",
+      "Implementar AWS Budgets em cada conta para alertas de gastos e usar relatórios do Amazon S3 para armazenar logs de faturamento para análise manual."
+    ],
+    "correct": 1,
+    "explanation": "A opção mais eficaz é usar o AWS Organizations. Ele permite consolidar o faturamento de todas as contas da empresa sob uma única conta pagadora, simplificando o processo de pagamento. As Service Control Policies (SCPs) dentro do Organizations permitem aplicar restrições de permissões a todas as contas-membro, o que pode ser usado para impor políticas de controle de gastos. O AWS Cost Explorer, em conjunto com a marcação de recursos (tags), oferece a visibilidade granular necessária para que cada departamento acompanhe seus custos, tudo isso com um esforço administrativo mínimo e sem custo adicional pelo uso do Organizations."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "protecao-de-aplicacoes",
+    "service": "AWS WAF",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "web",
+      "ddos",
+      "aplicação"
+    ],
+    "question": "Uma empresa de e-commerce de alto tráfego enfrenta ataques DDoS volumétricos e ataques persistentes de injeção SQL e cross-site scripting (XSS) contra sua aplicação web. A prioridade é proteger a aplicação contra essas ameaças, minimizar a latência para usuários globais e garantir o menor custo possível para a proteção contra DDoS em grande escala. Qual combinação de serviços AWS atende a esses requisitos de forma mais completa e eficiente?",
+    "options": [
+      "Amazon GuardDuty para detecção de ameaças e Network ACLs para bloquear IPs maliciosos.",
+      "Amazon CloudFront para entrega de conteúdo global com baixa latência, AWS WAF para proteção contra ataques de camada 7 e AWS Shield Advanced para proteção DDoS e economia de custos.",
+      "Security Groups para controlar o tráfego de entrada e saída das instâncias EC2 e Amazon Inspector para avaliação de vulnerabilidades.",
+      "AWS Shield Standard para proteção DDoS e Amazon Macie para detecção de dados sensíveis."
+    ],
+    "correct": 1,
+    "explanation": "A combinação de Amazon CloudFront, AWS WAF e AWS Shield Advanced é a mais completa e eficiente. O Amazon CloudFront atua como um CDN, reduzindo a latência para usuários globais e servindo como primeira linha de defesa. O AWS WAF oferece proteção contra ataques de camada 7, como injeção SQL e XSS. O AWS Shield Advanced oferece proteção DDoS mais robusta e gerenciada, incluindo proteções contra ataques volumétricos, e pode resultar em economia de custos em grande escala ao cobrir custos de escalabilidade de outros serviços durante um ataque DDoS."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "armazenamento",
+      "s3",
+      "otimização-de-custos",
+      "gerenciamento-de-ciclo-de-vida"
+    ],
+    "question": "Uma empresa de mídia armazena um vasto acervo de vídeos de alta resolução no Amazon S3. O padrão de acesso a esses arquivos é bastante específico: são acessados frequentemente nos primeiros 30 dias após o upload, ocasionalmente entre 30 e 90 dias, e muito raramente após 90 dias. No entanto, todos os arquivos devem estar disponíveis para recuperação em diferentes prazos e a empresa deseja otimizar o custo de armazenamento sem a necessidade de gerenciar manualmente as transições entre as classes de armazenamento. Qual classe de armazenamento do Amazon S3 é a mais adequada para este cenário?",
+    "options": [
+      "Amazon S3 Standard, aplicando políticas de ciclo de vida para transicionar para S3 Glacier após 90 dias.",
+      "Amazon S3 Standard-IA, pois oferece um bom equilíbrio entre custo e disponibilidade para acesso infrequente.",
+      "Amazon S3 Intelligent-Tiering, que move automaticamente os objetos entre as classes de acesso sem intervenção manual.",
+      "Amazon S3 One Zone-IA, para otimizar custos, pois a redundância em múltiplas Zonas de Disponibilidade não é crítica para arquivos raramente acessados."
+    ],
+    "correct": 2,
+    "explanation": "O Amazon S3 Intelligent-Tiering é a solução ideal. Ele foi projetado para otimizar os custos de armazenamento automaticamente quando os padrões de acesso aos dados mudam, sem afetar o desempenho ou exigir gerenciamento manual. Ele move os objetos entre duas camadas de acesso (uma para acesso frequente e outra para acesso infrequente) e, opcionalmente, para camadas de arquivamento (S3 Glacier e S3 Glacier Deep Archive) após um período de inatividade, garantindo que os dados sejam armazenados na classe de custo mais baixo sem intervenção do usuário."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "resiliencia",
+    "service": "Recuperação de Desastres",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "resiliência",
+      "disponibilidade",
+      "recuperação-de-desastres",
+      "rpo-rto"
+    ],
+    "question": "Uma instituição financeira opera uma aplicação crítica que deve suportar não apenas falhas de Zona de Disponibilidade, mas também falhas de uma Região AWS inteira. Os requisitos de recuperação de desastres são rigorosos: um RPO (Recovery Point Objective) de minutos e um RTO (Recovery Time Objective) de horas. A empresa busca a arquitetura mais robusta e eficiente para atender a esses requisitos, minimizando o tempo de inatividade e a perda de dados. Qual estratégia de recuperação de desastres é mais apropriada?",
+    "options": [
+      "Backup e restauração em uma única Região AWS, utilizando snapshots do Amazon EBS e backups do Amazon S3.",
+      "Implementar uma arquitetura multi-AZ dentro de uma única Região AWS para alta disponibilidade e redundância.",
+      "Configurar uma arquitetura multi-região com replicação contínua de dados e um plano de failover bem definido para a região de recuperação de desastres.",
+      "Utilizar instâncias Spot para a aplicação principal e instâncias On-Demand para a recuperação, visando otimização de custos."
+    ],
+    "correct": 2,
+    "explanation": "Para atender a um RPO de minutos e um RTO de horas, e proteger contra falhas de Região inteira, uma arquitetura multi-região com replicação contínua de dados é essencial. Esta estratégia permite que a aplicação seja recuperada rapidamente em outra região em caso de desastre regional, com perda mínima de dados. Backup e restauração em uma única região não protegeriam contra uma falha regional. Uma arquitetura multi-AZ protege contra falhas de Zona de Disponibilidade, mas não de Região. Instâncias Spot não são adequadas para aplicações críticas que exigem alta disponibilidade e recuperação rápida."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-identidade",
+    "service": "AWS SSO",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "iam",
+      "sso",
+      "multi-contas",
+      "governança"
+    ],
+    "question": "Uma corporação multinacional com centenas de funcionários precisa gerenciar o acesso a dezenas de contas AWS, garantindo o princípio do menor privilégio, conformidade com políticas corporativas e uma experiência de login unificada. A solução deve minimizar o esforço administrativo para provisionar e desprovisionar usuários, além de se integrar com o diretório de identidade existente da empresa. Qual é a abordagem mais eficiente e segura para implementar este controle de acesso?",
+    "options": [
+      "Criar usuários e grupos IAM em cada conta AWS individualmente e gerenciar as permissões manualmente.",
+      "Utilizar o AWS Organizations para consolidar as contas e o AWS Single Sign-On (SSO) para gerenciar o acesso centralizado e integrar com o diretório de identidade existente.",
+      "Configurar o AWS Directory Service para Microsoft Active Directory em cada conta AWS e sincronizar com o diretório on-premises.",
+      "Distribuir chaves de acesso IAM para cada funcionário e exigir que eles gerenciem suas próprias credenciais."
+    ],
+    "correct": 1,
+    "explanation": "A abordagem mais eficiente e segura é usar o AWS Organizations em conjunto com o AWS Single Sign-On (SSO). O AWS Organizations permite estruturar e gerenciar múltiplas contas de forma centralizada. O AWS SSO, por sua vez, facilita o gerenciamento de acesso centralizado a essas contas, permitindo que os usuários façam login uma única vez e acessem todas as contas e aplicações AWS autorizadas. Ele se integra facilmente com diretórios de identidade existentes (como o Active Directory ou provedores de identidade SAML 2.0), minimizando o esforço administrativo e garantindo o menor privilégio através de conjuntos de permissões configuráveis."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "computacao-sem-servidor",
+    "service": "Amazon SQS",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "serveless",
+      "mensageria",
+      "escala",
+      "tolerancia-a-falhas",
+      "custo"
+    ],
+    "question": "Uma empresa de IoT coleta milhões de eventos por segundo de dispositivos distribuídos globalmente. Esses eventos precisam ser processados de forma assíncrona, tolerante a falhas, e, para certos grupos de mensagens, a ordem de processamento deve ser mantida. Após o processamento, os dados são armazenados em um banco de dados NoSQL. A solução deve escalar automaticamente para lidar com os picos de tráfego e ter o menor custo operacional possível. Qual combinação de serviços AWS é a mais adequada para este cenário?",
+    "options": [
+      "Amazon Kinesis Data Streams para ingestão e processamento, e Amazon RDS para armazenamento.",
+      "Amazon SNS para publicar os eventos, instâncias EC2 com um consumidor customizado para processamento, e Amazon Aurora para armazenamento.",
+      "Amazon SQS FIFO para garantir a ordem e tolerância a falhas, AWS Lambda para processamento sem servidor e escalabilidade automática, e Amazon DynamoDB para armazenamento NoSQL escalável.",
+      "Amazon MQ para enfileiramento de mensagens e AWS Batch para processamento em lotes, com Amazon Redshift para armazenamento de dados."
+    ],
+    "correct": 2,
+    "explanation": "A combinação de Amazon SQS FIFO, AWS Lambda e Amazon DynamoDB é a mais adequada. O Amazon SQS FIFO (First-In, First-Out) garante que as mensagens sejam processadas exatamente uma vez e na ordem em que foram enviadas para um grupo de mensagens, além de ser tolerante a falhas. O AWS Lambda oferece a capacidade de processamento sem servidor, escalando automaticamente com a demanda e com baixo custo operacional (pagamento por uso). O Amazon DynamoDB é um banco de dados NoSQL totalmente gerenciado que oferece alta performance, escalabilidade e disponibilidade para armazenar os dados processados."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-de-custos",
+    "service": "Savings Plans",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "faturamento",
+      "custos",
+      "otimização",
+      "ec2",
+      "fargate"
+    ],
+    "question": "Uma startup em rápido crescimento está buscando otimizar significativamente seus gastos na AWS, especialmente em instâncias Amazon EC2 e no uso do AWS Fargate. A empresa tem cargas de trabalho com picos de uso imprevisíveis, mas também possui cargas de trabalho estáveis que podem ser comprometidas. O objetivo é reduzir o Custo Total de Propriedade (TCO) sem comprometer a flexibilidade para futuras mudanças na arquitetura e ter visibilidade clara das economias. Qual estratégia de otimização de custos seria a mais eficiente e flexível para essa startup?",
+    "options": [
+      "Adquirir Reserved Instances (RIs) para todas as instâncias EC2 e usar apenas instâncias On-Demand para AWS Fargate.",
+      "Utilizar uma combinação de Savings Plans (para EC2 e Fargate) para cobrir uma quantidade consistente de computação, complementando com instâncias On-Demand para picos e AWS Cost Explorer para monitoramento.",
+      "Executar todas as cargas de trabalho em instâncias Spot para EC2 e AWS Fargate, aproveitando os custos mais baixos.",
+      "Configurar AWS Budgets para alertar sobre gastos excessivos e usar o Trusted Advisor para recomendações de otimização de recursos."
+    ],
+    "correct": 1,
+    "explanation": "A estratégia mais eficiente e flexível é utilizar Savings Plans. Eles oferecem descontos significativos (até 72%) em troca de um compromisso de uso de computação (em USD/hora) por um período de 1 ou 3 anos. Savings Plans são mais flexíveis que as Reserved Instances, pois se aplicam automaticamente ao uso de EC2 (independentemente da família de instância, sistema operacional ou região) e também ao uso de AWS Fargate, o que é crucial para as cargas de trabalho da startup. Complementar com instâncias On-Demand para picos e usar o AWS Cost Explorer para visibilidade e identificação de oportunidades é a abordagem ideal. Instâncias Spot não são adequadas para cargas de trabalho estáveis devido à sua natureza interruptível, e RIs são menos flexíveis para Fargate e mudanças de arquitetura."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "gerenciamento-de-segredos",
+    "service": "AWS Secrets Manager",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "credenciais",
+      "criptografia",
+      "auditoria",
+      "automacao"
+    ],
+    "question": "Uma aplicação corporativa lida com dados altamente sensíveis e requer o armazenamento e gerenciamento seguro de chaves de API, credenciais de banco de dados e outros segredos. A empresa exige que a solução permita a rotação automática desses segredos, controle de acesso granular baseado em funções, e auditoria completa de todas as tentativas de acesso aos segredos. O objetivo é alcançar esses requisitos com o menor esforço operacional possível. Qual serviço AWS deve ser utilizado principalmente para gerenciar esses segredos?",
+    "options": [
+      "AWS Systems Manager Parameter Store para armazenar os segredos como parâmetros seguros.",
+      "AWS Key Management Service (KMS) para gerar e gerenciar as chaves de criptografia dos segredos.",
+      "AWS Secrets Manager para armazenar, gerenciar e rotacionar automaticamente os segredos, utilizando o AWS KMS para criptografia e o AWS CloudTrail para auditoria.",
+      "Armazenar os segredos em variáveis de ambiente das instâncias EC2 e gerenciar a rotação por meio de scripts customizados."
+    ],
+    "correct": 2,
+    "explanation": "O AWS Secrets Manager é o serviço ideal para este cenário. Ele é projetado especificamente para armazenar, gerenciar e rotacionar credenciais e outros segredos de forma segura. Ele se integra nativamente com o AWS KMS para criptografar os segredos em repouso e com o AWS CloudTrail para auditoria de acesso. A rotação automática de segredos é um recurso chave do Secrets Manager, que pode ser configurado para bancos de dados, chaves de API e outras credenciais, minimizando o esforço operacional. Embora o AWS Systems Manager Parameter Store possa armazenar segredos, ele não oferece rotação automática de forma nativa e é mais adequado para parâmetros de configuração."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "rede",
+    "service": "AWS Direct Connect",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "rede",
+      "conectividade",
+      "hibrida",
+      "latencia",
+      "redundancia"
+    ],
+    "question": "Uma empresa com um datacenter local existente precisa estender sua rede para a AWS, garantindo uma conexão de rede segura, de alta largura de banda e de baixa latência entre seus servidores on-premises e os recursos na nuvem. A solução deve ser redundante para garantir a continuidade dos negócios e otimizada para o custo. Qual combinação de serviços AWS é a mais adequada para atender a esses requisitos rigorosos?",
+    "options": [
+      "Configurar múltiplas VPNs AWS Site-to-Site sobre a internet pública para redundância e segurança.",
+      "Utilizar AWS Direct Connect para uma conexão dedicada de alta largura de banda e baixa latência, combinada com uma VPN AWS Site-to-Site como backup de redundância.",
+      "Estabelecer um VPC Peering entre uma VPC na AWS e uma VPC localmente hospedada para conectividade direta.",
+      "Implementar um AWS Transit Gateway para roteamento centralizado entre as VPCs e o datacenter local através de uma única VPN AWS Site-to-Site."
+    ],
+    "correct": 1,
+    "explanation": "A combinação de AWS Direct Connect com uma VPN AWS Site-to-Site oferece a solução mais robusta e otimizada para o custo. O AWS Direct Connect fornece uma conexão de rede dedicada de alta largura de banda e baixa latência do datacenter local para a AWS, que é essencial para aplicações sensíveis à latência e grandes volumes de dados. Adicionar uma VPN AWS Site-to-Site como backup garante redundância e continuidade dos negócios caso a conexão Direct Connect falhe. Apenas VPNs Site-to-Site podem não oferecer a largura de banda e latência exigidas, e o VPC Peering é para comunicação entre VPCs, não com um datacenter local."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "seguranca",
+    "service": "Modelo de Responsabilidade Compartilhada",
+    "difficulty": "hard",
+    "type": "single-choice",
+    "tags": [
+      "segurança",
+      "responsabilidade-compartilhada",
+      "governança",
+      "cloud"
+    ],
+    "question": "Uma equipe de segurança de uma grande empresa está revisando suas responsabilidades na AWS após migrar diversas aplicações para a nuvem, operando principalmente com instâncias Amazon EC2. Eles precisam entender quem é responsável pela segurança do sistema operacional convidado, pela configuração do firewall da rede (Security Groups) e pela segurança física da infraestrutura global da AWS. De acordo com o Modelo de Responsabilidade Compartilhada da AWS, quais são as atribuições corretas?",
+    "options": [
+      "A AWS é responsável pela segurança do sistema operacional convidado e pela segurança física, enquanto o cliente é responsável pela configuração do firewall da rede.",
+      "O cliente é responsável pela segurança do sistema operacional convidado e pela configuração do firewall da rede, enquanto a AWS é responsável pela segurança física da infraestrutura global.",
+      "Toda a responsabilidade pela segurança na nuvem é do cliente, pois ele gerencia os recursos.",
+      "A AWS é responsável por todas as camadas de segurança, desde a segurança física até a aplicação."
+    ],
+    "correct": 1,
+    "explanation": "De acordo com o Modelo de Responsabilidade Compartilhada da AWS, a AWS é responsável pela 'segurança DA nuvem', que inclui a segurança física dos datacenters, a infraestrutura global e a segurança do hardware, software, rede e instalações que executam os serviços da AWS. O cliente é responsável pela 'segurança NA nuvem', o que inclui a segurança do sistema operacional convidado (para EC2), a configuração dos Security Groups e Network ACLs (firewall da rede), o gerenciamento de dados, a configuração da plataforma e do acesso."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "roteamento"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar uma arquitetura de nuvem altamente disponível e segura para seus aplicativos, utilizando o Amazon VPC. A empresa tem várias regiões geográficas e deseja garantir que os dados sejam armazenados e processados de forma segura e eficiente. Qual é a melhor abordagem para implementar um esquema de roteamento de tráfego de rede que atenda às necessidades de segurança e desempenho da empresa?",
+    "options": [
+      "Implementar um esquema de roteamento de tráfego de rede utilizando o Amazon Route 53",
+      "Utilizar o Amazon VPC para criar sub-redes isoladas e rotear o tráfego de rede",
+      "Implementar um esquema de roteamento de tráfego de rede utilizando o Amazon CloudFront",
+      "Utilizar o Amazon Direct Connect para conectar as regiões geográficas e rotear o tráfego de rede"
+    ],
+    "correct": 1,
+    "explanation": "A melhor abordagem é utilizar o Amazon VPC para criar sub-redes isoladas e rotear o tráfego de rede, pois isso permite uma grande flexibilidade e controle sobre o tráfego de rede, além de atender às necessidades de segurança e desempenho da empresa."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "controle de acesso",
+    "service": "AWS IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "Uma empresa de serviços financeiros deseja implementar um sistema de controle de acesso para seus recursos na nuvem, utilizando o AWS IAM. A empresa tem várias equipes e departamentos, e deseja garantir que cada equipe tenha acesso apenas aos recursos necessários para realizar suas tarefas. Qual é a melhor abordagem para implementar um sistema de controle de acesso que atenda às necessidades de segurança e conformidade da empresa?",
+    "options": [
+      "Criar grupos de IAM para cada equipe e departamento, e atribuir permissões específicas para cada grupo",
+      "Utilizar o AWS Organizations para criar uma estrutura de controle de acesso hierárquica",
+      "Implementar um sistema de autenticação de dois fatores utilizando o AWS Cognito",
+      "Utilizar o AWS Lake Formation para criar um repositório de dados seguro e controlado"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é criar grupos de IAM para cada equipe e departamento, e atribuir permissões específicas para cada grupo, pois isso permite uma grande flexibilidade e controle sobre o acesso aos recursos, além de atender às necessidades de segurança e conformidade da empresa."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "processamento de dados"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar um sistema de processamento de dados para seus dados de clientes, utilizando o Amazon S3. A empresa tem uma grande quantidade de dados e deseja garantir que os dados sejam processados de forma eficiente e escalável. Qual é a melhor abordagem para implementar um sistema de processamento de dados que atenda às necessidades de desempenho e escalabilidade da empresa?",
+    "options": [
+      "Utilizar o Amazon S3 para armazenar os dados e processá-los utilizando o Amazon EMR",
+      "Implementar um sistema de processamento de dados utilizando o Amazon Redshift",
+      "Utilizar o Amazon S3 para armazenar os dados e processá-los utilizando o AWS Glue",
+      "Implementar um sistema de processamento de dados utilizando o Amazon DynamoDB"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é utilizar o Amazon S3 para armazenar os dados e processá-los utilizando o Amazon EMR, pois isso permite uma grande flexibilidade e escalabilidade no processamento de dados, além de atender às necessidades de desempenho da empresa."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gestão de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gestão de custos",
+      "otimização de custos"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar um sistema de gestão de custos para seus recursos na nuvem, utilizando o AWS Cost Explorer. A empresa tem várias equipes e departamentos, e deseja garantir que cada equipe tenha uma visão clara dos custos associados aos seus recursos. Qual é a melhor abordagem para implementar um sistema de gestão de custos que atenda às necessidades de visibilidade e otimização de custos da empresa?",
+    "options": [
+      "Utilizar o AWS Cost Explorer para criar relatórios de custos personalizados para cada equipe e departamento",
+      "Implementar um sistema de gestão de custos utilizando o AWS Budgets",
+      "Utilizar o AWS Cost Explorer para criar uma estrutura de custos hierárquica",
+      "Implementar um sistema de gestão de custos utilizando o AWS CloudWatch"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é utilizar o AWS Cost Explorer para criar relatórios de custos personalizados para cada equipe e departamento, pois isso permite uma grande flexibilidade e visibilidade nos custos, além de atender às necessidades de otimização de custos da empresa."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "desempenho"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar uma arquitetura de nuvem altamente disponível e segura para seus aplicativos, utilizando o Amazon EC2. A empresa tem várias regiões geográficas e deseja garantir que os aplicativos sejam executados de forma eficiente e escalável. Qual é a melhor abordagem para implementar um esquema de segurança e desempenho que atenda às necessidades da empresa?",
+    "options": [
+      "Implementar um esquema de segurança utilizando o Amazon VPC e o Amazon EC2",
+      "Utilizar o Amazon EC2 para criar instâncias de máquina virtual isoladas e seguras",
+      "Implementar um esquema de desempenho utilizando o Amazon CloudFront e o Amazon EC2",
+      "Utilizar o Amazon Direct Connect para conectar as regiões geográficas e melhorar o desempenho"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é implementar um esquema de segurança utilizando o Amazon VPC e o Amazon EC2, pois isso permite uma grande flexibilidade e controle sobre a segurança e o desempenho dos aplicativos, além de atender às necessidades de disponibilidade e escalabilidade da empresa."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "criptografia",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "criptografia",
+      "segurança de dados"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar um sistema de criptografia para seus dados de clientes, utilizando o AWS Key Management Service. A empresa tem uma grande quantidade de dados e deseja garantir que os dados sejam criptografados de forma segura e eficiente. Qual é a melhor abordagem para implementar um sistema de criptografia que atenda às necessidades de segurança e conformidade da empresa?",
+    "options": [
+      "Utilizar o AWS Key Management Service para criar chaves de criptografia personalizadas",
+      "Implementar um sistema de criptografia utilizando o Amazon S3 e o AWS Key Management Service",
+      "Utilizar o AWS Key Management Service para criptografar os dados em repouso",
+      "Implementar um sistema de criptografia utilizando o Amazon CloudHSM"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é utilizar o AWS Key Management Service para criar chaves de criptografia personalizadas, pois isso permite uma grande flexibilidade e controle sobre a criptografia dos dados, além de atender às necessidades de segurança e conformidade da empresa."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "AWS Glue",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "armazenamento de dados"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar um sistema de processamento de dados para seus dados de clientes, utilizando o AWS Glue. A empresa tem uma grande quantidade de dados e deseja garantir que os dados sejam processados de forma eficiente e escalável. Qual é a melhor abordagem para implementar um sistema de processamento de dados que atenda às necessidades de desempenho e escalabilidade da empresa?",
+    "options": [
+      "Utilizar o AWS Glue para criar um pipeline de processamento de dados personalizado",
+      "Implementar um sistema de processamento de dados utilizando o Amazon EMR e o AWS Glue",
+      "Utilizar o AWS Glue para criar um repositório de dados centralizado",
+      "Implementar um sistema de processamento de dados utilizando o Amazon Redshift e o AWS Glue"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é utilizar o AWS Glue para criar um pipeline de processamento de dados personalizado, pois isso permite uma grande flexibilidade e controle sobre o processamento de dados, além de atender às necessidades de desempenho e escalabilidade da empresa."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "gestão de custos",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "gestão de custos",
+      "otimização de custos"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar um sistema de gestão de custos para seus recursos na nuvem, utilizando o AWS Cost Explorer. A empresa tem várias equipes e departamentos, e deseja garantir que cada equipe tenha uma visão clara dos custos associados aos seus recursos. Qual é a melhor abordagem para implementar um sistema de gestão de custos que atenda às necessidades de visibilidade e otimização de custos da empresa?",
+    "options": [
+      "Utilizar o AWS Cost Explorer para criar relatórios de custos personalizados para cada equipe e departamento",
+      "Implementar um sistema de gestão de custos utilizando o AWS Budgets",
+      "Utilizar o AWS Cost Explorer para criar uma estrutura de custos hierárquica",
+      "Implementar um sistema de gestão de custos utilizando o AWS CloudWatch"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é utilizar o AWS Cost Explorer para criar relatórios de custos personalizados para cada equipe e departamento, pois isso permite uma grande flexibilidade e visibilidade nos custos, além de atender às necessidades de otimização de custos da empresa."
+  },
+  {
+    "domain": "conceitos-cloud",
+    "subdomain": "arquitetura de nuvem",
+    "service": "Amazon VPC",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "roteamento"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar uma arquitetura de nuvem altamente disponível e segura para seus aplicativos, utilizando o Amazon VPC. A empresa tem várias regiões geográficas e deseja garantir que os aplicativos sejam executados de forma eficiente e escalável. Qual é a melhor abordagem para implementar um esquema de segurança e roteamento que atenda às necessidades da empresa?",
+    "options": [
+      "Implementar um esquema de segurança utilizando o Amazon VPC e o Amazon EC2",
+      "Utilizar o Amazon VPC para criar sub-redes isoladas e rotear o tráfego de rede",
+      "Implementar um esquema de roteamento utilizando o Amazon Route 53 e o Amazon VPC",
+      "Utilizar o Amazon Direct Connect para conectar as regiões geográficas e melhorar o desempenho"
+    ],
+    "correct": 1,
+    "explanation": "A melhor abordagem é utilizar o Amazon VPC para criar sub-redes isoladas e rotear o tráfego de rede, pois isso permite uma grande flexibilidade e controle sobre a segurança e o roteamento dos aplicativos, além de atender às necessidades de disponibilidade e escalabilidade da empresa."
+  },
+  {
+    "domain": "seguranca",
+    "subdomain": "controle de acesso",
+    "service": "AWS IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "Uma empresa de serviços financeiros deseja implementar um sistema de controle de acesso para seus recursos na nuvem, utilizando o AWS IAM. A empresa tem várias equipes e departamentos, e deseja garantir que cada equipe tenha acesso apenas aos recursos necessários para realizar suas tarefas. Qual é a melhor abordagem para implementar um sistema de controle de acesso que atenda às necessidades de segurança e conformidade da empresa?",
+    "options": [
+      "Criar grupos de IAM para cada equipe e departamento, e atribuir permissões específicas para cada grupo",
+      "Utilizar o AWS Organizations para criar uma estrutura de controle de acesso hierárquica",
+      "Implementar um sistema de autenticação de dois fatores utilizando o AWS Cognito",
+      "Utilizar o AWS Lake Formation para criar um repositório de dados seguro e controlado"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é criar grupos de IAM para cada equipe e departamento, e atribuir permissões específicas para cada grupo, pois isso permite uma grande flexibilidade e controle sobre o acesso aos recursos, além de atender às necessidades de segurança e conformidade da empresa."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "processamento de dados",
+    "service": "Amazon EMR",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "processamento de dados",
+      "armazenamento de dados"
+    ],
+    "question": "Uma empresa de tecnologia deseja criar um sistema de processamento de dados para seus dados de clientes, utilizando o Amazon EMR. A empresa tem uma grande quantidade de dados e deseja garantir que os dados sejam processados de forma eficiente e escalável. Qual é a melhor abordagem para implementar um sistema de processamento de dados que atenda às necessidades de desempenho e escalabilidade da empresa?",
+    "options": [
+      "Utilizar o Amazon EMR para criar um cluster de processamento de dados personalizado",
+      "Implementar um sistema de processamento de dados utilizando o Amazon Redshift e o Amazon EMR",
+      "Utilizar o Amazon EMR para criar um repositório de dados centralizado",
+      "Implementar um sistema de processamento de dados utilizando o Amazon DynamoDB e o Amazon EMR"
+    ],
+    "correct": 0,
+    "explanation": "A melhor abordagem é utilizar o Amazon EMR para criar um cluster de processamento de dados personalizado, pois isso permite uma grande flexibilidade e controle sobre o processamento de dados, além de atender às necessidades de desempenho e escalabilidade da empresa."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "rede",
+    "service": "AWS Transit Gateway",
+    "difficulty": "hard",
+    "tags": [
+      "rede",
+      "conectividade",
+      "hibrido",
+      "vpn",
+      "seguranca"
+    ],
+    "question": "Uma grande corporação multinacional está em processo de migração de sua infraestrutura de TI para a AWS, mas precisa manter uma conectividade segura e de baixa latência com seu data center local para acessar sistemas legados e bancos de dados essenciais. A empresa possui diversas VPCs na AWS, distribuídas em diferentes regiões, e busca consolidar o roteamento de rede entre essas VPCs e o data center local através de um único ponto de entrada/saída. O objetivo é minimizar a sobrecarga operacional e garantir a alta disponibilidade da conexão. Qual combinação de serviços AWS atende a esses requisitos de forma mais eficiente e econômica?",
+    "options": [
+      "Configurar múltiplas conexões AWS Site-to-Site VPN diretamente entre cada VPC e o data center local, usando rotas estáticas.",
+      "Implementar AWS Direct Connect para cada VPC individualmente e gerenciar as rotas em cada VPC separadamente.",
+      "Utilizar um AWS Transit Gateway em uma região central, conectando todas as VPCs a ele e estabelecendo uma única conexão AWS Site-to-Site VPN entre o Transit Gateway e o data center local.",
+      "Criar uma conexão AWS Client VPN para cada usuário no data center local e configurar o acesso às VPCs através de gateways de internet."
+    ],
+    "correct": 2,
+    "explanation": "A opção mais eficiente e econômica para este cenário é utilizar um AWS Transit Gateway. O Transit Gateway atua como um hub de rede central, permitindo que todas as VPCs se conectem a ele e, por sua vez, ao data center local através de uma única conexão AWS Site-to-Site VPN. Isso simplifica drasticamente o gerenciamento de rede, reduz a complexidade do roteamento e oferece escalabilidade, além de alta disponibilidade se configurado com túneis VPN redundantes. Configurar múltiplas VPNs diretas para cada VPC aumentaria a complexidade e o custo. O AWS Direct Connect é uma solução de maior largura de banda e menor latência, mas geralmente mais cara e complexa de configurar do que a VPN para este cenário de consolidação, e ainda exigiria um Transit Gateway para a conectividade entre múltiplas VPCs de forma otimizada. O AWS Client VPN é projetado para acesso de clientes individuais, não para conectividade VPC-to-on-premises em larga escala."
+  },
+  {
+    "domain": "faturamento",
+    "subdomain": "otimizacao-custos",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "tags": [
+      "ec2",
+      "custos",
+      "otimizacao",
+      "savings-plans",
+      "spot-instances"
+    ],
+    "question": "Uma empresa de SaaS em rápido crescimento está buscando otimizar agressivamente seus custos de infraestrutura na AWS, principalmente para suas instâncias Amazon EC2. Eles possuem duas categorias principais de cargas de trabalho: uma base estável de microsserviços que opera 24/7 com requisitos de capacidade previsíveis e cargas de trabalho analíticas e de processamento em lote que são altamente elásticas, podem ser interrompidas e têm picos de demanda. A meta é alcançar a maior redução de custo possível, mantendo a disponibilidade para os microsserviços e a flexibilidade para as cargas de trabalho analíticas. Qual estratégia de precificação de instâncias EC2 a empresa deve priorizar para atingir esses objetivos?",
+    "options": [
+      "Utilizar exclusivamente instâncias sob Demanda para todas as cargas de trabalho, aproveitando a flexibilidade total para escalabilidade.",
+      "Adquirir Planos de Poupança (Savings Plans) de Computação para os microsserviços e usar instâncias Spot para as cargas de trabalho analíticas.",
+      "Comprar instâncias Reservadas (Reserved Instances) para todas as cargas de trabalho, garantindo a maior economia possível com compromisso de uso.",
+      "Implementar uma estratégia de escalabilidade automática com instâncias sob Demanda para todas as cargas de trabalho, sem compromisso de uso."
+    ],
+    "correct": 1,
+    "explanation": "Para otimizar custos de forma agressiva, a melhor estratégia é combinar Planos de Poupança (Savings Plans) com instâncias Spot. Os Planos de Poupança oferecem descontos substanciais em troca de um compromisso de uso por 1 ou 3 anos e são ideais para as cargas de trabalho de microsserviços estáveis e previsíveis, garantindo a disponibilidade e um custo reduzido. As instâncias Spot, que permitem lances por capacidade EC2 não utilizada, são perfeitas para as cargas de trabalho analíticas e de processamento em lote que podem ser interrompidas e reiniciadas, oferecendo as maiores economias de custo. Usar apenas instâncias sob Demanda seria caro. Instâncias Reservadas para todas as cargas de trabalho não oferecem a flexibilidade necessária para cargas de trabalho elásticas e podem não ser tão otimizadas quanto um Savings Plan para uso geral de computação. A escalabilidade automática com instâncias sob Demanda ainda seria mais cara do que a combinação de Savings Plans e Spot."
+  },
+  {
+    "domain": "tecnologia",
+    "subdomain": "armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "tags": [
+      "s3",
+      "armazenamento",
+      "cdn",
+      "custos",
+      "midia",
+      "streaming"
+    ],
+    "question": "Uma empresa de streaming de vídeo está projetando sua nova arquitetura na AWS para hospedar um vasto catálogo de vídeos, variando de conteúdo popular acessado frequentemente a arquivos de arquivo mais antigos raramente acessados, mas que precisam estar disponíveis sob demanda. Os requisitos incluem durabilidade de 99,999999999% (onze noves), alta disponibilidade, latência de acesso ultrabaixa para o conteúdo popular globalmente e o menor custo total de armazenamento possível. Qual combinação de serviços e configurações da AWS atende a esses requisitos de forma mais eficaz?",
+    "options": [
+      "Armazenar todos os vídeos no Amazon EBS e usar um balanceador de carga para distribuir o tráfego de streaming globalmente.",
+      "Armazenar todos os vídeos no Amazon S3 Standard e distribuir o conteúdo exclusivamente via Amazon CloudFront para baixa latência.",
+      "Armazenar conteúdo popular no Amazon S3 Standard, conteúdo menos acessado no Amazon S3 Infrequent Access (IA) e conteúdo de arquivo no Amazon S3 Glacier Flexible Retrieval, tudo distribuído via Amazon CloudFront.",
+      "Armazenar todos os vídeos no Amazon EFS e usar instâncias EC2 com escalabilidade automática para servir o conteúdo globalmente."
+    ],
+    "correct": 2,
+    "explanation": "A estratégia mais eficaz para atender a todos os requisitos é usar uma combinação de classes de armazenamento do Amazon S3 e o Amazon CloudFront. O Amazon S3 Standard oferece alta disponibilidade e desempenho para o conteúdo popular. O Amazon S3 Infrequent Access (IA) é ideal para conteúdo menos acessado com um custo de armazenamento mais baixo, mas ainda com recuperação rápida. O Amazon S3 Glacier Flexible Retrieval é perfeito para arquivos raramente acessados, com custo de armazenamento mínimo. O Amazon CloudFront, uma rede de entrega de conteúdo (CDN), garante baixa latência para os usuários finais globalmente, armazenando em cache o conteúdo nas bordas da rede da AWS. O Amazon EBS e o Amazon EFS não são escaláveis nem econômicos para o armazenamento de objetos em larga escala como vídeos. Armazenar tudo em S3 Standard seria mais caro do que usar classes de armazenamento otimizadas para acesso, e não otimizaria o custo total de armazenamento."
+  }
 ]

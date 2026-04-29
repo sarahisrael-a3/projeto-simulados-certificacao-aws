@@ -179,7 +179,7 @@ Domínios permitidos: {dominios}.
         novas_questoes_raw = json.loads(response.text)
 
     except Exception as e:
-        is_quota_error = "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e) or "quota" in str(e).lower()
+        is_quota_error = "429" in str(e) or "503" or "RESOURCE_EXHAUSTED" in str(e) or "quota" in str(e).lower()
         
         if is_quota_error and groq_client:
             # TENTATIVA 2: GROQ (Fallback / Plano B)

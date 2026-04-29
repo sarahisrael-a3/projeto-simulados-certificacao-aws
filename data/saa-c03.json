@@ -4147,5 +4147,2010 @@
     "correct": 2,
     "explanation": "O AWS Key Management Service (KMS) é a solução ideal para este cenário. Ele permite criar e controlar as chaves de criptografia usadas para criptografar seus dados, oferece integração com outros serviços AWS, fornece trilhas de auditoria via AWS CloudTrail, e permite controle granular de acesso (IAM) às chaves. O KMS também suporta a importação de chaves do cliente. O AWS Secrets Manager é usado para gerenciar segredos como credenciais de banco de dados, não para criptografia de dados em larga escala. O AWS Certificate Manager (ACM) é para gerenciar certificados SSL/TLS. O AWS CloudHSM oferece um módulo de segurança de hardware (HSM) dedicado e de instância única, que proporciona um nível mais alto de controle e conformidade (FIPS 140-2 Nível 3), mas o KMS é geralmente a escolha preferida para a maioria dos casos de uso devido à sua facilidade de uso, escalabilidade e menor custo, enquanto ainda atende aos requisitos de segurança e auditoria para dados sensíveis. O KMS é uma solução gerenciada que atende perfeitamente aos requisitos de gerenciamento centralizado, auditoria e controle granular.",
     "id": 2197
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "armazenamento",
+      "durabilidade",
+      "resiliência",
+      "s3"
+    ],
+    "question": "Uma empresa de contabilidade precisa armazenar documentos financeiros importantes em um local que ofereça durabilidade extrema e proteção contra exclusões acidentais ou maliciosas. Os documentos devem estar sempre acessíveis. Qual recurso do Amazon S3 deve ser habilitado para atender a esses requisitos?",
+    "options": [
+      "Habilitar o S3 Glacier Deep Archive para o bucket.",
+      "Habilitar o versionamento (Versioning) para o bucket S3.",
+      "Configurar o S3 Transfer Acceleration para o bucket.",
+      "Utilizar o S3 Cross-Region Replication para outro bucket."
+    ],
+    "correct": 1,
+    "explanation": "O versionamento do Amazon S3 mantém várias versões de um objeto em um bucket, permitindo que você recupere objetos que foram excluídos ou substituídos acidentalmente. Isso garante alta durabilidade e proteção contra perda de dados. S3 Glacier Deep Archive é para arquivamento de longo prazo com recuperação lenta. S3 Transfer Acceleration melhora o upload, não a durabilidade contra exclusão. Cross-Region Replication é para cópia de dados entre regiões, não para proteger contra exclusões acidentais dentro do mesmo bucket."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-rede",
+    "service": "Amazon CloudFront",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "CDN",
+      "performance",
+      "cache",
+      "web"
+    ],
+    "question": "Uma empresa hospeda seu site estático globalmente no Amazon S3 e deseja melhorar a velocidade de carregamento do conteúdo para seus usuários em diferentes localizações geográficas. Qual serviço da AWS pode ser utilizado para armazenar em cache o conteúdo do site mais próximo dos usuários e reduzir a latência?",
+    "options": [
+      "Amazon VPC.",
+      "AWS Direct Connect.",
+      "Amazon CloudFront.",
+      "AWS Global Accelerator."
+    ],
+    "correct": 2,
+    "explanation": "O Amazon CloudFront é um serviço de rede de entrega de conteúdo (CDN) que acelera a entrega de conteúdo web estático e dinâmico, como imagens e vídeos. Ele armazena em cache o conteúdo em locais de borda (edge locations) próximos aos usuários, reduzindo a latência e melhorando a performance. Amazon VPC é para redes privadas. AWS Direct Connect é para conexão dedicada. AWS Global Accelerator direciona o tráfego para endpoints ideais, mas CloudFront é a solução primária para cache de conteúdo web."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "gerenciamento-acesso",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "segurança",
+      "iam",
+      "acesso",
+      "permissoes"
+    ],
+    "question": "Um time de desenvolvimento precisa de acesso temporário e com privilégios mínimos a recursos específicos da AWS para implantar uma aplicação. A empresa não quer distribuir credenciais de longo prazo. Qual recurso do AWS IAM deve ser configurado para conceder esse acesso de forma segura e eficiente?",
+    "options": [
+      "Criar um usuário IAM para cada desenvolvedor com uma política em linha.",
+      "Configurar grupos de segurança para restringir o acesso à rede.",
+      "Criar perfis (roles) do IAM que os desenvolvedores podem assumir.",
+      "Gerar chaves de acesso (Access Keys) para cada desenvolvedor."
+    ],
+    "correct": 2,
+    "explanation": "Perfis (roles) do IAM são a forma mais segura de conceder acesso temporário a recursos da AWS. Eles permitem que os usuários assumam um conjunto de permissões temporárias sem a necessidade de credenciais de longo prazo, seguindo o princípio do privilégio mínimo. Criar usuários IAM ou gerar chaves de acesso para cada desenvolvedor não é ideal, pois envolve credenciais de longo prazo que precisam ser gerenciadas e podem ser um risco de segurança. Grupos de segurança controlam o tráfego de rede, não as permissões de acesso a recursos da AWS."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-custos-ec2",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "custo",
+      "ec2",
+      "economia",
+      "instâncias"
+    ],
+    "question": "Uma empresa possui uma carga de trabalho de aplicação que requer instâncias Amazon EC2 rodando continuamente por um período de um ano. A demanda por essa aplicação é estável e previsível. Qual opção de compra de instância EC2 oferece a maior economia de custos para este cenário?",
+    "options": [
+      "Instâncias Sob Demanda (On-Demand Instances).",
+      "Instâncias Spot (Spot Instances).",
+      "Instâncias Reservadas (Reserved Instances).",
+      "Instâncias Dedicadas (Dedicated Instances)."
+    ],
+    "correct": 2,
+    "explanation": "Instâncias Reservadas (Reserved Instances - RIs) são ideais para cargas de trabalho contínuas e previsíveis, como o cenário descrito, pois oferecem um desconto significativo em comparação com as Instâncias Sob Demanda. Instâncias Sob Demanda são mais caras para uso contínuo. Instâncias Spot são para cargas de trabalho tolerantes a falhas e flexíveis, pois podem ser interrompidas. Instâncias Dedicadas oferecem isolamento físico, mas não são a principal forma de otimização de custos para uma carga de trabalho previsível."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade-banco-dados",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "banco-de-dados",
+      "resiliência",
+      "rds",
+      "multi-az"
+    ],
+    "question": "Uma aplicação crítica de e-commerce utiliza um banco de dados Amazon RDS para MySQL e precisa garantir alta disponibilidade e failover automático em caso de falha de uma Zona de Disponibilidade. Qual configuração do Amazon RDS deve ser utilizada para atender a esse requisito?",
+    "options": [
+      "Configurar Replicas de Leitura (Read Replicas) do RDS.",
+      "Utilizar uma implantação Multi-AZ (Multi-Availability Zone).",
+      "Habilitar o AWS Database Migration Service (DMS).",
+      "Provisionar um banco de dados em uma única Zona de Disponibilidade."
+    ],
+    "correct": 1,
+    "explanation": "Uma implantação Multi-AZ do Amazon RDS cria uma réplica síncrona do seu banco de dados em uma Zona de Disponibilidade diferente. Em caso de falha da Zona de Disponibilidade primária, o RDS realiza um failover automático para a réplica, garantindo alta disponibilidade e minimizando o tempo de inatividade. Replicas de Leitura são para performance (escalabilidade de leitura), não para failover automático de alta disponibilidade. O DMS é para migração de banco de dados. Uma única Zona de Disponibilidade não oferece resiliência contra falhas de AZ."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "cache-aplicacoes",
+    "service": "Amazon ElastiCache",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "cache",
+      "performance",
+      "aplicacao",
+      "banco-de-dados"
+    ],
+    "question": "Uma aplicação web está experimentando lentidão devido ao grande número de requisições que acessam repetidamente os mesmos dados do banco de dados relacional. A empresa deseja reduzir a carga sobre o banco de dados e acelerar a recuperação desses dados frequentemente acessados. Qual serviço da AWS é mais adequado para implementar um cache de dados em memória para essa finalidade?",
+    "options": [
+      "Amazon SQS.",
+      "Amazon Kinesis Data Streams.",
+      "Amazon ElastiCache.",
+      "AWS Lambda."
+    ],
+    "correct": 2,
+    "explanation": "Amazon ElastiCache é um serviço de cache em memória totalmente gerenciado que suporta Memcached e Redis. Ele é ideal para armazenar dados frequentemente acessados, reduzindo a latência e a carga sobre o banco de dados principal. Amazon SQS é um serviço de fila de mensagens. Amazon Kinesis Data Streams é para processamento de dados em tempo real. AWS Lambda é um serviço de computação sem servidor. Nenhum desses serviços é projetado para cache de dados em memória para acelerar o acesso ao banco de dados."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "seguranca-rede",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "segurança",
+      "rede",
+      "ec2",
+      "firewall"
+    ],
+    "question": "Um administrador de sistemas precisa controlar o tráfego de rede de entrada e saída para um grupo de instâncias Amazon EC2, permitindo apenas o tráfego HTTP e HTTPS da internet e SSH de um endereço IP específico. Qual recurso da AWS deve ser configurado para implementar esse controle de segurança no nível da instância?",
+    "options": [
+      "AWS WAF.",
+      "Listas de Controle de Acesso de Rede (NACLs).",
+      "Grupos de Segurança (Security Groups).",
+      "AWS Shield."
+    ],
+    "correct": 2,
+    "explanation": "Grupos de Segurança atuam como um firewall virtual para suas instâncias EC2, controlando o tráfego de entrada e saída em nível de instância. Eles são stateful, o que significa que se você permitir o tráfego de entrada, o tráfego de saída correspondente é automaticamente permitido. NACLs operam em nível de sub-rede e são stateless. AWS WAF é um firewall de aplicação web. AWS Shield é para proteção contra ataques DDoS."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-custos-armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "custo",
+      "armazenamento",
+      "s3",
+      "classes-de-armazenamento"
+    ],
+    "question": "Uma empresa precisa armazenar grandes quantidades de dados que são acessados raramente (cerca de uma vez por mês), mas exigem recuperação rápida (em milissegundos) quando acessados. A prioridade é manter os custos de armazenamento o mais baixo possível sem comprometer a velocidade de recuperação. Qual classe de armazenamento do Amazon S3 é a mais adequada para este cenário?",
+    "options": [
+      "Amazon S3 Standard.",
+      "Amazon S3 Glacier Deep Archive.",
+      "Amazon S3 Standard-IA (Infrequent Access).",
+      "Amazon S3 One Zone-IA."
+    ],
+    "correct": 2,
+    "explanation": "Amazon S3 Standard-IA (Infrequent Access) é ideal para dados acessados com pouca frequência, mas que exigem acesso rápido quando necessário. Oferece um custo de armazenamento menor do que o S3 Standard, mas com uma pequena taxa de recuperação. S3 Standard é mais caro para dados acessados raramente. S3 Glacier Deep Archive tem o menor custo, mas a recuperação leva horas. S3 One Zone-IA é similar ao Standard-IA, mas armazena dados em uma única Zona de Disponibilidade, sacrificando resiliência para custos ainda menores, o que não foi explicitamente solicitado no cenário."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "escalabilidade-automatica",
+    "service": "Amazon EC2 Auto Scaling",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "resiliência",
+      "escalabilidade",
+      "auto-scaling",
+      "ec2"
+    ],
+    "question": "Uma aplicação web em execução no Amazon EC2 experimenta flutuações significativas na demanda de tráfego ao longo do dia e da semana. A empresa precisa garantir que sempre haja capacidade suficiente para lidar com os picos de demanda, além de se recuperar automaticamente de falhas de instâncias individuais. Qual serviço da AWS deve ser utilizado para atender a esses requisitos de forma eficiente?",
+    "options": [
+      "Amazon CloudWatch.",
+      "AWS Lambda.",
+      "Amazon EC2 Auto Scaling.",
+      "Amazon ECS."
+    ],
+    "correct": 2,
+    "explanation": "Amazon EC2 Auto Scaling permite que você configure grupos de instâncias (Auto Scaling Groups) que adicionam ou removem instâncias EC2 automaticamente com base na demanda, mantendo a capacidade desejada. Ele também substitui automaticamente instâncias não íntegras, garantindo a resiliência. Amazon CloudWatch é para monitoramento. AWS Lambda é para computação sem servidor de funções. Amazon ECS é para orquestração de contêineres, enquanto o cenário foca em instâncias EC2 para a aplicação."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "armazenamento-de-dados",
+    "service": "Amazon EBS",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "armazenamento",
+      "performance",
+      "ebs",
+      "ec2"
+    ],
+    "question": "Um desenvolvedor precisa anexar um volume de armazenamento persistente a uma instância Amazon EC2 que hospeda um banco de dados relacional. O banco de dados exige alta performance de I/O e baixa latência. Qual tipo de volume de armazenamento é mais adequado para atender a esses requisitos para uma única instância EC2?",
+    "options": [
+      "Amazon S3.",
+      "Amazon EFS.",
+      "Volumes de armazenamento de instância (Instance Store).",
+      "Volumes Amazon EBS (Elastic Block Store)."
+    ],
+    "correct": 3,
+    "explanation": "Volumes Amazon EBS (Elastic Block Store) são volumes de armazenamento em nível de bloco persistentes que podem ser anexados a uma única instância EC2. Eles são ideais para bancos de dados e outras aplicações que exigem alta performance de I/O e baixa latência. Amazon S3 é armazenamento de objetos. Amazon EFS é um sistema de arquivos compartilhado. Volumes de armazenamento de instância são efêmeros (os dados são perdidos quando a instância é interrompida ou encerrada) e não são persistentes."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "Armazenamento de Dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "S3",
+      "armazenamento",
+      "durabilidade",
+      "disponibilidade"
+    ],
+    "question": "Uma empresa de mídia digital precisa armazenar milhões de arquivos de imagem e vídeo que são acessados frequentemente por seus usuários. É crucial que esses arquivos tenham alta durabilidade e disponibilidade, garantindo que o conteúdo esteja sempre acessível. A equipe de arquitetura busca uma solução de armazenamento de objetos que seja escalável e robusta contra falhas de hardware.",
+    "options": [
+      "Amazon S3 Standard",
+      "Amazon EBS gp3",
+      "Amazon EFS",
+      "Amazon S3 Glacier Deep Archive"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 Standard oferece durabilidade de 99,999999999% (onze noves) e alta disponibilidade para objetos, sendo ideal para dados acessados frequentemente que exigem resiliência máxima. Ele é um serviço de armazenamento de objetos altamente escalável. Amazon EBS é um armazenamento de bloco para EC2. Amazon EFS é um sistema de arquivos para várias instâncias EC2. Amazon S3 Glacier Deep Archive é para arquivamento de longo prazo com recuperação lenta e custos muito baixos, não para acesso frequente."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "Computação",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "EC2",
+      "Auto Scaling",
+      "escalabilidade",
+      "performance"
+    ],
+    "question": "Uma aplicação web de e-commerce experimenta picos de tráfego significativos durante promoções sazonais. Para garantir que a aplicação mantenha um desempenho consistente e responsivo, a equipe de operações precisa de uma solução que adicione ou remova automaticamente capacidade de computação conforme a demanda.",
+    "options": [
+      "Ajustar manualmente o tipo de instância EC2 para uma maior durante os picos.",
+      "Utilizar um Grupo de Auto Scaling (Auto Scaling Group) com políticas de escalabilidade.",
+      "Comprar Instâncias Reservadas para todas as instâncias EC2 da aplicação.",
+      "Implementar um AWS Direct Connect para aumentar a largura de banda."
+    ],
+    "correct": 1,
+    "explanation": "Um Grupo de Auto Scaling com políticas de escalabilidade permite que a capacidade das instâncias EC2 seja ajustada dinamicamente com base em métricas de demanda, como utilização da CPU ou contagem de requisições, garantindo performance e otimização de custos. Ajustar manualmente o tipo de instância é ineficiente e não automático. Instâncias Reservadas são para otimização de custos de cargas de trabalho previsíveis, não para escalabilidade automática. AWS Direct Connect é para conectividade de rede privada."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "Gerenciamento de Identidade e Acesso",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "IAM",
+      "segurança",
+      "permissões",
+      "privilégio mínimo"
+    ],
+    "question": "Um novo desenvolvedor precisa de acesso para ler e gravar objetos em apenas um bucket específico do Amazon S3, chamado 'meus-dados-de-projeto', para armazenar artefatos de seu trabalho. A política de segurança da empresa exige que todos os usuários tenham o privilégio mínimo necessário para realizar suas tarefas.",
+    "options": [
+      "Conceder ao desenvolvedor acesso de administrador completo à conta AWS.",
+      "Criar um usuário IAM e anexar uma política que permita acesso total a todos os buckets S3.",
+      "Criar um usuário IAM e anexar uma política que permita apenas as ações de leitura e gravação no bucket 'meus-dados-de-projeto'.",
+      "Configurar um Grupo de Segurança (Security Group) para permitir o acesso ao bucket S3."
+    ],
+    "correct": 2,
+    "explanation": "A criação de um usuário IAM com uma política de permissões específica para as ações de leitura e gravação no bucket S3 'meus-dados-de-projeto' adere ao princípio do privilégio mínimo, garantindo que o desenvolvedor tenha apenas o acesso necessário. Conceder acesso de administrador ou acesso total a todos os buckets viola o princípio do privilégio mínimo. Grupos de Segurança controlam o tráfego de rede para instâncias EC2, não o acesso a buckets S3."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "Armazenamento de Dados",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "S3",
+      "custo",
+      "armazenamento",
+      "logs",
+      "acesso infrequente"
+    ],
+    "question": "Uma startup armazena grandes volumes de logs de aplicação em um bucket Amazon S3. Esses logs são acessados raramente, talvez uma vez por mês, para auditoria ou depuração, mas precisam estar disponíveis em questão de minutos quando solicitados. A empresa busca otimizar os custos de armazenamento sem comprometer a disponibilidade rápida quando necessário.",
+    "options": [
+      "Manter os logs no Amazon S3 Standard.",
+      "Mover os logs para o Amazon S3 Glacier Deep Archive.",
+      "Configurar uma política de ciclo de vida para mover os logs para o Amazon S3 Standard-Infrequent Access (S3 Standard-IA).",
+      "Armazenar os logs em volumes Amazon EBS anexados a instâncias EC2."
+    ],
+    "correct": 2,
+    "explanation": "O Amazon S3 Standard-Infrequent Access (S3 Standard-IA) é ideal para dados acessados com pouca frequência, mas que exigem acesso rápido quando necessário. Ele oferece custos de armazenamento mais baixos do que o S3 Standard. S3 Standard seria mais caro. S3 Glacier Deep Archive é para arquivamento de longo prazo com recuperação de horas, não minutos. EBS é armazenamento de bloco e não é a solução mais econômica ou escalável para este caso de uso."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "Bancos de Dados",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "RDS",
+      "banco de dados",
+      "alta disponibilidade",
+      "resiliência"
+    ],
+    "question": "Uma aplicação crítica de gestão de pedidos de uma empresa depende de um banco de dados relacional. Para garantir a continuidade dos negócios, é essencial que o banco de dados permaneça disponível mesmo em caso de falha de uma Zona de Disponibilidade (AZ) inteira. A equipe de arquitetura precisa de uma solução gerenciada para o banco de dados que ofereça alta disponibilidade.",
+    "options": [
+      "Executar o banco de dados em uma única instância Amazon EC2.",
+      "Configurar o Amazon RDS com implantação Multi-AZ.",
+      "Utilizar o Amazon DynamoDB para o banco de dados.",
+      "Fazer backups diários do banco de dados para o Amazon S3."
+    ],
+    "correct": 1,
+    "explanation": "A configuração Multi-AZ do Amazon RDS cria automaticamente uma réplica síncrona do banco de dados em uma Zona de Disponibilidade diferente. Em caso de falha da AZ primária, o Amazon RDS realiza um failover automático para a réplica, minimizando o tempo de inatividade e garantindo alta disponibilidade. Uma única instância EC2 ou backups diários não oferecem a mesma resiliência automática. DynamoDB é um banco de dados NoSQL, não relacional."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "Rede e Entrega de Conteúdo",
+    "service": "Amazon CloudFront",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "CloudFront",
+      "CDN",
+      "latência",
+      "performance",
+      "conteúdo estático"
+    ],
+    "question": "Uma plataforma de educação online hospeda seus vídeos e imagens em um bucket Amazon S3 e atende a uma audiência global. Os usuários de diferentes continentes estão relatando alta latência ao carregar o conteúdo estático. A empresa precisa melhorar a velocidade de entrega desses ativos para todos os seus usuários, independentemente de sua localização geográfica.",
+    "options": [
+      "Aumentar o tipo de instância das máquinas EC2 que servem o conteúdo.",
+      "Utilizar o AWS Direct Connect para conectar o data center da empresa à AWS.",
+      "Implementar uma distribuição Amazon CloudFront para cachear o conteúdo.",
+      "Habilitar o S3 Transfer Acceleration no bucket S3."
+    ],
+    "correct": 2,
+    "explanation": "O Amazon CloudFront é um serviço de Content Delivery Network (CDN) que armazena em cache o conteúdo estático em locais de borda globalmente distribuídos. Isso reduz a latência ao entregar o conteúdo aos usuários a partir do ponto de presença mais próximo, melhorando significativamente a performance para uma audiência global. Aumentar instâncias EC2 não resolve a latência geográfica. Direct Connect é para conectividade privada. S3 Transfer Acceleration foca na aceleração de uploads para o S3, não na entrega global."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "Segurança de Rede",
+    "service": "Amazon VPC Security Groups",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "Security Group",
+      "VPC",
+      "segurança",
+      "firewall",
+      "EC2"
+    ],
+    "question": "Uma empresa implantou suas aplicações em instâncias Amazon EC2 dentro de uma Amazon VPC. Para proteger essas instâncias, a equipe de segurança precisa controlar o tráfego de rede de entrada e saída no nível da instância, permitindo apenas as comunicações necessárias para a aplicação, como acesso via SSH e HTTP/HTTPS.",
+    "options": [
+      "Configurar Listas de Controle de Acesso de Rede (NACLs) para a sub-rede.",
+      "Utilizar o AWS WAF (Web Application Firewall).",
+      "Aplicar Grupos de Segurança (Security Groups) às instâncias EC2.",
+      "Implementar políticas de acesso no AWS IAM para as instâncias."
+    ],
+    "correct": 2,
+    "explanation": "Grupos de Segurança atuam como um firewall virtual no nível da instância, controlando o tráfego permitido de entrada e saída. Eles são stateful, ou seja, as regras de saída são automaticamente permitidas se o tráfego de entrada correspondente for permitido. NACLs operam no nível da sub-rede e são stateless. AWS WAF protege aplicações web contra ataques comuns da web. AWS IAM controla quem pode acessar recursos AWS, não o tráfego de rede para instâncias."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "Computação",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "EC2",
+      "custo",
+      "otimização",
+      "instâncias reservadas"
+    ],
+    "question": "Uma aplicação interna de processamento de dados da empresa roda continuamente em uma instância Amazon EC2 por 24 horas por dia, 7 dias por semana. A carga de trabalho é consistente e previsível. A equipe de TI busca uma maneira de reduzir significativamente os custos de computação para esta instância de longo prazo.",
+    "options": [
+      "Migrar a aplicação para instâncias Spot do Amazon EC2.",
+      "Comprar Instâncias Reservadas (Reserved Instances - RIs) do Amazon EC2 para a instância.",
+      "Ajustar o tipo de instância para um menor para reduzir o custo.",
+      "Desligar a instância durante a noite e nos fins de semana."
+    ],
+    "correct": 1,
+    "explanation": "As Instâncias Reservadas (RIs) do Amazon EC2 oferecem descontos significativos (até 75%) em comparação com as instâncias sob demanda, em troca de um compromisso de uso por 1 ou 3 anos. Elas são ideais para cargas de trabalho previsíveis e de longo prazo que operam continuamente, como esta aplicação. Instâncias Spot são para cargas de trabalho flexíveis e tolerantes a interrupções. Ajustar o tipo de instância pode reduzir o custo, mas pode impactar a performance. Desligar a instância não é uma opção para uma aplicação que roda 24/7."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "Computação Sem Servidor",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "Lambda",
+      "serverless",
+      "event-driven",
+      "computação"
+    ],
+    "question": "Uma plataforma de compartilhamento de fotos permite que usuários façam upload de imagens para um bucket Amazon S3. Após o upload, as imagens precisam ser automaticamente redimensionadas para diferentes formatos e tamanhos para visualização em dispositivos móveis e desktop. A equipe de desenvolvimento deseja uma solução que não exija o gerenciamento de servidores e que escale automaticamente com o volume de uploads.",
+    "options": [
+      "Provisionar instâncias Amazon EC2 para executar um script de redimensionamento.",
+      "Utilizar o AWS Lambda para acionar uma função que redimensiona as imagens em resposta a eventos do S3.",
+      "Configurar um cluster Amazon ECS para hospedar um serviço de processamento de imagens.",
+      "Armazenar as imagens em um banco de dados Amazon RDS e redimensioná-las lá."
+    ],
+    "correct": 1,
+    "explanation": "O AWS Lambda é um serviço de computação sem servidor que permite executar código em resposta a eventos, como o upload de um objeto para o Amazon S3. Ele escala automaticamente e não exige o gerenciamento de servidores, sendo ideal para este caso de uso de processamento de imagens por evento. EC2 e ECS exigem gerenciamento de servidores. RDS é um banco de dados relacional, não adequado para processamento de imagens diretamente."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "Mensageria",
+    "service": "Amazon SQS",
+    "difficulty": "easy",
+    "type": "múltipla escolha",
+    "tags": [
+      "SQS",
+      "mensageria",
+      "desacoplamento",
+      "microserviços",
+      "assíncrono"
+    ],
+    "question": "Uma aplicação de e-commerce possui um microserviço que lida com o processamento de pedidos e outro microserviço que envia e-mails de confirmação. Para garantir que o serviço de processamento de pedidos não seja bloqueado enquanto aguarda a resposta do serviço de e-mail, e para lidar com picos de volume de pedidos de forma resiliente, a equipe de arquitetura precisa desacoplar esses serviços usando uma fila de mensagens.",
+    "options": [
+      "Fazer chamadas de API síncronas diretamente do serviço de pedidos para o serviço de e-mail.",
+      "Utilizar o Amazon Simple Queue Service (SQS) para criar uma fila entre os serviços.",
+      "Publicar eventos para o Amazon Simple Notification Service (SNS) e ter o serviço de e-mail como assinante.",
+      "Implementar o Amazon Kinesis Data Streams para transmitir os dados dos pedidos."
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Simple Queue Service (SQS) é um serviço de fila de mensagens totalmente gerenciado que permite desacoplar microserviços, sistemas distribuídos e aplicações sem servidor. Ao usar o SQS, o serviço de pedidos pode enviar mensagens para a fila e continuar seu processamento, enquanto o serviço de e-mail pode consumir essas mensagens de forma assíncrona, melhorando a resiliência e a performance. Chamadas de API síncronas acoplam os serviços. SNS é um serviço de publicação/assinatura, não uma fila de mensagens para desacoplamento de worker. Kinesis é para streaming de dados em tempo real."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "Disponibilidade de Aplicativos",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "disponibilidade",
+      "aplicativos"
+    ],
+    "question": "Uma empresa de tecnologia está desenvolvendo um aplicativo web que precisa ser altamente disponível e acessível a todos os usuários. Para garantir a disponibilidade, eles decidiram usar o Amazon EC2 para hospedar o aplicativo. Qual é a melhor abordagem para garantir a alta disponibilidade do aplicativo?",
+    "options": [
+      "Usar um único servidor EC2 em uma zona de disponibilidade",
+      "Usar vários servidores EC2 em diferentes zonas de disponibilidade",
+      "Usar o Amazon S3 para armazenar os dados do aplicativo",
+      "Usar o Amazon RDS para gerenciar o banco de dados do aplicativo"
+    ],
+    "correct": 1,
+    "explanation": "Usar vários servidores EC2 em diferentes zonas de disponibilidade garante que o aplicativo esteja acessível mesmo se uma zona de disponibilidade estiver indisponível."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "Otimização de Desempenho",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "desempenho",
+      "otimização"
+    ],
+    "question": "Uma empresa de mídia está armazenando grandes quantidades de vídeos e imagens no Amazon S3. No entanto, eles estão enfrentando problemas de desempenho ao acessar esses arquivos. Qual é a melhor abordagem para otimizar o desempenho do acesso a esses arquivos?",
+    "options": [
+      "Usar o Amazon S3 Standard para armazenar todos os arquivos",
+      "Usar o Amazon S3 Standard-IA para armazenar arquivos menos frequentemente acessados",
+      "Usar o Amazon CloudFront para distribuir os arquivos",
+      "Usar o Amazon EC2 para processar os arquivos"
+    ],
+    "correct": 2,
+    "explanation": "Usar o Amazon S3 Standard-IA para armazenar arquivos menos frequentemente acessados ajuda a reduzir os custos e otimizar o desempenho do acesso a esses arquivos."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "Autenticação e Autorização",
+    "service": "AWS IAM",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "autenticação"
+    ],
+    "question": "Uma empresa de tecnologia está desenvolvendo um aplicativo que precisa acessar recursos da AWS. No entanto, eles precisam garantir que apenas os usuários autorizados tenham acesso a esses recursos. Qual é a melhor abordagem para gerenciar a autenticação e autorização dos usuários?",
+    "options": [
+      "Usar o Amazon Cognito para gerenciar a autenticação dos usuários",
+      "Usar o AWS IAM para gerenciar a autenticação e autorização dos usuários",
+      "Usar o Amazon EC2 para gerenciar a autenticação dos usuários",
+      "Usar o Amazon S3 para armazenar as credenciais dos usuários"
+    ],
+    "correct": 1,
+    "explanation": "Usar o AWS IAM para gerenciar a autenticação e autorização dos usuários ajuda a garantir que apenas os usuários autorizados tenham acesso aos recursos da AWS."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "Otimização de Custo",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "custo",
+      "otimização"
+    ],
+    "question": "Uma empresa de tecnologia está usando o Amazon EC2 para hospedar seu aplicativo web. No entanto, eles estão enfrentando problemas de custo devido ao uso excessivo de recursos. Qual é a melhor abordagem para otimizar o custo do uso do Amazon EC2?",
+    "options": [
+      "Usar instâncias EC2 reservadas para reduzir os custos",
+      "Usar o Amazon S3 para armazenar os dados do aplicativo",
+      "Usar o Amazon RDS para gerenciar o banco de dados do aplicativo",
+      "Usar o Amazon CloudWatch para monitorar o uso dos recursos"
+    ],
+    "correct": 0,
+    "explanation": "Usar instâncias EC2 reservadas para reduzir os custos ajuda a otimizar o custo do uso do Amazon EC2, pois elas oferecem descontos significativos em comparação com as instâncias on-demand."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "Recuperação de Desastres",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "recuperação",
+      "desastres"
+    ],
+    "question": "Uma empresa de tecnologia está armazenando dados críticos no Amazon S3. No entanto, eles precisam garantir que esses dados estejam seguros em caso de desastres. Qual é a melhor abordagem para garantir a recuperação de desastres dos dados?",
+    "options": [
+      "Usar o Amazon S3 Standard para armazenar todos os dados",
+      "Usar o Amazon S3 Standard-IA para armazenar dados menos frequentemente acessados",
+      "Usar o Amazon Glacier para armazenar dados de longo prazo",
+      "Usar o Amazon S3 Cross-Region Replication para replicar os dados em diferentes regiões"
+    ],
+    "correct": 3,
+    "explanation": "Usar o Amazon S3 Cross-Region Replication para replicar os dados em diferentes regiões ajuda a garantir a recuperação de desastres dos dados, pois os dados estão disponíveis em diferentes regiões em caso de desastres."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "Otimização de Desempenho",
+    "service": "AWS Lambda",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "desempenho",
+      "otimização"
+    ],
+    "question": "Uma empresa de tecnologia está usando o AWS Lambda para processar solicitações de API. No entanto, eles estão enfrentando problemas de desempenho devido ao tempo de execução das funções Lambda. Qual é a melhor abordagem para otimizar o desempenho do AWS Lambda?",
+    "options": [
+      "Aumentar o tempo de execução das funções Lambda",
+      "Usar o AWS Lambda com o Amazon API Gateway para processar as solicitações de API",
+      "Usar o Amazon EC2 para processar as solicitações de API",
+      "Usar o Amazon S3 para armazenar os dados de processamento"
+    ],
+    "correct": 1,
+    "explanation": "Usar o AWS Lambda com o Amazon API Gateway para processar as solicitações de API ajuda a otimizar o desempenho do AWS Lambda, pois o API Gateway gerencia as solicitações e o Lambda processa as solicitações de forma eficiente."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "Autenticação e Autorização",
+    "service": "Amazon Cognito",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "segurança",
+      "autenticação"
+    ],
+    "question": "Uma empresa de tecnologia está desenvolvendo um aplicativo móvel que precisa autenticar os usuários. No entanto, eles precisam garantir que a autenticação seja segura e escalável. Qual é a melhor abordagem para gerenciar a autenticação dos usuários?",
+    "options": [
+      "Usar o Amazon Cognito para gerenciar a autenticação dos usuários",
+      "Usar o AWS IAM para gerenciar a autenticação dos usuários",
+      "Usar o Amazon EC2 para gerenciar a autenticação dos usuários",
+      "Usar o Amazon S3 para armazenar as credenciais dos usuários"
+    ],
+    "correct": 0,
+    "explanation": "Usar o Amazon Cognito para gerenciar a autenticação dos usuários ajuda a garantir que a autenticação seja segura e escalável, pois o Cognito fornece recursos de autenticação e autorização para aplicativos móveis e web."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "Otimização de Custo",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "custo",
+      "otimização"
+    ],
+    "question": "Uma empresa de tecnologia está usando o Amazon RDS para gerenciar seu banco de dados. No entanto, eles estão enfrentando problemas de custo devido ao uso excessivo de recursos. Qual é a melhor abordagem para otimizar o custo do uso do Amazon RDS?",
+    "options": [
+      "Usar instâncias RDS reservadas para reduzir os custos",
+      "Usar o Amazon S3 para armazenar os dados do banco de dados",
+      "Usar o Amazon EC2 para processar as solicitações de banco de dados",
+      "Usar o Amazon CloudWatch para monitorar o uso dos recursos"
+    ],
+    "correct": 0,
+    "explanation": "Usar instâncias RDS reservadas para reduzir os custos ajuda a otimizar o custo do uso do Amazon RDS, pois elas oferecem descontos significativos em comparação com as instâncias on-demand."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "Disponibilidade de Aplicativos",
+    "service": "Amazon Elastic Load Balancer",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "disponibilidade",
+      "aplicativos"
+    ],
+    "question": "Uma empresa de tecnologia está desenvolvendo um aplicativo web que precisa ser altamente disponível e acessível a todos os usuários. No entanto, eles precisam garantir que o aplicativo esteja protegido contra sobrecargas de tráfego. Qual é a melhor abordagem para garantir a disponibilidade e proteção do aplicativo?",
+    "options": [
+      "Usar o Amazon Elastic Load Balancer para distribuir o tráfego",
+      "Usar o Amazon EC2 para processar as solicitações de aplicativo",
+      "Usar o Amazon S3 para armazenar os dados do aplicativo",
+      "Usar o Amazon CloudWatch para monitorar o uso dos recursos"
+    ],
+    "correct": 0,
+    "explanation": "Usar o Amazon Elastic Load Balancer para distribuir o tráfego ajuda a garantir a disponibilidade e proteção do aplicativo, pois o Load Balancer distribui o tráfego de forma eficiente e protege o aplicativo contra sobrecargas de tráfego."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "Otimização de Desempenho",
+    "service": "Amazon CloudFront",
+    "difficulty": "easy",
+    "type": "scenario",
+    "tags": [
+      "desempenho",
+      "otimização"
+    ],
+    "question": "Uma empresa de tecnologia está desenvolvendo um aplicativo web que precisa ser altamente performático e acessível a todos os usuários. No entanto, eles precisam garantir que o aplicativo esteja otimizado para entrega de conteúdo estático. Qual é a melhor abordagem para otimizar o desempenho do aplicativo?",
+    "options": [
+      "Usar o Amazon CloudFront para distribuir o conteúdo estático",
+      "Usar o Amazon S3 para armazenar os dados do aplicativo",
+      "Usar o Amazon EC2 para processar as solicitações de aplicativo",
+      "Usar o Amazon RDS para gerenciar o banco de dados do aplicativo"
+    ],
+    "correct": 0,
+    "explanation": "Usar o Amazon CloudFront para distribuir o conteúdo estático ajuda a otimizar o desempenho do aplicativo, pois o CloudFront distribui o conteúdo estático de forma eficiente e reduz a latência de entrega de conteúdo."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "Amazon S3",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "armazenamento",
+      "resiliência",
+      "website-estático"
+    ],
+    "question": "Uma empresa de mídia digital precisa hospedar seu website estático com alta durabilidade e disponibilidade, garantindo que o conteúdo permaneça acessível mesmo em caso de falha de uma única Zona de Disponibilidade. Além disso, a solução deve ser econômica e não exigir gerenciamento de servidores. Qual serviço AWS deve ser utilizado para atender a este requisito?",
+    "options": [
+      "Amazon S3",
+      "Amazon EC2 com um balanceador de carga",
+      "Amazon RDS com replicação Multi-AZ",
+      "AWS Lambda com Amazon API Gateway"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 é ideal para hospedar websites estáticos, oferecendo alta durabilidade e disponibilidade por padrão, pois os dados são distribuídos em várias Zonas de Disponibilidade dentro de uma região. É uma solução econômica e sem servidor, eliminando a necessidade de gerenciar infraestrutura de computação."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "rede-de-entrega-de-conteudo",
+    "service": "Amazon CloudFront",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "CDN",
+      "performance",
+      "baixa-latência"
+    ],
+    "question": "Uma empresa de software como serviço (SaaS) está lançando uma nova aplicação web globalmente e deseja garantir que os usuários experimentem tempos de carregamento rápidos, independentemente de sua localização geográfica. O objetivo é entregar conteúdo estático, como imagens, vídeos e arquivos JavaScript, com a menor latência possível. Qual serviço AWS é o mais adequado para essa finalidade?",
+    "options": [
+      "Amazon CloudFront",
+      "Amazon S3 Transfer Acceleration",
+      "AWS Direct Connect",
+      "Amazon VPC Peering"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon CloudFront é um serviço de rede de entrega de conteúdo (CDN) que distribui conteúdo estático e dinâmico para usuários em todo o mundo a partir de locais de borda (edge locations). Isso reduz a latência e melhora a velocidade de carregamento da aplicação para usuários globalmente, descarregando a carga do servidor de origem."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "protecao-de-aplicativos-web",
+    "service": "AWS WAF",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "segurança",
+      "aplicação-web",
+      "firewall"
+    ],
+    "question": "Uma aplicação de e-commerce crítica, hospedada no AWS, está sofrendo ataques comuns da web, como injeção SQL e cross-site scripting (XSS). A equipe de segurança precisa de uma solução gerenciada que proteja a aplicação contra essas vulnerabilidades sem a necessidade de modificar o código da aplicação. Qual serviço AWS deve ser implementado para proteger a aplicação de forma eficaz?",
+    "options": [
+      "AWS WAF",
+      "Amazon GuardDuty",
+      "AWS Identity and Access Management (IAM)",
+      "AWS Security Hub"
+    ],
+    "correct": 0,
+    "explanation": "O AWS WAF é um firewall de aplicações web que ajuda a proteger suas aplicações web ou APIs contra explorações web comuns que podem afetar a disponibilidade, comprometer a segurança ou consumir recursos excessivos. Ele permite definir regras personalizadas para bloquear ou permitir o tráfego com base em condições que você especificar."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-de-custos-de-computacao",
+    "service": "Amazon EC2",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "custo",
+      "EC2",
+      "instâncias-spot",
+      "processamento-em-lote"
+    ],
+    "question": "Uma empresa de análise de dados executa cargas de trabalho de processamento em lote que são tolerantes a falhas e podem ser interrompidas e reiniciadas sem perda significativa de dados ou impacto no negócio. O principal objetivo é reduzir os custos de computação de forma agressiva. Qual tipo de instância do Amazon EC2 seria a escolha mais econômica para essa carga de trabalho?",
+    "options": [
+      "Instâncias Spot do Amazon EC2",
+      "Instâncias Reservadas do Amazon EC2",
+      "Instâncias Sob Demanda do Amazon EC2",
+      "Hosts Dedicados do Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "As Instâncias Spot do Amazon EC2 permitem que você solicite capacidade de computação EC2 não utilizada por um preço mais baixo em comparação com as instâncias sob demanda. Elas são ideais para cargas de trabalho tolerantes a falhas e flexíveis que podem ser interrompidas, como processamento em lote, pois oferecem economias significativas de custo."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade-banco-de-dados",
+    "service": "Amazon RDS",
+    "difficulty": "easy",
+    "type": "multiple-choice",
+    "tags": [
+      "banco-de-dados",
+      "RDS",
+      "alta-disponibilidade",
+      "failover"
+    ],
+    "question": "Uma empresa de software precisa garantir alta disponibilidade e durabilidade para seu banco de dados relacional MySQL, que suporta uma aplicação crítica. Em caso de falha de uma Zona de Disponibilidade, o banco de dados deve realizar um failover automático para uma instância secundária sem intervenção manual e com perda mínima de dados. Qual configuração do Amazon RDS atenderia a esses requisitos?",
+    "options": [
+      "Amazon RDS Multi-AZ",
+      "Amazon RDS com Réplicas de Leitura",
+      "Amazon RDS em uma única Zona de Disponibilidade",
+      "Amazon DynamoDB"
+    ],
+    "correct": 0,
+    "explanation": "A configuração Multi-AZ do Amazon RDS provisiona e mantém automaticamente uma réplica em espera síncrona em uma Zona de Disponibilidade diferente. Em caso de falha da instância principal, o RDS realiza um failover automático para a réplica em espera, garantindo alta disponibilidade e durabilidade com perda mínima de dados."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "Amazon RDS",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "RDS",
+      "alta-disponibilidade",
+      "failover",
+      "banco-de-dados"
+    ],
+    "question": "Uma empresa de e-commerce utiliza uma aplicação web que depende de um banco de dados relacional para armazenar informações de produtos e pedidos. É crucial que o banco de dados tenha alta disponibilidade para minimizar o tempo de inatividade durante falhas de infraestrutura, como perda de uma Zona de Disponibilidade. A solução deve permitir um failover automático e transparente para a aplicação. Qual configuração do Amazon RDS atenderá melhor a esse requisito?",
+    "options": [
+      "Configurar uma instância de banco de dados do Amazon RDS com Multi-AZ.",
+      "Utilizar uma única instância de banco de dados do Amazon RDS e configurar backups automáticos diários.",
+      "Migrar o banco de dados para o Amazon DynamoDB para aproveitar sua natureza distribuída.",
+      "Implementar réplicas de leitura do Amazon RDS em diferentes Zonas de Disponibilidade para distribuição de carga."
+    ],
+    "correct": 0,
+    "explanation": "A configuração Multi-AZ do Amazon RDS cria uma instância de banco de dados primária e uma réplica síncrona em uma Zona de Disponibilidade diferente. Em caso de falha da instância primária ou da Zona de Disponibilidade, o RDS realiza um failover automático para a réplica, garantindo alta disponibilidade e minimizando o tempo de inatividade com perda mínima de dados. A opção B não oferece alta disponibilidade, apenas recuperação de desastres. A opção C é um banco de dados NoSQL e não atende ao requisito de banco de dados relacional. A opção D melhora a performance de leitura e não a disponibilidade para failover automático de escrita."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-rede-entrega",
+    "service": "Amazon CloudFront",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "CloudFront",
+      "CDN",
+      "performance",
+      "S3",
+      "baixa-latencia"
+    ],
+    "question": "Uma empresa de mídia global hospeda seu vasto catálogo de vídeos e imagens estáticas em buckets do Amazon S3. Eles precisam garantir que o conteúdo seja entregue com a menor latência possível para usuários em todo o mundo, além de proteger a origem contra sobrecarga de requisições. Qual serviço AWS deve ser utilizado para otimizar a entrega de conteúdo e melhorar a experiência do usuário?",
+    "options": [
+      "Amazon CloudFront com o Amazon S3 como origem.",
+      "Amazon S3 Transfer Acceleration para uploads e downloads mais rápidos.",
+      "AWS Global Accelerator para roteamento de tráfego para endpoints de aplicação.",
+      "Um Application Load Balancer (ALB) distribuído globalmente."
+    ],
+    "correct": 0,
+    "explanation": "O Amazon CloudFront é um serviço de rede de entrega de conteúdo (CDN) que armazena em cache o conteúdo em locais de borda globalmente distribuídos. Isso reduz a latência ao entregar o conteúdo de um local mais próximo do usuário, além de proteger a origem (neste caso, o Amazon S3) de acessos diretos e sobrecarga. S3 Transfer Acceleration (Opção B) é para acelerar uploads para o S3. AWS Global Accelerator (Opção C) é para melhorar a disponibilidade e a performance de aplicações não-HTTP/S ou endpoints específicos, não para cache de conteúdo. Um ALB (Opção D) é um balanceador de carga regional e não oferece cache de borda global."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "protecao-aplicacoes-web",
+    "service": "AWS WAF",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "WAF",
+      "seguranca",
+      "aplicacoes-web",
+      "CloudFront",
+      "ALB"
+    ],
+    "question": "Uma empresa de software desenvolveu uma aplicação web crítica que está sendo alvo de ataques comuns, como injeção de SQL e scripts entre sites (XSS). Eles precisam de uma solução para proteger a aplicação contra essas vulnerabilidades em nível de aplicação, antes que o tráfego malicioso chegue aos servidores web, e sem a necessidade de gerenciar firewalls em instâncias EC2. Qual serviço AWS deve ser implementado para atender a este requisito?",
+    "options": [
+      "AWS WAF associado a um Amazon CloudFront ou um Application Load Balancer (ALB).",
+      "Amazon GuardDuty para detecção de ameaças e monitoramento contínuo.",
+      "AWS Shield Advanced para proteção contra ataques DDoS.",
+      "Grupos de segurança (Security Groups) configurados nas instâncias do Amazon EC2."
+    ],
+    "correct": 0,
+    "explanation": "O AWS WAF (Web Application Firewall) permite monitorar as requisições HTTP e HTTPS que chegam à sua aplicação web e filtrar o tráfego com base em regras personalizadas ou gerenciadas, protegendo contra explorações web comuns como SQL injection e XSS. Ele pode ser associado a um Amazon CloudFront (para proteção de borda) ou a um Application Load Balancer (ALB). Amazon GuardDuty (Opção B) é um serviço de detecção de ameaças, não de prevenção ativa em nível de aplicação. AWS Shield Advanced (Opção C) fornece proteção contra ataques DDoS, que é diferente das vulnerabilidades de aplicação. Grupos de segurança (Opção D) operam em nível de rede, controlando o tráfego de entrada e saída, mas não inspecionam o conteúdo das requisições HTTP/S para identificar exploits."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-custo-computacao",
+    "service": "Amazon EC2",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "EC2",
+      "Spot-Instances",
+      "custo",
+      "Auto-Scaling",
+      "batch"
+    ],
+    "question": "Uma empresa de análise de dados executa cargas de trabalho de processamento em lote que podem ser interrompidas e reiniciadas sem perda de progresso significativo. Essas cargas de trabalho são executadas em horários específicos, mas a demanda pode variar. O principal objetivo é minimizar o custo de computação, mantendo a capacidade de processar grandes volumes de dados de forma eficiente. Qual combinação de serviços AWS oferece a solução mais econômica para este cenário?",
+    "options": [
+      "Utilizar instâncias Spot do Amazon EC2 em um grupo de Auto Scaling.",
+      "Provisionar instâncias sob demanda (On-Demand) do Amazon EC2 para garantir disponibilidade contínua.",
+      "Adquirir instâncias reservadas (Reserved Instances) do Amazon EC2 com um compromisso de 3 anos.",
+      "Executar as cargas de trabalho usando o AWS Fargate para contêineres."
+    ],
+    "correct": 0,
+    "explanation": "As instâncias Spot do Amazon EC2 permitem que você solicite capacidade EC2 não utilizada por até 90% de desconto em comparação com o preço sob demanda. Para cargas de trabalho tolerantes a falhas e flexíveis, como processamento em lote, as instâncias Spot são ideais para otimização de custos. Um grupo de Auto Scaling ajuda a gerenciar a capacidade e substituir instâncias Spot interrompidas. Instâncias sob demanda (Opção B) são mais caras. Instâncias reservadas (Opção C) são para cargas de trabalho de longa duração e previsíveis, não para cargas de trabalho que podem ser interrompidas. AWS Fargate (Opção D) é um serviço serverless para contêineres, mas as instâncias Spot geralmente oferecem o menor custo para cargas de trabalho em lote tolerantes a interrupções."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "decoupling-componentes",
+    "service": "Amazon SQS",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "SQS",
+      "Lambda",
+      "decoupling",
+      "resiliencia",
+      "escalabilidade"
+    ],
+    "question": "Uma aplicação de compartilhamento de fotos permite que usuários façam upload de imagens que precisam ser redimensionadas e processadas antes de serem armazenadas para acesso público. O volume de uploads pode variar drasticamente, e a empresa quer garantir que o processamento de imagens seja resiliente a picos de tráfego, desacoplado do processo de upload e que nenhuma imagem seja perdida. Qual arquitetura AWS é a mais adequada para este caso?",
+    "options": [
+      "Usar o Amazon SQS para enfileirar as requisições de processamento de imagem e o AWS Lambda para processar as mensagens da fila.",
+      "Publicar eventos de upload de imagem em um tópico do Amazon SNS para notificar os processadores.",
+      "Utilizar o Amazon Kinesis Data Streams para transmitir os dados brutos das imagens para um cluster de processamento.",
+      "Implementar o AWS Step Functions para orquestrar o fluxo de trabalho de processamento de imagem."
+    ],
+    "correct": 0,
+    "explanation": "O Amazon SQS (Simple Queue Service) é um serviço de filas de mensagens totalmente gerenciado que permite desacoplar e escalar microsserviços, sistemas distribuídos e aplicativos sem servidor. Ao enfileirar as requisições de processamento, a aplicação se torna resiliente a picos de tráfego e garante que nenhuma mensagem seja perdida. O AWS Lambda pode ser configurado para consumir mensagens do SQS e processar as imagens de forma eficiente e escalável. O Amazon SNS (Opção B) é um serviço de pub/sub, não uma fila para processamento desacoplado com garantias de entrega. O Amazon Kinesis Data Streams (Opção C) é para processamento de streaming de dados em tempo real e alto throughput, sendo um exagero para este caso. O AWS Step Functions (Opção D) é para orquestração de fluxos de trabalho complexos, o que não é o foco principal aqui para o desacoplamento e resiliência básica."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-banco-dados",
+    "service": "Amazon ElastiCache",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "ElastiCache",
+      "Redis",
+      "Memcached",
+      "cache",
+      "performance",
+      "banco-de-dados"
+    ],
+    "question": "Uma aplicação popular de notícias está enfrentando lentidão devido a um alto volume de requisições de leitura no seu banco de dados relacional (Amazon RDS), especialmente para artigos frequentemente acessados. A empresa deseja melhorar o tempo de resposta da aplicação e reduzir a carga sobre o banco de dados sem modificar a lógica principal da aplicação de forma drástica. Qual serviço AWS deve ser implementado para resolver esse gargalo de desempenho?",
+    "options": [
+      "Amazon ElastiCache (Redis ou Memcached) para cache de dados lidos.",
+      "AWS Global Accelerator para roteamento de tráfego para a região mais próxima.",
+      "Amazon CloudWatch para monitorar o desempenho do banco de dados.",
+      "Amazon SQS para enfileirar as requisições de leitura do banco de dados."
+    ],
+    "correct": 0,
+    "explanation": "O Amazon ElastiCache é um serviço de cache na memória que pode ser usado para armazenar dados frequentemente acessados, reduzindo a latência e a carga sobre o banco de dados. Ao armazenar em cache os artigos mais populares, a aplicação pode recuperá-los muito mais rapidamente do cache do que do banco de dados. O AWS Global Accelerator (Opção B) melhora o desempenho da rede, mas não é um serviço de cache. O Amazon CloudWatch (Opção C) é para monitoramento, não para melhorar o desempenho diretamente. O Amazon SQS (Opção D) é um serviço de filas de mensagens e não é adequado para cache de dados."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "gerenciamento-credenciais",
+    "service": "AWS Secrets Manager",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "Secrets-Manager",
+      "seguranca",
+      "credenciais",
+      "KMS",
+      "rotacao"
+    ],
+    "question": "Uma aplicação corporativa em desenvolvimento na AWS precisa gerenciar de forma segura credenciais de banco de dados, chaves de API de terceiros e outros segredos sensíveis. A equipe de segurança exige que esses segredos sejam armazenados de forma criptografada, com rotação automática em intervalos definidos e fácil integração com os serviços da AWS. Qual serviço AWS é o mais adequado para atender a esses requisitos?",
+    "options": [
+      "AWS Secrets Manager.",
+      "AWS Systems Manager Parameter Store.",
+      "Armazenar os segredos em um bucket do Amazon S3 criptografado com KMS.",
+      "Utilizar variáveis de ambiente nas instâncias do Amazon EC2."
+    ],
+    "correct": 0,
+    "explanation": "O AWS Secrets Manager é um serviço de gerenciamento de segredos que ajuda a proteger o acesso a aplicações, serviços e recursos. Ele permite armazenar, gerenciar e recuperar credenciais de banco de dados, chaves de API e outros segredos ao longo de seu ciclo de vida. Ele oferece rotação automática de segredos, integração com serviços AWS e criptografia de segredos em repouso e em trânsito. O AWS Systems Manager Parameter Store (Opção B) pode armazenar parâmetros seguros, mas o Secrets Manager é especificamente projetado para segredos com recursos avançados como rotação automática. Armazenar segredos diretamente em um bucket S3 (Opção C) não oferece os mesmos recursos de gerenciamento e rotação. Variáveis de ambiente (Opção D) são inseguras para armazenar segredos sensíveis."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-custo-armazenamento",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "S3",
+      "Intelligent-Tiering",
+      "armazenamento",
+      "custo",
+      "otimizacao"
+    ],
+    "question": "Uma empresa de análise de dados armazena grandes volumes de dados de logs e relatórios em um bucket do Amazon S3. O padrão de acesso a esses objetos é imprevisível: alguns podem ser acessados com frequência por um período e depois raramente, enquanto outros podem ter acesso esporádico desde o início. A empresa deseja otimizar os custos de armazenamento sem precisar classificar manualmente os objetos em diferentes classes de armazenamento. Qual classe de armazenamento do Amazon S3 é a mais indicada para este cenário?",
+    "options": [
+      "Amazon S3 Intelligent-Tiering.",
+      "Amazon S3 Standard-Infrequent Access (S3 Standard-IA).",
+      "Amazon S3 Glacier Deep Archive.",
+      "Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA)."
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 Intelligent-Tiering é a classe de armazenamento ideal para dados com padrões de acesso desconhecidos ou variáveis. Ele move automaticamente os objetos entre duas camadas de acesso (uma para acesso frequente e outra para acesso infrequente) quando os padrões de acesso mudam, otimizando os custos de armazenamento sem impacto no desempenho e sem intervenção manual. S3 Standard-IA (Opção B) é para dados acessados com pouca frequência, mas com um padrão de acesso conhecido. S3 Glacier Deep Archive (Opção C) é para arquivamento de longo prazo com os custos mais baixos. S3 One Zone-IA (Opção D) é para dados acessados com pouca frequência que podem ser recriados, pois não tem a redundância de múltiplas Zonas de Disponibilidade."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "escalabilidade-automatica",
+    "service": "AWS Auto Scaling",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "Auto-Scaling",
+      "ELB",
+      "EC2",
+      "escalabilidade",
+      "alta-disponibilidade"
+    ],
+    "question": "Uma aplicação web sem estado (stateless) opera em instâncias do Amazon EC2 e experimenta variações significativas na demanda de tráfego ao longo do dia e da semana. A empresa precisa garantir que a aplicação possa escalar automaticamente para lidar com picos de tráfego e, ao mesmo tempo, reduzir custos ao diminuir a capacidade durante períodos de baixa demanda. Além disso, é essencial que a aplicação seja altamente disponível e distribua o tráfego de forma eficiente entre as instâncias. Qual combinação de serviços AWS atende a esses requisitos?",
+    "options": [
+      "Um grupo de Auto Scaling do Amazon EC2 com um Elastic Load Balancer (ELB).",
+      "AWS Lambda com API Gateway para uma arquitetura serverless.",
+      "Amazon Elastic Container Service (ECS) com AWS Fargate.",
+      "AWS CloudFormation para provisionar a infraestrutura da aplicação."
+    ],
+    "correct": 0,
+    "explanation": "Um grupo de Auto Scaling do Amazon EC2 permite que a aplicação escale automaticamente o número de instâncias EC2 para cima ou para baixo com base na demanda definida por políticas. O Elastic Load Balancer (ELB) distribui o tráfego de entrada de forma eficiente entre as instâncias disponíveis, garantindo alta disponibilidade e resiliência. Essa combinação é a solução padrão para aplicações web escaláveis e altamente disponíveis baseadas em EC2. AWS Lambda com API Gateway (Opção B) é uma arquitetura serverless, mas o cenário descreve instâncias EC2. Amazon ECS com Fargate (Opção C) é para contêineres e, embora escalável, o cenário foca em instâncias EC2. AWS CloudFormation (Opção D) é para infraestrutura como código e não fornece escalabilidade dinâmica em tempo de execução."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "escalabilidade-banco-dados",
+    "service": "Amazon Aurora",
+    "difficulty": "medium",
+    "type": "multiple-choice",
+    "tags": [
+      "Aurora",
+      "RDS",
+      "replicas-leitura",
+      "performance",
+      "banco-de-dados"
+    ],
+    "question": "Uma aplicação de análise de dados utiliza o Amazon Aurora para seu banco de dados relacional. À medida que o número de usuários e o volume de relatórios aumentaram, a aplicação começou a apresentar lentidão significativa, principalmente devido a um grande número de operações de leitura. A equipe de desenvolvimento precisa escalar a capacidade de leitura do banco de dados para melhorar a performance da aplicação sem impactar as operações de escrita. Qual recurso do Amazon Aurora deve ser utilizado para resolver este problema?",
+    "options": [
+      "Provisionar réplicas de leitura do Amazon Aurora.",
+      "Configurar um Amazon Aurora Global Database.",
+      "Migrar para o Amazon Aurora Serverless.",
+      "Implementar um cluster do Amazon ElastiCache na frente do Aurora."
+    ],
+    "correct": 0,
+    "explanation": "As réplicas de leitura do Amazon Aurora permitem escalar horizontalmente a capacidade de leitura do banco de dados. Elas compartilham o mesmo volume de armazenamento subjacente da instância primária, o que as torna muito eficientes e com baixa latência de replicação. As aplicações podem direcionar as operações de leitura para as réplicas, aliviando a carga da instância primária e melhorando o desempenho geral. O Amazon Aurora Global Database (Opção B) é para recuperação de desastres entre regiões e leituras globais de baixa latência, não para escalar leituras dentro de uma única região. O Amazon Aurora Serverless (Opção C) é um modelo de provisionamento, não uma solução direta para escalar leituras em um cluster existente. O Amazon ElastiCache (Opção D) é para caching, o que pode ajudar, mas as réplicas de leitura escalam a capacidade de leitura do próprio banco de dados."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "tolerância a falhas",
+    "service": "Amazon Route 53",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "roteamento de tráfego",
+      "disponibilidade"
+    ],
+    "question": "Uma empresa de comércio eletrônico deseja garantir que seu site permaneça acessível mesmo em caso de falhas de rede em uma região específica. Ela já utiliza o Amazon Route 53 para gerenciar os registros DNS. Qual é a melhor abordagem para atingir essa meta de alta disponibilidade?",
+    "options": [
+      "Configurar o Amazon Route 53 para rotear o tráfego para uma instância de reserva em outra região, utilizando o recurso de roteamento de tráfego baseado em latência.",
+      "Utilizar o Amazon CloudFront para distribuir o conteúdo estático do site e reduzir a carga nos servidores da aplicação.",
+      "Implementar o Amazon Elastic Load Balancer (ELB) para distribuir o tráfego entre várias instâncias de servidores dentro da mesma região.",
+      "Criar um registro de saúde no Amazon Route 53 para monitorar a disponibilidade dos servidores e redirecionar o tráfego para uma instância de reserva em caso de falha."
+    ],
+    "correct": 3,
+    "explanation": "A criação de um registro de saúde no Amazon Route 53 permite monitorar a disponibilidade dos servidores e redirecionar o tráfego para uma instância de reserva em caso de falha, garantindo a alta disponibilidade do site."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização de desempenho",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de objetos",
+      "otimização de desempenho"
+    ],
+    "question": "Um desenvolvedor está criando uma aplicação que precisa armazenar e recuperar grandes quantidades de dados de mídia. Ele deseja otimizar o desempenho da aplicação ao acessar esses dados. Qual é a melhor abordagem para atingir essa meta de desempenho?",
+    "options": [
+      "Utilizar o Amazon S3 Standard para armazenar os dados de mídia, pois oferece o melhor desempenho para acessos frequentes.",
+      "Configurar o Amazon CloudFront como uma rede de distribuição de conteúdo (CDN) para distribuir os dados de mídia e reduzir a latência.",
+      "Implementar o Amazon Elastic Block Store (EBS) para armazenar os dados de mídia, pois oferece um desempenho de leitura e gravação mais alto.",
+      "Utilizar o Amazon S3 Transfer Acceleration para acelerar a transferência de dados de mídia para e do Amazon S3."
+    ],
+    "correct": 1,
+    "explanation": "O Amazon S3 Standard é o melhor tipo de armazenamento para acessos frequentes, oferecendo o melhor desempenho para a aplicação."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "autenticação e autorização",
+    "service": "AWS IAM",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização",
+      "controle de acesso"
+    ],
+    "question": "Uma empresa deseja controlar o acesso às suas aplicações e recursos na AWS. Ela precisa garantir que apenas os usuários autorizados possam acessar e gerenciar os recursos. Qual é a melhor abordagem para atingir essa meta de segurança?",
+    "options": [
+      "Utilizar o AWS IAM para criar perfis de função e atribuí-los aos usuários, definindo as permissões necessárias para cada função.",
+      "Implementar o Amazon Cognito para gerenciar a autenticação e autorização dos usuários, utilizando pools de identidade para armazenar as informações de usuário.",
+      "Configurar o Amazon EC2 para utilizar chaves SSH para autenticação e autorização dos usuários.",
+      "Criar um conjunto de regras de segurança no Amazon VPC para controlar o tráfego de rede e acessos aos recursos."
+    ],
+    "correct": 0,
+    "explanation": "O AWS IAM é o serviço mais adequado para controlar o acesso às aplicações e recursos na AWS, permitindo criar perfis de função e atribuí-los aos usuários com as permissões necessárias."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização de custos",
+    "service": "Amazon EC2",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "instâncias de servidores",
+      "otimização de custos"
+    ],
+    "question": "Uma empresa deseja otimizar os custos de suas instâncias de servidores na AWS. Ela tem uma carga de trabalho variável e precisa reduzir os custos durante os períodos de baixa demanda. Qual é a melhor abordagem para atingir essa meta de custo?",
+    "options": [
+      "Utilizar instâncias de servidores spot para executar a carga de trabalho, pois oferecem preços mais baixos do que as instâncias On-Demand.",
+      "Implementar o Amazon Auto Scaling para ajustar automaticamente o número de instâncias de servidores com base na demanda.",
+      "Configurar o Amazon CloudWatch para monitorar a utilização das instâncias de servidores e ajustar o tipo de instância ou o número de instâncias com base nas necessidades.",
+      "Utilizar o Amazon EC2 Reserved Instances para reservar capacidade de computação com desconto para um período de um ou três anos."
+    ],
+    "correct": 0,
+    "explanation": "As instâncias spot oferecem preços mais baixos do que as instâncias On-Demand e podem ser utilizadas para executar cargas de trabalho que não requerem disponibilidade garantida."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "recuperação de desastres",
+    "service": "Amazon Glacier",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "recuperação de desastres"
+    ],
+    "question": "Uma empresa deseja criar um plano de recuperação de desastres para seus dados importantes. Ela precisa armazenar os dados de forma segura e acessível para recuperação em caso de desastre. Qual é a melhor abordagem para atingir essa meta de resiliência?",
+    "options": [
+      "Utilizar o Amazon Glacier para armazenar os dados importantes, pois oferece um armazenamento de baixo custo e seguro para dados arquivados.",
+      "Implementar o Amazon S3 para armazenar os dados importantes, pois oferece um armazenamento de objetos escalável e durável.",
+      "Configurar o Amazon EBS para armazenar os dados importantes, pois oferece um armazenamento de blocos para instâncias de servidores.",
+      "Utilizar o Amazon CloudWatch para monitorar a integridade dos dados e detectar falhas nos sistemas de armazenamento."
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Glacier é o serviço mais adequado para armazenar dados importantes para recuperação de desastres, oferecendo um armazenamento de baixo custo e seguro para dados arquivados."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização de desempenho",
+    "service": "AWS Lambda",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "funções sem servidor",
+      "otimização de desempenho"
+    ],
+    "question": "Um desenvolvedor está criando uma aplicação que utiliza funções sem servidor para processar solicitações. Ele deseja otimizar o desempenho da aplicação ao executar as funções. Qual é a melhor abordagem para atingir essa meta de desempenho?",
+    "options": [
+      "Utilizar o AWS Lambda para executar as funções, pois oferece um modelo de pagamento por uso e escalabilidade automática.",
+      "Implementar o Amazon EC2 para executar as funções, pois oferece mais controle sobre a infraestrutura e os recursos.",
+      "Configurar o Amazon API Gateway para gerenciar as solicitações e executar as funções, pois oferece uma integração fácil com o AWS Lambda.",
+      "Utilizar o Amazon CloudFront como uma rede de distribuição de conteúdo (CDN) para distribuir as funções e reduzir a latência."
+    ],
+    "correct": 0,
+    "explanation": "O AWS Lambda é o serviço mais adequado para executar funções sem servidor, oferecendo um modelo de pagamento por uso e escalabilidade automática."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "proteção de dados",
+    "service": "AWS Key Management Service (KMS)",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "proteção de dados",
+      "criptografia"
+    ],
+    "question": "Uma empresa deseja proteger os dados importantes com criptografia. Ela precisa gerenciar as chaves de criptografia de forma segura e escalável. Qual é a melhor abordagem para atingir essa meta de segurança?",
+    "options": [
+      "Utilizar o AWS KMS para gerenciar as chaves de criptografia, pois oferece uma solução de gerenciamento de chaves centralizada e segura.",
+      "Implementar o Amazon CloudHSM para gerenciar as chaves de criptografia, pois oferece um hardware de segurança (HSM) para armazenar e processar as chaves.",
+      "Configurar o Amazon S3 para armazenar os dados criptografados, pois oferece um armazenamento de objetos escalável e durável.",
+      "Utilizar o Amazon CloudWatch para monitorar a integridade dos dados e detectar falhas nos sistemas de criptografia."
+    ],
+    "correct": 0,
+    "explanation": "O AWS KMS é o serviço mais adequado para gerenciar as chaves de criptografia, oferecendo uma solução de gerenciamento de chaves centralizada e segura."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização de custos",
+    "service": "Amazon RDS",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "banco de dados relacional",
+      "otimização de custos"
+    ],
+    "question": "Uma empresa deseja otimizar os custos de seu banco de dados relacional na AWS. Ela tem uma carga de trabalho variável e precisa reduzir os custos durante os períodos de baixa demanda. Qual é a melhor abordagem para atingir essa meta de custo?",
+    "options": [
+      "Utilizar o Amazon RDS para executar o banco de dados relacional, pois oferece uma opção de pagamento por uso e escalabilidade automática.",
+      "Implementar o Amazon Aurora para executar o banco de dados relacional, pois oferece um desempenho melhor e um custo mais baixo do que o Amazon RDS.",
+      "Configurar o Amazon DynamoDB para armazenar os dados, pois oferece um armazenamento NoSQL escalável e durável.",
+      "Utilizar o Amazon Redshift para armazenar os dados, pois oferece um armazenamento de dados para análise de dados."
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Aurora é o serviço mais adequado para executar o banco de dados relacional, oferecendo um desempenho melhor e um custo mais baixo do que o Amazon RDS."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "tolerância a falhas",
+    "service": "Amazon SQS",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "fila de mensagens",
+      "tolerância a falhas"
+    ],
+    "question": "Uma empresa deseja criar uma arquitetura de aplicação que seja tolerante a falhas. Ela precisa garantir que as mensagens sejam processadas mesmo em caso de falha de uma instância de servidor. Qual é a melhor abordagem para atingir essa meta de resiliência?",
+    "options": [
+      "Utilizar o Amazon SQS para criar uma fila de mensagens, pois oferece uma forma segura e escalável de armazenar e processar as mensagens.",
+      "Implementar o Amazon SNS para criar um tópico de notificação, pois oferece uma forma de notificar os servidores sobre as mensagens.",
+      "Configurar o Amazon EC2 para criar um cluster de servidores, pois oferece uma forma de escalonar as instâncias de servidor.",
+      "Utilizar o Amazon CloudWatch para monitorar a integridade das mensagens e detectar falhas nos sistemas de processamento."
+    ],
+    "correct": 0,
+    "explanation": "O Amazon SQS é o serviço mais adequado para criar uma fila de mensagens, oferecendo uma forma segura e escalável de armazenar e processar as mensagens."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "arquitetura de alta disponibilidade",
+    "service": "Amazon Route 53",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "alta disponibilidade",
+      "roteamento de tráfego"
+    ],
+    "question": "Uma empresa de comércio eletrônico deseja garantir que seu site esteja sempre disponível para os clientes, mesmo em caso de falha de um dos data centers. Eles têm dois data centers localizados em regiões diferentes da AWS. Como eles podem configurar o Amazon Route 53 para rotear o tráfego para o data center mais próximo do usuário e garantir a alta disponibilidade do site?",
+    "options": [
+      "Configurando o Amazon Route 53 com Health Checks e roteamento de tráfego baseado em latência",
+      "Usando o Amazon CloudFront com cache distribuído para reduzir a latência",
+      "Implementando o Amazon Elastic Load Balancer (ELB) em cada data center",
+      "Utilizando o Amazon Direct Connect para conectar os data centers à rede da AWS"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Route 53 pode ser configurado com Health Checks para monitorar a saúde dos data centers e rotear o tráfego para o data center mais próximo do usuário com base em latência, garantindo a alta disponibilidade do site."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização de desempenho",
+    "service": "Amazon S3",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "otimização de desempenho",
+      "armazenamento de objetos"
+    ],
+    "question": "Um desenvolvedor de aplicativos móveis precisa armazenar e servir grandes quantidades de imagens e vídeos para seus usuários. No entanto, o desempenho do aplicativo está sendo afetado pela latência de acesso aos arquivos. Como o desenvolvedor pode otimizar o desempenho do acesso aos arquivos no Amazon S3?",
+    "options": [
+      "Usando o Amazon S3 Transfer Acceleration para reduzir a latência",
+      "Configurando o Amazon CloudFront como uma camada de cache na frente do Amazon S3",
+      "Implementando o Amazon Elastic Block Store (EBS) para armazenar os arquivos",
+      "Utilizando o Amazon Glacier para armazenar os arquivos menos frequentemente acessados"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon CloudFront pode ser configurado como uma camada de cache na frente do Amazon S3 para reduzir a latência e melhorar o desempenho do acesso aos arquivos."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "autenticação e autorização",
+    "service": "AWS IAM",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização",
+      "controle de acesso"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa garantir que apenas os funcionários autorizados tenham acesso a certas áreas do aplicativo. Eles desejam implementar uma solução de autenticação e autorização que permita o controle de acesso baseado em funções e permissões. Como eles podem usar o AWS IAM para atender a esse requisito?",
+    "options": [
+      "Criando grupos de IAM e atribuindo permissões baseadas em funções",
+      "Usando o AWS Cognito para gerenciar a identidade dos usuários",
+      "Implementando o AWS Directory Service para autenticação e autorização",
+      "Utilizando o Amazon EC2 para hospedar um servidor de autenticação"
+    ],
+    "correct": 0,
+    "explanation": "O AWS IAM pode ser usado para criar grupos e atribuir permissões baseadas em funções, permitindo o controle de acesso granular e baseado em permissões."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização de custos",
+    "service": "Amazon EC2",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "instancias de EC2"
+    ],
+    "question": "Uma empresa de tecnologia deseja otimizar os custos de suas instâncias de EC2. Eles têm um aplicativo que requer uma grande quantidade de capacidade de processamento, mas apenas durante os horários de pico. Como eles podem usar as instâncias de EC2 para reduzir os custos e atender às necessidades de capacidade?",
+    "options": [
+      "Usando instâncias de EC2 Spot para aproveitar os preços mais baixos",
+      "Implementando instâncias de EC2 Reserved para obter descontos de longo prazo",
+      "Configurando instâncias de EC2 On-Demand para capacidade de processamento flexível",
+      "Utilizando o Amazon Lambda para processamento sem servidor"
+    ],
+    "correct": 0,
+    "explanation": "As instâncias de EC2 Spot podem ser usadas para aproveitar os preços mais baixos e reduzir os custos, desde que o aplicativo possa tolerar interrupções e reinicializações."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "arquitetura de alta disponibilidade",
+    "service": "Amazon RDS",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "alta disponibilidade",
+      "banco de dados"
+    ],
+    "question": "Uma empresa de e-commerce deseja garantir a alta disponibilidade do seu banco de dados. Eles estão usando o Amazon RDS e desejam implementar uma solução que permita a replicação de dados em tempo real para uma região de destino. Como eles podem configurar o Amazon RDS para atender a esse requisito?",
+    "options": [
+      "Configurando o Amazon RDS com replicação de leitura para uma região de destino",
+      "Usando o Amazon RDS Multi-AZ para replicação de dados em tempo real",
+      "Implementando o Amazon DynamoDB para um banco de dados NoSQL de alta disponibilidade",
+      "Utilizando o Amazon Redshift para um data warehouse de alta disponibilidade"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon RDS Multi-AZ pode ser configurado para replicar os dados em tempo real para uma região de destino, garantindo a alta disponibilidade do banco de dados."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização de desempenho",
+    "service": "Amazon CloudFront",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "otimização de desempenho",
+      "distribuição de conteúdo"
+    ],
+    "question": "Um provedor de conteúdo deseja otimizar o desempenho da entrega de vídeos e imagens para seus usuários. Eles estão usando o Amazon CloudFront como uma rede de entrega de conteúdo (CDN). Como eles podem configurar o Amazon CloudFront para reduzir a latência e melhorar o desempenho da entrega de conteúdo?",
+    "options": [
+      "Configurando o Amazon CloudFront com cache distribuído para reduzir a latência",
+      "Usando o Amazon S3 Transfer Acceleration para reduzir a latência",
+      "Implementando o Amazon EC2 para hospedar um servidor de cache",
+      "Utilizando o Amazon Route 53 para rotear o tráfego para o edge location mais próximo"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon CloudFront pode ser configurado com cache distribuído para reduzir a latência e melhorar o desempenho da entrega de conteúdo."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "proteção de dados",
+    "service": "AWS Key Management Service (KMS)",
+    "difficulty": "medium",
+    "type": "scenario",
+    "tags": [
+      "proteção de dados",
+      "criptografia"
+    ],
+    "question": "Uma empresa de serviços financeiros deseja proteger os dados sensíveis armazenados no Amazon S3. Eles desejam implementar uma solução de criptografia que permita o controle de acesso granular e a gestão de chaves. Como eles podem usar o AWS KMS para atender a esse requisito?",
+    "options": [
+      "Criando chaves de criptografia com o AWS KMS e usando-as para criptografar os dados no Amazon S3",
+      "Usando o Amazon S3 Server-Side Encryption (SSE) com chaves gerenciadas pelo AWS",
+      "Implementando o Amazon CloudHSM para gerenciar as chaves de criptografia",
+      "Utilizando o Amazon Glacier para armazenar os dados criptografados"
+    ],
+    "correct": 0,
+    "explanation": "O AWS KMS pode ser usado para criar chaves de criptografia e usá-las para criptografar os dados no Amazon S3, permitindo o controle de acesso granular e a gestão de chaves."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "recuperação de desastres",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "alta disponibilidade",
+      "recuperação de desastres"
+    ],
+    "question": "Uma empresa de tecnologia precisa armazenar dados críticos em uma região específica, mas também precisa garantir que os dados estejam disponíveis em caso de falha da região. A empresa não pode gastar mais de $10.000 por mês com o armazenamento de dados e precisa que os dados sejam recuperados em menos de 4 horas em caso de desastre. Qual é a melhor opção de armazenamento de dados para essa empresa?",
+    "options": [
+      "Utilizar o Amazon S3 com replicação em duas regiões",
+      "Utilizar o Amazon EBS com snapshots",
+      "Utilizar o Amazon Glacier com restauração rápida",
+      "Utilizar o Amazon EFS com replicação em duas regiões"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon S3 com replicação em duas regiões, pois isso garante a alta disponibilidade e a recuperação de desastres em caso de falha da região. Além disso, o Amazon S3 é uma opção econômica e escalável para armazenar dados."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização de desempenho",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de desempenho",
+      "funções sem servidor"
+    ],
+    "question": "Um desenvolvedor está criando uma aplicação sem servidor que precisa processar milhares de requisições por segundo. A aplicação precisa ser escalável e ter um baixo latency. Qual é a melhor opção para essa aplicação?",
+    "options": [
+      "Utilizar o AWS Lambda com Node.js",
+      "Utilizar o Amazon EC2 com Docker",
+      "Utilizar o Amazon API Gateway com caching",
+      "Utilizar o Amazon ECS com contêineres"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o AWS Lambda com Node.js, pois o AWS Lambda é uma plataforma sem servidor que pode ser escalada automaticamente para atender a demanda. Além disso, o Node.js é uma linguagem de programação leve e rápida que é bem-suited para aplicações em tempo real."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "autenticação e autorização",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização",
+      "gerenciamento de identidade"
+    ],
+    "question": "Uma empresa de tecnologia precisa criar uma aplicação móvel que permita que os usuários se autentiquem e acessem recursos protegidos. A empresa precisa garantir que a autenticação seja segura e que os usuários tenham permissões adequadas para acessar os recursos. Qual é a melhor opção para essa empresa?",
+    "options": [
+      "Utilizar o Amazon Cognito com autenticação via Facebook",
+      "Utilizar o Amazon IAM com grupos de segurança",
+      "Utilizar o Amazon STS com tokens de segurança",
+      "Utilizar o Amazon Directory Service com autenticação via Active Directory"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon Cognito com autenticação via Facebook, pois o Amazon Cognito é um serviço de gerenciamento de identidade que pode ser utilizado para autenticar usuários e fornecer permissões para acessar recursos protegidos. Além disso, a autenticação via Facebook é uma opção conveniente e segura para os usuários."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização de custos",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "instâncias de computação"
+    ],
+    "question": "Uma empresa de tecnologia precisa criar uma aplicação que precise de uma grande quantidade de instâncias de computação para processar requisições. A empresa precisa otimizar os custos e garantir que as instâncias sejam escaladas automaticamente para atender a demanda. Qual é a melhor opção para essa empresa?",
+    "options": [
+      "Utilizar o Amazon EC2 com instâncias spot",
+      "Utilizar o Amazon EC2 com instâncias reservadas",
+      "Utilizar o Amazon EC2 com instâncias on-demand",
+      "Utilizar o Amazon EC2 com instâncias dedicadas"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon EC2 com instâncias spot, pois as instâncias spot são uma opção econômica para processar requisições que não são críticas e podem ser interrompidas em caso de necessidade. Além disso, as instâncias spot podem ser escaladas automaticamente para atender a demanda."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "recuperação de desastres",
+    "service": "Amazon RDS",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "recuperação de desastres",
+      "banco de dados"
+    ],
+    "question": "Uma empresa de tecnologia precisa criar um banco de dados que seja resiliente e possa ser recuperado em caso de desastre. A empresa precisa garantir que o banco de dados seja replicado em duas regiões e que os dados sejam recuperados em menos de 4 horas em caso de desastre. Qual é a melhor opção para essa empresa?",
+    "options": [
+      "Utilizar o Amazon RDS com replicação em duas regiões",
+      "Utilizar o Amazon DynamoDB com replicação em duas regiões",
+      "Utilizar o Amazon S3 com restauração de banco de dados",
+      "Utilizar o Amazon EBS com snapshots de banco de dados"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon RDS com replicação em duas regiões, pois o Amazon RDS é um serviço de banco de dados que pode ser replicado em duas regiões para garantir a recuperação de desastres. Além disso, o Amazon RDS pode ser configurado para recuperar os dados em menos de 4 horas em caso de desastre."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização de desempenho",
+    "service": "Amazon CloudFront",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de desempenho",
+      "distribuição de conteúdo"
+    ],
+    "question": "Uma empresa de tecnologia precisa criar uma aplicação que precise distribuir conteúdo estático para usuários em todo o mundo. A empresa precisa otimizar o desempenho e garantir que o conteúdo seja entregue rapidamente aos usuários. Qual é a melhor opção para essa empresa?",
+    "options": [
+      "Utilizar o Amazon CloudFront com edge locations",
+      "Utilizar o Amazon S3 com distribuição de conteúdo",
+      "Utilizar o Amazon EC2 com instâncias de computação",
+      "Utilizar o Amazon API Gateway com caching"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon CloudFront com edge locations, pois o Amazon CloudFront é um serviço de distribuição de conteúdo que pode ser utilizado para entregar conteúdo estático rapidamente aos usuários em todo o mundo. Além disso, as edge locations do Amazon CloudFront podem ser utilizadas para reduzir a latência e melhorar o desempenho."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "autenticação e autorização",
+    "service": "Amazon IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização",
+      "gerenciamento de acesso"
+    ],
+    "question": "Uma empresa de tecnologia precisa criar uma aplicação que precise autenticar e autorizar usuários para acessar recursos protegidos. A empresa precisa garantir que os usuários tenham permissões adequadas para acessar os recursos e que as permissões sejam revogadas quando os usuários não precisam mais delas. Qual é a melhor opção para essa empresa?",
+    "options": [
+      "Utilizar o Amazon IAM com grupos de segurança",
+      "Utilizar o Amazon Cognito com autenticação via Facebook",
+      "Utilizar o Amazon STS com tokens de segurança",
+      "Utilizar o Amazon Directory Service com autenticação via Active Directory"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon IAM com grupos de segurança, pois o Amazon IAM é um serviço de gerenciamento de acesso que pode ser utilizado para autenticar e autorizar usuários para acessar recursos protegidos. Além disso, os grupos de segurança do Amazon IAM podem ser utilizados para gerenciar as permissões dos usuários e revogar as permissões quando os usuários não precisam mais delas."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização de custos",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de custos",
+      "armazenamento de dados"
+    ],
+    "question": "Uma empresa de tecnologia precisa armazenar grandes quantidades de dados em um serviço de armazenamento de dados. A empresa precisa otimizar os custos e garantir que os dados sejam armazenados de forma segura e escalável. Qual é a melhor opção para essa empresa?",
+    "options": [
+      "Utilizar o Amazon S3 com armazenamento de dados em frio",
+      "Utilizar o Amazon EBS com armazenamento de dados em quente",
+      "Utilizar o Amazon Glacier com armazenamento de dados em arquivamento",
+      "Utilizar o Amazon EFS com armazenamento de dados em compartilhamento"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon S3 com armazenamento de dados em frio, pois o Amazon S3 é um serviço de armazenamento de dados que pode ser utilizado para armazenar grandes quantidades de dados de forma segura e escalável. Além disso, o armazenamento de dados em frio do Amazon S3 é uma opção econômica para armazenar dados que não precisam ser acessados frequentemente."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "recuperação de desastres",
+    "service": "Amazon Route 53",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "recuperação de desastres",
+      "gerenciamento de tráfego"
+    ],
+    "question": "Uma empresa de tecnologia precisa criar uma aplicação que precise ser resiliente e possa ser recuperada em caso de desastre. A empresa precisa garantir que o tráfego seja direcionado para a região mais próxima do usuário e que os dados sejam recuperados em menos de 4 horas em caso de desastre. Qual é a melhor opção para essa empresa?",
+    "options": [
+      "Utilizar o Amazon Route 53 com direcionamento de tráfego",
+      "Utilizar o Amazon CloudFront com edge locations",
+      "Utilizar o Amazon S3 com restauração de banco de dados",
+      "Utilizar o Amazon EBS com snapshots de banco de dados"
+    ],
+    "correct": 0,
+    "explanation": "A opção correta é utilizar o Amazon Route 53 com direcionamento de tráfego, pois o Amazon Route 53 é um serviço de gerenciamento de tráfego que pode ser utilizado para direcionar o tráfego para a região mais próxima do usuário. Além disso, o Amazon Route 53 pode ser configurado para recuperar os dados em menos de 4 horas em caso de desastre."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "Amazon Route 53",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "roteamento de tráfego",
+      "failover"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web altamente disponível em duas regiões da AWS, com o objetivo de garantir que os usuários sejam direcionados para a região mais próxima com menor latência. No entanto, a empresa também necessita de uma solução de failover automatizado em caso de falha de uma das regiões. Qual é a melhor abordagem para atender a esses requisitos?",
+    "options": [
+      "Utilizar o Amazon Route 53 com registros de roteamento de tráfego baseados em latência e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon CloudFront com distribuições de conteúdo em múltiplas regiões e configurar um registro de health check para failover automatizado",
+      "Utilizar o AWS Elastic Load Balancer com balanceamento de carga em múltiplas regiões e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon API Gateway com endpoints de API em múltiplas regiões e configurar um registro de health check para failover automatizado"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Route 53 é o serviço mais adequado para esse cenário, pois oferece roteamento de tráfego baseado em latência e failover automatizado com registros de health check."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização-de-desempenho",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de objetos",
+      "otimização de desempenho"
+    ],
+    "question": "Um provedor de serviços de nuvem deseja armazenar grandes quantidades de dados de usuário em um bucket do Amazon S3, mas enfrenta problemas de desempenho devido à grande quantidade de solicitações de leitura e gravação. Qual é a melhor abordagem para otimizar o desempenho do armazenamento de objetos no Amazon S3?",
+    "options": [
+      "Utilizar o Amazon S3 Standard para armazenar objetos frequentemente acessados e o Amazon S3 Standard-IA para armazenar objetos menos frequentemente acessados",
+      "Utilizar o Amazon S3 Standard para armazenar objetos frequentemente acessados e o Amazon Glacier para armazenar objetos menos frequentemente acessados",
+      "Utilizar o Amazon S3 Standard para armazenar objetos frequentemente acessados e o Amazon EBS para armazenar objetos menos frequentemente acessados",
+      "Utilizar o Amazon S3 Standard para armazenar objetos frequentemente acessados e o Amazon EFS para armazenar objetos menos frequentemente acessados"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 Standard é o tipo de armazenamento mais adequado para objetos frequentemente acessados, enquanto o Amazon S3 Standard-IA é mais adequado para objetos menos frequentemente acessados."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "autenticação-e-autorização",
+    "service": "AWS IAM",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação",
+      "autorização"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web que exija autenticação e autorização para acessar recursos da AWS. No entanto, a empresa também necessita de uma solução que permita que os usuários acessem os recursos sem precisar fornecer credenciais de acesso da AWS. Qual é a melhor abordagem para atender a esses requisitos?",
+    "options": [
+      "Utilizar o AWS IAM com políticas de acesso baseadas em identidade e configurar um provedor de identidade externo para autenticação",
+      "Utilizar o AWS IAM com políticas de acesso baseadas em recursos e configurar um provedor de identidade externo para autenticação",
+      "Utilizar o AWS Cognito com pools de identidade para autenticação e autorização",
+      "Utilizar o AWS STS com credenciais temporárias para autenticação e autorização"
+    ],
+    "correct": 0,
+    "explanation": "O AWS IAM com políticas de acesso baseadas em identidade é a solução mais adequada para esse cenário, pois permite que os usuários acessem os recursos da AWS sem precisar fornecer credenciais de acesso da AWS."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização-de-custo",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de custo",
+      "instâncias de computação"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web que exija instâncias de computação de alta performance, mas enfrenta problemas de custo devido ao alto preço das instâncias de computação. Qual é a melhor abordagem para otimizar o custo das instâncias de computação?",
+    "options": [
+      "Utilizar instâncias de computação spot para reduzir o custo de computação",
+      "Utilizar instâncias de computação reserved para reduzir o custo de computação",
+      "Utilizar instâncias de computação on-demand para reduzir o custo de computação",
+      "Utilizar instâncias de computação dedicated para reduzir o custo de computação"
+    ],
+    "correct": 1,
+    "explanation": "As instâncias de computação reserved são a opção mais econômica para empresas que precisam de instâncias de computação de alta performance por um período prolongado."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "recuperação-de-desastres",
+    "service": "Amazon RDS",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "recuperação de desastres",
+      "bases de dados"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma base de dados relacional que exija recuperação de desastres em caso de falha de uma região da AWS. Qual é a melhor abordagem para atender a esses requisitos?",
+    "options": [
+      "Utilizar o Amazon RDS com réplicas de leitura em múltiplas regiões e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon RDS com réplicas de leitura em uma região e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon DynamoDB com tabelas globais para recuperação de desastres",
+      "Utilizar o Amazon DocumentDB com clusters globais para recuperação de desastres"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon RDS com réplicas de leitura em múltiplas regiões é a solução mais adequada para esse cenário, pois oferece recuperação de desastres em caso de falha de uma região da AWS."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização-de-desempenho",
+    "service": "Amazon CloudFront",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de desempenho",
+      "distribuições de conteúdo"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web que exija distribuições de conteúdo em múltiplas regiões da AWS. Qual é a melhor abordagem para otimizar o desempenho das distribuições de conteúdo?",
+    "options": [
+      "Utilizar o Amazon CloudFront com distribuições de conteúdo em múltiplas regiões e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon CloudFront com distribuições de conteúdo em uma região e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon S3 com réplicas de objetos em múltiplas regiões para distribuições de conteúdo",
+      "Utilizar o Amazon EC2 com instâncias de computação em múltiplas regiões para distribuições de conteúdo"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon CloudFront com distribuições de conteúdo em múltiplas regiões é a solução mais adequada para esse cenário, pois oferece distribuições de conteúdo em múltiplas regiões da AWS."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "cifra-de-dados",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "cifra de dados",
+      "gerenciamento de chaves"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web que exija cifra de dados para proteger os dados dos usuários. Qual é a melhor abordagem para atender a esses requisitos?",
+    "options": [
+      "Utilizar o AWS Key Management Service para gerenciar as chaves de cifra de dados",
+      "Utilizar o AWS IAM para gerenciar as chaves de cifra de dados",
+      "Utilizar o Amazon S3 para armazenar as chaves de cifra de dados",
+      "Utilizar o Amazon EC2 para armazenar as chaves de cifra de dados"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Key Management Service é a solução mais adequada para esse cenário, pois oferece gerenciamento de chaves de cifra de dados para proteger os dados dos usuários."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimização-de-custo",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de custo",
+      "funções de computação"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web que exija funções de computação serverless. Qual é a melhor abordagem para otimizar o custo das funções de computação?",
+    "options": [
+      "Utilizar o AWS Lambda com funções de computação serverless para reduzir o custo de computação",
+      "Utilizar o Amazon EC2 com instâncias de computação para reduzir o custo de computação",
+      "Utilizar o Amazon ECS com contêineres para reduzir o custo de computação",
+      "Utilizar o Amazon EKS com clusters de contêineres para reduzir o custo de computação"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Lambda com funções de computação serverless é a opção mais econômica para empresas que precisam de funções de computação sem precisar gerenciar servidores."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "Amazon Elastic Load Balancer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "balanceamento de carga",
+      "alta disponibilidade"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web que exija balanceamento de carga em múltiplas regiões da AWS. Qual é a melhor abordagem para atender a esses requisitos?",
+    "options": [
+      "Utilizar o Amazon Elastic Load Balancer com balanceamento de carga em múltiplas regiões e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon Elastic Load Balancer com balanceamento de carga em uma região e configurar um registro de health check para failover automatizado",
+      "Utilizar o Amazon Route 53 com registros de roteamento de tráfego baseados em latência para balanceamento de carga",
+      "Utilizar o Amazon CloudFront com distribuições de conteúdo em múltiplas regiões para balanceamento de carga"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Elastic Load Balancer com balanceamento de carga em múltiplas regiões é a solução mais adequada para esse cenário, pois oferece balanceamento de carga em múltiplas regiões da AWS."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimização-de-desempenho",
+    "service": "Amazon Elastic Container Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de desempenho",
+      "contêineres"
+    ],
+    "question": "Uma empresa de tecnologia deseja implantar uma aplicação web que exija contêineres para otimizar o desempenho. Qual é a melhor abordagem para atender a esses requisitos?",
+    "options": [
+      "Utilizar o Amazon Elastic Container Service com contêineres para otimizar o desempenho",
+      "Utilizar o Amazon EC2 com instâncias de computação para otimizar o desempenho",
+      "Utilizar o Amazon ECS com contêineres para otimizar o desempenho",
+      "Utilizar o Amazon EKS com clusters de contêineres para otimizar o desempenho"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon Elastic Container Service com contêineres é a solução mais adequada para esse cenário, pois oferece contêineres para otimizar o desempenho da aplicação web."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "Amazon Route 53",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "roteamento de tráfego",
+      "failover"
+    ],
+    "question": "Uma empresa de comércio eletrônico necessita garantir que seu site esteja sempre disponível para os clientes, mesmo em caso de falha de um dos data centers. Eles têm dois data centers localizados em diferentes regiões da AWS e querem utilizar um serviço que permita rotear o tráfego para o data center mais disponível. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "Amazon CloudFront",
+      "Amazon Route 53",
+      "AWS Elastic Load Balancer",
+      "Amazon API Gateway"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Route 53 é o serviço da AWS que permite rotear o tráfego para o data center mais disponível, utilizando recursos como o roteamento de tráfego e o failover."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-de-custo",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "funções sem servidor",
+      "custo"
+    ],
+    "question": "Uma empresa de tecnologia está desenvolvendo uma aplicação que utiliza funções sem servidor para processar requests de clientes. Eles querem otimizar o custo da execução dessas funções e estão considerando utilizar um serviço da AWS que permita pagar apenas pelo tempo de execução das funções. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "Amazon EC2",
+      "AWS Lambda",
+      "Amazon Elastic Container Service",
+      "Amazon Elastic Container Service for Kubernetes"
+    ],
+    "correct": 1,
+    "explanation": "O AWS Lambda é o serviço da AWS que permite pagar apenas pelo tempo de execução das funções, tornando-o uma opção mais econômica para a empresa."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "autenticacao-e-autorizacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticacao",
+      "autorizacao"
+    ],
+    "question": "Uma empresa de software está desenvolvendo uma aplicação que requer autenticação e autorização de usuários. Eles querem utilizar um serviço da AWS que permita gerenciar a identidade dos usuários e controlar o acesso às recursos da aplicação. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "Amazon IAM",
+      "Amazon Cognito",
+      "AWS Directory Service",
+      "Amazon STS"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Cognito é o serviço da AWS que permite gerenciar a identidade dos usuários e controlar o acesso às recursos da aplicação, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-de-custo",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "custo",
+      "otimizacao"
+    ],
+    "question": "Uma empresa de tecnologia está procurando por uma forma de otimizar o custo de sua infraestrutura na AWS. Eles querem utilizar um serviço que permita visualizar e analisar os gastos em tempo real, identificar áreas de desperdício e otimizar o uso de recursos. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "AWS CloudTrail",
+      "Amazon CloudFront"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é o serviço da AWS que permite visualizar e analisar os gastos em tempo real, identificar áreas de desperdício e otimizar o uso de recursos, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "recuperacao-de-desastres",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "recuperacao-de-desastres",
+      "armazenamento"
+    ],
+    "question": "Uma empresa de tecnologia está procurando por uma forma de garantir a recuperação de desastres de seus dados armazenados na AWS. Eles querem utilizar um serviço que permita armazenar cópias dos dados em diferentes regiões e recuperar os dados em caso de falha. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "Amazon S3",
+      "Amazon EBS",
+      "Amazon Glacier",
+      "AWS Storage Gateway"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 é o serviço da AWS que permite armazenar cópias dos dados em diferentes regiões e recuperar os dados em caso de falha, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-de-desempenho",
+    "service": "Amazon CloudFront",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimizacao-de-desempenho",
+      "distribuicao-de-conteudo"
+    ],
+    "question": "Uma empresa de mídia está procurando por uma forma de otimizar o desempenho da distribuição de conteúdo de sua aplicação. Eles querem utilizar um serviço que permita distribuir o conteúdo para os usuários finais de forma mais rápida e eficiente. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "Amazon CloudFront",
+      "Amazon S3",
+      "AWS Lambda",
+      "Amazon API Gateway"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon CloudFront é o serviço da AWS que permite distribuir o conteúdo para os usuários finais de forma mais rápida e eficiente, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "protecao-de-dados",
+    "service": "AWS Key Management Service",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "protecao-de-dados",
+      "criptografia"
+    ],
+    "question": "Uma empresa de tecnologia está procurando por uma forma de proteger os dados sensíveis de sua aplicação. Eles querem utilizar um serviço que permita gerenciar as chaves de criptografia e proteger os dados em repouso e em trânsito. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "AWS Key Management Service",
+      "Amazon S3",
+      "AWS IAM",
+      "Amazon CloudHSM"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Key Management Service é o serviço da AWS que permite gerenciar as chaves de criptografia e proteger os dados em repouso e em trânsito, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-de-custo",
+    "service": "AWS Trusted Advisor",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimizacao-de-custo",
+      "recomendacoes"
+    ],
+    "question": "Uma empresa de tecnologia está procurando por uma forma de otimizar o custo de sua infraestrutura na AWS. Eles querem utilizar um serviço que permita fornecer recomendações personalizadas para otimizar o uso de recursos e reduzir os gastos. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "AWS Trusted Advisor",
+      "AWS Cost Explorer",
+      "AWS CloudWatch",
+      "Amazon CloudFront"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Trusted Advisor é o serviço da AWS que permite fornecer recomendações personalizadas para otimizar o uso de recursos e reduzir os gastos, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "AWS Elastic Load Balancer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "alta-disponibilidade",
+      "balanceamento-de-carga"
+    ],
+    "question": "Uma empresa de tecnologia está procurando por uma forma de garantir a alta disponibilidade de sua aplicação. Eles querem utilizar um serviço que permita distribuir o tráfego de rede para múltiplos servidores e garantir que a aplicação esteja sempre disponível. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "AWS Elastic Load Balancer",
+      "Amazon Route 53",
+      "AWS Auto Scaling",
+      "Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Elastic Load Balancer é o serviço da AWS que permite distribuir o tráfego de rede para múltiplos servidores e garantir que a aplicação esteja sempre disponível, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-de-desempenho",
+    "service": "AWS X-Ray",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimizacao-de-desempenho",
+      "análise-de-desempenho"
+    ],
+    "question": "Uma empresa de tecnologia está procurando por uma forma de otimizar o desempenho de sua aplicação. Eles querem utilizar um serviço que permita analisar o desempenho da aplicação e identificar áreas de melhoria. Qual serviço da AWS eles devem utilizar para atender a esse requisito?",
+    "options": [
+      "AWS X-Ray",
+      "AWS CloudWatch",
+      "Amazon CloudFront",
+      "AWS Lambda"
+    ],
+    "correct": 0,
+    "explanation": "O AWS X-Ray é o serviço da AWS que permite analisar o desempenho da aplicação e identificar áreas de melhoria, tornando-o uma opção mais adequada para a empresa."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "alta-disponibilidade",
+    "service": "Amazon Route 53",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "roteamento de tráfego",
+      "tolerância a falhas"
+    ],
+    "question": "Uma empresa de comércio eletrônico precisa garantir que seu site esteja sempre acessível, mesmo em caso de falha de uma região inteira da AWS. Eles já possuem um aplicativo hospedado em um cluster de EC2 em várias regiões, mas precisam de uma solução para rotear o tráfego de forma eficiente e garantir a alta disponibilidade. Qual é a melhor abordagem para atender a esse requisito?",
+    "options": [
+      "Implementar um balanceador de carga ELB em cada região e configurar o DNS para apontar para os ELBs",
+      "Usar o Amazon Route 53 com Health Checks e roteamento de tráfego baseado em latência para direcionar os usuários para a região mais próxima com o aplicativo em execução",
+      "Criar um cluster de banco de dados Aurora global para gerenciar o tráfego e a replicação de dados",
+      "Utilizar o AWS CloudFront como uma camada de distribuição de conteúdo para melhorar a disponibilidade do site"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Route 53 com Health Checks e roteamento de tráfego baseado em latência é a solução mais adequada para garantir a alta disponibilidade do site, pois permite rotear o tráfego para a região mais próxima com o aplicativo em execução e evitar regiões com problemas de conectividade."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-de-custo",
+    "service": "AWS Lambda",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "funções serverless",
+      "otimização de desempenho"
+    ],
+    "question": "Um desenvolvedor está criando um aplicativo serverless que processa grandes volumes de dados em lotes. Ele precisa otimizar o desempenho e reduzir os custos. Qual é a melhor abordagem para atender a esse requisito?",
+    "options": [
+      "Usar o AWS Lambda com funções de longa execução e aumentar a memória alocada para cada função",
+      "Implementar um cluster de EC2 com instâncias otimizadas para processamento de lotes e utilizar o Amazon SQS para gerenciar as filas de trabalho",
+      "Utilizar o AWS Glue para processar os dados em lotes e criar um pipeline de dados para otimizar o fluxo de trabalho",
+      "Optar por funções de curta execução no AWS Lambda e utilizar o Amazon S3 para armazenar e processar os dados em lotes"
+    ],
+    "correct": 3,
+    "explanation": "Optar por funções de curta execução no AWS Lambda e utilizar o Amazon S3 para armazenar e processar os dados em lotes é a solução mais adequada para otimizar o desempenho e reduzir os custos, pois as funções de curta execução são mais baratas e o Amazon S3 fornece uma solução escalável para armazenamento de dados."
+  },
+  {
+    "domain": "seguranca-aplicacoes",
+    "subdomain": "autenticacao-e-autorizacao",
+    "service": "Amazon Cognito",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "autenticação de usuários",
+      "autorização de acesso"
+    ],
+    "question": "Uma empresa de desenvolvimento de software precisa implementar um sistema de autenticação e autorização para seus aplicativos. Eles desejam uma solução escalável e segura que possa lidar com um grande número de usuários. Qual é a melhor abordagem para atender a esse requisito?",
+    "options": [
+      "Implementar um sistema de autenticação personalizado utilizando o AWS IAM e o Amazon STS",
+      "Usar o Amazon Cognito para gerenciar a autenticação e autorização de usuários",
+      "Utilizar o AWS Directory Service para criar um diretório de usuários e grupos",
+      "Criar um sistema de autenticação baseado em tokens utilizando o AWS API Gateway e o Amazon DynamoDB"
+    ],
+    "correct": 1,
+    "explanation": "O Amazon Cognito é a solução mais adequada para gerenciar a autenticação e autorização de usuários, pois fornece uma solução escalável e segura para lidar com um grande número de usuários e pode ser integrada facilmente com outros serviços da AWS."
+  },
+  {
+    "domain": "design-custo",
+    "subdomain": "otimizacao-de-custo",
+    "service": "AWS Cost Explorer",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "análise de custos",
+      "otimização de desempenho"
+    ],
+    "question": "Um administrador de TI precisa analisar e otimizar os custos de sua infraestrutura na AWS. Ele deseja identificar áreas de desperdício e oportunidades para reduzir os gastos. Qual é a melhor abordagem para atender a esse requisito?",
+    "options": [
+      "Usar o AWS Cost Explorer para analisar os custos e identificar áreas de otimização",
+      "Implementar um sistema de monitoramento de custos personalizado utilizando o AWS CloudWatch e o Amazon CloudTrail",
+      "Utilizar o AWS Trusted Advisor para obter recomendações de otimização de custos",
+      "Criar um relatório de custos personalizado utilizando o Amazon QuickSight e o Amazon Redshift"
+    ],
+    "correct": 0,
+    "explanation": "O AWS Cost Explorer é a solução mais adequada para analisar e otimizar os custos de sua infraestrutura na AWS, pois fornece uma visão detalhada dos custos e permite identificar áreas de desperdício e oportunidades para reduzir os gastos."
+  },
+  {
+    "domain": "design-resiliente",
+    "subdomain": "recuperacao-de-desastres",
+    "service": "Amazon S3",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "armazenamento de dados",
+      "recuperação de desastres"
+    ],
+    "question": "Uma empresa de serviços financeiros precisa garantir a recuperação de desastres de seus dados críticos. Eles desejam uma solução que possa armazenar e recuperar grandes volumes de dados de forma eficiente. Qual é a melhor abordagem para atender a esse requisito?",
+    "options": [
+      "Usar o Amazon S3 com armazenamento de dados em múltiplas regiões para garantir a recuperação de desastres",
+      "Implementar um sistema de armazenamento de dados personalizado utilizando o Amazon EBS e o Amazon EC2",
+      "Utilizar o Amazon Glacier para armazenar dados arquivados e recuperá-los em caso de desastre",
+      "Criar um sistema de replicação de dados utilizando o Amazon Data Pipeline e o Amazon Redshift"
+    ],
+    "correct": 0,
+    "explanation": "O Amazon S3 com armazenamento de dados em múltiplas regiões é a solução mais adequada para garantir a recuperação de desastres de dados críticos, pois fornece uma solução escalável e segura para armazenar e recuperar grandes volumes de dados."
+  },
+  {
+    "domain": "design-performance",
+    "subdomain": "otimizacao-de-desempenho",
+    "service": "Amazon EC2",
+    "difficulty": "hard",
+    "type": "scenario",
+    "tags": [
+      "otimização de desempenho",
+      "instâncias de computação"
+    ],
+    "question": "Um desenvolvedor de jogos precisa otimizar o desempenho de seu jogo online. Ele deseja uma solução que possa lidar com um grande número de jogadores e fornecer uma experiência de jogo suave. Qual é a melhor abordagem para atender a esse requisito?",
+    "options": [
+      "Usar instâncias de computação otimizadas do Amazon EC2 para executar o jogo",
+      "Implementar um cluster de instâncias de computação utilizando o Amazon EC2 e o Amazon SQS",
+      "Utilizar o AWS Lambda para processar as requisições do jogo e otimizar o desempenho",
+      "Criar um sistema de distribuição de carga utilizando o Amazon ELB e o Amazon EC2"
+    ],
+    "correct": 0,
+    "explanation": "Usar instâncias de computação otimizadas do Amazon EC2 para executar o jogo é a solução mais adequada para otimizar o desempenho do jogo online, pois fornece uma solução escalável e segura para lidar com um grande número de jogadores e fornecer uma experiência de jogo suave."
   }
 ]

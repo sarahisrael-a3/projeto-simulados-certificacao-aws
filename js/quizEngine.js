@@ -198,8 +198,33 @@ export class QuizEngine {
     }
 
     // --- FUNÇÕES PRIVADAS DE UTILIDADE ---
-    _shuffleArray(arr) { 
-        return [...arr].sort(() => Math.random() - 0.5); 
+    /**
+     * Embaralha um array usando o algoritmo Fisher-Yates (Knuth shuffle).
+     * 
+     * Este método garante uma distribuição uniforme verdadeira, ao contrário
+     * do padrão .sort(() => Math.random() - 0.5), que cria viés significativo
+     * no motor V8 do Chrome/Node.js.
+     * 
+     * Complexidade: O(n) tempo, O(n) espaço (devido à cópia do array).
+     * 
+     * @private
+     * @param {Array} arr - Array a embaralhar
+     * @returns {Array} Novo array embaralhado (não modifica o original)
+     * 
+     * @see https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+     * @see https://v8.dev/blog/array-sort (explicação do viés do .sort())
+     */
+    _shuffleArray(arr) {
+        const shuffled = [...arr]; // Cria cópia para não mutar o original
+        
+        // Fisher-Yates: percorre de trás para frente, trocando cada elemento
+        // com um elemento aleatório da porção ainda não embaralhada
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        
+        return shuffled;
     }
 
     _shuffleOptions(q) {
