@@ -3,15 +3,15 @@
 Primeiramente, obrigado pelo interesse em contribuir! 🎉 
 Este projeto é um laboratório colaborativo da nossa Guilda para aprendermos Cloud, Dados, UX e Desenvolvimento de Software na prática.
 
-## � Pré-Requisitos
+## 📋 Pré-Requisitos
 
 Antes de começar, certifique-se de que seu ambiente está configurado:
 
 ### Dependências Obrigatórias
-- **Git** - para controle de versão
-- **Python 3.12+** - para scripts de geração e validação de questões
-- **Node.js 18+** - para dependências JavaScript e testes
-- **npm** - gerenciador de pacotes JavaScript
+- ✅**Git** - para controle de versão
+- ✅**Python 3.12+** - para scripts de geração e validação de questões
+- ✅**Node.js 18+** - para dependências JavaScript e testes
+- ✅**npm** - gerenciador de pacotes JavaScript
 
 ### Variáveis de Ambiente
 1. Crie um arquivo `.env` na raiz do projeto (copie de `.env.example`):
