@@ -9,6 +9,7 @@ Antes de começar, certifique-se de que seu ambiente está configurado:
 
 ### Dependências Obrigatórias
 - ✅**Git** - para controle de versão
+- ✅Conta no **GitHub** com SSH ou Token configurado  
 - ✅**Python 3.12+** - para scripts de geração e validação de questões
 - ✅**Node.js 18+** - para dependências JavaScript e testes
 - ✅**npm** - gerenciador de pacotes JavaScript
@@ -23,7 +24,7 @@ Antes de começar, certifique-se de que seu ambiente está configurado:
    - `GOOGLE_API_KEY` - obtenha em [Google AI Studio](https://aistudio.google.com/app/apikey)
    - `GROQ_API_KEY` - obtenha em [Groq Console](https://console.groq.com/keys)
 
-> ⚠️ **IMPORTANTE**: Nunca commite o arquivo `.env` com suas chaves reais. Use `.env.example` como template.
+⚠️ **IMPORTANTE**: Nunca commite o arquivo `.env` com suas chaves reais. Use `.env.example` como template.
 
 ## 🚀 Setup Inicial
 
@@ -32,8 +33,15 @@ Antes de começar, certifique-se de que seu ambiente está configurado:
 git clone <link-do-seu-fork>
 cd projeto-simulados-certificacao-aws
 ```
+### 2. Criar e ativar um ambiente virtual:
+```bash
+# Cria o ambiente
+python -m venv .venv
 
-### 2. Instale dependências JavaScript
+# Ativa o ambiente
+.venv\Scripts\Activate.ps1
+```
+### 3. Instale dependências JavaScript
 ```bash
 npm install
 ```
@@ -42,10 +50,7 @@ npm install
 ```bash
 pip install -r scripts_python/requirements.txt
 ```
-
-### 4. Configure variáveis de ambiente (veja seção acima)
-
-## ✅ Validação do Setup
+### 4. Validação do Setup
 
 Para verificar se tudo está funcionando:
 ```bash
@@ -55,17 +60,118 @@ npm test
 # Teste Python básico
 python scripts_python/sanity_check.py
 ```
+---
+## 🌳 Estrutura de Branches
+
+Trabalharemos com 2 tipos de branches principais:
+
+| Branch | Propósito | Deploy/Automação |
+|--------|----------|------------------|
+| `main` | Ambiente de produção | ✅ Sim (com restrições) |
+| `feature/*`, `fix/*`, `docs/*` | Branches locais de trabalho | ❌ Não |
 
 ---
 
-## �🛠 Como contribuir
+## 📝 Padrão de Nomenclatura das Branches
+
+Toda branch local deve seguir o formato:
+```bash
+{acao}/{contexto}/{descricao}-{id-issue}
+```
+
+⚠️ **Regra Importante:**  
+O **ID da Issue é obrigatório** para rastreabilidade.
+
+---
+
+### 🔹 Ações
+
+- `feature` → Nova funcionalidade  
+- `fix` → Correção de bug  
+- `hotfix` → Correção urgente em produção  
+- `refactor` → Refatoração de código  
+- `docs` → Documentação  
+- `data` → Dados/simulados  
+
+---
+
+### 🔹 Contextos do Projeto
+
+- `engine` → Lógica do quiz  
+- `ui` → Interface e gamificação  
+- `scripts` → Scripts Python  
+- `dataset` → Dados JSON  
+- `ci` → Pipelines (GitHub Actions)  
+
+---
+
+### 💡 Exemplos
+
+```bash
+# Nova funcionalidade em um script python (Issue #12)  
+  feature/scripts/validador_semantico-12
+
+# Correção de bug na interface (Issue #45)  
+  fix/ui/correcao_xp_badges-45
+
+# Novos dataset com questões (Issue #23)  
+  data/dataset/novas_questoes_saac03-23
+```
+
+---
+
+## 💾 Padrão de Commits (Conventional Commits)
+
+Um commit deve ser feito quando você tem algo relevante para sua tarefa, por exemplo:
+
+- ✅ Testes
+- ✅ Métodos
+- ✅ Refatoração no código
+- ✅ Estilo de código
+- ✅ Correção de bug
+
+**Lembre-se:** Alguém vai ler o que você está fazendo. Seus commits devem contar uma história.
+
+Os commits também seguem o formato de ações e contextos, mesma lógica das branches:
+
+```bash
+git commit -m "feat(scripts): adiciona script para detectar questoes duplicadas"`
+git commit -m "fix(engine): ajusta timer do pomodoro manager"`
+git commit -m "data(dataset): atualiza json do aif-c01 com 50 novas questoes"`
+git commit -m "ci(workflows): adiciona step de auto-merge para contribuicoes"`
+```
+### Tipos de commit:
+
+- `feature` → Nova funcionalidade  
+- `fix` → Correção de bug  
+- `hotfix` → Correção urgente em produção  
+- `refactor` → Refatoração de código  
+- `docs` → Documentação  
+- `data` → Dados/simulados  
+
+## 🛠 Como contribuir
 
 1. Faça o **Fork** deste repositório.
-2. Clone o seu fork para a sua máquina local: `git clone <link-do-seu-fork>`
+2. Clone o seu fork para a sua máquina local: 
+```bash
+git clone <link-do-seu-fork>
+```
+
 3. Crie uma branch para a sua alteração:
-   `git checkout -b feature/minha-nova-funcionalidade` ou `git checkout -b fix/correcao-bug`
-4. Faça suas alterações e commit: `git commit -m "feat: adiciona 10 novas perguntas de SAA"`
-5. Envie para o seu fork: `git push origin feature/minha-nova-funcionalidade`
+```bash
+git checkout -b feature/scripts/minha-nova-funcionalidade-12
+```
+
+4. Faça suas alterações e commit:
+```bash
+git commit -m "feat(scripts): nova funcionalidade nos scripts python"
+```
+
+5. Envie para o seu fork: 
+```bash
+git push origin feature/minha-nova-funcionalidade
+```
+
 6. Abra um **Pull Request (PR)** neste repositório.
 
 ## 🤝 Áreas de Contribuição
