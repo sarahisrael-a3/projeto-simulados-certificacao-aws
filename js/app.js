@@ -831,8 +831,8 @@ function renderDetailedReportUI(results) {
     results.answers.forEach((ans, index) => {
         const isMulti = Array.isArray(ans.correct);
 
-        let userText = "";
-        let correctText = "";
+        let userText;
+        let correctText;
 
         if (isMulti) {
             userText = ans.userSelection.map(i => ans.options[i]).join("<br>• ");
@@ -1014,10 +1014,9 @@ function showLastReport(certId) {
 }
 
 function showHistoricalReport(index) {
-    let history = storageManager.getHistory();
+    const history = storageManager.getHistory();
 
     if (!Array.isArray(history)) {
-        history = [];
         storageManager.clearHistory();
         alert(t('corrupted_history', uiState.language));
         return;
