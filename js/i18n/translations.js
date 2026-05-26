@@ -125,6 +125,16 @@ export const translations = {
         clear_history_confirm: "Tem certeza que deseja apagar todo o histórico de simulados?",
         language_changed_en: "Idioma alterado para Inglês! Certifique-se de ter os arquivos -en.json na pasta data.",
         language_changed_pt: "Idioma alterado para Português!",
+        
+        // Mission Mode (Gamification)
+        mission_locked: "🔒 Este módulo ainda está bloqueado. Complete os anteriores primeiro!",
+        mission_time_up: "⏰ Tempo esgotado! Você perdeu todas as vidas.",
+        question_time_up: "⏰ Tempo da questão esgotado! Você perdeu 1 vida.",
+        mission_failed: "❌ Missão Falhada! Você perdeu todas as vidas. Tente novamente!",
+        mission_complete: "✅ Missão Concluída! Parabéns!",
+        lives_remaining: "Vidas Restantes:",
+        question_time: "Tempo da Questão",
+        
         report_not_found: "Relatório não encontrado para gerar PDF.",
         formatting_exam: "Formatando prova...",
         pdf_error: "Erro ao processar o PDF.",
@@ -314,6 +324,16 @@ export const translations = {
         clear_history_confirm: "Are you sure you want to delete all quiz history?",
         language_changed_en: "Language changed to English!",
         language_changed_pt: "Language changed to Portuguese! Make sure you have the -en.json files in the data folder.",
+        
+        // Mission Mode (Gamification)
+        mission_locked: "🔒 This module is still locked. Complete the previous ones first!",
+        mission_time_up: "⏰ Time's up! You lost all lives.",
+        question_time_up: "⏰ Question time expired! You lost 1 life.",
+        mission_failed: "❌ Mission Failed! You lost all lives. Try again!",
+        mission_complete: "✅ Mission Complete! Congratulations!",
+        lives_remaining: "Lives Remaining:",
+        question_time: "Question Time",
+        
         report_not_found: "Report not found to generate PDF.",
         formatting_exam: "Formatting exam...",
         pdf_error: "Error processing PDF.",

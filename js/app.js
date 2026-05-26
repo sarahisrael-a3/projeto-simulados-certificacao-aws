@@ -1452,31 +1452,66 @@ function updateLanguageButtonUI() {
 }
 
 function goHome() {
+    // ========================================================================
+    // LIMPEZA COMPLETA DE TIMERS
+    // ========================================================================
     if (uiState.timerInterval) clearInterval(uiState.timerInterval);
     if (uiState.qTimerInterval) clearInterval(uiState.qTimerInterval);
     
+    // ========================================================================
+    // RESTAURAÇÃO DO ESTADO ORIGINAL (CRÍTICO PARA EVITAR REGRESSÕES)
+    // ========================================================================
+    
+    // Restaura o modo padrão
     uiState.currentMode = 'exam';
     uiState.currentMissionStageId = null;
-    if (typeof engine !== 'undefined') engine.passingScore = 70;
+    uiState.lives = 3;
+    uiState.qTimeRemaining = 45;
+    
+    // CRÍTICO: Restaura o passingScore padrão
+    if (typeof engine !== 'undefined') {
+        engine.passingScore = 70; // Valor padrão do simulador
+    }
 
+    // ========================================================================
+    // RESTAURAÇÃO DA INTERFACE
+    // ========================================================================
+    
     const sidebar = document.getElementById('side-info');
     const mainSection = document.getElementById('main-section');
     const scoreContainer = document.getElementById('score-container');
+    const missionHud = document.getElementById('mission-hud');
 
+    // Mostra a sidebar novamente
     if (sidebar) sidebar.classList.remove('hidden');
+    
+    // Restaura o layout de 2/3 da tela
     if (mainSection) {
         mainSection.classList.add('lg:w-2/3');
         mainSection.classList.remove('w-full');
     }
+    
+    // Esconde o contador de pontos
     if (scoreContainer) scoreContainer.style.display = 'none';
+    
+    // Esconde o HUD de missão
+    if (missionHud) missionHud.classList.add('hidden');
 
+    // ========================================================================
+    // NAVEGAÇÃO E ATUALIZAÇÃO DE DADOS
+    // ========================================================================
+    
     showScreen('start');
     loadLastScore();
 
     if (typeof renderGlobalRadarChart === 'function') renderGlobalRadarChart();
 
     let history = storageManager.getHistory();
-    if (!Array.isArray(history)) { history = []; storageManager.clearHistory(); }
+    if (!Array.isArray(history)) { 
+        history = []; 
+        storageManager.clearHistory(); 
+    }
+    
     updateDynamicInsight(history);
     updateSidebarTexts();
     renderSprintUI();
@@ -2037,6 +2072,205 @@ window.togglePomodoroWidget = togglePomodoroWidget;
 window.togglePomodoro = togglePomodoro;
 window.resetPomodoro = resetPomodoro;
 
+// ============================================================================
+// SISTEMA DE MISSÕES DA JORNADA (GAMIFICAÇÃO) - VERSÃO ISOLADA
+// ============================================================================
+
+/**
+ * Inicia uma missão específica da trilha de gamificação.
+ * ISOLAMENTO TOTAL: Esta função não interfere com o simulador padrão.
+ * 
+ * @param {string} stageId - ID do módulo da trilha (ex: 'clf-1', 'saa-2', 'aif-final')
+ * 
+ * CORREÇÕES APLICADAS:
+ * 1. ✅ Não manipula botões de outras telas
+ * 2. ✅ Salva e restaura engine.passingScore
+ * 3. ✅ Reseta estado completamente ao sair
+ * 4. ✅ Validações de segurança em todas as etapas
+ * 
+ * @example
+ * window.startMission('clf-1'); // Inicia o módulo "Conceitos Cloud" do CLF-C02
+ */
+window.startMission = async function(stageId) {
+    // ========================================================================
+    // FASE 1: VALIDAÇÕES DE SEGURANÇA
+    // ========================================================================
+    
+    // 1.1 Valida se o módulo está desbloqueado
+    const gamification = storageManager.getGamification();
+    if (!gamification.unlockedStages || !gamification.unlockedStages.includes(stageId)) {
+        alert(t('mission_locked', uiState.language) || 'Este módulo ainda está bloqueado. Complete os anteriores primeiro!');
+        return;
+    }
+
+    // 1.2 Identifica a certificação e o módulo atual
+    const certSelect = document.getElementById('certification-select');
+    const currentCertId = certSelect ? certSelect.value : 'clf-c02';
+    const currentCertInfo = certificationPaths[currentCertId];
+    
+    if (!currentCertInfo) {
+        console.error(`[startMission] Certificação ${currentCertId} não encontrada`);
+        alert('Erro ao carregar a certificação. Tente novamente.');
+        return;
+    }
+
+    // 1.3 Importa a trilha para identificar o módulo
+    let TRAILS_BY_CERT, activeTrail, currentStage;
+    try {
+        const trailModule = await import('./gamificacao/trailManager.js');
+        TRAILS_BY_CERT = trailModule.TRAILS_BY_CERT;
+        activeTrail = TRAILS_BY_CERT[currentCertId] || TRAILS_BY_CERT['clf-c02'];
+        currentStage = activeTrail.find(s => s.id === stageId);
+        
+        if (!currentStage) {
+            console.error(`[startMission] Módulo ${stageId} não encontrado na trilha`);
+            alert('Erro ao identificar o módulo. Tente novamente.');
+            return;
+        }
+    } catch (err) {
+        console.error('[startMission] Erro ao importar trailManager:', err);
+        alert('Erro ao carregar o sistema de trilhas. Tente novamente.');
+        return;
+    }
+
+    // ========================================================================
+    // FASE 2: BACKUP DO ESTADO ORIGINAL (ISOLAMENTO)
+    // ========================================================================
+    
+    const originalPassingScore = engine.passingScore; // Salva o valor original
+    const originalMode = uiState.currentMode;
+    
+    // ========================================================================
+    // FASE 3: CONFIGURAÇÃO DO MODO MISSÃO
+    // ========================================================================
+    
+    const isBossFight = currentStage.id.includes('final');
+    
+    // 3.1 Configura o estado global para modo missão
+    uiState.currentMode = isBossFight ? 'boss' : 'mission';
+    uiState.currentMissionStageId = stageId;
+    uiState.lives = 3;
+    uiState.qTimeRemaining = 45;
+
+    // 3.2 Define critérios especiais para missões
+    const missionPassingScore = isBossFight ? 80 : 70;
+    const questionCount = isBossFight ? 20 : 10;
+    
+    engine.passingScore = missionPassingScore;
+
+    // 3.3 Mapeia o módulo para um domínio específico (se não for boss)
+    let topicFilter = '';
+    if (!isBossFight) {
+        const stageNumber = stageId.split('-')[1];
+        const domainIndex = parseInt(stageNumber) - 1;
+        
+        if (currentCertInfo.domains && currentCertInfo.domains[domainIndex]) {
+            topicFilter = currentCertInfo.domains[domainIndex].id;
+        }
+    }
+
+    // ========================================================================
+    // FASE 4: CARREGAMENTO DE QUESTÕES
+    // ========================================================================
+    
+    const filters = {
+        quantity: questionCount,
+        difficulty: 'all',
+        topic: topicFilter,
+        mode: 'exam'
+    };
+
+    try {
+        // 4.1 Carrega as questões
+        const result = await engine.loadQuestions(currentCertId, currentCertInfo.domains, filters, uiState.language);
+
+        if (!result.success) {
+            // RESTAURA O ESTADO ORIGINAL EM CASO DE ERRO
+            engine.passingScore = originalPassingScore;
+            uiState.currentMode = originalMode;
+            uiState.currentMissionStageId = null;
+            
+            alert(t('error_loading_questions', uiState.language, { message: result.message }));
+            return;
+        }
+
+        // 4.2 Configura o tempo total da missão
+        const tempoPorQuestao = isBossFight ? 120 : 90;
+        uiState.timeRemaining = result.totalQuestions * tempoPorQuestao;
+
+        // ========================================================================
+        // FASE 5: PREPARAÇÃO DA INTERFACE
+        // ========================================================================
+        
+        // 5.1 Muda para a tela de quiz
+        showScreen('quiz');
+
+        // 5.2 Esconde a sidebar e expande a área principal
+        const sidebar = document.getElementById('side-info');
+        const mainSection = document.getElementById('main-section');
+        
+        if (sidebar) sidebar.classList.add('hidden');
+        if (mainSection) {
+            mainSection.classList.remove('lg:w-2/3');
+            mainSection.classList.add('w-full');
+        }
+
+        // 5.3 Ativa o HUD de missão (Vidas + Barra de Tempo)
+        const missionHud = document.getElementById('mission-hud');
+        if (missionHud) {
+            missionHud.classList.remove('hidden');
+            updateHeartsUI();
+        }
+
+        // 5.4 Mostra o timer global
+        const timerContainer = document.getElementById('timer-container');
+        if (timerContainer) timerContainer.classList.remove('hidden');
+
+        // 5.5 Mostra o contador de pontos
+        const scoreContainer = document.getElementById('score-container');
+        if (scoreContainer) scoreContainer.style.display = 'flex';
+
+        // ========================================================================
+        // FASE 6: INICIALIZAÇÃO DOS TIMERS E PRIMEIRA QUESTÃO
+        // ========================================================================
+        
+        startTimer();
+        
+        if (!isBossFight) {
+            startQuestionTimer(); // Timer de 45s por questão (só para missões normais)
+        }
+
+        loadQuestionUI();
+
+    } catch (err) {
+        // RESTAURA O ESTADO ORIGINAL EM CASO DE ERRO
+        engine.passingScore = originalPassingScore;
+        uiState.currentMode = originalMode;
+        uiState.currentMissionStageId = null;
+        
+        console.error('[startMission] Erro ao iniciar missão:', err);
+        alert(t('error_starting_quiz', uiState.language, { message: err.message }));
+    }
+};
+
+/**
+ * Atualiza a interface dos corações (vidas restantes) no HUD de missão.
+ * Chamada sempre que o jogador erra uma questão no modo missão.
+ */
+function updateHeartsUI() {
+    const heartsContainer = document.getElementById('mission-hearts');
+    if (!heartsContainer) return;
+
+    heartsContainer.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+        const heart = document.createElement('i');
+        heart.className = i < uiState.lives 
+            ? 'fa-solid fa-heart text-red-500 text-lg' 
+            : 'fa-regular fa-heart text-gray-300 dark:text-gray-600 text-lg';
+        heartsContainer.appendChild(heart);
+    }
+}
+
 // SISTEMA DE RECOMENDAÇÃO INTELIGENTE
 window.startSmartFlashcards = function(weakDomainsStr) {
     // 1. Salva os domínios fracos temporariamente para consulta na outra tela
@@ -2244,26 +2478,28 @@ function startQuestionTimer() {
     }, 1000);
 }
 
-function updateHeartsUI() {
-    const heartsContainer = document.getElementById('mission-hearts');
-    if (!heartsContainer) return;
-    
-    heartsContainer.innerHTML = '';
-    for (let i = 0; i < 3; i++) {
-        if (i < uiState.lives) {
-            heartsContainer.innerHTML += `<i class="fa-solid fa-heart text-red-500 text-lg shadow-sm transform hover:scale-110 transition-transform"></i>`;
-        } else {
-            heartsContainer.innerHTML += `<i class="fa-solid fa-heart-crack text-gray-300 dark:text-gray-600 text-lg"></i>`;
-        }
-    }
-}
-
+/**
+ * Trata a falha de uma missão (vidas zeradas ou tempo esgotado).
+ * Restaura o estado completo do simulador e retorna à tela inicial.
+ * @param {string} reason - Motivo da falha
+ */
 function handleMissionFailure(reason) {
     clearInterval(uiState.qTimerInterval);
-    alert(`💥 Missão Falhou!\n${reason}\n\nRetorne à trilha e tente novamente.`);
-    engine.passingScore = 70; // Restaura a nota padrão
+    clearInterval(uiState.timerInterval);
+    
+    const lang = uiState.language || 'pt';
+    const msg = lang === 'en'
+        ? `💥 Mission Failed!\n${reason}\n\nReturn to the trail and try again.`
+        : `💥 Missão Falhou!\n${reason}\n\nRetorne à trilha e tente novamente.`;
+    
+    alert(msg);
+    
+    // Restaura o estado completo
+    engine.passingScore = 70;
     uiState.currentMode = 'exam';
     uiState.currentMissionStageId = null;
+    uiState.lives = 3;
+    
     goHome();
 }
 
