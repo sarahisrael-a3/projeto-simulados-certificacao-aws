@@ -8,6 +8,10 @@ import { renderTrail, unlockNextModule } from './gamificacao/trailManager.js';
 import { renderGuildDashboard } from './gamificacao/leaderboard.js';
 import { renderBadges } from './gamificacao/badges.js';
 import { togglePomodoroWidget, togglePomodoro, resetPomodoro } from './pomodoroManager.js';
+import { startExamTimer, updateExamTimerDisplay, startMissionQuestionTimer, clearAllTimers } from './timerManager.js';
+import { generatePerformanceReport as generatePdfReport } from './pdfReport.js';
+import { generateSmartInsight as computeSmartInsight } from './insightEngine.js';
+import { renderSprintUI as renderSprint, startMicroSprint as startSprint, closeSprintReader as closeSprint, completeSprintDay as completeSprint, SPRINT_MAPS } from './gamificacao/sprintManager.js';
 
 const APP_CONFIG = {
     PASSING_SCORE: 70,
@@ -315,37 +319,14 @@ window.startDiagnostic = async function() {
 };
 
 function startTimer() {
-    if (uiState.timerInterval) clearInterval(uiState.timerInterval);
-
-    updateTimerDisplay();
-
-    uiState.timerInterval = setInterval(() => {
-        if (uiState.isPaused) return;
-
-        uiState.timeRemaining--;
-        updateTimerDisplay();
-
-        if (uiState.timeRemaining <= 0) {
-            clearInterval(uiState.timerInterval);
-            alert(t('time_up', uiState.language));
-            finishQuiz();
-        }
-    }, 1000);
+    startExamTimer(uiState, () => {
+        alert(t('time_up', uiState.language));
+        finishQuiz();
+    });
 }
 
 function updateTimerDisplay() {
-    const hours = Math.floor(uiState.timeRemaining / 3600);
-    const min = Math.floor((uiState.timeRemaining % 3600) / 60);
-    const sec = uiState.timeRemaining % 60;
-
-    const el = document.getElementById('timer-text');
-    if (el) {
-        if (hours > 0) {
-            el.textContent = `${hours}:${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-        } else {
-            el.textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-        }
-    }
+    updateExamTimerDisplay(uiState);
 }
 
 // UI DE QUESTÕES E MÚLTIPLAS ESCOLHAS
@@ -1159,119 +1140,7 @@ function updateDynamicInsight(history) {
 }
 
 function generateSmartInsight(history) {
-    const lang = uiState.language || 'pt';
-
-    if (!Array.isArray(history) || history.length === 0) {
-        return {
-            icon: 'fa-solid fa-rocket', iconColor: 'text-blue-500',
-            title: lang === 'en' ? 'Start your journey! 🚀' : 'Comece sua jornada! 🚀',
-            titleColor: 'text-blue-600 dark:text-blue-400',
-            message: lang === 'en' ? 'Complete your first quiz to receive personalized insights.' : 'Faça seu primeiro simulado para receber insights personalizados.',
-            action: lang === 'en' ? '💡 Tip: Start with Review mode to get familiar' : '💡 Dica: Comece pelo modo Revisão para se familiarizar',
-            actionColor: 'text-blue-600 dark:text-blue-400'
-        };
-    }
-
-    const last = history[0];
-    const recentTests = history.slice(0, 3);
-
-    let trend = 'stable';
-    if (recentTests.length >= 2) {
-        const scores = recentTests.map(t => t.percentage).reverse();
-        const avgFirst = scores.slice(0, Math.floor(scores.length / 2)).reduce((a, b) => a + b, 0) / Math.floor(scores.length / 2);
-        const avgLast = scores.slice(Math.floor(scores.length / 2)).reduce((a, b) => a + b, 0) / Math.ceil(scores.length / 2);
-        if (avgLast > avgFirst + 5) trend = 'improving';
-        else if (avgLast < avgFirst - 5) trend = 'declining';
-    }
-
-    const avgScore = last.percentage;
-    const isNearPassing = avgScore >= 65 && avgScore < 70;
-
-    const today = new Date();
-    const testsToday = history.filter(t => new Date(t.date).toDateString() === today.toDateString()).length;
-
-    let passingStreak = 0;
-    for (let i = 0; i < history.length; i++) {
-        if (history[i].percentage >= 70) passingStreak++;
-        else break;
-    }
-
-    if (testsToday >= 4) {
-        return { 
-            icon: 'fa-solid fa-battery-quarter', 
-            iconColor: 'text-red-500', 
-            title: t('burnout_warning', uiState.language), 
-            titleColor: 'text-red-600 dark:text-red-400', 
-            message: t('tests_today', uiState.language, { count: testsToday }), 
-            action: t('breaks_improve_retention', uiState.language), 
-            actionColor: 'text-blue-600 dark:text-blue-400' 
-        };
-    }
-    if (passingStreak >= 3 && avgScore >= 80) {
-        return { 
-            icon: 'fa-solid fa-trophy', 
-            iconColor: 'text-yellow-500', 
-            title: t('dominating', uiState.language), 
-            titleColor: 'text-green-600 dark:text-green-400', 
-            message: t('consecutive_passes', uiState.language, { count: passingStreak, avg: avgScore.toFixed(0) }), 
-            action: t('schedule_exam', uiState.language), 
-            actionColor: 'text-green-600 dark:text-green-400' 
-        };
-    }
-    if (trend === 'improving' && avgScore >= 60) {
-        return { 
-            icon: 'fa-solid fa-chart-line', 
-            iconColor: 'text-green-500', 
-            title: t('consistent_evolution', uiState.language), 
-            titleColor: 'text-green-600 dark:text-green-400', 
-            message: t('score_improving', uiState.language, { avg: avgScore.toFixed(0) }), 
-            action: t('keep_practicing', uiState.language), 
-            actionColor: 'text-blue-600 dark:text-blue-400' 
-        };
-    }
-    if (trend === 'declining') {
-        return { 
-            icon: 'fa-solid fa-chart-line-down', 
-            iconColor: 'text-orange-500', 
-            title: t('performance_decline', uiState.language), 
-            titleColor: 'text-orange-600 dark:text-orange-400', 
-            message: t('scores_declining', uiState.language), 
-            action: t('suggestion_break', uiState.language), 
-            actionColor: 'text-orange-600 dark:text-orange-400' 
-        };
-    }
-    if (isNearPassing) {
-        return { 
-            icon: 'fa-solid fa-bullseye', 
-            iconColor: 'text-blue-500', 
-            title: t('almost_there', uiState.language), 
-            titleColor: 'text-blue-600 dark:text-blue-400', 
-            message: t('points_to_pass', uiState.language, { points: (70 - avgScore).toFixed(0) }), 
-            action: t('few_more_quizzes', uiState.language), 
-            actionColor: 'text-blue-600 dark:text-blue-400' 
-        };
-    }
-    if (avgScore < 70) {
-        return { 
-            icon: 'fa-solid fa-book-open', 
-            iconColor: 'text-orange-500', 
-            title: t('study_focus_needed', uiState.language), 
-            titleColor: 'text-orange-600 dark:text-orange-400', 
-            message: t('current_score', uiState.language, { score: avgScore.toFixed(0) }), 
-            action: t('study_aws_docs', uiState.language), 
-            actionColor: 'text-orange-600 dark:text-orange-400' 
-        };
-    }
-    const plural = history.length > 1 ? t('quiz_plural', uiState.language) : t('quiz_singular', uiState.language);
-    return { 
-        icon: 'fa-solid fa-rocket', 
-        iconColor: 'text-blue-500', 
-        title: t('keep_practicing_general', uiState.language), 
-        titleColor: 'text-blue-600 dark:text-blue-400', 
-        message: t('quizzes_completed', uiState.language, { count: history.length, plural: plural }), 
-        action: t('practice_makes_perfect', uiState.language), 
-        actionColor: 'text-blue-600 dark:text-blue-400' 
-    };
+    return computeSmartInsight(history, uiState.language || 'pt', t);
 }
 
 function renderGamification() {
@@ -1549,319 +1418,11 @@ function clearMistakes() {
 }
 
 function generatePerformanceReport() {
- 
-    // ── PEGA OS DADOS: lastRenderedResult (o que está na tela) ou fallback para o engine ──
     const results = lastRenderedResult || engine.getFinalResults();
- 
-    if (!results || !results.answers || results.answers.length === 0) {
-        alert('Nenhum resultado encontrado. Conclua um simulado ou abra um relatório do histórico primeiro.');
-        return;
-    }
- 
-    // Garante que temos as informações da certificação
-    if (!uiState.currentCertificationInfo && results.certId && certificationPaths) {
+    if (!uiState.currentCertificationInfo && results?.certId && certificationPaths) {
         uiState.currentCertificationInfo = certificationPaths[results.certId];
     }
- 
-    if (typeof window.jspdf === 'undefined' && typeof jsPDF === 'undefined') {
-        alert('Biblioteca jsPDF não carregada. Verifique se a tag <script> do jsPDF está no index.html.');
-        return;
-    }
- 
-    const btn = document.getElementById('btn-generate-report');
-    const oldHtml = btn ? btn.innerHTML : '';
-    if (btn) {
-        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> GERANDO PDF...`;
-        btn.disabled = true;
-    }
- 
-    const { jsPDF: JsPDF } = window.jspdf || {};
-    const Doc = JsPDF || jsPDF;
-    const doc = new Doc({ unit: 'mm', format: 'a4', orientation: 'portrait' });
- 
-    // ── CONFIGURAÇÕES ──
-    const pageW    = 210;
-    const pageH    = 297;
-    const marginL  = 15;
-    const marginR  = 15;
-    const contentW = pageW - marginL - marginR;
-    let marginT = 15;
-    let y = 15;
- 
-    const certLabel = uiState.currentCertificationInfo?.name
-        || document.getElementById('sidebar-cert-label')?.innerText
-        || results.certId?.toUpperCase()
-        || 'AWS';
-    const awsScore  = Math.floor(((results.percentage || 0) / 100) * 900) + 100;
-    const dataHoje  = new Date().toLocaleDateString('pt-BR');
- 
-    function wrap(text, maxW, size) {
-        doc.setFontSize(size);
-        return doc.splitTextToSize(String(text ?? ''), maxW);
-    }
- 
-    function newPageIfNeeded(needed = 10) {
-        if (y + needed > pageH - 15) { doc.addPage(); y = 15; }
-    }
- 
-    function fillRect(x, ry, w, h, r, g, b) {
-        doc.setFillColor(r, g, b);
-        doc.rect(x, ry, w, h, 'F');
-    }
- 
-    function rgb(r, g, b) { doc.setTextColor(r, g, b); }
-    function black()       { doc.setTextColor(17, 17, 17); }
- 
-    // ── 1. CABEÇALHO ──
-    fillRect(0, 0, pageW, 30, 26, 26, 46);
-    rgb(255, 255, 255);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
-    doc.text('RELATORIO OFICIAL DE SIMULACAO AWS', marginL, 12);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.text(
-        `Certificacao: ${certLabel}   |   Pontuacao: ${awsScore} / 1000   |   Data: ${dataHoje}`,
-        marginL, 22
-    );
-    y = 38;
- 
-    // ── 2. DOMÍNIOS ──
-    black();
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.text('Desempenho por Dominio', marginL, y);
-    y += 2;
-    doc.setDrawColor(249, 115, 22);
-    doc.setLineWidth(0.5);
-    doc.line(marginL, y, pageW - marginR, y);
-    y += 6;
- 
-    const hasDomainsData = results.domainScores
-        && typeof results.domainScores === 'object'
-        && Object.keys(results.domainScores).length > 0;
- 
-    const hasDomainDefs = uiState.currentCertificationInfo?.domains?.length > 0;
- 
-    if (hasDomainsData && hasDomainDefs) {
-        uiState.currentCertificationInfo.domains.forEach(domain => {
-            const sd = results.domainScores[domain.id];
-            if (!sd || sd.total === 0) return;
- 
-            newPageIfNeeded(22);
- 
-            const pct  = (sd.correct / sd.total) * 100;
-            const isOk = pct >= 70;
-            const bgR  = isOk ? 240 : 254; const bgG = isOk ? 253 : 242; const bgB = isOk ? 244 : 242;
-            const lcR  = isOk ?  22 : 220; const lcG = isOk ? 163 :  38; const lcB = isOk ?  74 :  38;
- 
-            fillRect(marginL, y, contentW, 20, bgR, bgG, bgB);
-            doc.setFillColor(lcR, lcG, lcB);
-            doc.rect(marginL, y, 2.5, 20, 'F');
- 
-            black();
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            const dname = wrap(domain.name, contentW - 35, 10);
-            doc.text(dname[0], marginL + 5, y + 7);
- 
-            rgb(lcR, lcG, lcB);
-            doc.setFontSize(12);
-            doc.text(`${pct.toFixed(0)}%`, pageW - marginR - 2, y + 8, { align: 'right' });
- 
-            // barra de progresso
-            const bx = marginL + 5; const by = y + 12; const bw = contentW - 30;
-            doc.setFillColor(220, 220, 220);
-            doc.rect(bx, by, bw, 3, 'F');
-            doc.setFillColor(lcR, lcG, lcB);
-            doc.rect(bx, by, bw * Math.min(pct / 100, 1), 3, 'F');
- 
-            rgb(100, 100, 100);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(8);
-            doc.text(
-                `${sd.correct} de ${sd.total} corretas   ${isOk ? '| APROVADO' : '| ATENCAO'}`,
-                marginL + 5, y + 18
-            );
-            y += 24;
-        });
-    } else {
-        // Fallback: mostra scores diretamente de domainScores sem precisar de currentCertificationInfo
-        if (hasDomainsData) {
-            Object.entries(results.domainScores).forEach(([domainId, sd]) => {
-                if (!sd || sd.total === 0) return;
-                newPageIfNeeded(22);
- 
-                const pct  = (sd.correct / sd.total) * 100;
-                const isOk = pct >= 70;
-                const lcR  = isOk ?  22 : 220; const lcG = isOk ? 163 :  38; const lcB = isOk ?  74 :  38;
- 
-                fillRect(marginL, y, contentW, 14, isOk ? 240 : 254, isOk ? 253 : 242, isOk ? 244 : 242);
-                doc.setFillColor(lcR, lcG, lcB);
-                doc.rect(marginL, y, 2.5, 14, 'F');
- 
-                black();
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(10);
-                doc.text(String(domainId), marginL + 5, y + 6);
- 
-                rgb(lcR, lcG, lcB);
-                doc.setFontSize(10);
-                doc.text(`${pct.toFixed(0)}%  (${sd.correct}/${sd.total})  ${isOk ? 'APROVADO' : 'ATENCAO'}`,
-                    pageW - marginR - 2, y + 6, { align: 'right' });
-                y += 17;
-            });
-        } else {
-            rgb(150, 150, 150);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'italic');
-            doc.text('Dados de dominio nao disponiveis para este relatorio.', marginL, y);
-            y += 8;
-        }
-    }
- 
-    y += 6;
- 
-    // ── 3. QUESTÕES ──
-    newPageIfNeeded(20);
-    black();
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.text('Detalhamento das Questoes', marginL, y);
-    y += 2;
-    doc.setDrawColor(249, 115, 22);
-    doc.setLineWidth(0.5);
-    doc.line(marginL, y, pageW - marginR, y);
-    y += 7;
- 
-    if (!results.answers || results.answers.length === 0) {
-        rgb(150, 150, 150);
-        doc.setFontSize(9);
-        doc.text('Nenhuma questao disponivel.', marginL, y);
-        y += 10;
-    } else {
-        results.answers.forEach((ans, index) => {
-            const isMulti   = Array.isArray(ans.correct);
-            const isCorrect = ans.isCorrect;
- 
-            let userText = 'Nao respondida';
-            if (ans.userSelection !== null && ans.userSelection !== undefined) {
-                userText = isMulti && Array.isArray(ans.userSelection)
-                    ? ans.userSelection.map(i => ans.options?.[i] ?? '?').join(' / ')
-                    : (ans.options?.[ans.userSelection] ?? 'Opcao invalida');
-            }
- 
-            let correctText = 'Gabarito indisponivel';
-            if (ans.correct !== null && ans.correct !== undefined) {
-                correctText = isMulti && Array.isArray(ans.correct)
-                    ? ans.correct.map(i => ans.options?.[i] ?? '?').join(' / ')
-                    : (ans.options?.[ans.correct] ?? 'Opcao invalida');
-            }
- 
-            const explanText = ans.explanation || 'Sem explicacao adicional.';
- 
-            // pré-calcula linhas para saber a altura do bloco inteiro
-            const LH = 4.5;
-            doc.setFontSize(10);
-            const qLines  = wrap(`${index + 1}. ${ans.question || 'Questao'}`, contentW - 4, 10);
-            doc.setFontSize(9);
-            const uLines  = wrap(userText, contentW - 14, 9);
-            const cLines  = isCorrect ? [] : wrap(correctText, contentW - 14, 9);
-            const eLines  = wrap(explanText, contentW - 14, 9);
- 
-            const blockH  =
-                qLines.length  * LH + 8 +
-                uLines.length  * LH + 14 +
-                (isCorrect ? 0 : cLines.length * LH + 14) +
-                eLines.length  * LH + 14;
- 
-            newPageIfNeeded(blockH);
- 
-            // Enunciado
-            fillRect(marginL, y, contentW, qLines.length * LH + 6, 248, 249, 250);
-            black();
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(10);
-            doc.text(qLines, marginL + 3, y + 5);
-            y += qLines.length * LH + 9;
- 
-            // Resposta do usuário
-            const uR = isCorrect ?  22 : 220; const uG = isCorrect ? 163 :  38; const uB = isCorrect ?  74 :  38;
-            fillRect(marginL, y, contentW, uLines.length * LH + 11, isCorrect ? 240 : 254, isCorrect ? 253 : 242, isCorrect ? 244 : 242);
-            doc.setFillColor(uR, uG, uB);
-            doc.rect(marginL, y, 2.5, uLines.length * LH + 11, 'F');
- 
-            rgb(100, 100, 100);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7);
-            doc.text(`SUA RESPOSTA [${isCorrect ? 'CORRETA' : 'INCORRETA'}]`, marginL + 5, y + 5);
- 
-            rgb(uR, uG, uB);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9);
-            doc.text(uLines, marginL + 5, y + 9);
-            y += uLines.length * LH + 14;
- 
-            // Resposta correta (só se errou)
-            if (!isCorrect) {
-                fillRect(marginL, y, contentW, cLines.length * LH + 11, 240, 253, 244);
-                doc.setFillColor(22, 163, 74);
-                doc.rect(marginL, y, 2.5, cLines.length * LH + 11, 'F');
- 
-                rgb(22, 101, 52);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(7);
-                doc.text('RESPOSTA OFICIAL', marginL + 5, y + 5);
- 
-                rgb(21, 128, 61);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(9);
-                doc.text(cLines, marginL + 5, y + 9);
-                y += cLines.length * LH + 14;
-            }
- 
-            // Explicação
-            newPageIfNeeded(eLines.length * LH + 14);
-            fillRect(marginL, y, contentW, eLines.length * LH + 11, 239, 246, 255);
-            doc.setFillColor(59, 130, 246);
-            doc.rect(marginL, y, 2.5, eLines.length * LH + 11, 'F');
- 
-            rgb(30, 64, 175);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7);
-            doc.text('EXPLICACAO', marginL + 5, y + 5);
- 
-            rgb(30, 58, 138);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
-            doc.text(eLines, marginL + 5, y + 9);
-            y += eLines.length * LH + 15;
- 
-            // separador
-            doc.setDrawColor(220, 220, 220);
-            doc.setLineWidth(0.2);
-            doc.line(marginL, y - 4, pageW - marginR, y - 4);
-        });
-    }
- 
-    // ── 4. RODAPÉ EM TODAS AS PÁGINAS ──
-    const total = doc.getNumberOfPages();
-    for (let p = 1; p <= total; p++) {
-        doc.setPage(p);
-        rgb(170, 170, 170);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        doc.text(
-            `Simulador AWS  |  ${dataHoje}  |  Pagina ${p} de ${total}`,
-            pageW / 2, pageH - 7, { align: 'center' }
-        );
-    }
- 
-    // ── 5. SALVA ──
-    const safeName = certLabel.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '').toUpperCase();
-    doc.save(`Relatorio_AWS_${safeName}_${new Date().toISOString().split('T')[0]}.pdf`);
- 
-    if (btn) { btn.innerHTML = oldHtml; btn.disabled = false; }
+    generatePdfReport(results, uiState.currentCertificationInfo);
 }
 
 // MODO FLASHCARDS
@@ -2431,51 +1992,7 @@ window.startTrailMission = async function(stageId, stageTitle) {
 };
 
 function startQuestionTimer() {
-    if (uiState.currentMode !== 'mission') return;
-    
-    clearInterval(uiState.qTimerInterval);
-    
-    const MISSION_TIME = 90; 
-    uiState.qTimeRemaining = MISSION_TIME;
-    
-    const timeBar = document.getElementById('mission-time-bar');
-    const timeText = document.getElementById('mission-time-text');
-    
-    // Reseta a cor da barra para o padrão (laranja) ao iniciar nova questão
-    if (timeBar) {
-        timeBar.classList.add('from-orange-400');
-        timeBar.classList.remove('from-red-600');
-    }
-    
-    uiState.qTimerInterval = setInterval(() => {
-        uiState.qTimeRemaining--;
-        
-        const pct = (uiState.qTimeRemaining / MISSION_TIME) * 100;
-        
-        if (timeBar) {
-            timeBar.style.width = `${pct}%`;
-            // A barra fica vermelha de alerta só quando faltar 20% do tempo (18 segundos)
-            if (pct < 20) {
-                timeBar.classList.remove('from-orange-400');
-                timeBar.classList.add('from-red-600');
-            }
-        }
-        
-        if (timeText) {
-            if (uiState.qTimeRemaining >= 60) {
-                const m = Math.floor(uiState.qTimeRemaining / 60);
-                const s = uiState.qTimeRemaining % 60;
-                timeText.textContent = `${m}m ${s.toString().padStart(2, '0')}s`;
-            } else {
-                timeText.textContent = `${uiState.qTimeRemaining}s`;
-            }
-        }
-
-        if (uiState.qTimeRemaining <= 0) {
-            clearInterval(uiState.qTimerInterval);
-            handleMissionFailure("O tempo esgotou!"); 
-        }
-    }, 1000);
+    startMissionQuestionTimer(uiState, () => handleMissionFailure("O tempo esgotou!"));
 }
 
 /**
@@ -2484,8 +2001,7 @@ function startQuestionTimer() {
  * @param {string} reason - Motivo da falha
  */
 function handleMissionFailure(reason) {
-    clearInterval(uiState.qTimerInterval);
-    clearInterval(uiState.timerInterval);
+    clearAllTimers(uiState);
     
     const lang = uiState.language || 'pt';
     const msg = lang === 'en'
@@ -2503,268 +2019,29 @@ function handleMissionFailure(reason) {
     goHome();
 }
 
-// MÓDULO: SPRINT 14 DIAS
-// O mapa do tesouro: O que cai em cada dia do Sprint por certificação
-const sprintMaps = {
-    'clf-c02': {
-        1:  { pt: "Conceitos Cloud - Parte 1",   en: "Cloud Concepts - Part 1" },
-        2:  { pt: "Conceitos Cloud - Parte 2",   en: "Cloud Concepts - Part 2" },
-        3:  { pt: "Conceitos Cloud - Revisão",   en: "Cloud Concepts - Review" },
-        4:  { pt: "Segurança - Parte 1",         en: "Security - Part 1" },
-        5:  { pt: "Segurança - Parte 2",         en: "Security - Part 2" },
-        6:  { pt: "Segurança - Revisão",         en: "Security - Review" },
-        7:  { pt: "Tecnologia - Serviços Core",  en: "Technology - Core Services" },
-        8:  { pt: "Tecnologia - Redes e BD",     en: "Technology - Networks & DB" },
-        9:  { pt: "Tecnologia - Arquitetura",    en: "Technology - Architecture" },
-        10: { pt: "Faturamento - Parte 1",       en: "Billing - Part 1" },
-        11: { pt: "Faturamento - Parte 2",       en: "Billing - Part 2" },
-        12: { pt: "Simulado Misto - Fácil",      en: "Mixed Quiz - Easy" },
-        13: { pt: "Simulado Misto - Difícil",    en: "Mixed Quiz - Hard" },
-        14: { pt: "O Desafio Final (Boss)",      en: "The Final Challenge (Boss)" }
-    },
-    'saa-c03': {
-        1:  { pt: "Design Resiliente - I",       en: "Resilient Design - I" },
-        2:  { pt: "Design Resiliente - II",      en: "Resilient Design - II" },
-        3:  { pt: "Alta Performance - I",        en: "High Performance - I" },
-        4:  { pt: "Alta Performance - II",       en: "High Performance - II" },
-        5:  { pt: "Segurança de Aplicações",     en: "Application Security" },
-        6:  { pt: "IAM e Controle de Acesso",    en: "IAM & Access Control" },
-        7:  { pt: "Otimização de Custos - I",    en: "Cost Optimization - I" },
-        8:  { pt: "Otimização de Custos - II",   en: "Cost Optimization - II" },
-        9:  { pt: "Migração e Dados",            en: "Migration & Data" },
-        10: { pt: "Serviços Serverless",         en: "Serverless Services" },
-        11: { pt: "Revisão Geral - Arquitetura", en: "Architecture Review" },
-        12: { pt: "Simulado Misto - Fácil",      en: "Mixed Quiz - Easy" },
-        13: { pt: "Simulado Misto - Difícil",    en: "Mixed Quiz - Hard" },
-        14: { pt: "O Desafio Final (Boss)",      en: "The Final Challenge (Boss)" }
-    },
-    'aif-c01': {
-        1:  { pt: "Fundamentos de IA/ML",        en: "AI/ML Fundamentals" },
-        2:  { pt: "IA Generativa Básica",        en: "GenAI Basics" },
-        3:  { pt: "Modelos de Fundação",         en: "Foundation Models" },
-        4:  { pt: "Ajuste de Modelos (Tuning)",  en: "Model Tuning" },
-        5:  { pt: "Engenharia de Prompts",       en: "Prompt Engineering" },
-        6:  { pt: "IA Responsável e Ética",      en: "Responsible AI & Ethics" },
-        7:  { pt: "Segurança em IA",             en: "AI Security" },
-        8:  { pt: "Governança e Conformidade",   en: "Governance & Compliance" },
-        9:  { pt: "Amazon Bedrock - I",          en: "Amazon Bedrock - I" },
-        10: { pt: "Amazon SageMaker",            en: "Amazon SageMaker" },
-        11: { pt: "Revisão Geral - IA AWS",      en: "AWS AI Review" },
-        12: { pt: "Simulado Misto - Fácil",      en: "Mixed Quiz - Easy" },
-        13: { pt: "Simulado Misto - Difícil",    en: "Mixed Quiz - Hard" },
-        14: { pt: "O Desafio Final (Boss)",      en: "The Final Challenge (Boss)" }
-    },
-    'dva-c02': {
-        1:  { pt: "Desenvolvimento com AWS",     en: "Developing with AWS" },
-        2:  { pt: "Segurança e Autenticação",    en: "Security & Auth" },
-        3:  { pt: "Armazenamento e BDs",         en: "Storage & Databases" },
-        4:  { pt: "DynamoDB Avançado",           en: "Advanced DynamoDB" },
-        5:  { pt: "Integração (SQS/SNS)",        en: "Integration (SQS/SNS)" },
-        6:  { pt: "Serviços Serverless (Lambda)",en: "Serverless (Lambda)" },
-        7:  { pt: "API Gateway e Containers",    en: "API Gateway & Containers" },
-        8:  { pt: "CI/CD no AWS (CodeSuite)",    en: "AWS CI/CD (CodeSuite)" },
-        9:  { pt: "Monitoramento e Logs",        en: "Monitoring & Logging" },
-        10: { pt: "Otimização e Troubleshooting",en: "Troubleshooting" },
-        11: { pt: "Revisão - Dev Associate",     en: "Dev Associate Review" },
-        12: { pt: "Simulado Misto - Fácil",      en: "Mixed Quiz - Easy" },
-        13: { pt: "Simulado Misto - Difícil",    en: "Mixed Quiz - Hard" },
-        14: { pt: "O Desafio Final (Boss)",      en: "The Final Challenge (Boss)" }
-    }
-};
-
+// MÓDULO: SPRINT 14 DIAS (delegado para gamificacao/sprintManager.js)
+const sprintMaps = SPRINT_MAPS;
 
 function renderSprintUI() {
-    const grid = document.getElementById('sprint-days-grid');
-    if (!grid) return;
-
     const lang = uiState.language || 'pt';
     const certSelect = document.getElementById('certification-select');
     const currentCertId = certSelect ? certSelect.value : 'clf-c02';
-    
-    const currentSprintMap = sprintMaps[currentCertId] || sprintMaps['clf-c02'];
-    
-    // 1. Chave correta e carregamento do dia
-    const storageKey = `aws_sprint_day_${currentCertId}`;
-    let currentSprintDay = parseInt(localStorage.getItem(storageKey)) || 1;
-    if (currentSprintDay > 14) currentSprintDay = 14;
-
-    const labels = {
-        pt: { day: "Dia", pillLabel: "Pílula de Conhecimento", title: "Sprint de Estudos (14 Dias)", subtitle: "Sua dose diária de AWS em 5 minutos.", progress: "Progresso", startBtn: "Ler Pílula do Dia" },
-        en: { day: "Day", pillLabel: "Knowledge Pill", title: "Study Sprint (14 Days)", subtitle: "Your daily AWS dose in 5 minutes.", progress: "Progress", startBtn: "Read Daily Pill" }
-    };
-
-    // 2. ATUALIZAÇÃO DA PORCENTAGEM (O que faltava)
-    const progressText = document.getElementById('sprint-progress-text');
-    if (progressText) {
-        const daysCompleted = currentSprintDay - 1; // Se está no dia 2, completou 1.
-        const pct = Math.round((daysCompleted / 14) * 100);
-        progressText.textContent = `${pct}%`;
-    }
-
-    // Atualização de labels e textos
-    const sprintTitleEl = document.getElementById('sprint-module-title');
-    const sprintSubtitleEl = document.getElementById('sprint-module-subtitle');
-    const sprintProgressLabel = document.getElementById('sprint-progress-label');
-    const sprintStartBtn = document.getElementById('sprint-start-btn');
-    
-    if (sprintTitleEl) sprintTitleEl.textContent = labels[lang].title;
-    if (sprintSubtitleEl) sprintSubtitleEl.textContent = labels[lang].subtitle;
-    if (sprintProgressLabel) sprintProgressLabel.textContent = labels[lang].progress;
-    if (sprintStartBtn) sprintStartBtn.textContent = labels[lang].startBtn;
-
-    const dayLabel = document.getElementById('sprint-current-day-label');
-    const metaLabel = dayLabel?.nextElementSibling;
-    
-    if (dayLabel && currentSprintMap[currentSprintDay]) {
-        const dayTitle = currentSprintMap[currentSprintDay][lang] || currentSprintMap[currentSprintDay].pt;
-        dayLabel.textContent = `${labels[lang].day} ${currentSprintDay}: ${dayTitle}`;
-        if (metaLabel) metaLabel.innerHTML = `<i class="fa-solid fa-book-open-reader mr-1 text-aws-orange"></i> ${labels[lang].pillLabel}`;
-    }
-
-    grid.innerHTML = '';
-    for (let i = 1; i <= 14; i++) {
-        const dayDiv = document.createElement('div');
-        if (i < currentSprintDay) {
-            dayDiv.className = 'w-full aspect-square rounded-lg flex items-center justify-center text-xs font-bold border bg-green-50 border-green-200 text-green-600 dark:bg-green-900/20 dark:border-green-700 dark:text-green-400';
-            dayDiv.innerHTML = '<i class="fa-solid fa-check"></i>';
-        } else if (i === currentSprintDay) {
-            dayDiv.className = 'sprint-day-current w-full aspect-square rounded-lg flex items-center justify-center text-sm border-2 bg-aws-orange border-orange-600 text-white z-10';
-            dayDiv.textContent = i;
-        } else {
-            dayDiv.className = 'w-full aspect-square rounded-lg flex items-center justify-center text-xs font-bold border bg-gray-50 border-gray-100 text-gray-400 dark:bg-slate-700/50 dark:border-slate-600 dark:text-slate-500';
-            dayDiv.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i>';
-        }
-        const tooltipTitle = currentSprintMap[i] ? (currentSprintMap[i][lang] || currentSprintMap[i].pt) : `${labels[lang].day} ${i}`;
-        dayDiv.title = tooltipTitle;
-        grid.appendChild(dayDiv);
-    }
+    renderSprint(lang, currentCertId);
 }
 
-// 1. DECLARAÇÃO DA FUNÇÃO DO SPRINT
 window.startMicroSprint = function() {
     const certSelect = document.getElementById('certification-select');
     const currentCertId = certSelect ? certSelect.value : 'clf-c02';
-
-    const storageKey = `aws_sprint_day_${currentCertId}`;
-    let currentSprintDay = parseInt(localStorage.getItem(storageKey)) || 1;
     const lang = uiState.language || 'pt';
-
-    // --- BLOQUEIO DE CALENDÁRIO ---
-    const lastCompletedDate = localStorage.getItem(`aws_sprint_last_date_${currentCertId}`);
-    const todayStr = new Date().toDateString();
-
-    if (lastCompletedDate === todayStr) {
-        const msg = lang === 'en'
-            ? "You have already completed today's pill. Rest and come back tomorrow!"
-            : "Você já concluiu a pílula de hoje! Descanse a mente e volte amanhã para a próxima dose.";
-        alert(msg);
-        return;
-    }
-    
-    if (currentSprintDay > 14) {
-        const msg = lang === 'en'
-            ? "Congratulations! You have completed all 14 Sprint days."
-            : "Parabéns! Você já dominou os 14 dias de Sprint.";
-        alert(msg);
-        return;
-    }
-
-    const pillData = (typeof getPill === 'function')
-        ? getPill(currentSprintDay, lang, currentCertId)
-        : (sprintPills ? sprintPills[currentSprintDay] : null);
-    
-    if (!pillData) {
-        const msg = lang === 'en'
-            ? "Today's knowledge pill is being prepared by AI. Come back tomorrow!"
-            : "A pílula de conhecimento de hoje está sendo preparada pela IA. Volte amanhã!";
-        alert(msg);
-        return;
-    }
-
-    const ui = {
-        pt: {
-            readTime: "Tempo de leitura",
-            summary: "Resumo do Dia",
-            complete: "Marcar Pílula como Concluída",
-            day: "Dia"
-        },
-        en: {
-            readTime: "Read time",
-            summary: "Daily Summary",
-            complete: "Mark Pill as Completed",
-            day: "Day"
-        }
-    }[lang];
-
-    const readerOverlay = document.createElement('div');
-    readerOverlay.id = 'sprint-reader-overlay';
-    readerOverlay.className = 'fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 flex justify-center items-center overflow-y-auto p-4 md:p-8 animate-fade-in';
-    
-    readerOverlay.innerHTML = `
-        <div class="bg-white dark:bg-slate-800 w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col relative my-auto">
-            
-            <div class="h-2 w-full bg-gray-100 dark:bg-slate-700">
-                <div class="h-full bg-aws-orange transition-all duration-1000" style="width: ${((currentSprintDay)/14)*100}%"></div>
-            </div>
-
-            <div class="p-8 md:p-12">
-                <div class="flex justify-between items-start mb-8">
-                    <div>
-                        <span class="text-aws-orange text-sm font-bold uppercase tracking-widest">${ui.day} ${currentSprintDay} • ${pillData.topic}</span>
-                        <h2 class="text-3xl font-black text-gray-900 dark:text-white mt-2 leading-tight">${pillData.title}</h2>
-                        <span class="text-gray-500 dark:text-slate-400 text-sm mt-2 block"><i class="fa-regular fa-clock mr-1"></i> ${ui.readTime}: ${pillData.readTime}</span>
-                    </div>
-                    <button onclick="closeSprintReader()" class="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                </div>
-
-                <div class="prose dark:prose-invert max-w-none">
-                    ${pillData.content}
-                </div>
-
-                <div class="mt-12 bg-gray-50 dark:bg-slate-700/50 p-6 rounded-xl border border-gray-100 dark:border-slate-600 text-center">
-                    <p class="text-sm text-gray-500 dark:text-slate-400 uppercase tracking-widest mb-2 font-bold">${ui.summary}</p>
-                    <p class="text-lg font-medium text-gray-800 dark:text-gray-200 italic">"${pillData.keyTakeaway}"</p>
-                    
-                    <button onclick="completeSprintDay(${currentSprintDay})" class="mt-6 w-full md:w-auto bg-aws-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg transition-all shadow-lg transform hover:-translate-y-1">
-                        <i class="fa-solid fa-check-double mr-2"></i> ${ui.complete}
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(readerOverlay);
-    document.body.style.overflow = 'hidden';
+    const getPillFn = (typeof getPill === 'function') ? getPill : (day, l, cert) => sprintPills?.[day] || null;
+    startSprint(lang, currentCertId, getPillFn);
 };
 
-// 2. FUNÇÃO PARA FECHAR A PÍLULA SEM SALVAR
-window.closeSprintReader = function() {
-    const overlay = document.getElementById('sprint-reader-overlay');
-    if (overlay) overlay.remove();
-    document.body.style.overflow = ''; 
-};
+window.closeSprintReader = function() { closeSprint(); };
 
-// 3. FUNÇÃO QUE SALVA O DIA E ATUALIZA A TELA
 window.completeSprintDay = function(completedDay) {
     const certSelect = document.getElementById('certification-select');
     const currentCertId = certSelect ? certSelect.value : 'clf-c02';
-    
-    localStorage.setItem(`aws_sprint_day_${currentCertId}`, completedDay + 1);
-    
-    // --- SALVA A DATA DA CONCLUSÃO ---
-    localStorage.setItem(`aws_sprint_last_date_${currentCertId}`, new Date().toDateString());
-    
-    closeSprintReader();
-    
-    if (typeof renderSprintUI === 'function') {
-        renderSprintUI();
-    }
-
     const lang = uiState.language || 'pt';
-    const msg = lang === 'en'
-        ? `🚀 Day ${completedDay} pill absorbed! The next knowledge awaits you tomorrow.`
-        : `🚀 Pílula do Dia ${completedDay} absorvida com sucesso! O próximo conhecimento te espera amanhã.`;
-    alert(msg);
+    completeSprint(completedDay, currentCertId, lang, () => renderSprintUI());
 };

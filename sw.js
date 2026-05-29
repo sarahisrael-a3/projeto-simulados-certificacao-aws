@@ -4,7 +4,7 @@ const CACHE_NAME = 'aws-sim-cache-v4'; // Subimos a versão do cache!
 const urlsToCache = [
   '/',
   '/index.html',
-  '/style.css',
+  '/css/style.css',
   '/js/app.js',
   '/js/data.js',
   '/js/quizEngine.js',
