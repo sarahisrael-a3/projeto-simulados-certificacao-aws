@@ -6943,100 +6943,6 @@
     "id": 1002
   },
   {
-    "domain": "seguranca",
-    "subdomain": "protecao de dados",
-    "service": "Amazon Macie",
-    "difficulty": "medium",
-    "type": "scenario",
-    "tags": [
-      "seguranca",
-      "protecao de dados",
-      "compliance"
-    ],
-    "question": "Uma empresa de saúde precisa armazenar e processar grandes volumes de dados de pacientes, incluindo informações pessoais sensíveis. Qual serviço AWS pode ser utilizado para detectar e classificar esses dados, ajudando a empresa a cumprir com as regulamentações de privacidade de dados?",
-    "options": [
-      "Amazon S3",
-      "AWS Lambda",
-      "Amazon Macie",
-      "Amazon CloudWatch"
-    ],
-    "correct": 2,
-    "explanation": "A Amazon Macie é um serviço de segurança da AWS que utiliza inteligência artificial e machine learning para detectar e classificar dados sensíveis, como informações pessoais, em grandes volumes de dados. Isso ajuda as empresas a cumprir com as regulamentações de privacidade de dados e a proteger os dados de seus clientes. As outras opções não são corretas porque o Amazon S3 é um serviço de armazenamento de objetos, o AWS Lambda é um serviço de computação sem servidor e o Amazon CloudWatch é um serviço de monitoramento e logging.",
-    "id": 1001
-  },
-  {
-    "domain": "faturamento",
-    "subdomain": "otimizacao de custos",
-    "service": "AWS Cost Explorer",
-    "difficulty": "medium",
-    "type": "scenario",
-    "tags": [
-      "faturamento",
-      "otimizacao de custos",
-      "financas"
-    ],
-    "question": "Uma empresa de tecnologia está experimentando um crescimento rápido e precisa entender melhor seus gastos com a nuvem para otimizar seus custos. Qual serviço AWS pode ser utilizado para visualizar e analisar os gastos com a nuvem, identificar áreas de otimização e criar orçamentos?",
-    "options": [
-      "AWS Cost Explorer",
-      "Amazon CloudWatch",
-      "AWS Lambda",
-      "Amazon S3"
-    ],
-    "correct": 0,
-    "explanation": "O AWS Cost Explorer é um serviço da AWS que fornece uma visão detalhada dos gastos com a nuvem, permitindo que as empresas visualizem e analisem seus gastos, identifiquem áreas de otimização e criem orçamentos. Isso ajuda as empresas a tomar decisões informadas sobre seus gastos com a nuvem e a otimizar seus custos. As outras opções não são corretas porque o Amazon CloudWatch é um serviço de monitoramento e logging, o AWS Lambda é um serviço de computação sem servidor e o Amazon S3 é um serviço de armazenamento de objetos.",
-    "id": 1002
-  },
-  {
-    "domain": "faturamento",
-    "subdomain": "otimizacao-custos",
-    "service": "AWS Budgets",
-    "difficulty": "medium",
-    "type": "múltipla escolha",
-    "tags": [
-      "custos",
-      "faturamento",
-      "orçamento",
-      "alerta",
-      "monitoramento"
-    ],
-    "question": "Uma empresa de software está expandindo suas operações na AWS e deseja manter um controle rigoroso sobre seus gastos mensais. Eles precisam de uma forma proativa de serem notificados se seus custos reais ou previstos excederem um determinado limite definido, a fim de evitar surpresas na fatura. Qual serviço AWS deve ser utilizado para configurar alertas e gerenciar o orçamento de custos da conta?",
-    "options": [
-      "AWS Budgets",
-      "AWS Cost Explorer",
-      "AWS Trusted Advisor",
-      "Amazon CloudWatch"
-    ],
-    "correct": 0,
-    "explanation": "O AWS Budgets permite que os clientes definam orçamentos personalizados e recebam alertas quando os custos ou o uso excederem (ou estiverem previstos para exceder) os limites orçamentários. O AWS Cost Explorer é uma ferramenta de visualização para analisar custos históricos e projetados, mas não define alertas de orçamento diretamente. O AWS Trusted Advisor fornece recomendações para otimização de custos, segurança e desempenho, mas não gerencia orçamentos. O Amazon CloudWatch monitora recursos e aplicações, mas não é a ferramenta principal para orçamentação de custos da AWS.",
-    "id": 1003
-  },
-  {
-    "domain": "seguranca",
-    "subdomain": "gerenciamento-identidade-e-acesso",
-    "service": "AWS Identity and Access Management (IAM)",
-    "difficulty": "medium",
-    "type": "múltipla escolha",
-    "tags": [
-      "segurança",
-      "acesso",
-      "permissões",
-      "usuários",
-      "grupos",
-      "autenticação",
-      "autorização"
-    ],
-    "question": "Uma nova startup está configurando seu ambiente na AWS e precisa garantir que seus desenvolvedores e administradores tenham acesso apenas aos recursos necessários para suas funções específicas. Eles desejam implementar o princípio do menor privilégio e gerenciar as identidades de usuários, grupos e as permissões de acesso aos serviços da AWS de forma centralizada e segura. Qual serviço AWS deve ser utilizado para atender a esses requisitos de gerenciamento de identidade e acesso?",
-    "options": [
-      "AWS Identity and Access Management (IAM)",
-      "Amazon GuardDuty",
-      "AWS WAF",
-      "AWS Key Management Service (KMS)"
-    ],
-    "correct": 0,
-    "explanation": "O AWS Identity and Access Management (IAM) é o serviço que permite gerenciar o acesso a serviços e recursos da AWS de forma segura. Com o IAM, é possível criar e gerenciar usuários, grupos e políticas de permissão para controlar quem pode acessar o quê. O Amazon GuardDuty é um serviço de detecção de ameaças que monitora atividades maliciosas e comportamentos não autorizados. O AWS WAF (Web Application Firewall) protege aplicações web contra exploits comuns. O AWS Key Management Service (KMS) facilita a criação e o controle de chaves de criptografia, mas não gerencia identidades e permissões de acesso aos recursos da AWS.",
-    "id": 1004
-  },
-  {
     "domain": "faturamento",
     "subdomain": "otimizacao-custos",
     "service": "AWS Budgets",
@@ -8530,26 +8436,6 @@
     "explanation": "A melhor abordagem é utilizar o AWS Glue para criar um pipeline de processamento de dados personalizado, pois isso permite uma grande flexibilidade e controle sobre o processamento de dados, além de atender às necessidades de desempenho e escalabilidade da empresa."
   },
   {
-    "domain": "faturamento",
-    "subdomain": "gestão de custos",
-    "service": "AWS Cost Explorer",
-    "difficulty": "hard",
-    "type": "scenario",
-    "tags": [
-      "gestão de custos",
-      "otimização de custos"
-    ],
-    "question": "Uma empresa de tecnologia deseja criar um sistema de gestão de custos para seus recursos na nuvem, utilizando o AWS Cost Explorer. A empresa tem várias equipes e departamentos, e deseja garantir que cada equipe tenha uma visão clara dos custos associados aos seus recursos. Qual é a melhor abordagem para implementar um sistema de gestão de custos que atenda às necessidades de visibilidade e otimização de custos da empresa?",
-    "options": [
-      "Utilizar o AWS Cost Explorer para criar relatórios de custos personalizados para cada equipe e departamento",
-      "Implementar um sistema de gestão de custos utilizando o AWS Budgets",
-      "Utilizar o AWS Cost Explorer para criar uma estrutura de custos hierárquica",
-      "Implementar um sistema de gestão de custos utilizando o AWS CloudWatch"
-    ],
-    "correct": 0,
-    "explanation": "A melhor abordagem é utilizar o AWS Cost Explorer para criar relatórios de custos personalizados para cada equipe e departamento, pois isso permite uma grande flexibilidade e visibilidade nos custos, além de atender às necessidades de otimização de custos da empresa."
-  },
-  {
     "domain": "conceitos-cloud",
     "subdomain": "arquitetura de nuvem",
     "service": "Amazon VPC",
@@ -8568,26 +8454,6 @@
     ],
     "correct": 1,
     "explanation": "A melhor abordagem é utilizar o Amazon VPC para criar sub-redes isoladas e rotear o tráfego de rede, pois isso permite uma grande flexibilidade e controle sobre a segurança e o roteamento dos aplicativos, além de atender às necessidades de disponibilidade e escalabilidade da empresa."
-  },
-  {
-    "domain": "seguranca",
-    "subdomain": "controle de acesso",
-    "service": "AWS IAM",
-    "difficulty": "hard",
-    "type": "scenario",
-    "tags": [
-      "autenticação",
-      "autorização"
-    ],
-    "question": "Uma empresa de serviços financeiros deseja implementar um sistema de controle de acesso para seus recursos na nuvem, utilizando o AWS IAM. A empresa tem várias equipes e departamentos, e deseja garantir que cada equipe tenha acesso apenas aos recursos necessários para realizar suas tarefas. Qual é a melhor abordagem para implementar um sistema de controle de acesso que atenda às necessidades de segurança e conformidade da empresa?",
-    "options": [
-      "Criar grupos de IAM para cada equipe e departamento, e atribuir permissões específicas para cada grupo",
-      "Utilizar o AWS Organizations para criar uma estrutura de controle de acesso hierárquica",
-      "Implementar um sistema de autenticação de dois fatores utilizando o AWS Cognito",
-      "Utilizar o AWS Lake Formation para criar um repositório de dados seguro e controlado"
-    ],
-    "correct": 0,
-    "explanation": "A melhor abordagem é criar grupos de IAM para cada equipe e departamento, e atribuir permissões específicas para cada grupo, pois isso permite uma grande flexibilidade e controle sobre o acesso aos recursos, além de atender às necessidades de segurança e conformidade da empresa."
   },
   {
     "domain": "tecnologia",
