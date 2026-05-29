@@ -1,111 +1,326 @@
 -- ============================================================================
 -- AWS Simulator Database Schema
+-- Version: 1.0.0
 -- ============================================================================
 
--- Tabela de usuários (anônimos)
+-- Habilitar extensões necessárias
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";   -- gen_random_uuid()
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";    -- índices de busca textual (trigram)
+
+-- ============================================================================
+-- ENUMS — garante integridade dos valores categóricos
+-- ============================================================================
+
+DO $$ BEGIN
+    CREATE TYPE certification_type AS ENUM (
+        'CLF-C02', 'SAA-C03', 'SAP-C02',
+        'DVA-C02', 'SOA-C02', 'DOP-C02',
+        'ANS-C01', 'DAS-C01', 'MLS-C01',
+        'SCS-C02', 'PAS-C01', 'AIF-C01'
+    );
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE difficulty_level AS ENUM ('easy', 'medium', 'hard');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE session_type AS ENUM ('focus', 'short_break', 'long_break');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+
+-- ============================================================================
+-- TABELA: users
+-- Usuários anônimos do simulador
+-- ============================================================================
+
 CREATE TABLE IF NOT EXISTS users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    anonymous_name VARCHAR(100) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
+    id              UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+    anonymous_name  VARCHAR(100) NOT NULL UNIQUE,
+    created_at      TIMESTAMP   NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMP   NOT NULL DEFAULT NOW()
 );
 
--- Tabela de questões
+COMMENT ON TABLE  users                IS 'Usuários anônimos do simulador';
+COMMENT ON COLUMN users.id             IS 'Identificador único do usuário (UUID v4)';
+COMMENT ON COLUMN users.anonymous_name IS 'Nome público anônimo (ex: "CloudNinja#4821")';
+COMMENT ON COLUMN users.created_at     IS 'Data de criação do registro';
+COMMENT ON COLUMN users.updated_at     IS 'Data da última atualização';
+
+-- Trigger para atualizar updated_at automaticamente
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trg_users_updated_at
+    BEFORE UPDATE ON users
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ============================================================================
+-- TABELA: domains
+-- Domínios/tópicos de cada certificação AWS
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS domains (
+    id               UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+    certification    certification_type NOT NULL,
+    name             VARCHAR(100) NOT NULL,
+    slug             VARCHAR(100) NOT NULL,
+    weight_percent   DECIMAL(5,2),                 -- peso no exame real (%)
+    created_at       TIMESTAMP    NOT NULL DEFAULT NOW(),
+    UNIQUE (certification, slug)
+);
+
+COMMENT ON TABLE  domains                  IS 'Domínios e subdomínios de cada certificação AWS';
+COMMENT ON COLUMN domains.certification    IS 'Código da certificação AWS';
+COMMENT ON COLUMN domains.name             IS 'Nome legível do domínio (ex: "Security, Identity, and Compliance")';
+COMMENT ON COLUMN domains.slug             IS 'Slug normalizado para uso interno (ex: "security")';
+COMMENT ON COLUMN domains.weight_percent   IS 'Peso percentual do domínio no exame oficial';
+
+CREATE INDEX IF NOT EXISTS idx_domains_certification ON domains(certification);
+
+-- ============================================================================
+-- TABELA: questions
+-- Banco de questões de certificação AWS
+-- ============================================================================
+
 CREATE TABLE IF NOT EXISTS questions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    certification VARCHAR(20) NOT NULL,
-    domain VARCHAR(50) NOT NULL,
-    difficulty VARCHAR(20) NOT NULL,
-    question_text TEXT NOT NULL,
-    options JSONB NOT NULL,
-    correct_answer JSONB NOT NULL,
-    explanation TEXT NOT NULL,
-    reference_url TEXT,
-    validated_by VARCHAR(100),
-    validated_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
+    id              UUID              PRIMARY KEY DEFAULT gen_random_uuid(),
+    certification   certification_type NOT NULL,
+    domain          VARCHAR(100)      NOT NULL,
+    domain_id       UUID              REFERENCES domains(id) ON DELETE SET NULL,
+    difficulty      difficulty_level  NOT NULL,
+    question_text   TEXT              NOT NULL,
+    options         JSONB             NOT NULL,       -- [{id, text}, ...]
+    correct_answer  JSONB             NOT NULL,       -- [id] ou [id, id] para múltipla escolha
+    explanation     TEXT              NOT NULL,
+    reference_url   TEXT,
+    tags            TEXT[]            DEFAULT '{}',
+    is_active       BOOLEAN           NOT NULL DEFAULT TRUE,
+    validated_by    VARCHAR(100),
+    validated_at    TIMESTAMP,
+    created_at      TIMESTAMP         NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMP         NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT chk_options_not_empty    CHECK (jsonb_array_length(options) >= 2),
+    CONSTRAINT chk_correct_not_empty    CHECK (jsonb_array_length(correct_answer) >= 1),
+    CONSTRAINT chk_question_text_len    CHECK (char_length(question_text) >= 10)
 );
 
--- Índices para questões
+COMMENT ON TABLE  questions                IS 'Banco de questões de certificação AWS';
+COMMENT ON COLUMN questions.options        IS 'Array JSON: [{\"id\":\"A\",\"text\":\"...\"}, ...]';
+COMMENT ON COLUMN questions.correct_answer IS 'Array JSON com ID(s) correto(s): [\"A\"] ou [\"A\",\"C\"]';
+COMMENT ON COLUMN questions.tags           IS 'Tags livres para agrupamento (ex: {S3, IAM, VPC})';
+COMMENT ON COLUMN questions.is_active      IS 'FALSE = questão desativada/aposentada';
+COMMENT ON COLUMN questions.domain_id      IS 'FK para tabela domains (opcional, complementa domain text)';
+
 CREATE INDEX IF NOT EXISTS idx_questions_certification ON questions(certification);
-CREATE INDEX IF NOT EXISTS idx_questions_domain ON questions(domain);
-CREATE INDEX IF NOT EXISTS idx_questions_difficulty ON questions(difficulty);
-CREATE INDEX IF NOT EXISTS idx_questions_validated ON questions(validated_by);
+CREATE INDEX IF NOT EXISTS idx_questions_domain        ON questions(domain);
+CREATE INDEX IF NOT EXISTS idx_questions_domain_id     ON questions(domain_id);
+CREATE INDEX IF NOT EXISTS idx_questions_difficulty    ON questions(difficulty);
+CREATE INDEX IF NOT EXISTS idx_questions_validated     ON questions(validated_by);
+CREATE INDEX IF NOT EXISTS idx_questions_active        ON questions(is_active) WHERE is_active = TRUE;
+CREATE INDEX IF NOT EXISTS idx_questions_tags          ON questions USING GIN(tags);
+-- Busca full-text no enunciado
+CREATE INDEX IF NOT EXISTS idx_questions_text_search   ON questions USING GIN(to_tsvector('portuguese', question_text));
 
--- Tabela de histórico de quizzes
+CREATE OR REPLACE TRIGGER trg_questions_updated_at
+    BEFORE UPDATE ON questions
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ============================================================================
+-- TABELA: quiz_history
+-- Histórico de quizzes realizados
+-- ============================================================================
+
 CREATE TABLE IF NOT EXISTS quiz_history (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    certification VARCHAR(20) NOT NULL,
-    score INTEGER NOT NULL,
-    total_questions INTEGER NOT NULL,
-    percentage DECIMAL(5,2) NOT NULL,
-    domain_scores JSONB NOT NULL,
-    weak_domains TEXT[],
-    completed_at TIMESTAMP DEFAULT NOW()
+    id               UUID              PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id          UUID              NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    certification    certification_type NOT NULL,
+    score            INTEGER           NOT NULL CHECK (score >= 0),
+    total_questions  INTEGER           NOT NULL CHECK (total_questions > 0),
+    percentage       DECIMAL(5,2)      NOT NULL CHECK (percentage BETWEEN 0 AND 100),
+    domain_scores    JSONB             NOT NULL DEFAULT '{}',  -- {domain: {score, total}}
+    weak_domains     TEXT[]            DEFAULT '{}',
+    time_spent_secs  INTEGER           CHECK (time_spent_secs >= 0),
+    completed_at     TIMESTAMP         NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT chk_score_lte_total CHECK (score <= total_questions)
 );
 
--- Índices para histórico
-CREATE INDEX IF NOT EXISTS idx_quiz_history_user ON quiz_history(user_id);
+COMMENT ON TABLE  quiz_history                   IS 'Histórico de quizzes realizados pelos usuários';
+COMMENT ON COLUMN quiz_history.domain_scores     IS 'JSON: {\"EC2\": {\"score\": 3, \"total\": 5}, ...}';
+COMMENT ON COLUMN quiz_history.weak_domains      IS 'Domínios com < 70% de acerto neste quiz';
+COMMENT ON COLUMN quiz_history.time_spent_secs   IS 'Tempo total gasto no quiz em segundos';
+
+CREATE INDEX IF NOT EXISTS idx_quiz_history_user          ON quiz_history(user_id);
 CREATE INDEX IF NOT EXISTS idx_quiz_history_certification ON quiz_history(certification);
-CREATE INDEX IF NOT EXISTS idx_quiz_history_completed ON quiz_history(completed_at);
+CREATE INDEX IF NOT EXISTS idx_quiz_history_completed     ON quiz_history(completed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_quiz_history_percentage    ON quiz_history(percentage DESC);
 
--- Tabela de respostas individuais
+-- ============================================================================
+-- TABELA: answers
+-- Respostas individuais de cada questão dentro de um quiz
+-- ============================================================================
+
 CREATE TABLE IF NOT EXISTS answers (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    quiz_id UUID REFERENCES quiz_history(id) ON DELETE CASCADE,
-    question_id UUID REFERENCES questions(id) ON DELETE SET NULL,
-    user_answer JSONB NOT NULL,
-    is_correct BOOLEAN NOT NULL,
-    answered_at TIMESTAMP DEFAULT NOW()
+    id           UUID      PRIMARY KEY DEFAULT gen_random_uuid(),
+    quiz_id      UUID      NOT NULL REFERENCES quiz_history(id) ON DELETE CASCADE,
+    question_id  UUID      REFERENCES questions(id) ON DELETE SET NULL,
+    user_answer  JSONB     NOT NULL,    -- [id] ou [id, id]
+    is_correct   BOOLEAN   NOT NULL,
+    time_secs    INTEGER   CHECK (time_secs >= 0),
+    answered_at  TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- Índices para respostas
-CREATE INDEX IF NOT EXISTS idx_answers_quiz ON answers(quiz_id);
+COMMENT ON TABLE  answers             IS 'Respostas individuais de cada questão em um quiz';
+COMMENT ON COLUMN answers.user_answer IS 'Array JSON com ID(s) escolhido(s) pelo usuário: [\"B\"]';
+COMMENT ON COLUMN answers.time_secs   IS 'Tempo gasto nesta questão em segundos';
+
+CREATE INDEX IF NOT EXISTS idx_answers_quiz     ON answers(quiz_id);
 CREATE INDEX IF NOT EXISTS idx_answers_question ON answers(question_id);
-CREATE INDEX IF NOT EXISTS idx_answers_correct ON answers(is_correct);
+CREATE INDEX IF NOT EXISTS idx_answers_correct  ON answers(is_correct);
 
--- Tabela de gamificação
+-- ============================================================================
+-- TABELA: gamification
+-- Pontuação, badges e progresso de cada usuário
+-- ============================================================================
+
 CREATE TABLE IF NOT EXISTS gamification (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE UNIQUE,
-    total_quizzes INTEGER DEFAULT 0,
-    best_score DECIMAL(5,2) DEFAULT 0,
-    current_streak INTEGER DEFAULT 0,
-    last_date DATE,
-    badges TEXT[],
-    completed_stages TEXT[],
-    unlocked_stages TEXT[],
-    labs_completed INTEGER DEFAULT 0,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
+    id                UUID      PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id           UUID      NOT NULL REFERENCES users(id) ON DELETE CASCADE UNIQUE,
+    total_quizzes     INTEGER   NOT NULL DEFAULT 0 CHECK (total_quizzes >= 0),
+    best_score        DECIMAL(5,2) NOT NULL DEFAULT 0 CHECK (best_score BETWEEN 0 AND 100),
+    current_streak    INTEGER   NOT NULL DEFAULT 0 CHECK (current_streak >= 0),
+    longest_streak    INTEGER   NOT NULL DEFAULT 0 CHECK (longest_streak >= 0),
+    last_date         DATE,
+    badges            TEXT[]    NOT NULL DEFAULT '{}',
+    completed_stages  TEXT[]    NOT NULL DEFAULT '{}',
+    unlocked_stages   TEXT[]    NOT NULL DEFAULT '{}',
+    labs_completed    INTEGER   NOT NULL DEFAULT 0 CHECK (labs_completed >= 0),
+    xp_points         INTEGER   NOT NULL DEFAULT 0 CHECK (xp_points >= 0),
+    created_at        TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at        TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT chk_streak_consistency CHECK (current_streak <= longest_streak)
 );
 
--- Índice para gamificação
-CREATE INDEX IF NOT EXISTS idx_gamification_user ON gamification(user_id);
+COMMENT ON TABLE  gamification                IS 'Dados de gamificação e progresso do usuário';
+COMMENT ON COLUMN gamification.best_score     IS 'Melhor percentual de acerto em qualquer quiz';
+COMMENT ON COLUMN gamification.current_streak IS 'Dias consecutivos de estudo ativos';
+COMMENT ON COLUMN gamification.longest_streak IS 'Maior sequência de dias consecutivos já alcançada';
+COMMENT ON COLUMN gamification.badges         IS 'Array de códigos de badges desbloqueados';
+COMMENT ON COLUMN gamification.xp_points      IS 'Pontos de experiência acumulados';
 
--- Tabela de focus sessions (Pomodoro)
+CREATE INDEX IF NOT EXISTS idx_gamification_user   ON gamification(user_id);
+CREATE INDEX IF NOT EXISTS idx_gamification_xp     ON gamification(xp_points DESC);
+CREATE INDEX IF NOT EXISTS idx_gamification_streak ON gamification(current_streak DESC);
+
+CREATE OR REPLACE TRIGGER trg_gamification_updated_at
+    BEFORE UPDATE ON gamification
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ============================================================================
+-- TABELA: focus_sessions
+-- Histórico de sessões Pomodoro
+-- ============================================================================
+
 CREATE TABLE IF NOT EXISTS focus_sessions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    minutes INTEGER NOT NULL,
-    session_type VARCHAR(20) NOT NULL,
-    session_date DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
+    id           UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id      UUID         NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    minutes      INTEGER      NOT NULL CHECK (minutes > 0),
+    session_type session_type NOT NULL,
+    session_date DATE         NOT NULL,
+    created_at   TIMESTAMP    NOT NULL DEFAULT NOW()
 );
 
--- Índices para focus sessions
+COMMENT ON TABLE  focus_sessions              IS 'Histórico de sessões de foco Pomodoro';
+COMMENT ON COLUMN focus_sessions.session_type IS 'Tipo: focus | short_break | long_break';
+
 CREATE INDEX IF NOT EXISTS idx_focus_sessions_user ON focus_sessions(user_id);
-CREATE INDEX IF NOT EXISTS idx_focus_sessions_date ON focus_sessions(session_date);
+CREATE INDEX IF NOT EXISTS idx_focus_sessions_date ON focus_sessions(session_date DESC);
+CREATE INDEX IF NOT EXISTS idx_focus_sessions_type ON focus_sessions(session_type);
 
 -- ============================================================================
--- Comentários das tabelas
+-- VIEW: leaderboard
+-- Ranking público de usuários por XP
 -- ============================================================================
 
-COMMENT ON TABLE users IS 'Usuários anônimos do simulador';
-COMMENT ON TABLE questions IS 'Banco de questões de certificação AWS';
-COMMENT ON TABLE quiz_history IS 'Histórico de quizzes realizados';
-COMMENT ON TABLE answers IS 'Respostas individuais de cada questão';
-COMMENT ON TABLE gamification IS 'Dados de gamificação do usuário';
-COMMENT ON TABLE focus_sessions IS 'Histórico de sessões de foco (Pomodoro)';
+CREATE OR REPLACE VIEW leaderboard AS
+SELECT
+    u.anonymous_name,
+    g.xp_points,
+    g.best_score,
+    g.total_quizzes,
+    g.current_streak,
+    g.badges,
+    RANK() OVER (ORDER BY g.xp_points DESC) AS rank
+FROM gamification g
+JOIN users u ON u.id = g.user_id
+ORDER BY g.xp_points DESC;
+
+COMMENT ON VIEW leaderboard IS 'Ranking público de usuários por pontos de XP';
+
+-- ============================================================================
+-- VIEW: user_stats
+-- Estatísticas consolidadas por usuário
+-- ============================================================================
+
+CREATE OR REPLACE VIEW user_stats AS
+SELECT
+    u.id              AS user_id,
+    u.anonymous_name,
+    COUNT(DISTINCT qh.id)                                   AS total_quizzes,
+    COALESCE(AVG(qh.percentage), 0)::DECIMAL(5,2)           AS avg_score,
+    COALESCE(MAX(qh.percentage), 0)                         AS best_score,
+    COALESCE(SUM(qh.time_spent_secs), 0)                    AS total_time_secs,
+    COUNT(DISTINCT qh.certification)                        AS certifications_practiced,
+    COALESCE(SUM(fs.minutes) FILTER (WHERE fs.session_type = 'focus'), 0) AS total_focus_minutes
+FROM users u
+LEFT JOIN quiz_history qh ON qh.user_id = u.id
+LEFT JOIN focus_sessions fs ON fs.user_id = u.id
+GROUP BY u.id, u.anonymous_name;
+
+COMMENT ON VIEW user_stats IS 'Estatísticas consolidadas de cada usuário';
+
+-- ============================================================================
+-- DADOS INICIAIS: domínios de todas as certificações
+-- Slugs correspondem ao campo "domain" nos JSONs de questões
+-- ============================================================================
+
+INSERT INTO domains (certification, name, slug, weight_percent) VALUES
+    -- CLF-C02 (9 domínios)
+    ('CLF-C02', 'Conceitos de Cloud',           'conceitos-cloud',          24),
+    ('CLF-C02', 'Segurança',                    'seguranca',                30),
+    ('CLF-C02', 'Tecnologia',                   'tecnologia',               34),
+    ('CLF-C02', 'Faturamento',                  'faturamento',              12),
+    ('CLF-C02', 'Rede',                         'rede',                     NULL),
+    ('CLF-C02', 'Operações',                    'operacoes',                NULL),
+    ('CLF-C02', 'Automação',                    'automacao',                NULL),
+    ('CLF-C02', 'Arquitetura',                  'arquitetura',              NULL),
+    ('CLF-C02', 'Inteligência Artificial',      'inteligencia-artificial',  NULL),
+    -- SAA-C03 (6 domínios)
+    ('SAA-C03', 'Design de Custo',              'design-custo',             20),
+    ('SAA-C03', 'Design de Performance',        'design-performance',       24),
+    ('SAA-C03', 'Design Resiliente',            'design-resiliente',        26),
+    ('SAA-C03', 'Segurança de Aplicações',      'seguranca-aplicacoes',     30),
+    ('SAA-C03', 'Fundamentos AI/ML',            'fundamentals-ai-ml',       NULL),
+    ('SAA-C03', 'Security, Compliance e Governance', 'security-compliance-governance', NULL),
+    -- DVA-C02 (4 domínios)
+    ('DVA-C02', 'Desenvolvimento de Serviços',  'desenvolvimento-servicos', 32),
+    ('DVA-C02', 'Implementação',                'implementacao',            22),
+    ('DVA-C02', 'Resolução de Problemas',       'resolucao-problemas',      24),
+    ('DVA-C02', 'Segurança de Aplicações',      'seguranca-app',            22),
+    -- AIF-C01 (5 domínios)
+    ('AIF-C01', 'Fundamentos de AI/ML',         'fundamentals-ai-ml',       NULL),
+    ('AIF-C01', 'Fundamentos de IA Generativa', 'fundamentals-genai',       NULL),
+    ('AIF-C01', 'Aplicações de Foundation Models', 'applications-foundation-models', NULL),
+    ('AIF-C01', 'Diretrizes de IA Responsável', 'guidelines-responsible-ai', NULL),
+    ('AIF-C01', 'Security, Compliance e Governance', 'security-compliance-governance', NULL)
+ON CONFLICT (certification, slug) DO NOTHING;
