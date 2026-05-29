@@ -21,3 +21,4 @@ DATABASE_URL = f"postgresql://{DATABASE_CONFIG['user']}:{DATABASE_CONFIG['passwo
 # Configurações de desenvolvimento
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
+ 
