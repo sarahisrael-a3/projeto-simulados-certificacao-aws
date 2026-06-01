@@ -6,3 +6,5 @@ beautifulsoup4
 pandas
 string-similarity
 deep-translator
+psycopg2-binary==2.9.12
+tqdm==4.67.1
