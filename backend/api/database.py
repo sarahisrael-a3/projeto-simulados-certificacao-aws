@@ -4,7 +4,7 @@ Conexão com PostgreSQL
 
 import psycopg2
 
-from database.config import DATABASE_CONFIG
+from backend.database.config import DATABASE_CONFIG
 
 
 def get_connection():
