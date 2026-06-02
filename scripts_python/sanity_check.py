@@ -1,5 +1,11 @@
 import json
 import os
+from dotenv import load_dotenv
+
+# Carrega .env antes de importar generator, para que as variáveis de ambiente
+# estejam disponíveis quando o módulo for inicializado (desenvolvimento local).
+load_dotenv()
+
 from pydantic import ValidationError
 from generator import AWSQuestion
 

@@ -19,14 +19,32 @@ except ImportError:
 load_dotenv()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Cliente Gemini (Principal)
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+# Clientes inicializados de forma lazy (sob demanda) para evitar falha
+# na importação quando GEMINI_API_KEY ainda não está no ambiente.
+_gemini_client = None
+_groq_client = None
 
-# Cliente Groq (Plano B)
-if GROQ_AVAILABLE and os.getenv("GROQ_API_KEY"):
-    groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-else:
-    groq_client = None
+def get_gemini_client():
+    """Retorna o cliente Gemini, inicializando-o na primeira chamada."""
+    global _gemini_client
+    if _gemini_client is None:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError(
+                "GEMINI_API_KEY não configurada. "
+                "Defina a variável de ambiente ou adicione ao arquivo .env"
+            )
+        _gemini_client = genai.Client(api_key=api_key)
+    return _gemini_client
+
+def get_groq_client():
+    """Retorna o cliente Groq se disponível, ou None."""
+    global _groq_client
+    if _groq_client is None and GROQ_AVAILABLE:
+        api_key = os.getenv("GROQ_API_KEY")
+        if api_key:
+            _groq_client = Groq(api_key=api_key)
+    return _groq_client
 
 # 2. CONFIGURAÇÃO DE EXAMES E DOMÍNIOS
 EXAMES_CONFIG = {
@@ -167,7 +185,7 @@ Domínios permitidos: {dominios}.
 
     try:
         # TENTATIVA 1: GEMINI (Principal)
-        response = client.models.generate_content(
+        response = get_gemini_client().models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -181,10 +199,11 @@ Domínios permitidos: {dominios}.
     except Exception as e:
         is_quota_error = "429" in str(e) or "503" or "RESOURCE_EXHAUSTED" in str(e) or "quota" in str(e).lower()
         
-        if is_quota_error and groq_client:
+        if is_quota_error and get_groq_client():
             # TENTATIVA 2: GROQ (Fallback / Plano B)
             print(f"⏳ [QUOTA] Limite do Gemini atingido! A acionar o Plano B (Groq)...")
             ia_usada = "Groq"
+            groq_client = get_groq_client()
             
             # O Groq exige uma instrução extra no prompt para devolver o JSON no formato exato
             groq_prompt = prompt + """
@@ -221,7 +240,7 @@ Domínios permitidos: {dominios}.
                 print(f"❌ Erro crítico no Groq: {e_groq}")
                 return None
                 
-        elif is_quota_error and not groq_client:
+        elif is_quota_error and not get_groq_client():
             # Se não tiver Groq, faz a espera clássica
             if retries < 3:
                 tempo_espera = 30 + (retries * 10)
