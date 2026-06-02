@@ -1,4 +1,4 @@
-import { SPRINT_MAPS, completeSprintDay, closeSprintReader } from '../js/gamificacao/sprintManager.js';
+import { SPRINT_MAPS, completeSprintDay, closeSprintReader } from '../src/frontend/js/gamificacao/sprintManager.js';
 
 describe('sprintManager', () => {
     beforeEach(() => {

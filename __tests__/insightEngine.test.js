@@ -1,4 +1,4 @@
-import { generateSmartInsight } from '../js/insightEngine.js';
+import { generateSmartInsight } from '../src/frontend/js/insightEngine.js';
 
 const mockT = (key, _lang, params) => {
     if (params) return `${key}:${JSON.stringify(params)}`;

@@ -3,7 +3,7 @@
  * Framework: Jest
  */
 
-import { QuizEngine } from '../js/quizEngine.js';
+import { QuizEngine } from '../src/frontend/js/quizEngine.js';
 
 describe('QuizEngine - Testes Base', () => {
     let engine;
