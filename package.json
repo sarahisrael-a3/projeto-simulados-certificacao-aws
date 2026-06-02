@@ -9,7 +9,9 @@
     "lint": "eslint js/**/*.js",
     "lint:fix": "eslint js/**/*.js --fix",
     "format": "prettier --write \"js/**/*.js\" \"css/**/*.css\" \"*.html\"",
-    "format:check": "prettier --check \"js/**/*.js\" \"css/**/*.css\" \"*.html\""
+    "format:check": "prettier --check \"js/**/*.js\" \"css/**/*.css\" \"*.html\"",
+    "db:start": "node backend/server.js",
+    "db:dev": "NODE_ENV=development node backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,8 @@
   },
   "homepage": "https://github.com/karlarenatadev/projeto-simulados-certificacao-aws#readme",
   "dependencies": {
+    "@electric-sql/pglite": "^0.5.1",
+    "@electric-sql/pglite-socket": "^0.2.1",
     "@google/generative-ai": "^0.24.1",
     "dotenv": "^17.3.1",
     "html2canvas": "^1.4.1",
