@@ -32,14 +32,6 @@ export const TRAILS_BY_CERT = {
     ]
 };
 
-// Nomes oficiais para o título da tela
-const CERT_NAMES = {
-    'clf-c02': 'Cloud Practitioner',
-    'saa-c03': 'Solutions Architect',
-    'aif-c01': 'AI Practitioner',
-    'dva-c02': 'Developer Associate'
-};
-
 export function renderTrail() {
     // 1. Busca o container de forma à prova de falhas (tenta vários IDs/Classes comuns)
     const container = document.getElementById('gamificacao-trail') 

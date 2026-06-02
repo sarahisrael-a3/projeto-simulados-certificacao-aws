@@ -379,7 +379,7 @@ export class StorageManager {
     try {
       localStorage.removeItem(this._getKey('focus_log'));
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }

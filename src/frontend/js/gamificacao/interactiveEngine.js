@@ -2,6 +2,8 @@
  * Motor de Interação e Gamificação AWS
  * Responsável por carregar, renderizar e validar desafios de arrastar e soltar (Ordering).
  */
+import { storageManager } from '../storageManager.js';
+
 class InteractiveEngine {
     constructor() {
         // O local no DOM onde o módulo será injetado
@@ -154,3 +156,6 @@ awardLabProgress() {
 
 // Instancia a classe globalmente para poderes chamá-la a partir de um botão no teu HTML
 const simuladorInterativo = new InteractiveEngine();
+window.simuladorInterativo = simuladorInterativo;
+
+export { simuladorInterativo, InteractiveEngine };

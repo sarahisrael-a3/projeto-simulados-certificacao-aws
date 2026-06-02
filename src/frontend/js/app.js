@@ -1,17 +1,17 @@
 import { QuizEngine } from './quizEngine.js';
-import { certificationPaths, glossaryTerms } from './data.js';
+import { certificationPaths } from './data.js';
 import { storageManager } from './storageManager.js';
-import { renderRadarChart, renderGlobalRadarChart, calculateGlobalDomainStats } from './chartManager.js';
+import { renderRadarChart, renderGlobalRadarChart } from './chartManager.js';
 import { t } from './i18n/useTranslation.js';
 import { initializeUI } from './i18n/initUI.js';
-import { renderTrail, unlockNextModule } from './gamificacao/trailManager.js';
+import { renderTrail } from './gamificacao/trailManager.js';
 import { renderGuildDashboard } from './gamificacao/leaderboard.js';
 import { renderBadges } from './gamificacao/badges.js';
 import { togglePomodoroWidget, togglePomodoro, resetPomodoro } from './pomodoroManager.js';
-import { startExamTimer, updateExamTimerDisplay, startMissionQuestionTimer, clearAllTimers } from './timerManager.js';
+import { startExamTimer, startMissionQuestionTimer, clearAllTimers } from './timerManager.js';
 import { generatePerformanceReport as generatePdfReport } from './pdfReport.js';
 import { generateSmartInsight as computeSmartInsight } from './insightEngine.js';
-import { renderSprintUI as renderSprint, startMicroSprint as startSprint, closeSprintReader as closeSprint, completeSprintDay as completeSprint, SPRINT_MAPS } from './gamificacao/sprintManager.js';
+import { renderSprintUI as renderSprint, startMicroSprint as startSprint, closeSprintReader as closeSprint, completeSprintDay as completeSprint } from './gamificacao/sprintManager.js';
 
 const APP_CONFIG = {
     PASSING_SCORE: 70,
@@ -34,14 +34,6 @@ let uiState = {
     lives: 3,
     qTimerInterval: null,
     qTimeRemaining: 45
-};
-
-let pomodoroState = {
-    timer: null,
-    timeLeft: 15 * 60, // Padrão: 15 min (Alinhado à sua Sprint)
-    isActive: false,
-    currentMode: 'work', // 'work', 'shortBreak', 'longBreak'
-    sessionsCompleted: 0
 };
 
 let lastRenderedResult = null;
@@ -323,10 +315,6 @@ function startTimer() {
         alert(t('time_up', uiState.language));
         finishQuiz();
     });
-}
-
-function updateTimerDisplay() {
-    updateExamTimerDisplay(uiState);
 }
 
 // UI DE QUESTÕES E MÚLTIPLAS ESCOLHAS
@@ -1052,7 +1040,7 @@ function updateHistoryDisplay() {
 
     let html = '<ul class="space-y-3 w-full">';
 
-    history.forEach((item, index) => {
+    history.forEach((item, _index) => {
         const date = new Date(item.date).toLocaleDateString(locale, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
         const isPass = item.percentage >= APP_CONFIG.PASSING_SCORE;
         const color = isPass ? 'text-green-500' : 'text-red-500';
@@ -1457,7 +1445,7 @@ function initPWAInstall() {
     installButton.addEventListener('click', async () => {
         if (!deferredPrompt) return;
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+        await deferredPrompt.userChoice;
         deferredPrompt = null;
         installButton.classList.add('hidden');
     });
@@ -1869,7 +1857,6 @@ function renderStudyPlanBanner() {
     });
 
     const flashcardScreen = document.getElementById('screen-flashcards');
-    const container = flashcardScreen.querySelector('.max-w-4xl'); // Ajuste para seletor de container
 
     // Evita duplicados se o usuário clicar várias vezes
     const existingBanner = document.getElementById('study-recommendation-banner');
@@ -2020,7 +2007,6 @@ function handleMissionFailure(reason) {
 }
 
 // MÓDULO: SPRINT 14 DIAS (delegado para gamificacao/sprintManager.js)
-const sprintMaps = SPRINT_MAPS;
 
 function renderSprintUI() {
     const lang = uiState.language || 'pt';
@@ -2033,7 +2019,7 @@ window.startMicroSprint = function() {
     const certSelect = document.getElementById('certification-select');
     const currentCertId = certSelect ? certSelect.value : 'clf-c02';
     const lang = uiState.language || 'pt';
-    const getPillFn = (typeof getPill === 'function') ? getPill : (day, l, cert) => sprintPills?.[day] || null;
+    const getPillFn = (typeof window.getPill === 'function') ? window.getPill : () => null;
     startSprint(lang, currentCertId, getPillFn);
 };
 
