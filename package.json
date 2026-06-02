@@ -10,6 +10,8 @@
     "lint:fix": "eslint src/frontend/js/**/*.js --fix",
     "format": "prettier --write \"src/frontend/js/**/*.js\" \"src/frontend/styles/**/*.css\" \"public/*.html\"",
     "format:check": "prettier --check \"src/frontend/js/**/*.js\" \"src/frontend/styles/**/*.css\" \"public/*.html\"",
+    "build": "node scripts/build.cjs",
+    "dev": "npm run build && npx live-server public",
     "db:start": "node backend/server.js",
     "db:dev": "NODE_ENV=development node backend/server.js"
   },
