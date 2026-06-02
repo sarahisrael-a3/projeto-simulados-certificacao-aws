@@ -3,6 +3,7 @@
 /**
  * Build script - Copia arquivos de src/frontend para public/
  * Necessário porque o index.html espera os arquivos em public/js e public/css
+ * Também copia /data para public/data para que as APIs funcionem
  */
 
 const fs = require('fs');
@@ -37,6 +38,14 @@ try {
   // Copiar CSS
   console.log('🎨 Copiando arquivos CSS...');
   copyDirectoryRecursive('src/frontend/styles', 'public/css');
+
+  // Copiar DATA (NOVO - necessário para os JSONs serem servidos)
+  console.log('📊 Copiando arquivos de DATA...');
+  if (fs.existsSync('data')) {
+    copyDirectoryRecursive('data', 'public/data');
+  } else {
+    console.warn('⚠️  Pasta data/ não encontrada - pulando...');
+  }
 
   console.log('✅ Build concluído com sucesso!');
   console.log('');
