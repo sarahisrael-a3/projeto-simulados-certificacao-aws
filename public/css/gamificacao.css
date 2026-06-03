@@ -17,6 +17,7 @@
     gap: 3rem; /* Espaçamento vertical entre os nós */
     width: 100%;
     max-width: 400px;
+    min-width: 280px;
     margin: 0 auto;
 }
 
@@ -42,15 +43,41 @@
     align-items: center;
     gap: 0.5rem;
     width: 120px;
+    min-width: 100px;
 }
 
-/* A mágica do Ziguezague usando CSS puro */
+/* A mágica do Ziguezague usando CSS puro - com responsividade */
 .trail-node-wrapper:nth-child(odd) {
-    transform: translateX(-40%);
+    transform: translateX(-30%);
 }
 
 .trail-node-wrapper:nth-child(even) {
-    transform: translateX(40%);
+    transform: translateX(30%);
+}
+
+@media (max-width: 640px) {
+  .trail-node-wrapper:nth-child(odd) {
+    transform: translateX(-20%);
+  }
+
+  .trail-node-wrapper:nth-child(even) {
+    transform: translateX(20%);
+  }
+}
+
+@media (max-width: 380px) {
+  .trail-node-wrapper {
+    width: 100px;
+    min-width: 80px;
+  }
+  
+  .trail-node-wrapper:nth-child(odd) {
+    transform: translateX(-15%);
+  }
+
+  .trail-node-wrapper:nth-child(even) {
+    transform: translateX(15%);
+  }
 }
 
 /* O botão circular do módulo */
@@ -65,8 +92,27 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 4px solid var(--bg-main); /* Cria um respiro visual com o fundo */
+    border: 4px solid var(--bg-main);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    min-width: 60px;
+}
+
+@media (max-width: 640px) {
+  .trail-node {
+    width: 64px;
+    height: 64px;
+    font-size: 1.3rem;
+    border-width: 3px;
+  }
+}
+
+@media (max-width: 380px) {
+  .trail-node {
+    width: 56px;
+    height: 56px;
+    font-size: 1.1rem;
+    border-width: 3px;
+  }
 }
 
 /* ESTADOS DOS NÓS */
@@ -110,9 +156,19 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-muted);
+    line-height: 1.2;
 }
-.trail-node.active ~ .trail-node-title {
-    color: var(--aws-orange);
+
+@media (max-width: 640px) {
+  .trail-node-title {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .trail-node-title {
+    font-size: 0.65rem;
+  }
 }
 
 /* ============================================================================
@@ -133,6 +189,21 @@
     align-items: center;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-width: 100px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+  .badge-glass {
+    padding: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .badge-glass {
+    padding: 0.75rem;
+    min-width: 80px;
+  }
 }
 
 .badge-glass:hover {
@@ -162,6 +233,20 @@
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+@media (max-width: 768px) {
+  .badge-icon {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .badge-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
 }
 
 /* ============================================================================
@@ -204,6 +289,24 @@
     box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     z-index: 10;
+}
+
+@media (max-width: 640px) {
+  .trail-node.boss-node {
+    width: 80px;
+    height: 80px;
+    font-size: 1.8rem;
+    border-width: 3px;
+  }
+}
+
+@media (max-width: 380px) {
+  .trail-node.boss-node {
+    width: 72px;
+    height: 72px;
+    font-size: 1.5rem;
+    border-width: 3px;
+  }
 }
 
 .trail-node.boss-node.active {

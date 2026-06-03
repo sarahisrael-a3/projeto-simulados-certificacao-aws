@@ -7,7 +7,6 @@
  */
 
 import apiService from '../../services/api.js';
-import { storageManager } from './storageManager.js';
 
 /**
  * Quiz Manager Object

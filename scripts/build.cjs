@@ -39,6 +39,14 @@ try {
   console.log('🎨 Copiando arquivos CSS...');
   copyDirectoryRecursive('src/frontend/styles', 'public/css');
 
+  // Copiar SERVICES (necessário para api.js ser encontrado)
+  console.log('🔗 Copiando arquivos de SERVICES...');
+  if (fs.existsSync('src/services')) {
+    copyDirectoryRecursive('src/services', 'public/services');
+  } else {
+    console.warn('⚠️  Pasta src/services/ não encontrada - pulando...');
+  }
+
   // Copiar DATA (NOVO - necessário para os JSONs serem servidos)
   console.log('📊 Copiando arquivos de DATA...');
   if (fs.existsSync('data')) {
