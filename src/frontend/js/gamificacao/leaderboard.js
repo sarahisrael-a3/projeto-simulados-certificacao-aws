@@ -1,13 +1,23 @@
+import apiService from '../../../services/api.js';
 import { storageManager } from '../storageManager.js';
 
-export function renderGuildDashboard() {
+export async function renderGuildDashboard() {
     const list = document.getElementById('guild-leaderboard');
     if (!list) return;
 
     const currentLang = localStorage.getItem('aws_sim_lang') || 'pt';
 
-    // LIMPEZA E GERAÇÃO DE IDENTIDADE SE SEGURA
-    let myUsername = localStorage.getItem('aws_sim_username');
+    // Show loading state
+    list.innerHTML = `
+        <li class="flex items-center justify-center p-8">
+            <i class="fa-solid fa-spinner fa-spin text-aws-orange mr-2"></i>
+            <span class="text-gray-600 dark:text-gray-400">${currentLang === 'en' ? 'Loading...' : 'Carregando...'}</span>
+        </li>
+    `;
+
+    // Get current user info
+    let myUsername = localStorage.getItem('aws_sim_username') || localStorage.getItem('aws_sim_user_name');
+    const myUserId = localStorage.getItem('aws_sim_user_id');
     
     // Verifica se está vazio, null ou se é a string literal "undefined"
     if (!myUsername || myUsername === 'undefined' || myUsername === 'null') {
@@ -26,16 +36,48 @@ export function renderGuildDashboard() {
     const gamificationData = storageManager.getGamification();
     const myBestScore = gamificationData?.bestScore || 0;
 
-    // MOCK DA BASE DE DADOS DA GUILDA
-    const rankData = [
-        { name: 'Lambda_Architect_802', score: 98 },
-        { name: 'Cloud_Guru_411', score: 95 },
-        { name: myUsername, score: myBestScore },
-        { name: 'Elastic_Ninja_109', score: 72 },
-        { name: 'Cyber_Scout_99', score: 68 },
-        { name: 'Data_Engineer_404', score: 88 },
-        { name: 'Nexus_Dev_777', score: 85 }
-    ];
+    // Try to load leaderboard from API
+    let rankData = [];
+    let fromAPI = false;
+
+    try {
+        const response = await apiService.getLeaderboard(100);
+        if (response.success && response.data && response.data.length > 0) {
+            // Map API response to rank data format
+            rankData = response.data.map(entry => ({
+                name: entry.anonymous_name || entry.name || 'Anonymous',
+                score: Math.round((entry.avg_score || entry.best_score || 0) * 100) / 100,
+                userId: entry.id || entry.user_id,
+            }));
+            fromAPI = true;
+            console.log(`✓ Loaded ${rankData.length} entries from leaderboard API`);
+        }
+    } catch (error) {
+        console.warn('Failed to load leaderboard from API, using local fallback:', error);
+    }
+
+    // Fallback: If no data from API, use mock data combined with local stats
+    if (rankData.length === 0) {
+        rankData = [
+            { name: 'Lambda_Architect_802', score: 98, userId: null },
+            { name: 'Cloud_Guru_411', score: 95, userId: null },
+            { name: myUsername, score: myBestScore, userId: myUserId },
+            { name: 'Elastic_Ninja_109', score: 72, userId: null },
+            { name: 'Cyber_Scout_99', score: 68, userId: null },
+            { name: 'Data_Engineer_404', score: 88, userId: null },
+            { name: 'Nexus_Dev_777', score: 85, userId: null }
+        ];
+    } else {
+        // If from API and current user not in list, add them
+        const userInList = rankData.some(entry => entry.userId === myUserId);
+        if (!userInList && myUserId) {
+            rankData.push({
+                name: myUsername,
+                score: myBestScore,
+                userId: myUserId,
+            });
+        }
+    }
 
     rankData.sort((a, b) => b.score - a.score);
     const top5 = rankData.slice(0, 5);
@@ -46,7 +88,8 @@ export function renderGuildDashboard() {
     
     if (totalQuestionsEl) {
         const baseVolume = 1240;
-        totalQuestionsEl.textContent = (baseVolume + (gamificationData?.totalQuizzes || 0) * 10).toLocaleString('pt-BR');
+        const totalCount = fromAPI ? rankData.length * 15 : (baseVolume + (gamificationData?.totalQuizzes || 0) * 10);
+        totalQuestionsEl.textContent = totalCount.toLocaleString('pt-BR');
     }
     
     if (weeklyAvgEl) {
@@ -55,8 +98,17 @@ export function renderGuildDashboard() {
     }
 
     // RENDERIZAÇÃO DA UI
+    if (rankData.length === 0) {
+        list.innerHTML = `
+            <li class="flex items-center justify-center p-8 text-center text-gray-500 dark:text-gray-400">
+                <p>${currentLang === 'en' ? 'No users yet' : 'Nenhum usuário ainda'}</p>
+            </li>
+        `;
+        return;
+    }
+
     list.innerHTML = top5.map((user, index) => {
-        const isMe = user.name === myUsername;
+        const isMe = user.userId === myUserId || user.name === myUsername;
         
         const bgClass = isMe 
             ? 'bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-500 shadow-sm' 

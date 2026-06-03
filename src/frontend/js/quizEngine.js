@@ -2,7 +2,11 @@
  * js/quizEngine.js
  * Motor de lógica pura do Simulado. 
  * Zero manipulação de DOM (HTML/CSS) acontece aqui.
+ * 
+ * Now integrates with REST API for question loading.
  */
+
+import apiService from '../../services/api.js';
 
 export class QuizEngine {
     constructor(passingScore = 70) {
@@ -18,7 +22,8 @@ export class QuizEngine {
             score: 0,
             answers: [],
             domainScores: {},
-            mode: 'exam'
+            mode: 'exam',
+            quizId: null, // Backend quiz ID for tracking
         };
     }
 
@@ -29,13 +34,37 @@ export class QuizEngine {
         this.state.mode = filters.mode || 'exam';
 
         try {
-            const fileSuffix = language === 'en' ? '-en' : '';
-            const response = await fetch(`data/${certId}${fileSuffix}.json`);
-            if (!response.ok) throw new Error('Arquivo de questões não encontrado.');
-            
-            let data = await response.json();
+            // Try loading from API first
+            let data = null;
 
-            // Aplica os filtros (Dificuldade e Tópico)
+            try {
+                const response = await apiService.loadQuestions({
+                    certification: certId,
+                    difficulty: filters.difficulty !== 'all' ? filters.difficulty : undefined,
+                    domain: filters.topic || undefined,
+                    limit: filters.quantity,
+                });
+
+                if (response.success && response.data && response.data.length > 0) {
+                    data = response.data;
+                    console.log(`✓ Loaded ${data.length} questions from API`);
+                }
+            } catch (apiError) {
+                console.warn('API request failed, falling back to JSON:', apiError);
+                // Continue to fallback
+            }
+
+            // Fallback to JSON if API fails
+            if (!data || data.length === 0) {
+                const fileSuffix = language === 'en' ? '-en' : '';
+                const response = await fetch(`data/${certId}${fileSuffix}.json`);
+                if (!response.ok) throw new Error('Arquivo de questões não encontrado.');
+                
+                data = await response.json();
+                console.log(`✓ Loaded ${data.length} questions from JSON file`);
+            }
+
+            // Apply filters only if from JSON (API already filters)
             if (filters.difficulty !== 'all') {
                 data = data.filter(q => q.difficulty === filters.difficulty);
             }
@@ -44,6 +73,10 @@ export class QuizEngine {
             }
 
             if (data.length === 0) throw new Error('Nenhuma questão encontrada com esses filtros.');
+
+            // Normalize question structure to match internal format
+            // API may return different field names, so we map them
+            data = data.map(q => this._normalizeQuestion(q));
 
             // Embaralha as questões e as alternativas
             this.state.questions = this._shuffleArray(data)
@@ -69,21 +102,46 @@ export class QuizEngine {
         this.state.mode = 'diagnostic'; // Isola o estado do simulado real
 
         try {
-            const fileSuffix = language === 'en' ? '-en' : '';
-            let filePath = `data/nivelamento/diagnostic-${certId}${fileSuffix}.json`;
-            
-            let response = await fetch(filePath);
-            
-            // FALLBACK: Se falhar ao buscar o ficheiro em EN, tenta buscar o padrão (PT)
-            if (!response.ok && language === 'en') {
-                console.warn(`Diagnóstico EN não encontrado para ${certId}. Tentando versão PT...`);
-                filePath = `data/nivelamento/diagnostic-${certId}.json`;
-                response = await fetch(filePath);
+            let data = null;
+
+            // Try API first
+            try {
+                const response = await apiService.loadQuestions({
+                    certification: certId,
+                    search: 'diagnostic', // Attempt to filter for diagnostic questions
+                    limit: 50,
+                });
+
+                if (response.success && response.data && response.data.length > 0) {
+                    data = response.data;
+                    console.log(`✓ Loaded ${data.length} diagnostic questions from API`);
+                }
+            } catch (apiError) {
+                console.warn('API request failed for diagnostic, falling back to JSON:', apiError);
             }
 
-            if (!response.ok) throw new Error(`Arquivo de diagnóstico não encontrado para ${certId}.`);
-            
-            let data = await response.json();
+            // Fallback to JSON
+            if (!data || data.length === 0) {
+                const fileSuffix = language === 'en' ? '-en' : '';
+                let filePath = `data/nivelamento/diagnostic-${certId}${fileSuffix}.json`;
+                
+                let response = await fetch(filePath);
+                
+                // FALLBACK: Se falhar ao buscar o ficheiro em EN, tenta buscar o padrão (PT)
+                if (!response.ok && language === 'en') {
+                    console.warn(`Diagnóstico EN não encontrado para ${certId}. Tentando versão PT...`);
+                    filePath = `data/nivelamento/diagnostic-${certId}.json`;
+                    response = await fetch(filePath);
+                }
+
+                if (!response.ok) throw new Error(`Arquivo de diagnóstico não encontrado para ${certId}.`);
+                
+                data = await response.json();
+                console.log(`✓ Loaded ${data.length} diagnostic questions from JSON file`);
+            }
+
+            // Normalize and prepare questions
+            data = data.map(q => this._normalizeQuestion(q));
 
             // Embaralha as questões conceituais e suas opções
             this.state.questions = this._shuffleArray(data).map(q => this._shuffleOptions(q));
@@ -198,6 +256,28 @@ export class QuizEngine {
     }
 
     // --- FUNÇÕES PRIVADAS DE UTILIDADE ---
+    /**
+     * Normalizes question from API or JSON to internal format
+     * Handles field name differences between data sources
+     * @private
+     * @param {object} q - Question object from API or JSON
+     * @returns {object} Normalized question
+     */
+    _normalizeQuestion(q) {
+        return {
+            id: q.id || q.question_id || undefined,
+            domain: q.domain || q.domainId || '0',
+            difficulty: q.difficulty || 'medium',
+            question: q.question || q.question_text || '',
+            options: q.options || [],
+            correct: q.correct || q.correct_answer || q.correctAnswer || 0,
+            explanation: q.explanation || '',
+            reference_url: q.reference_url || q.referenceUrl || undefined,
+            // Keep original fields as fallback
+            ...q
+        };
+    }
+
     /**
      * Embaralha um array usando o algoritmo Fisher-Yates (Knuth shuffle).
      * 

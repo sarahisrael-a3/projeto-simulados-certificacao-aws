@@ -47,6 +47,20 @@ try {
     console.warn('⚠️  Pasta data/ não encontrada - pulando...');
   }
 
+  // Copiar .nojekyll para o build (necessário para GitHub Pages)
+  console.log('⚙️  Copiando .nojekyll para GitHub Pages...');
+  if (fs.existsSync('.nojekyll')) {
+    fs.copyFileSync('.nojekyll', 'public/.nojekyll');
+  }
+
+  // Copiar 404.html para o build (necessário para SPA em GitHub Pages)
+  console.log('⚙️  Copiando 404.html para GitHub Pages...');
+  if (fs.existsSync('public/404.html')) {
+    // já está em public/
+  } else {
+    console.warn('⚠️  public/404.html não encontrado - SPA fallback pode não funcionar');
+  }
+
   console.log('✅ Build concluído com sucesso!');
   console.log('');
   console.log('Próximas etapas:');

@@ -1,0 +1,425 @@
+/**
+ * API Service Layer
+ * Centralized HTTP client for all backend API calls
+ * 
+ * This service encapsulates all fetch calls to the REST API,
+ * providing a single source of truth for API configuration,
+ * error handling, and response parsing.
+ * 
+ * @module api
+ * @author AWS Exam Simulator Team
+ */
+
+/**
+ * Base configuration for the API service
+ */
+const API_CONFIG = {
+  // Use environment variable if available, fallback to localhost:3001
+  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:3001',
+  TIMEOUT: 30000, // 30 seconds
+  RETRY_ATTEMPTS: 3,
+};
+
+/**
+ * Creates structured error objects for consistent error handling
+ * @private
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
+ * @param {object} details - Additional error details
+ * @returns {object} Structured error object
+ */
+function createError(message, statusCode = 0, details = {}) {
+  return {
+    message,
+    statusCode,
+    details,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+/**
+ * Makes a fetch request with error handling and retry logic
+ * @private
+ * @param {string} endpoint - API endpoint (relative to BASE_URL)
+ * @param {object} options - Fetch options
+ * @returns {Promise<object>} Parsed response or error
+ */
+async function fetchWithRetry(endpoint, options = {}) {
+  const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+  
+  // Default options
+  const requestOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options,
+  };
+
+  let lastError = null;
+
+  // Retry loop
+  for (let attempt = 1; attempt <= API_CONFIG.RETRY_ATTEMPTS; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
+
+      const response = await fetch(url, {
+        ...requestOptions,
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      // Parse JSON response
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
+      // Handle HTTP errors
+      if (!response.ok) {
+        const errorMessage = data?.message || `HTTP ${response.status}`;
+        lastError = createError(errorMessage, response.status, data);
+        
+        // Don't retry on client errors (4xx)
+        if (response.status >= 400 && response.status < 500) {
+          throw lastError;
+        }
+        
+        // Retry on server errors (5xx)
+        if (attempt === API_CONFIG.RETRY_ATTEMPTS) {
+          throw lastError;
+        }
+        
+        // Wait before retrying
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        continue;
+      }
+
+      // Success - return parsed response
+      return {
+        success: data?.success !== false,
+        status: response.status,
+        data: data,
+      };
+
+    } catch (error) {
+      // Network error or timeout
+      if (error instanceof Error && error.name === 'AbortError') {
+        lastError = createError('Request timeout', 0, { originalError: error.message });
+      } else if (error.message || error.statusCode) {
+        // Our structured error
+        lastError = error;
+      } else {
+        // Network error
+        lastError = createError('Network error', 0, { originalError: error.message });
+      }
+
+      // Retry on network errors
+      if (attempt === API_CONFIG.RETRY_ATTEMPTS) {
+        throw lastError;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+    }
+  }
+
+  throw lastError || createError('Unknown error');
+}
+
+/**
+ * API Service Object
+ * Provides methods for all backend endpoints
+ */
+export const apiService = {
+  /**
+   * Check API health
+   * GET /api/health
+   * @returns {Promise<object>} Health status
+   */
+  async checkHealth() {
+    try {
+      const response = await fetchWithRetry('/api/health');
+      return response;
+    } catch (error) {
+      console.error('Health check failed:', error);
+      throw error;
+    }
+  },
+
+  // ========================================================================
+  // QUESTIONS ENDPOINTS
+  // ========================================================================
+
+  /**
+   * Load questions with optional filters
+   * GET /api/questions
+   * 
+   * @param {object} options - Query parameters
+   * @param {string} [options.certification] - Filter by certification ID
+   * @param {string} [options.domain] - Filter by domain
+   * @param {string} [options.difficulty] - Filter by difficulty (easy/medium/hard)
+   * @param {number} [options.limit] - Max number of questions (default: 10)
+   * @param {number} [options.offset] - Pagination offset (default: 0)
+   * @param {string} [options.search] - Search term
+   * 
+   * @returns {Promise<object>} { success, data: [], count, pagination }
+   */
+  async loadQuestions(options = {}) {
+    try {
+      const params = new URLSearchParams();
+      
+      if (options.certification) params.append('certification', options.certification);
+      if (options.domain) params.append('domain', options.domain);
+      if (options.difficulty) params.append('difficulty', options.difficulty);
+      if (options.limit) params.append('limit', options.limit);
+      if (options.offset) params.append('offset', options.offset);
+      if (options.search) params.append('search', options.search);
+
+      const response = await fetchWithRetry(`/api/questions?${params}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to load questions:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get single question by ID
+   * GET /api/questions/:id
+   * 
+   * @param {string} questionId - Question ID
+   * @returns {Promise<object>} { success, data }
+   */
+  async getQuestion(questionId) {
+    try {
+      const response = await fetchWithRetry(`/api/questions/${questionId}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to get question:', error);
+      throw error;
+    }
+  },
+
+  // ========================================================================
+  // USER ENDPOINTS
+  // ========================================================================
+
+  /**
+   * Create anonymous user
+   * POST /api/users
+   * 
+   * @param {object} options - User data
+   * @param {string} [options.anonymous_name] - User display name (auto-generated if not provided)
+   * 
+   * @returns {Promise<object>} { success, data: { id, anonymous_name, created_at } }
+   */
+  async createUser(options = {}) {
+    try {
+      const payload = {
+        anonymous_name: options.anonymous_name || undefined,
+      };
+
+      const response = await fetchWithRetry('/api/users', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      return response;
+    } catch (error) {
+      console.error('Failed to create user:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get user statistics
+   * GET /api/users/:id/stats
+   * 
+   * @param {string} userId - User ID
+   * @returns {Promise<object>} { success, data: { total_quizzes, avg_score, ... } }
+   */
+  async getUserStats(userId) {
+    try {
+      const response = await fetchWithRetry(`/api/users/${userId}/stats`);
+      return response;
+    } catch (error) {
+      console.error('Failed to get user stats:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get user's weak domains
+   * GET /api/users/:id/weak-domains
+   * 
+   * @param {string} userId - User ID
+   * @param {number} threshold - Accuracy threshold in % (default: 70)
+   * 
+   * @returns {Promise<object>} { success, data: { weak_domains: [] } }
+   */
+  async getWeakDomains(userId, threshold = 70) {
+    try {
+      const response = await fetchWithRetry(`/api/users/${userId}/weak-domains?threshold=${threshold}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to get weak domains:', error);
+      throw error;
+    }
+  },
+
+  // ========================================================================
+  // QUIZ ENDPOINTS
+  // ========================================================================
+
+  /**
+   * Start new quiz session
+   * POST /api/quiz/start
+   * 
+   * @param {object} options - Quiz configuration
+   * @param {string} options.user_id - User ID
+   * @param {string} options.certification - Certification ID (e.g., 'clf-c02')
+   * @param {number} [options.num_questions] - Number of questions (default: 10)
+   * 
+   * @returns {Promise<object>} { success, data: { quiz_id, questions: [], total_questions } }
+   */
+  async startQuiz(options = {}) {
+    try {
+      if (!options.user_id || !options.certification) {
+        throw createError('user_id and certification are required', 400);
+      }
+
+      const payload = {
+        user_id: options.user_id,
+        certification: options.certification,
+        num_questions: options.num_questions || 10,
+      };
+
+      const response = await fetchWithRetry('/api/quiz/start', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      return response;
+    } catch (error) {
+      console.error('Failed to start quiz:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Record answer for quiz question
+   * POST /api/quiz/:id/answer
+   * 
+   * @param {object} options - Answer data
+   * @param {string} options.quiz_id - Quiz ID
+   * @param {string} options.question_id - Question ID
+   * @param {array|string} options.user_answer - User's answer (index or array of indices)
+   * @param {boolean} [options.is_correct] - Whether answer is correct
+   * @param {number} [options.time_secs] - Time spent on question in seconds
+   * 
+   * @returns {Promise<object>} { success, data: { answer_id } }
+   */
+  async recordAnswer(options = {}) {
+    try {
+      if (!options.quiz_id || !options.question_id || options.user_answer === undefined) {
+        throw createError('quiz_id, question_id, and user_answer are required', 400);
+      }
+
+      const payload = {
+        question_id: options.question_id,
+        user_answer: options.user_answer,
+        is_correct: options.is_correct || false,
+        time_secs: options.time_secs || 0,
+      };
+
+      const response = await fetchWithRetry(`/api/quiz/${options.quiz_id}/answer`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      return response;
+    } catch (error) {
+      console.error('Failed to record answer:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get quiz results
+   * GET /api/quiz/:id/results
+   * 
+   * @param {string} quizId - Quiz ID
+   * @returns {Promise<object>} { success, data: { total_questions, score, percentage, ... } }
+   */
+  async getQuizResults(quizId) {
+    try {
+      const response = await fetchWithRetry(`/api/quiz/${quizId}/results`);
+      return response;
+    } catch (error) {
+      console.error('Failed to get quiz results:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get quiz details
+   * GET /api/quiz/:id
+   * 
+   * @param {string} quizId - Quiz ID
+   * @returns {Promise<object>} { success, data }
+   */
+  async getQuiz(quizId) {
+    try {
+      const response = await fetchWithRetry(`/api/quiz/${quizId}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to get quiz:', error);
+      throw error;
+    }
+  },
+
+  // ========================================================================
+  // LEADERBOARD ENDPOINTS
+  // ========================================================================
+
+  /**
+   * Get leaderboard
+   * GET /api/leaderboard
+   * 
+   * @param {number} [limit] - Number of entries (default: 100)
+   * @returns {Promise<object>} { success, data: [], count }
+   */
+  async getLeaderboard(limit = 100) {
+    try {
+      const response = await fetchWithRetry(`/api/leaderboard?limit=${limit}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to get leaderboard:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Check if API is available
+   * Useful for determining fallback behavior
+   * 
+   * @returns {Promise<boolean>} True if API is reachable
+   */
+  async isAvailable() {
+    try {
+      const response = await fetchWithRetry('/api/health', {
+        signal: AbortSignal.timeout(5000),
+      });
+      return response.success;
+    } catch {
+      return false;
+    }
+  },
+};
+
+// Export singleton
+export default apiService;

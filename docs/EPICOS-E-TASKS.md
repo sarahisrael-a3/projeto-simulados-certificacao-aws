@@ -18,135 +18,450 @@
 
 ---
 
-## 🎯 ÉPICO 3: Integração PGLite com Backend (NOVO - PRIORIDADE 1)
+## 🎯 ÉPICO 2: Camada de Banco de Dados PGLite (NOVO - PRIORIDADE 1)
 
 **Status:** 🔥 CRÍTICA  
-**Estimativa:** 1 semana  
-**Objetivo:** Sistema de validação 100% funcional
+**Estimativa:** 3 dias  
+**Objetivo:** Implementar camada de abstração do banco de dados
 
 ---
 
-### Task 3.0.1: Schema de Validação no PGLite
-
-**Prioridade:** 🔥 CRÍTICA | **Estimativa:** 3 horas
-
-Criar tabelas para validação no PGLite.
-
-**Checklist:**
-- [ ] `backend/database/migrations/002_validation_schema.sql`
-- [ ] Tabelas: questions, validations, validation_logs
-- [ ] Índices para performance
-- [ ] Executar schema via db.js
-- [ ] Verificar tabelas criadas
-
----
-
-### Task 3.0.2: Conectar database.py ao PGLite
+### Task 2.1: Implementar db.js (Inicialização e Conexão)
 
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 4 horas
 
-Implementar conexão asyncpg.
+Criar arquivo `backend/database/db.js` com funções de inicialização e gerenciamento do PGLite.
 
 **Checklist:**
-- [ ] Instalar asyncpg (requirements.txt)
-- [ ] `connect()` em ValidationDatabase
-- [ ] Pool de conexões
-- [ ] Tratamento de erros
-- [ ] Testar conexão
-- [ ] Logging
+- [ ] Criar `backend/database/db.js`
+- [ ] Função `initializeDatabase(config)` com:
+  - [ ] Criar instância PGLite
+  - [ ] Carregar schema.sql
+  - [ ] Criar tabelas
+  - [ ] Criar índices
+  - [ ] Retornar instância db
+- [ ] Função `closeDatabase()` para encerrar conexão
+- [ ] Função `getDatabase()` para acessar instância global
+- [ ] Tratamento de erros com try/catch
+- [ ] Logging em cada etapa
+- [ ] Suportar `dataDir` customizável
+- [ ] Exportar como módulo ES6
 
-**Nota:** Manter `npm run db:start` rodando
+**Exemplo de estrutura:**
+```javascript
+export async function initializeDatabase(config) {
+  // Inicializar PGLite
+  // Executar schema.sql
+  // Criar índices
+  // Retornar db
+}
+
+export async function closeDatabase() {
+  // Fechar conexão
+  // Liberar recursos
+}
+
+export function getDatabase() {
+  // Retornar instância global
+}
+```
 
 ---
 
-### Task 3.0.3: Implementar Métodos CRUD
+### Task 2.2: Implementar CRUD de Questões no db.js
 
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 6 horas
 
-Implementar queries reais em database.py.
+Adicionar métodos CRUD para questões em `db.js`.
 
 **Checklist:**
-- [ ] `get_pending_questions()` - SELECT
-- [ ] `record_validation()` - INSERT + UPDATE
-- [ ] `get_validator_stats()` - GROUP BY
-- [ ] `get_validation_history()` - JOINs
-- [ ] `export_validation_report()` - Agregações
-- [ ] Transações
-- [ ] Logging de queries
+- [ ] Função `getQuestions(certification, domain, difficulty)`
+- [ ] Função `getQuestionById(id)`
+- [ ] Função `insertQuestion(questionData)`
+- [ ] Função `updateQuestion(id, questionData)`
+- [ ] Função `deleteQuestion(id)`
+- [ ] Função `searchQuestions(query, limit)`
+- [ ] Função `getQuestionsByDomain(certification, domain)`
+- [ ] Implementar paginação em queries
+- [ ] Adicionar índices de performance
+- [ ] Tratamento de erros específicos
+- [ ] Logging de queries (modo debug)
+- [ ] Validação de entrada de dados
 
 ---
 
-### Task 3.0.4: Conectar FastAPI ao Database
+### Task 2.3: Implementar CRUD de Histórico Quiz
 
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 4 horas
 
-Substituir TODO em main.py por chamadas reais.
+Adicionar métodos para histórico de quizzes e respostas.
 
 **Checklist:**
-- [ ] Importar ValidationDatabase
-- [ ] Inicializar no startup
-- [ ] GET /api/questions/pending
-- [ ] POST /api/questions/{id}/validate
-- [ ] GET /api/validators/me/stats
-- [ ] GET /api/validations/{id}
-- [ ] Error handling
+- [ ] Função `createQuizHistory(userId, certification, answers)`
+- [ ] Função `getQuizHistory(userId, limit, offset)`
+- [ ] Função `getQuizById(quizId)`
+- [ ] Função `recordAnswer(quizId, questionId, userAnswer, isCorrect, timeSecs)`
+- [ ] Função `getAnswersByQuiz(quizId)`
+- [ ] Função `calculateStats(userId)` - retorna agregações
+- [ ] Função `getWeakDomains(userId, threshold)` - domínios com < threshold%
+- [ ] Transações SQL para garantir integridade
+- [ ] Índices de performance
+
+---
+
+### Task 2.4: Implementar CRUD de Usuários e Gamificação
+
+**Prioridade:** Alta | **Estimativa:** 4 horas
+
+Adicionar métodos para usuários e gamificação.
+
+**Checklist:**
+- [ ] Função `createUser(anonymousName)`
+- [ ] Função `getUserById(userId)`
+- [ ] Função `getUserByName(anonymousName)`
+- [ ] Função `updateUser(userId, data)`
+- [ ] Função `getGamification(userId)`
+- [ ] Função `updateGamification(userId, data)` - XP, badges, streak
+- [ ] Função `getLeaderboard(limit)` - top 100 usuários
+- [ ] Função `getUserStats(userId)` - agregações completas
+- [ ] Validações de unicidade
+
+---
+
+### Task 2.5: Testes Unitários do db.js
+
+**Prioridade:** Alta | **Estimativa:** 5 horas
+
+Criar testes para todas as funções do db.js.
+
+**Checklist:**
+- [ ] Criar `tests/unit/database.test.js`
+- [ ] Setup/teardown com banco de testes
+- [ ] Testes CRUD básicos
+- [ ] Testes de paginação
+- [ ] Testes de erro (validação)
+- [ ] Testes de índices (performance)
+- [ ] Testes de transações
+- [ ] Coverage > 90%
+- [ ] Todos os testes passando ✅
+
+---
+
+### Task 2.6: Documentação do db.js
+
+**Prioridade:** Média | **Estimativa:** 2 horas
+
+Documentar camada de banco de dados.
+
+**Checklist:**
+- [ ] Criar `docs/DATABASE.md` com:
+  - [ ] Diagrama ER
+  - [ ] Descrição de cada tabela
+  - [ ] Documentação de cada função
+  - [ ] Exemplos de uso
+  - [ ] Troubleshooting
+- [ ] Adicionar JSDoc em cada função
+- [ ] Exemplos com await/async
+
+---
+
+## 🎯 ÉPICO 3: API REST com Express (NOVO - PRIORIDADE 2)
+
+**Status:** ⏳ Não iniciado  
+**Estimativa:** 3 dias  
+**Objetivo:** Endpoints HTTP para frontend consumir
+
+**Dependência:** Épico 2 (db.js completo)
+
+---
+
+### Task 3.1: Configurar Express.js e Middleware
+
+**Prioridade:** 🔥 CRÍTICA | **Estimativa:** 3 horas
+
+Criar aplicação Express com middlewares essenciais.
+
+**Checklist:**
+- [ ] Instalar `express` em package.json
+- [ ] Criar `backend/server-express.js` (novo arquivo, substitui server.js)
+- [ ] Configurar:
+  - [ ] CORS habilitado
+  - [ ] JSON parser
+  - [ ] Error handler global
+  - [ ] Logger middleware
+  - [ ] Request ID para rastreamento
+- [ ] Ouvir em porta 3001 (ou customizável via ENV)
+- [ ] Health check em `GET /health`
+- [ ] Resposta JSON padronizada `{success, data, error}`
+
+---
+
+### Task 3.2: Endpoints de Questões
+
+**Prioridade:** 🔥 CRÍTICA | **Estimativa:** 4 horas
+
+Implementar CRUD de questões em REST API.
+
+**Checklist:**
+- [ ] `GET /api/questions` - Listar com filtros
+  - [ ] Filtrar por `certification`
+  - [ ] Filtrar por `domain`
+  - [ ] Filtrar por `difficulty`
+  - [ ] Paginação com `limit` e `offset`
+  - [ ] Retornar total de registros
+- [ ] `GET /api/questions/:id` - Detalhes de uma questão
+- [ ] `POST /api/questions` - Criar nova questão
+  - [ ] Validar JSON
+  - [ ] Validar campos obrigatórios
+  - [ ] Retornar erro 400 se inválido
+- [ ] `PUT /api/questions/:id` - Atualizar questão
+- [ ] `DELETE /api/questions/:id` - Deletar questão
+- [ ] `GET /api/questions/search?q=termo` - Busca full-text
+
+---
+
+### Task 3.3: Endpoints de Quiz e Histórico
+
+**Prioridade:** 🔥 CRÍTICA | **Estimativa:** 4 horas
+
+Implementar endpoints de quiz e histórico.
+
+**Checklist:**
+- [ ] `POST /api/quiz/start` - Inicia novo quiz
+  - [ ] Recebe `userId`, `certification`, `numQuestions`
+  - [ ] Retorna array de questões
+  - [ ] Cria registro em quiz_history
+- [ ] `POST /api/quiz/:quizId/submit` - Submete resposta
+  - [ ] Recebe `questionId`, `userAnswer`, `timeSecs`
+  - [ ] Valida resposta
+  - [ ] Salva em answers
+  - [ ] Retorna `{correct: boolean, explanation}`
+- [ ] `POST /api/quiz/:quizId/finish` - Finaliza quiz
+  - [ ] Calcula score final
+  - [ ] Salva stats completos
+  - [ ] Retorna relatório final
+- [ ] `GET /api/quiz/history/:userId` - Histórico de quizzes
+  - [ ] Paginação
+  - [ ] Ordenar por data DESC
+- [ ] `GET /api/quiz/:quizId` - Detalhes do quiz
+  - [ ] Retorna quiz + todas as respostas
+
+---
+
+### Task 3.4: Endpoints de Usuários e Gamificação
+
+**Prioridade:** Alta | **Estimativa:** 3 horas
+
+Implementar endpoints de usuários.
+
+**Checklist:**
+- [ ] `POST /api/users` - Criar usuário anônimo
+  - [ ] Gera `anonymousName` automático se não fornecido (ex: CloudNinja#4821)
+  - [ ] Retorna `userId`
+- [ ] `GET /api/users/:userId` - Dados do usuário
+- [ ] `GET /api/users/:userId/stats` - Estatísticas
+  - [ ] Total de quizzes
+  - [ ] Score médio
+  - [ ] Melhor score
+  - [ ] Tempo total estudado
+- [ ] `GET /api/users/:userId/gamification` - Dados de gamificação
+  - [ ] XP points
+  - [ ] Badges
+  - [ ] Streak
+  - [ ] Completed stages
+- [ ] `PUT /api/users/:userId/gamification` - Atualizar gamificação
+  - [ ] Adicionar XP
+  - [ ] Desbloquear badge
+  - [ ] Atualizar streak
+- [ ] `GET /api/leaderboard` - Top 100 usuários
+  - [ ] Ordenado por XP DESC
+
+---
+
+### Task 3.5: Middleware de Validação e Segurança
+
+**Prioridade:** Alta | **Estimativa:** 3 horas
+
+Implementar validações e segurança.
+
+**Checklist:**
+- [ ] Criar `backend/middleware/validation.js`
+- [ ] Validar estrutura JSON de questões
+- [ ] Sanitizar inputs (XSS prevention)
+- [ ] Rate limiting por IP
+- [ ] Validação de tipos (schema)
+- [ ] Error handler customizado
+- [ ] Middleware de autenticação básica (se necessário)
+- [ ] Testes de segurança
+
+---
+
+### Task 3.6: Testes de Integração da API
+
+**Prioridade:** Alta | **Estimativa:** 5 horas
+
+Testes E2E dos endpoints.
+
+**Checklist:**
+- [ ] Criar `tests/integration/api.test.js`
+- [ ] Testes para cada endpoint
+- [ ] Testes de erro (404, 400, 500)
+- [ ] Testes de validação
+- [ ] Testes de paginação
+- [ ] Coverage > 85%
+- [ ] Todos passando ✅
+
+---
+
+### Task 3.7: Documentação da API
+
+**Prioridade:** Média | **Estimativa:** 3 horas
+
+Documentar todos os endpoints.
+
+**Checklist:**
+- [ ] Criar `docs/API.md` com:
+  - [ ] Lista completa de endpoints
+  - [ ] Método HTTP e caminho
+  - [ ] Parâmetros esperados
+  - [ ] Resposta esperada (exemplo JSON)
+  - [ ] Códigos de erro possíveis
+- [ ] Adicionar JSDoc em cada rota
+- [ ] Gerar OpenAPI spec (Swagger)
+- [ ] Exemplo de chamadas com curl
+
+---
+
+## 🎯 ÉPICO 4: Script Socket Server Atualizado (NOVO - PRIORIDADE 3)
+
+**Status:** ⏳ Não iniciado  
+**Estimativa:** 1 dia  
+**Objetivo:** Atualizar scripts/pglite.js para integrar com Express
+
+**Dependência:** Épicos 2 e 3
+
+---
+
+### Task 4.1: Refatorar scripts/pglite.js
+
+**Prioridade:** Alta | **Estimativa:** 3 horas
+
+Limpar e refatorar o script de inicialização.
+
+**Checklist:**
+- [ ] Remover import não utilizado (`exec`)
+- [ ] Integrar com `db.js`
+- [ ] Usar função `initializeDatabase()` do Épico 2
+- [ ] Manter Socket Server para conexões em tempo real
+- [ ] Adicionar health checks
+- [ ] Melhorar logging
+- [ ] Adicionar variáveis de ambiente
+
+---
+
+### Task 4.2: Script de Inicialização Completa
+
+**Prioridade:** Média | **Estimativa:** 2 horas
+
+Criar script que inicia banco + Express.
+
+**Checklist:**
+- [ ] `scripts/start-dev.js` que:
+  - [ ] Inicia PGLite
+  - [ ] Inicia Express API
+  - [ ] Inicia Socket Server
+  - [ ] Logs sincronizados
+  - [ ] Graceful shutdown
+- [ ] Adicionar comando `npm run start:dev`
+- [ ] Testar inicialização completa
+
+---
+
+## 🎯 ÉPICO 5: Validação de Questões (PRIORIDADE 4)
+
+**Status:** ⏳ Aguardando Épicos 2-4  
+**Estimativa:** 3 dias  
+**Objetivo:** Sistema de validação 100% funcional
+
+**Dependência:** Épicos 2, 3, 4
+
+---
+
+### Task 5.1: Schema de Validação no PGLite
+
+**Prioridade:** Alta | **Estimativa:** 2 horas
+
+Criar tabelas adicionais para validação (se necessário).
+
+**Checklist:**
+- [ ] Analisar schema.sql existente
+- [ ] Adicionar tabelas se faltando:
+  - [ ] `validation_logs` (auditoria)
+  - [ ] `validator_assignments` (quem valida o quê)
+- [ ] Migração SQL para dados existentes
+- [ ] Testar schema
+
+---
+
+### Task 5.2: Conectar Python ao PGLite
+
+**Prioridade:** Alta | **Estimativa:** 4 horas
+
+Implementar conexão Python/asyncpg.
+
+**Checklist:**
+- [ ] Instalar asyncpg em requirements.txt
+- [ ] Criar `backend/database/async_client.py`
+- [ ] Pool de conexões
+- [ ] Função `connect()` para conectar ao PGLite
+- [ ] Tratamento de erros
+- [ ] Logging de queries
+- [ ] Testar conexão
+
+---
+
+### Task 5.3: Endpoints de Validação em FastAPI
+
+**Prioridade:** Alta | **Estimativa:** 4 horas
+
+Implementar endpoints de validação.
+
+**Checklist:**
+- [ ] `GET /api/questions/pending` - Lista para validar
+- [ ] `POST /api/questions/:id/validate` - Validar questão
+  - [ ] Recebe: `status`, `feedback`, `correctionNeeded`
+  - [ ] Salva em validation_logs
+- [ ] `GET /api/validators/me/stats` - Stats do validador
+- [ ] `GET /api/validations/:id` - Histórico
 - [ ] Testar endpoints
 
 ---
 
-### Task 3.0.5: Popular Dados de Teste
+### Task 5.4: Testes de Validação
 
-**Prioridade:** Alta | **Estimativa:** 2 horas
+**Prioridade:** Alta | **Estimativa:** 3 horas
 
-Script para popular PGLite com dados de teste.
+Testes E2E do fluxo de validação.
 
 **Checklist:**
-- [ ] `backend/database/seed-validation-data.js`
-- [ ] Inserir 10-20 questões
-- [ ] Domínios: Cloud, Security, etc
-- [ ] Validar dados
+- [ ] `tests/integration/validation.test.js`
+- [ ] Teste: Listar questões pendentes
+- [ ] Teste: Aprovar questão
+- [ ] Teste: Rejeitar com feedback
+- [ ] Teste: Histórico de validação
+- [ ] Todos passando ✅
 
 ---
 
-### Task 3.0.6: Testes de Integração
-
-**Prioridade:** Alta | **Estimativa:** 4 horas
-
-Testes automatizados para integração.
-
-**Checklist:**
-- [ ] `tests/test_validation_integration.py`
-- [ ] Teste: Listar questões
-- [ ] Teste: Validar (aprovar/rejeitar)
-- [ ] Teste: Histórico
-- [ ] Teste: Estatísticas
-- [ ] Todos passando
-
----
-
-### Task 3.0.7: Documentação
-
-**Prioridade:** Média | **Estimativa:** 2 horas
-
-Documentar integração.
-
-**Checklist:**
-- [ ] Atualizar VALIDATION_INTEGRATION_GUIDE.md
-- [ ] Criar VALIDATION_TROUBLESHOOTING.md
-- [ ] Diagrama de fluxo
-- [ ] Exemplos de uso
-
----
-
-## 🎯 ÉPICO 4: Trilha Visual Interativa (PRIORIDADE 2)
+## 🎯 ÉPICO 6: Trilha Visual Interativa (PRIORIDADE 5)
 
 **Status:** ⏳ Não iniciado  
 **Estimativa:** 2 semanas  
-**Dependência:** Épico 3
+**Dependência:** Épicos 2-5
 
 ---
 
-### Task 4.1: Componente SVG de Trilha
+### Task 6.1: Componente SVG de Trilha
 
 **Prioridade:** Alta | **Estimativa:** 8 horas
 
@@ -163,7 +478,7 @@ Trilha visual com SVG.
 
 ---
 
-### Task 4.2: Animações de Desbloqueio
+### Task 6.2: Animações de Desbloqueio
 
 **Prioridade:** Média | **Estimativa:** 4 horas
 
@@ -180,7 +495,7 @@ Animações ao desbloquear módulo.
 
 ---
 
-### Task 4.3: Boss Battle (Simulado Final)
+### Task 6.3: Boss Battle (Simulado Final)
 
 **Prioridade:** Baixa | **Estimativa:** 6 horas
 
@@ -196,15 +511,15 @@ Modo especial para último módulo.
 
 ---
 
-## 🎯 ÉPICO 5: Análise Inteligente de Gaps (PRIORIDADE 3)
+## 🎯 ÉPICO 7: Análise Inteligente de Gaps (PRIORIDADE 6)
 
 **Status:** ⏳ Não iniciado  
 **Estimativa:** 1 semana  
-**Dependência:** Épico 3
+**Dependência:** Épicos 2-5
 
 ---
 
-### Task 5.1: Query SQL para Gaps
+### Task 7.1: Query SQL para Gaps
 
 **Prioridade:** Alta | **Estimativa:** 4 horas
 
@@ -219,7 +534,7 @@ Query agregada para análise de gaps.
 
 ---
 
-### Task 5.2: Componente "O Que Estudar Agora"
+### Task 7.2: Componente "O Que Estudar Agora"
 
 **Prioridade:** Média | **Estimativa:** 3 horas
 
@@ -235,14 +550,14 @@ Card na sidebar mostrando domínios fracos.
 
 ---
 
-## 🎯 ÉPICO 6: Exportação PDF (PRIORIDADE 4)
+## 🎯 ÉPICO 8: Exportação PDF (PRIORIDADE 7)
 
 **Status:** ⏳ Não iniciado  
 **Estimativa:** 1 semana
 
 ---
 
-### Task 6.1: Integrar jsPDF + html2canvas
+### Task 8.1: Integrar jsPDF + html2canvas
 
 **Prioridade:** Alta | **Estimativa:** 3 horas
 
@@ -254,7 +569,7 @@ Card na sidebar mostrando domínios fracos.
 
 ---
 
-### Task 6.2: Gráficos no PDF
+### Task 8.2: Gráficos no PDF
 
 **Prioridade:** Alta | **Estimativa:** 6 horas
 
@@ -267,7 +582,7 @@ Card na sidebar mostrando domínios fracos.
 
 ---
 
-### Task 6.3: Template Profissional
+### Task 8.3: Template Profissional
 
 **Prioridade:** Média | **Estimativa:** 4 horas
 
@@ -281,7 +596,7 @@ Card na sidebar mostrando domínios fracos.
 
 ---
 
-### Task 6.4: Filtro "Apenas Erros"
+### Task 8.4: Filtro "Apenas Erros"
 
 **Prioridade:** Baixa | **Estimativa:** 2 horas
 
@@ -293,15 +608,15 @@ Card na sidebar mostrando domínios fracos.
 
 ---
 
-## 🎯 ÉPICO 7: Testes com Usuários (PRIORIDADE 5)
+## 🎯 ÉPICO 9: Testes com Usuários (PRIORIDADE 8)
 
 **Status:** ⏳ Não iniciado  
 **Estimativa:** 1 semana  
-**Dependência:** Épicos 3, 4, 5
+**Dependência:** Épicos 2-7
 
 ---
 
-### Task 7.1: Staging
+### Task 9.1: Staging
 
 **Prioridade:** Alta | **Estimativa:** 3 horas
 
@@ -315,7 +630,7 @@ Servidor de staging.
 
 ---
 
-### Task 7.2: Formulário Feedback
+### Task 9.2: Formulário Feedback
 
 **Prioridade:** Média | **Estimativa:** 2 horas
 
@@ -328,7 +643,7 @@ Servidor de staging.
 
 ---
 
-### Task 7.3: Recrutar Testadores
+### Task 9.3: Recrutar Testadores
 
 **Prioridade:** Média | **Estimativa:** 2 horas
 
@@ -341,7 +656,7 @@ Servidor de staging.
 
 ---
 
-### Task 7.4: Analisar Feedback
+### Task 9.4: Analisar Feedback
 
 **Prioridade:** Alta | **Estimativa:** 3 horas
 
@@ -353,7 +668,7 @@ Servidor de staging.
 
 ---
 
-### Task 7.5: Bugs Críticos
+### Task 9.5: Bugs Críticos
 
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 8 horas
 
@@ -366,7 +681,7 @@ Servidor de staging.
 
 ---
 
-### Task 7.6: Melhorias UX
+### Task 9.6: Melhorias UX
 
 **Prioridade:** Média | **Estimativa:** 4 horas
 
@@ -379,7 +694,7 @@ Servidor de staging.
 
 ---
 
-### Task 7.7: Apresentação Cliente
+### Task 9.7: Apresentação Cliente
 
 **Prioridade:** Alta | **Estimativa:** 4 horas
 
@@ -396,26 +711,60 @@ Servidor de staging.
 
 | Épico | Tasks | Est. | Prio | Status |
 |-------|-------|------|------|--------|
-| 1. PostgreSQL | 4 | 2s | 🔥 | 50% |
-| **3. Integração** | **7** | **1s** | **🔥** | **🆕** |
-| 4. Trilha Visual | 3 | 2s | Alta | ⏳ |
-| 5. Gaps | 2 | 1s | Alta | ⏳ |
-| 6. PDF | 4 | 1s | Alta | ⏳ |
-| 7. Testes | 7 | 1s | Alta | ⏳ |
-| **TOTAL** | **27** | **8s** | - | - |
+| 1. PostgreSQL Schema | 2 | 1s | 🔥 | ✅ 100% |
+| **2. Database Layer** | **6** | **1.5s** | **🔥** | **🆕** |
+| **3. Express API** | **7** | **1.5s** | **🔥** | **🆕** |
+| **4. Socket Server** | **2** | **0.5s** | **Alta** | **🆕** |
+| **5. Validação** | **4** | **1s** | **Alta** | **🆕** |
+| 6. Trilha Visual | 3 | 2s | Alta | ⏳ |
+| 7. Gaps Analysis | 2 | 1s | Alta | ⏳ |
+| 8. PDF Export | 4 | 1s | Alta | ⏳ |
+| 9. User Testing | 7 | 1s | Alta | ⏳ |
+| **TOTAL** | **37** | **10s** | - | - |
 
 ---
 
-## 🚀 Roadmap (REFORMULADO)
+## 🚀 Roadmap (VERSÃO 2.0 - PGLITE COMPLETO)
 
-**Sprint 1 (1s):** Épico 3 - Integração PGLite  
-**Sprint 2 (1s):** Épico 4 - Trilha Visual  
-**Sprint 3 (2s):** Épico 4 finalize + Épico 5, 6  
-**Sprint 4 (1s):** Épico 6 finalize + Épico 7  
-**Sprint 5 (1s):** Épico 7 finalize + Deploy  
+**Sprint 1 (1.5s):** Épicos 2 - Database Layer  
+**Sprint 2 (1.5s):** Épicos 3 - Express API  
+**Sprint 3 (0.5s):** Épicos 4 - Socket Server  
+**Sprint 4 (1s):** Épicos 5 - Validação  
+**Sprint 5 (2s):** Épicos 6 - Trilha Visual  
+**Sprint 6 (1s):** Épicos 7, 8 - Analytics & PDF  
+**Sprint 7 (1s):** Épicos 9 - User Testing  
 
 ---
 
-**Documento reformulado:** 2026-06-02  
-**Versão:** 2.0  
-**Ação:** Começar Épico 3 HOJE!
+## 🎯 Fluxo de Dependências
+
+```
+Épico 1: Schema ✅
+    ↓
+Épico 2: db.js (Database Layer)
+    ↓
+Épico 3: Express API + Épico 4: Socket Server
+    ↓
+Épico 5: Validação
+    ↓
+Épico 6: Trilha Visual
+    ↓
+Épico 7: Gap Analysis + Épico 8: PDF Export
+    ↓
+Épico 9: User Testing & Deploy
+```
+
+---
+
+## 📝 Próximas Ações
+
+1. ✅ **Lido:** Este documento
+2. ⏳ **Próximo:** Começar com **Épico 2 (Task 2.1)** - Implementar db.js
+3. ⏳ **Em Paralelo:** Instalar Express em package.json
+4. ⏳ **Depois:** Épico 3 - Criar endpoints REST
+
+---
+
+**Documento reformulado:** 2026-06-03  
+**Versão:** 2.1 (PGLite Completo - Tasks em Formato Detalhado)  
+**Status:** Pronto para implementação começar no Épico 2!

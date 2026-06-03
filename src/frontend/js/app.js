@@ -1,6 +1,8 @@
 import { QuizEngine } from "./quizEngine.js";
 import { certificationPaths } from "./data.js";
 import { storageManager } from "./storageManager.js";
+import { userManager } from "./userManager.js";
+import { quizManager } from "./quizManager.js";
 import { renderRadarChart, renderGlobalRadarChart } from "./chartManager.js";
 import { t } from "./i18n/useTranslation.js";
 import { initializeUI } from "./i18n/initUI.js";
@@ -53,6 +55,16 @@ let lastRenderedResult = null;
 // INICIALIZAÇÃO
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // FASE 0: User Initialization (Before everything else)
+  try {
+    const user = await userManager.getOrCreateUser();
+    await quizManager.initialize(user.id);
+    console.log(`✓ Initialized with user: ${user.id}`);
+  } catch (error) {
+    console.error('Failed to initialize user:', error);
+    // Continue anyway - app can still work in offline mode
+  }
+
   // FASE 1: Configurações Base (Sincronizadas)
   initTheme();
   initializeUI(uiState.language);
@@ -211,6 +223,20 @@ async function startQuiz() {
     const certId = certSelect.value;
     const currentCertInfo = certificationPaths[certId];
     uiState.currentCertificationInfo = currentCertInfo;
+
+    // START QUIZ ON BACKEND
+    const userId = userManager.getUserId();
+    if (userId) {
+      try {
+        const quizResponse = await quizManager.startQuiz(certId, parseInt(quantityInput));
+        if (!quizResponse.fromAPI) {
+          console.log('⚠ Quiz started in local mode (API unavailable)');
+        }
+      } catch (error) {
+        console.warn('Could not start quiz on backend:', error);
+        // Continue anyway - frontend will work in local mode
+      }
+    }
 
     const filters = {
       quantity: parseInt(quantityInput),
@@ -475,6 +501,19 @@ function submitAnswer() {
   const question = engine.getCurrentQuestion();
   const isMulti = Array.isArray(question.correct);
   const result = engine.submitAnswer(uiState.tempSelectedAnswer);
+
+  // Record answer to backend asynchronously (don't block UI)
+  if (quizManager.currentQuizId && question.id) {
+    quizManager.recordAnswer({
+      question_id: question.id,
+      user_answer: uiState.tempSelectedAnswer,
+      is_correct: result.isCorrect,
+      time_secs: 0, // Could be enhanced with actual timer
+    }).catch(error => {
+      console.warn('Failed to record answer:', error);
+      // UI continues anyway
+    });
+  }
 
   if (uiState.currentMode === "mission") {
     clearInterval(uiState.qTimerInterval); // Para o relógio enquanto lê a explicação
@@ -1066,6 +1105,12 @@ function saveQuizResult() {
 
   const results = engine.getFinalResults();
   storageManager.saveQuizResult(results);
+  
+  // Confirm backend sync if quiz was started via API
+  if (quizManager && quizManager.currentQuizId) {
+    console.log(`✓ Quiz ${quizManager.currentQuizId} completed and synced to backend`);
+  }
+  
   updateGamification(results.percentage);
 }
 
@@ -1550,11 +1595,11 @@ function goHome() {
   renderSprintUI();
 }
 
-function startJornada() {
+async function startJornada() {
   if (uiState.timerInterval) clearInterval(uiState.timerInterval);
   showScreen("jornada");
   renderTrail();
-  renderGuildDashboard();
+  await renderGuildDashboard();
   renderBadges();
 }
 

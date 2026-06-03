@@ -13,7 +13,9 @@
     "build": "node scripts/build.cjs",
     "dev": "npm run build && npx live-server public",
     "db:start": "node backend/server.js",
-    "db:dev": "NODE_ENV=development node backend/server.js"
+    "db:dev": "NODE_ENV=development node backend/server.js",
+    "api:start": "node backend/api/server.js",
+    "api:dev": "NODE_ENV=development node backend/api/server.js"
   },
   "repository": {
     "type": "git",
@@ -31,7 +33,9 @@
     "@electric-sql/pglite": "^0.5.1",
     "@electric-sql/pglite-socket": "^0.2.1",
     "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
     "dotenv": "^17.3.1",
+    "express": "^4.18.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "string-similarity": "^4.0.4"

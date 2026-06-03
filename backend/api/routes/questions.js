@@ -1,0 +1,267 @@
+/**
+ * Questions Routes
+ * GET    /api/questions          - List questions with filters
+ * GET    /api/questions/:id      - Get single question
+ * POST   /api/questions          - Create new question
+ * PUT    /api/questions/:id      - Update question
+ * DELETE /api/questions/:id      - Delete question
+ */
+
+import { Router } from 'express';
+import {
+  getQuestions,
+  getQuestionById,
+  insertQuestion,
+  updateQuestion,
+  deleteQuestion,
+  searchQuestions,
+} from '../../database/db.js';
+
+const router = Router();
+
+// ============================================================================
+// VALIDATION HELPERS
+// ============================================================================
+
+/**
+ * Validate question creation/update payload
+ */
+function validateQuestionPayload(data, isCreation = true) {
+  const errors = [];
+
+  if (isCreation) {
+    if (!data.certification) errors.push('certification is required');
+    if (!data.domain) errors.push('domain is required');
+    if (!data.difficulty) errors.push('difficulty is required');
+    if (!data.question_text || data.question_text.length < 10) {
+      errors.push('question_text is required and must be at least 10 characters');
+    }
+    if (!Array.isArray(data.options) || data.options.length < 2) {
+      errors.push('options must be an array with at least 2 items');
+    }
+    if (!Array.isArray(data.correct_answer) || data.correct_answer.length < 1) {
+      errors.push('correct_answer must be a non-empty array');
+    }
+    if (!data.explanation) errors.push('explanation is required');
+  }
+
+  // Optional validations for updates
+  if (data.difficulty && !['easy', 'medium', 'hard'].includes(data.difficulty)) {
+    errors.push('difficulty must be one of: easy, medium, hard');
+  }
+
+  if (data.certification) {
+    const validCerts = ['CLF-C02', 'SAA-C03', 'SAP-C02', 'DVA-C02', 'SOA-C02', 'DOP-C02', 'ANS-C01', 'DAS-C01', 'MLS-C01', 'SCS-C02', 'PAS-C01', 'AIF-C01'];
+    if (!validCerts.includes(data.certification)) {
+      errors.push(`certification must be one of: ${validCerts.join(', ')}`);
+    }
+  }
+
+  return errors;
+}
+
+// ============================================================================
+// GET /api/questions - List questions with filters and pagination
+// ============================================================================
+
+router.get('/', async (req, res, next) => {
+  try {
+    const {
+      certification,
+      domain,
+      difficulty,
+      limit = 10,
+      offset = 0,
+      search,
+    } = req.query;
+
+    // If search term provided, use search function
+    if (search) {
+      const results = await searchQuestions(search, parseInt(limit) || 20);
+      return res.status(200).json({
+        success: true,
+        data: results,
+        count: results.length,
+      });
+    }
+
+    // Otherwise, use filtered query
+    const questions = await getQuestions({
+      certification,
+      domain,
+      difficulty,
+      limit: parseInt(limit) || 10,
+      offset: parseInt(offset) || 0,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: questions,
+      count: questions.length,
+      pagination: {
+        limit: parseInt(limit) || 10,
+        offset: parseInt(offset) || 0,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ============================================================================
+// GET /api/questions/:id - Get single question
+// ============================================================================
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Question ID is required',
+      });
+    }
+
+    const question = await getQuestionById(id);
+
+    if (!question) {
+      return res.status(404).json({
+        success: false,
+        message: `Question with ID ${id} not found`,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: question,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ============================================================================
+// POST /api/questions - Create new question
+// ============================================================================
+
+router.post('/', async (req, res, next) => {
+  try {
+    const payload = req.body;
+
+    // Validate payload
+    const validationErrors = validateQuestionPayload(payload, true);
+    if (validationErrors.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: validationErrors,
+      });
+    }
+
+    // Insert question
+    const newQuestion = await insertQuestion(payload);
+
+    if (!newQuestion) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to create question',
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Question created successfully',
+      data: newQuestion,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ============================================================================
+// PUT /api/questions/:id - Update question
+// ============================================================================
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Question ID is required',
+      });
+    }
+
+    // Validate that question exists
+    const existingQuestion = await getQuestionById(id);
+    if (!existingQuestion) {
+      return res.status(404).json({
+        success: false,
+        message: `Question with ID ${id} not found`,
+      });
+    }
+
+    // Validate update payload
+    const validationErrors = validateQuestionPayload(updates, false);
+    if (validationErrors.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: validationErrors,
+      });
+    }
+
+    // Update question
+    const updatedQuestion = await updateQuestion(id, updates);
+
+    res.status(200).json({
+      success: true,
+      message: 'Question updated successfully',
+      data: updatedQuestion,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ============================================================================
+// DELETE /api/questions/:id - Delete question (soft delete)
+// ============================================================================
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Question ID is required',
+      });
+    }
+
+    // Validate that question exists
+    const existingQuestion = await getQuestionById(id);
+    if (!existingQuestion) {
+      return res.status(404).json({
+        success: false,
+        message: `Question with ID ${id} not found`,
+      });
+    }
+
+    // Delete (soft delete via is_active = FALSE)
+    await deleteQuestion(id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Question deleted successfully',
+      id,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+export default router;
