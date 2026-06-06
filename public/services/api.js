@@ -18,8 +18,8 @@ const API_CONFIG = {
   BASE_URL: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) 
     ? import.meta.env.VITE_API_URL 
     : 'http://localhost:3001',
-  TIMEOUT: 30000, // 30 seconds
-  RETRY_ATTEMPTS: 3,
+  TIMEOUT: 2000,
+  RETRY_ATTEMPTS: 1,
 };
 
 /**
@@ -40,6 +40,41 @@ function createError(message, statusCode = 0, details = {}) {
 }
 
 /**
+ * Normalizes successful API responses without changing direct payloads.
+ * @private
+ * @param {*} body - Parsed response body
+ * @param {number} status - HTTP status code
+ * @returns {object} Stable client response
+ */
+function normalizeResponse(body, status) {
+  const isEnvelope = (
+    body !== null
+    && typeof body === 'object'
+    && !Array.isArray(body)
+    && Object.prototype.hasOwnProperty.call(body, 'success')
+    && Object.prototype.hasOwnProperty.call(body, 'data')
+  );
+
+  if (!isEnvelope) {
+    return {
+      success: body?.success !== false,
+      status,
+      data: body,
+    };
+  }
+
+  const { data, ...metadata } = body;
+
+  return {
+    ...metadata,
+    success: metadata.success !== false,
+    status,
+    data,
+    meta: metadata,
+  };
+}
+
+/**
  * Makes a fetch request with error handling and retry logic
  * @private
  * @param {string} endpoint - API endpoint (relative to BASE_URL)
@@ -48,14 +83,15 @@ function createError(message, statusCode = 0, details = {}) {
  */
 async function fetchWithRetry(endpoint, options = {}) {
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+  const { timeout = API_CONFIG.TIMEOUT, ...fetchOptions } = options;
   
   // Default options
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...fetchOptions.headers,
     },
-    ...options,
+    ...fetchOptions,
   };
 
   let lastError = null;
@@ -64,7 +100,7 @@ async function fetchWithRetry(endpoint, options = {}) {
   for (let attempt = 1; attempt <= API_CONFIG.RETRY_ATTEMPTS; attempt++) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
 
       const response = await fetch(url, {
         ...requestOptions,
@@ -101,12 +137,7 @@ async function fetchWithRetry(endpoint, options = {}) {
         continue;
       }
 
-      // Success - return parsed response
-      return {
-        success: data?.success !== false,
-        status: response.status,
-        data: data,
-      };
+      return normalizeResponse(data, response.status);
 
     } catch (error) {
       // Network error or timeout
@@ -414,7 +445,7 @@ export const apiService = {
   async isAvailable() {
     try {
       const response = await fetchWithRetry('/api/health', {
-        signal: AbortSignal.timeout(5000),
+        timeout: 1500,
       });
       return response.success;
     } catch {

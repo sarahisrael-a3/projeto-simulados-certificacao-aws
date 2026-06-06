@@ -5,7 +5,7 @@
  * @module userManager
  */
 
-import apiService from '../../services/api.js';
+import apiService from '../services/api.js';
 
 /**
  * User Manager Object

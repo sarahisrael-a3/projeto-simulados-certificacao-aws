@@ -6,7 +6,7 @@
  * @module quizManager
  */
 
-import apiService from '../../services/api.js';
+import apiService from '../services/api.js';
 
 /**
  * Quiz Manager Object
