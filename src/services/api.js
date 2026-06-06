@@ -40,6 +40,41 @@ function createError(message, statusCode = 0, details = {}) {
 }
 
 /**
+ * Normalizes successful API responses without changing direct payloads.
+ * @private
+ * @param {*} body - Parsed response body
+ * @param {number} status - HTTP status code
+ * @returns {object} Stable client response
+ */
+function normalizeResponse(body, status) {
+  const isEnvelope = (
+    body !== null
+    && typeof body === 'object'
+    && !Array.isArray(body)
+    && Object.prototype.hasOwnProperty.call(body, 'success')
+    && Object.prototype.hasOwnProperty.call(body, 'data')
+  );
+
+  if (!isEnvelope) {
+    return {
+      success: body?.success !== false,
+      status,
+      data: body,
+    };
+  }
+
+  const { data, ...metadata } = body;
+
+  return {
+    ...metadata,
+    success: metadata.success !== false,
+    status,
+    data,
+    meta: metadata,
+  };
+}
+
+/**
  * Makes a fetch request with error handling and retry logic
  * @private
  * @param {string} endpoint - API endpoint (relative to BASE_URL)
@@ -102,12 +137,7 @@ async function fetchWithRetry(endpoint, options = {}) {
         continue;
       }
 
-      // Success - return parsed response
-      return {
-        success: data?.success !== false,
-        status: response.status,
-        data: data,
-      };
+      return normalizeResponse(data, response.status);
 
     } catch (error) {
       // Network error or timeout
