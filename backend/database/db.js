@@ -30,6 +30,8 @@ const VALID_CERTIFICATIONS = new Set([
 const VALID_DIFFICULTIES = new Set(['easy', 'medium', 'hard']);
 const DEFAULT_QUESTION_LIMIT = 10;
 const DEFAULT_SEARCH_LIMIT = 20;
+const DEFAULT_HISTORY_LIMIT = 10;
+const DEFAULT_WEAK_DOMAIN_THRESHOLD = 70;
 const MAX_QUESTION_LIMIT = 100;
 
 loadEnvironment({ quiet: true });
@@ -49,6 +51,16 @@ function debugQuery(query, params) {
   }
 
   console.log('[database:query]', query.replace(/\s+/g, ' ').trim(), params);
+}
+
+function rowsFromResult(result) {
+  return Array.isArray(result) ? result : result.rows || [];
+}
+
+async function queryRows(executor, query, params = []) {
+  debugQuery(query, params);
+  const result = await executor.query(query, params);
+  return rowsFromResult(result);
 }
 
 function resolveDatabaseOptions(options = {}) {
@@ -222,10 +234,7 @@ export function normalizeCertification(certification) {
 export async function executeQuery(query, params = []) {
   const database = getDatabase();
   try {
-    debugQuery(query, params);
-    const result = await database.query(query, params);
-    // PGLite retorna um objeto com rows, precisamos extrair
-    return Array.isArray(result) ? result : result.rows || [];
+    return await queryRows(database, query, params);
   } catch (error) {
     console.error('✗ Query execution failed:', error.message);
     throw error;
@@ -921,30 +930,232 @@ export async function updateGamification(userId, updates) {
 // QUIZ HISTORY - CRUD Operations
 // ============================================================================
 
+function normalizePositiveInteger(value, fieldName) {
+  const numericValue = Number.parseInt(value, 10);
+
+  if (!Number.isFinite(numericValue) || numericValue < 1) {
+    throw new Error(`${fieldName} must be a positive integer`);
+  }
+
+  return numericValue;
+}
+
+function normalizeNonNegativeInteger(value, fieldName, defaultValue = 0) {
+  const candidate = value ?? defaultValue;
+  const numericValue = Number.parseInt(candidate, 10);
+
+  if (!Number.isFinite(numericValue) || numericValue < 0) {
+    throw new Error(`${fieldName} must be a non-negative number`);
+  }
+
+  return numericValue;
+}
+
+function normalizePercentage(value, fieldName) {
+  const numericValue = Number.parseFloat(value);
+
+  if (!Number.isFinite(numericValue) || numericValue < 0 || numericValue > 100) {
+    throw new Error(`${fieldName} must be between 0 and 100`);
+  }
+
+  return Number(numericValue.toFixed(2));
+}
+
+function normalizePlainObject(value, fieldName, defaultValue = {}) {
+  if (value === undefined || value === null) {
+    return defaultValue;
+  }
+
+  if (!isPlainObject(value)) {
+    throw new Error(`${fieldName} must be an object`);
+  }
+
+  return value;
+}
+
+function normalizeStringArray(value, fieldName, defaultValue = []) {
+  if (value === undefined || value === null) {
+    return defaultValue;
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error(`${fieldName} must be an array`);
+  }
+
+  return value.map((item, index) => normalizeRequiredString(item, `${fieldName}[${index}]`));
+}
+
+function normalizeThreshold(value = DEFAULT_WEAK_DOMAIN_THRESHOLD) {
+  const numericValue = Number.parseFloat(value ?? DEFAULT_WEAK_DOMAIN_THRESHOLD);
+
+  if (!Number.isFinite(numericValue) || numericValue < 0 || numericValue > 100) {
+    throw new Error('threshold must be between 0 and 100');
+  }
+
+  return numericValue;
+}
+
+function normalizeAnswerPayload(value, fieldName = 'userAnswer') {
+  if (value === undefined || value === null) {
+    throw new Error(`${fieldName} is required`);
+  }
+
+  const answers = Array.isArray(value) ? value : [value];
+  if (answers.length === 0) {
+    throw new Error(`${fieldName} must contain at least one answer`);
+  }
+
+  return answers.map((answer, index) => {
+    if (typeof answer === 'number') {
+      if (!Number.isInteger(answer)) {
+        throw new Error(`${fieldName}[${index}] must be a string or integer`);
+      }
+      return answer;
+    }
+
+    if (typeof answer === 'string') {
+      return normalizeRequiredString(answer, `${fieldName}[${index}]`);
+    }
+
+    throw new Error(`${fieldName}[${index}] must be a string or integer`);
+  });
+}
+
+function answerComparisonKey(value) {
+  return normalizeAnswerPayload(value, 'answer')
+    .map((answer) => String(answer))
+    .sort();
+}
+
+function answersMatch(userAnswer, correctAnswer) {
+  const userKeys = answerComparisonKey(userAnswer);
+  const correctKeys = answerComparisonKey(correctAnswer);
+
+  return userKeys.length === correctKeys.length
+    && userKeys.every((answer, index) => answer === correctKeys[index]);
+}
+
+function normalizeQuizHistoryInput(userIdOrData, certification, answersOrMetadata) {
+  const source = isPlainObject(userIdOrData)
+    ? { ...userIdOrData }
+    : {
+        ...(isPlainObject(answersOrMetadata) ? answersOrMetadata : {}),
+        user_id: userIdOrData,
+        certification,
+      };
+
+  const answers = Array.isArray(answersOrMetadata)
+    ? answersOrMetadata
+    : Array.isArray(source.answers)
+      ? source.answers
+      : undefined;
+
+  const userId = normalizeRequiredString(source.user_id ?? source.userId, 'userId');
+  const normalizedCertification = validateCertification(source.certification, { required: true });
+  const totalQuestions = normalizePositiveInteger(
+    source.total_questions ?? source.totalQuestions ?? answers?.length,
+    'total_questions',
+  );
+  const score = normalizeNonNegativeInteger(source.score, 'score', 0);
+
+  if (score > totalQuestions) {
+    throw new Error('score cannot be greater than total_questions');
+  }
+
+  const percentage = source.percentage === undefined || source.percentage === null
+    ? Number(((score / totalQuestions) * 100).toFixed(2))
+    : normalizePercentage(source.percentage, 'percentage');
+
+  return {
+    user_id: userId,
+    certification: normalizedCertification,
+    score,
+    total_questions: totalQuestions,
+    percentage,
+    time_spent_secs: normalizeNonNegativeInteger(
+      source.time_spent_secs ?? source.timeSpentSecs,
+      'time_spent_secs',
+      0,
+    ),
+    domain_scores: normalizePlainObject(source.domain_scores ?? source.domainScores, 'domain_scores'),
+    weak_domains: normalizeStringArray(source.weak_domains ?? source.weakDomains, 'weak_domains'),
+  };
+}
+
+function normalizeRecordAnswerInput(quizIdOrData, questionId, userAnswer, timeSecs) {
+  const source = isPlainObject(quizIdOrData)
+    ? quizIdOrData
+    : {
+        quiz_id: quizIdOrData,
+        question_id: questionId,
+        user_answer: userAnswer,
+        time_secs: timeSecs,
+      };
+
+  return {
+    quiz_id: normalizeRequiredString(source.quiz_id ?? source.quizId, 'quizId'),
+    question_id: normalizeRequiredString(source.question_id ?? source.questionId, 'questionId'),
+    user_answer: normalizeAnswerPayload(source.user_answer ?? source.userAnswer, 'userAnswer'),
+    time_secs: normalizeNonNegativeInteger(source.time_secs ?? source.timeSecs, 'timeSecs', 0),
+  };
+}
+
+function buildQuizSummary(totalQuestions, answerRows, threshold = DEFAULT_WEAK_DOMAIN_THRESHOLD) {
+  const score = answerRows.filter((answer) => answer.is_correct).length;
+  const denominator = Math.max(totalQuestions, 1);
+  const percentage = Number(((score / denominator) * 100).toFixed(2));
+  const timeSpentSecs = answerRows.reduce(
+    (sum, answer) => sum + Number(answer.time_secs || 0),
+    0,
+  );
+  const domainScores = {};
+
+  answerRows.forEach((answer) => {
+    if (!answer.domain) {
+      return;
+    }
+
+    if (!domainScores[answer.domain]) {
+      domainScores[answer.domain] = { score: 0, correct: 0, total: 0 };
+    }
+
+    domainScores[answer.domain].total += 1;
+    if (answer.is_correct) {
+      domainScores[answer.domain].score += 1;
+      domainScores[answer.domain].correct += 1;
+    }
+  });
+
+  const weakDomains = Object.entries(domainScores)
+    .filter(([, stats]) => stats.total > 0 && ((stats.correct / stats.total) * 100) < threshold)
+    .map(([domain]) => domain);
+
+  return {
+    score,
+    percentage,
+    time_spent_secs: timeSpentSecs,
+    domain_scores: domainScores,
+    weak_domains: weakDomains,
+  };
+}
+
 /**
  * Create a new quiz history record
- * @param {Object} quizData - Quiz data
- * @param {string} quizData.user_id - UUID of the user
- * @param {string} quizData.certification - Certification code
- * @param {number} quizData.score - Number of correct answers
- * @param {number} quizData.total_questions - Total questions in quiz
- * @param {number} quizData.percentage - Percentage score (0-100)
- * @param {number} quizData.time_spent_secs - Time spent in seconds
- * @param {Object} quizData.domain_scores - Scores by domain (optional)
- * @param {Array} quizData.weak_domains - Domains with low scores (optional)
+ * Supports createQuizHistory({ ...quizData }) and
+ * createQuizHistory(userId, certification, answersOrMetadata).
  * @returns {Promise<Object|null>} Created quiz history record
  */
-export async function createQuizHistory(quizData) {
+export async function createQuizHistory(userIdOrData, certification, answersOrMetadata) {
   const {
     user_id,
-    certification,
+    certification: normalizedCertification,
     score,
     total_questions,
     percentage,
-    time_spent_secs = 0,
-    domain_scores = {},
-    weak_domains = [],
-  } = quizData;
+    time_spent_secs,
+    domain_scores,
+    weak_domains,
+  } = normalizeQuizHistoryInput(userIdOrData, certification, answersOrMetadata);
 
   const query = `
     INSERT INTO quiz_history (
@@ -957,7 +1168,7 @@ export async function createQuizHistory(quizData) {
   try {
     const result = await executeQuery(query, [
       user_id,
-      normalizeCertificationId(certification),
+      normalizedCertification,
       score,
       total_questions,
       percentage,
@@ -979,7 +1190,10 @@ export async function createQuizHistory(quizData) {
  * @param {number} offset - Pagination offset (default: 0)
  * @returns {Promise<Array>} Array of quiz history records
  */
-export async function getQuizHistory(userId, limit = 10, offset = 0) {
+export async function getQuizHistory(userId, limit = DEFAULT_HISTORY_LIMIT, offset = 0) {
+  const normalizedUserId = normalizeRequiredString(userId, 'userId');
+  const normalizedLimit = normalizeLimit(limit, DEFAULT_HISTORY_LIMIT);
+  const normalizedOffset = normalizeOffset(offset);
   const query = `
     SELECT * FROM quiz_history 
     WHERE user_id = $1 
@@ -988,7 +1202,7 @@ export async function getQuizHistory(userId, limit = 10, offset = 0) {
   `;
 
   try {
-    return await executeQuery(query, [userId, limit, offset]);
+    return await executeQuery(query, [normalizedUserId, normalizedLimit, normalizedOffset]);
   } catch (error) {
     console.error('✗ Error fetching quiz history:', error.message);
     throw error;
@@ -1001,6 +1215,7 @@ export async function getQuizHistory(userId, limit = 10, offset = 0) {
  * @returns {Promise<Object|null>} Quiz history record or null
  */
 export async function getQuizById(quizId) {
+  normalizeRequiredString(quizId, 'quizId');
   const query = 'SELECT * FROM quiz_history WHERE id = $1';
 
   try {
@@ -1014,38 +1229,81 @@ export async function getQuizById(quizId) {
 
 /**
  * Record a user's answer to a question
- * @param {Object} answerData - Answer data
- * @param {string} answerData.quiz_id - UUID of the quiz history record
- * @param {string} answerData.question_id - UUID of the question
- * @param {Array} answerData.user_answer - User's answer(s)
- * @param {boolean} answerData.is_correct - Whether answer is correct
- * @param {number} answerData.time_secs - Time spent on this question
+ * Supports recordAnswer({ ...answerData }) and
+ * recordAnswer(quizId, questionId, userAnswer, timeSecs).
+ * is_correct from callers is intentionally ignored; correctness is computed
+ * against questions.correct_answer on the backend.
  * @returns {Promise<Object|null>} Recorded answer
  */
-export async function recordAnswer(answerData) {
+export async function recordAnswer(quizIdOrData, questionId, userAnswer, timeSecs) {
   const {
     quiz_id,
     question_id,
     user_answer,
-    is_correct,
-    time_secs = 0,
-  } = answerData;
-
-  const query = `
-    INSERT INTO answers (quiz_id, question_id, user_answer, is_correct, time_secs)
-    VALUES ($1, $2, $3, $4, $5)
-    RETURNING *
-  `;
+    time_secs,
+  } = normalizeRecordAnswerInput(quizIdOrData, questionId, userAnswer, timeSecs);
 
   try {
-    const result = await executeQuery(query, [
-      quiz_id,
-      question_id,
-      JSON.stringify(user_answer),
-      is_correct,
-      time_secs,
-    ]);
-    return result.length > 0 ? result[0] : null;
+    const quiz = await getQuizById(quiz_id);
+    if (!quiz) {
+      throw new Error('Quiz not found');
+    }
+
+    const question = await getQuestionById(question_id);
+    if (!question) {
+      throw new Error('Question not found');
+    }
+
+    const isCorrect = answersMatch(user_answer, question.correct_answer);
+    const database = getDatabase();
+
+    return await database.transaction(async (transaction) => {
+      const insertedAnswers = await queryRows(transaction, `
+        INSERT INTO answers (quiz_id, question_id, user_answer, is_correct, time_secs)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *
+      `, [
+        quiz_id,
+        question_id,
+        JSON.stringify(user_answer),
+        isCorrect,
+        time_secs,
+      ]);
+      const answer = insertedAnswers[0] || null;
+
+      const answerRows = await queryRows(transaction, `
+        SELECT a.is_correct, a.time_secs, q.domain
+        FROM answers a
+        LEFT JOIN questions q ON q.id = a.question_id
+        WHERE a.quiz_id = $1
+      `, [quiz_id]);
+      const summary = buildQuizSummary(quiz.total_questions, answerRows);
+
+      await queryRows(transaction, `
+        UPDATE quiz_history
+        SET score = $1,
+            percentage = $2,
+            time_spent_secs = $3,
+            domain_scores = $4,
+            weak_domains = $5
+        WHERE id = $6
+        RETURNING *
+      `, [
+        summary.score,
+        summary.percentage,
+        summary.time_spent_secs,
+        JSON.stringify(summary.domain_scores),
+        summary.weak_domains,
+        quiz_id,
+      ]);
+
+      return {
+        ...answer,
+        is_correct: isCorrect,
+        explanation: question.explanation,
+        correct_answer: question.correct_answer,
+      };
+    });
   } catch (error) {
     console.error('✗ Error recording answer:', error.message);
     throw error;
@@ -1058,6 +1316,7 @@ export async function recordAnswer(answerData) {
  * @returns {Promise<Array>} Array of answers
  */
 export async function getAnswersByQuiz(quizId) {
+  normalizeRequiredString(quizId, 'quizId');
   const query = 'SELECT * FROM answers WHERE quiz_id = $1 ORDER BY answered_at ASC';
 
   try {
@@ -1110,6 +1369,51 @@ export async function getUserStats(userId) {
 }
 
 /**
+ * Calculate aggregate quiz statistics for a user.
+ * @param {string} userId - UUID of the user
+ * @returns {Promise<Object>} Aggregated user quiz statistics
+ */
+export async function calculateStats(userId) {
+  const normalizedUserId = normalizeRequiredString(userId, 'userId');
+  const query = `
+    SELECT
+      COUNT(*)::int AS total_quizzes,
+      COALESCE(AVG(percentage), 0)::float AS avg_score,
+      COALESCE(MAX(percentage), 0)::float AS best_score,
+      COALESCE(SUM(time_spent_secs), 0)::int AS total_time_secs,
+      COUNT(DISTINCT certification)::int AS certifications_practiced,
+      COALESCE(SUM(total_questions), 0)::int AS total_questions,
+      COALESCE(SUM(score), 0)::int AS correct_answers
+    FROM quiz_history
+    WHERE user_id = $1
+  `;
+
+  try {
+    const result = await executeQuery(query, [normalizedUserId]);
+    const stats = result[0] || {};
+    const totalQuestions = Number(stats.total_questions || 0);
+    const correctAnswers = Number(stats.correct_answers || 0);
+
+    return {
+      user_id: normalizedUserId,
+      total_quizzes: Number(stats.total_quizzes || 0),
+      avg_score: Number(stats.avg_score || 0),
+      best_score: Number(stats.best_score || 0),
+      total_time_secs: Number(stats.total_time_secs || 0),
+      certifications_practiced: Number(stats.certifications_practiced || 0),
+      total_questions: totalQuestions,
+      correct_answers: correctAnswers,
+      accuracy: totalQuestions > 0
+        ? Number(((correctAnswers / totalQuestions) * 100).toFixed(2))
+        : 0,
+    };
+  } catch (error) {
+    console.error('✗ Error calculating user stats:', error.message);
+    throw error;
+  }
+}
+
+/**
  * Calculate quiz result statistics
  * @param {string} quizId - UUID of the quiz history record
  * @returns {Promise<Object>} Statistics object with score, percentage, etc.
@@ -1147,42 +1451,35 @@ export async function calculateQuizStats(quizId) {
  * @param {number} threshold - Accuracy threshold percentage (default: 70)
  * @returns {Promise<Array>} Array of domain names with low scores
  */
-export async function getWeakDomains(userId, threshold = 70) {
+export async function getWeakDomains(userId, threshold = DEFAULT_WEAK_DOMAIN_THRESHOLD) {
+  const normalizedUserId = normalizeRequiredString(userId, 'userId');
+  const normalizedThreshold = normalizeThreshold(threshold);
+  const query = `
+    SELECT
+      q.domain,
+      COUNT(*)::int AS total_questions,
+      SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END)::int AS correct_answers
+    FROM answers a
+    JOIN quiz_history qh ON qh.id = a.quiz_id
+    JOIN questions q ON q.id = a.question_id
+    WHERE qh.user_id = $1
+    GROUP BY q.domain
+    HAVING COUNT(*) > 0
+    ORDER BY q.domain ASC
+  `;
+
   try {
-    const quizzes = await getQuizHistory(userId, 100, 0);
-    
-    // Aggregate domain performance
-    const domainStats = {};
+    const rows = await executeQuery(query, [normalizedUserId]);
 
-    for (const quiz of quizzes) {
-      const domainScores = quiz.domain_scores || {};
-      Object.entries(domainScores).forEach(([domain, stats]) => {
-        if (!domainStats[domain]) {
-          domainStats[domain] = { total: 0, correct: 0, attempts: 0 };
-        }
-        domainStats[domain].total += stats.total || 0;
-        domainStats[domain].correct += stats.score || 0;
-        domainStats[domain].attempts += 1;
-      });
-    }
-
-    // Filter weak domains
-    const weakDomains = [];
-    Object.entries(domainStats).forEach(([domain, stats]) => {
-      if (stats.total > 0) {
-        const accuracy = (stats.correct / stats.total) * 100;
-        if (accuracy < threshold) {
-          weakDomains.push({
-            domain,
-            accuracy: Math.round(accuracy),
-            total_questions: stats.total,
-            correct_answers: stats.correct,
-          });
-        }
-      }
-    });
-
-    return weakDomains.sort((a, b) => a.accuracy - b.accuracy);
+    return rows
+      .map((row) => ({
+        domain: row.domain,
+        accuracy: Number(((row.correct_answers / row.total_questions) * 100).toFixed(2)),
+        total_questions: Number(row.total_questions),
+        correct_answers: Number(row.correct_answers),
+      }))
+      .filter((row) => row.accuracy < normalizedThreshold)
+      .sort((a, b) => a.accuracy - b.accuracy);
   } catch (error) {
     console.error('✗ Error calculating weak domains:', error.message);
     throw error;
@@ -1217,6 +1514,7 @@ export default {
   getQuizById,
   recordAnswer,
   getAnswersByQuiz,
+  calculateStats,
   calculateQuizStats,
   // Leaderboard & Stats
   getLeaderboard,

@@ -8,15 +8,25 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
 import {
+  calculateStats,
   closeDatabase,
+  createQuizHistory,
+  createUser,
   deleteQuestion,
+  executeQuery,
   getDatabase,
+  getAnswersByQuiz,
   getQuestionById,
   getQuestions,
   getQuestionsByDomain,
+  getQuizById,
+  getQuizHistory,
+  getUserStats,
+  getWeakDomains,
   initializeDatabase,
   insertQuestion,
   normalizeCertification,
+  recordAnswer,
   searchQuestions,
   updateQuestion,
 } from './db.js';
@@ -325,5 +335,260 @@ describe('Question CRUD operations', () => {
     expect(fetched).toBeNull();
     expect(listed).toHaveLength(0);
     expect(missingDelete).toBeNull();
+  });
+});
+
+describe('Quiz history and answers operations', () => {
+  beforeEach(async () => {
+    await closeDatabase();
+    delete process.env.DB_DATA_DIR;
+    await initializeDatabase({ environment: 'test' });
+  });
+
+  afterEach(async () => {
+    await closeDatabase();
+  });
+
+  async function createTestUser() {
+    return createUser(`QuizUser#${randomUUID()}`);
+  }
+
+  function validQuestion(overrides = {}) {
+    return {
+      certification: 'clf-c02',
+      domain: 'seguranca',
+      difficulty: 'medium',
+      question_text: 'Which AWS service manages identity and access permissions?',
+      options: [
+        { id: 'A', text: 'Amazon EC2' },
+        { id: 'B', text: 'AWS IAM' },
+        { id: 'C', text: 'Amazon S3' },
+        { id: 'D', text: 'Amazon CloudWatch' },
+      ],
+      correct_answer: ['B'],
+      explanation: 'AWS IAM manages identities and access permissions.',
+      reference_url: 'https://aws.amazon.com/iam/',
+      tags: ['iam', 'security'],
+      ...overrides,
+    };
+  }
+
+  async function createQuizForUser(overrides = {}) {
+    const user = await createTestUser();
+    const quiz = await createQuizHistory({
+      user_id: user.id,
+      certification: 'clf-c02',
+      score: 0,
+      total_questions: 2,
+      percentage: 0,
+      ...overrides,
+    });
+
+    return { user, quiz };
+  }
+
+  test('creates quiz history, normalizes certification, and fetches by ID', async () => {
+    const user = await createTestUser();
+    const quiz = await createQuizHistory(user.id, 'clf-c02', { total_questions: 3 });
+    const fetched = await getQuizById(quiz.id);
+
+    expect(quiz.id).toBeDefined();
+    expect(quiz.user_id).toBe(user.id);
+    expect(quiz.certification).toBe('CLF-C02');
+    expect(quiz.total_questions).toBe(3);
+    expect(fetched.id).toBe(quiz.id);
+  });
+
+  test('fetches quiz history by user with pagination', async () => {
+    const user = await createTestUser();
+    await createQuizHistory(user.id, 'CLF-C02', { total_questions: 1 });
+    await createQuizHistory(user.id, 'CLF-C02', { total_questions: 1 });
+    await createQuizHistory(user.id, 'CLF-C02', { total_questions: 1 });
+
+    const firstPage = await getQuizHistory(user.id, 2, 0);
+    const secondPage = await getQuizHistory(user.id, 2, 2);
+
+    expect(firstPage).toHaveLength(2);
+    expect(secondPage).toHaveLength(1);
+  });
+
+  test('records a correct answer calculated by the backend', async () => {
+    const { quiz } = await createQuizForUser({ total_questions: 1 });
+    const question = await insertQuestion(validQuestion());
+
+    const answer = await recordAnswer({
+      quiz_id: quiz.id,
+      question_id: question.id,
+      user_answer: ['B'],
+      is_correct: false,
+      time_secs: 12,
+    });
+    const updatedQuiz = await getQuizById(quiz.id);
+
+    expect(answer.is_correct).toBe(true);
+    expect(answer.explanation).toBe(question.explanation);
+    expect(answer.correct_answer).toEqual(['B']);
+    expect(updatedQuiz.score).toBe(1);
+    expect(Number(updatedQuiz.percentage)).toBe(100);
+    expect(updatedQuiz.time_spent_secs).toBe(12);
+  });
+
+  test('records an incorrect answer calculated by the backend', async () => {
+    const { quiz } = await createQuizForUser({ total_questions: 1 });
+    const question = await insertQuestion(validQuestion());
+
+    const answer = await recordAnswer(quiz.id, question.id, ['A'], 8);
+    const updatedQuiz = await getQuizById(quiz.id);
+
+    expect(answer.is_correct).toBe(false);
+    expect(updatedQuiz.score).toBe(0);
+    expect(Number(updatedQuiz.percentage)).toBe(0);
+  });
+
+  test('does not trust is_correct sent by the caller', async () => {
+    const { quiz } = await createQuizForUser({ total_questions: 1 });
+    const question = await insertQuestion(validQuestion());
+
+    const answer = await recordAnswer({
+      quiz_id: quiz.id,
+      question_id: question.id,
+      user_answer: ['A'],
+      is_correct: true,
+      time_secs: 3,
+    });
+
+    expect(answer.is_correct).toBe(false);
+  });
+
+  test('fetches answers for a quiz in answer order', async () => {
+    const { quiz } = await createQuizForUser({ total_questions: 2 });
+    const firstQuestion = await insertQuestion(validQuestion());
+    const secondQuestion = await insertQuestion(validQuestion({
+      question_text: 'Which AWS storage service is object based and highly durable?',
+      domain: 'tecnologia',
+      options: [
+        { id: 'A', text: 'Amazon EBS' },
+        { id: 'B', text: 'Amazon S3' },
+        { id: 'C', text: 'Amazon EFS' },
+      ],
+      correct_answer: ['B'],
+      explanation: 'Amazon S3 is object storage designed for durability.',
+    }));
+
+    await recordAnswer(quiz.id, firstQuestion.id, ['B'], 5);
+    await recordAnswer(quiz.id, secondQuestion.id, ['A'], 7);
+
+    const answers = await getAnswersByQuiz(quiz.id);
+
+    expect(answers).toHaveLength(2);
+    expect(answers[0].question_id).toBe(firstQuestion.id);
+    expect(answers[1].question_id).toBe(secondQuestion.id);
+  });
+
+  test('calculates user stats and weak domains from recorded answers', async () => {
+    const { user, quiz } = await createQuizForUser({ total_questions: 2 });
+    const securityQuestion = await insertQuestion(validQuestion({ domain: 'seguranca' }));
+    const billingQuestion = await insertQuestion(validQuestion({
+      question_text: 'Which AWS tool is used to inspect monthly billing anomalies?',
+      domain: 'faturamento',
+      options: [
+        { id: 'A', text: 'AWS Cost Anomaly Detection' },
+        { id: 'B', text: 'AWS IAM' },
+        { id: 'C', text: 'Amazon EC2' },
+      ],
+      correct_answer: ['A'],
+      explanation: 'AWS Cost Anomaly Detection identifies unusual spend patterns.',
+    }));
+
+    await recordAnswer(quiz.id, securityQuestion.id, ['B'], 5);
+    await recordAnswer(quiz.id, billingQuestion.id, ['B'], 9);
+
+    const stats = await calculateStats(user.id);
+    const weakDomains = await getWeakDomains(user.id, 70);
+
+    expect(stats.total_quizzes).toBe(1);
+    expect(stats.total_questions).toBe(2);
+    expect(stats.correct_answers).toBe(1);
+    expect(stats.accuracy).toBe(50);
+    expect(weakDomains).toEqual([
+      {
+        domain: 'faturamento',
+        accuracy: 0,
+        total_questions: 1,
+        correct_answers: 0,
+      },
+    ]);
+  });
+
+  test('validates required quiz and answer inputs', async () => {
+    const user = await createTestUser();
+    const { quiz } = await createQuizForUser({ user_id: user.id, total_questions: 1 });
+    const question = await insertQuestion(validQuestion());
+
+    await expect(
+      createQuizHistory('', 'CLF-C02', { total_questions: 1 }),
+    ).rejects.toThrow('userId must be at least 1 character');
+
+    await expect(
+      createQuizHistory(user.id, 'invalid-cert', { total_questions: 1 }),
+    ).rejects.toThrow('Invalid certification: invalid-cert');
+
+    await expect(
+      recordAnswer(quiz.id, question.id, undefined, 1),
+    ).rejects.toThrow('userAnswer is required');
+
+    await expect(
+      recordAnswer(quiz.id, question.id, ['B'], -1),
+    ).rejects.toThrow('timeSecs must be a non-negative number');
+  });
+
+  test('errors for missing quiz or question without leaving partial state', async () => {
+    const { quiz } = await createQuizForUser({ total_questions: 1 });
+    const question = await insertQuestion(validQuestion());
+
+    await expect(
+      recordAnswer(randomUUID(), question.id, ['B'], 1),
+    ).rejects.toThrow('Quiz not found');
+
+    await expect(
+      recordAnswer(quiz.id, randomUUID(), ['B'], 1),
+    ).rejects.toThrow('Question not found');
+
+    const answers = await getAnswersByQuiz(quiz.id);
+    const unchangedQuiz = await getQuizById(quiz.id);
+
+    expect(answers).toHaveLength(0);
+    expect(unchangedQuiz.score).toBe(0);
+  });
+
+  test('keeps user_stats aggregates from multiplying quiz and focus rows', async () => {
+    const user = await createTestUser();
+    await createQuizHistory({
+      user_id: user.id,
+      certification: 'CLF-C02',
+      score: 1,
+      total_questions: 1,
+      percentage: 100,
+      time_spent_secs: 30,
+    });
+    await createQuizHistory({
+      user_id: user.id,
+      certification: 'SAA-C03',
+      score: 0,
+      total_questions: 1,
+      percentage: 0,
+      time_spent_secs: 40,
+    });
+    await executeQuery(
+      `INSERT INTO focus_sessions (user_id, minutes, session_type, session_date)
+       VALUES ($1, 10, 'focus', CURRENT_DATE), ($1, 20, 'focus', CURRENT_DATE)`,
+      [user.id],
+    );
+
+    const stats = await getUserStats(user.id);
+
+    expect(Number(stats.total_quizzes)).toBe(2);
+    expect(Number(stats.total_time_secs)).toBe(70);
+    expect(Number(stats.total_focus_minutes)).toBe(30);
   });
 });
