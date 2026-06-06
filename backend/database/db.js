@@ -13,6 +13,24 @@ import { normalizeCertificationId } from './normalizers.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCHEMA_PATH = join(__dirname, 'schema.sql');
 const MEMORY_DATA_DIR = 'memory://';
+const VALID_CERTIFICATIONS = new Set([
+  'CLF-C02',
+  'SAA-C03',
+  'SAP-C02',
+  'DVA-C02',
+  'SOA-C02',
+  'DOP-C02',
+  'ANS-C01',
+  'DAS-C01',
+  'MLS-C01',
+  'SCS-C02',
+  'PAS-C01',
+  'AIF-C01',
+]);
+const VALID_DIFFICULTIES = new Set(['easy', 'medium', 'hard']);
+const DEFAULT_QUESTION_LIMIT = 10;
+const DEFAULT_SEARCH_LIMIT = 20;
+const MAX_QUESTION_LIMIT = 100;
 
 loadEnvironment({ quiet: true });
 
@@ -20,6 +38,18 @@ let db = null;
 let initializationPromise = null;
 let closePromise = null;
 let schemaSql = null;
+
+function isDebugEnabled() {
+  return process.env.DEBUG === 'true' || process.env.DB_DEBUG === 'true';
+}
+
+function debugQuery(query, params) {
+  if (!isDebugEnabled()) {
+    return;
+  }
+
+  console.log('[database:query]', query.replace(/\s+/g, ' ').trim(), params);
+}
 
 function resolveDatabaseOptions(options = {}) {
   const environment = options.environment || process.env.NODE_ENV || 'development';
@@ -192,6 +222,7 @@ export function normalizeCertification(certification) {
 export async function executeQuery(query, params = []) {
   const database = getDatabase();
   try {
+    debugQuery(query, params);
     const result = await database.query(query, params);
     // PGLite retorna um objeto com rows, precisamos extrair
     return Array.isArray(result) ? result : result.rows || [];
@@ -220,42 +251,336 @@ export async function executeSql(sql) {
 // QUESTIONS - CRUD Operations
 // ============================================================================
 
-/**
- * Get all active questions with optional filters and pagination
- * @param {Object} filters - Filter criteria
- * @param {string} filters.certification - Filter by certification code (e.g., 'CLF-C02')
- * @param {string} filters.domain - Filter by domain slug
- * @param {string} filters.difficulty - Filter by difficulty level ('easy', 'medium', 'hard')
- * @param {number} filters.limit - Max results (default: 10)
- * @param {number} filters.offset - Pagination offset (default: 0)
- * @returns {Promise<Array>} Array of questions
- */
-export async function getQuestions(filters = {}) {
-  const {
-    certification,
+function isPlainObject(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function normalizeRequiredString(value, fieldName, { minLength = 1 } = {}) {
+  if (typeof value !== 'string') {
+    throw new Error(`${fieldName} must be a string`);
+  }
+
+  const normalized = value.trim();
+  if (normalized.length < minLength) {
+    throw new Error(`${fieldName} must be at least ${minLength} character(s)`);
+  }
+
+  return normalized;
+}
+
+function normalizeOptionalString(value, fieldName) {
+  if (value === undefined || value === null || value === '') {
+    return null;
+  }
+
+  return normalizeRequiredString(value, fieldName);
+}
+
+function normalizeLimit(value, defaultLimit = DEFAULT_QUESTION_LIMIT) {
+  const numericValue = Number.parseInt(value ?? defaultLimit, 10);
+
+  if (!Number.isFinite(numericValue) || numericValue < 1) {
+    return defaultLimit;
+  }
+
+  return Math.min(numericValue, MAX_QUESTION_LIMIT);
+}
+
+function normalizeOffset(value) {
+  const numericValue = Number.parseInt(value ?? 0, 10);
+
+  if (!Number.isFinite(numericValue) || numericValue < 0) {
+    return 0;
+  }
+
+  return numericValue;
+}
+
+function validateCertification(certification, { required = false } = {}) {
+  if (certification === undefined || certification === null || certification === '') {
+    if (required) {
+      throw new Error('certification is required');
+    }
+    return undefined;
+  }
+
+  const normalized = normalizeCertificationId(
+    normalizeRequiredString(certification, 'certification'),
+  );
+
+  if (!VALID_CERTIFICATIONS.has(normalized)) {
+    throw new Error(`Invalid certification: ${certification}`);
+  }
+
+  return normalized;
+}
+
+function validateDifficulty(difficulty, { required = false } = {}) {
+  if (difficulty === undefined || difficulty === null || difficulty === '') {
+    if (required) {
+      throw new Error('difficulty is required');
+    }
+    return undefined;
+  }
+
+  const normalized = normalizeRequiredString(difficulty, 'difficulty');
+  if (!VALID_DIFFICULTIES.has(normalized)) {
+    throw new Error('difficulty must be one of: easy, medium, hard');
+  }
+
+  return normalized;
+}
+
+function normalizeTags(tags) {
+  if (tags === undefined || tags === null) {
+    return [];
+  }
+
+  if (!Array.isArray(tags)) {
+    throw new Error('tags must be an array');
+  }
+
+  return tags.map((tag, index) => normalizeRequiredString(tag, `tags[${index}]`));
+}
+
+function normalizeOptions(options) {
+  if (!Array.isArray(options) || options.length < 2) {
+    throw new Error('options must be an array with at least 2 items');
+  }
+
+  return options.map((option, index) => {
+    if (typeof option === 'string') {
+      return normalizeRequiredString(option, `options[${index}]`);
+    }
+
+    if (isPlainObject(option)) {
+      const normalizedOption = { ...option };
+      if ('id' in normalizedOption) {
+        normalizedOption.id = normalizeRequiredString(
+          String(normalizedOption.id),
+          `options[${index}].id`,
+        );
+      }
+      normalizedOption.text = normalizeRequiredString(
+        normalizedOption.text,
+        `options[${index}].text`,
+      );
+      return normalizedOption;
+    }
+
+    throw new Error(`options[${index}] must be a string or an object`);
+  });
+}
+
+function normalizeCorrectAnswer(correctAnswer, options) {
+  const answers = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
+
+  if (answers.length === 0 || answers.some((answer) => answer === undefined || answer === null)) {
+    throw new Error('correct_answer must contain at least one answer');
+  }
+
+  const optionIds = options
+    .filter((option) => isPlainObject(option) && option.id)
+    .map((option) => option.id);
+
+  answers.forEach((answer, index) => {
+    if (typeof answer === 'number') {
+      if (!Number.isInteger(answer) || answer < 0 || answer >= options.length) {
+        throw new Error(`correct_answer[${index}] must reference a valid option index`);
+      }
+      return;
+    }
+
+    if (typeof answer === 'string') {
+      if (optionIds.length > 0 && optionIds.includes(answer)) {
+        return;
+      }
+      throw new Error(`correct_answer[${index}] must reference a valid option id`);
+    }
+
+    throw new Error(`correct_answer[${index}] must be a number or string`);
+  });
+
+  return answers;
+}
+
+function normalizeQuestionInput(questionData, { partial = false } = {}) {
+  if (!isPlainObject(questionData)) {
+    throw new Error('questionData must be an object');
+  }
+
+  const normalized = {};
+  const certification = questionData.certification;
+  const domain = questionData.domain;
+  const difficulty = questionData.difficulty;
+  const questionText = questionData.question_text ?? questionData.question;
+  const correctAnswer = questionData.correct_answer ?? questionData.correct;
+
+  if (!partial || certification !== undefined) {
+    normalized.certification = validateCertification(certification, { required: !partial });
+  }
+
+  if (!partial || domain !== undefined) {
+    normalized.domain = normalizeRequiredString(domain, 'domain');
+  }
+
+  if (!partial || difficulty !== undefined) {
+    normalized.difficulty = validateDifficulty(difficulty, { required: !partial });
+  }
+
+  if (!partial || questionText !== undefined) {
+    normalized.question_text = normalizeRequiredString(
+      questionText,
+      'question_text',
+      { minLength: 10 },
+    );
+  }
+
+  if (!partial || questionData.options !== undefined) {
+    normalized.options = normalizeOptions(questionData.options);
+  }
+
+  if (!partial || correctAnswer !== undefined) {
+    if (normalized.options) {
+      normalized.correct_answer = normalizeCorrectAnswer(correctAnswer, normalized.options);
+    } else {
+      normalized.correct_answer = Array.isArray(correctAnswer)
+        ? correctAnswer
+        : [correctAnswer];
+    }
+  }
+
+  if (!partial || questionData.explanation !== undefined) {
+    normalized.explanation = normalizeRequiredString(questionData.explanation, 'explanation');
+  }
+
+  if (questionData.reference_url !== undefined || questionData.reference !== undefined || !partial) {
+    normalized.reference_url = normalizeOptionalString(
+      questionData.reference_url ?? questionData.reference,
+      'reference_url',
+    );
+  }
+
+  if (questionData.tags !== undefined || !partial) {
+    normalized.tags = normalizeTags(questionData.tags);
+  }
+
+  return Object.fromEntries(
+    Object.entries(normalized).filter(([, value]) => value !== undefined),
+  );
+}
+
+async function normalizeQuestionUpdate(updates, existingQuestion) {
+  const candidate = {
+    ...existingQuestion,
+    ...updates,
+    correct_answer: updates.correct_answer ?? updates.correct ?? existingQuestion.correct_answer,
+    question_text: updates.question_text ?? updates.question ?? existingQuestion.question_text,
+  };
+  const normalizedCandidate = normalizeQuestionInput(candidate);
+  const allowedFields = new Set([
+    'certification',
+    'domain',
+    'difficulty',
+    'question_text',
+    'options',
+    'correct_answer',
+    'explanation',
+    'reference_url',
+    'tags',
+    'validated_by',
+    'validated_at',
+  ]);
+  const normalizedUpdates = {};
+
+  Object.keys(updates).forEach((key) => {
+    const storageKey = key === 'question'
+      ? 'question_text'
+      : key === 'correct'
+        ? 'correct_answer'
+        : key;
+
+    if (!allowedFields.has(storageKey)) {
+      return;
+    }
+
+    if (storageKey in normalizedCandidate) {
+      normalizedUpdates[storageKey] = normalizedCandidate[storageKey];
+    } else {
+      normalizedUpdates[storageKey] = updates[key];
+    }
+  });
+
+  if (Object.keys(normalizedUpdates).length === 0) {
+    throw new Error('No valid fields to update');
+  }
+
+  return normalizedUpdates;
+}
+
+function normalizeQuestionFilters(certificationOrFilters, domain, difficulty, options) {
+  if (isPlainObject(certificationOrFilters)) {
+    return {
+      certification: certificationOrFilters.certification,
+      domain: certificationOrFilters.domain,
+      difficulty: certificationOrFilters.difficulty,
+      limit: certificationOrFilters.limit,
+      offset: certificationOrFilters.offset,
+    };
+  }
+
+  return {
+    certification: certificationOrFilters,
     domain,
     difficulty,
-    limit = 10,
-    offset = 0,
-  } = filters;
+    limit: options?.limit,
+    offset: options?.offset,
+  };
+}
+
+function escapeLikePattern(value) {
+  return value.replace(/[\\%_]/g, (match) => `\\${match}`);
+}
+
+/**
+ * Get all active questions with optional filters and pagination.
+ * Supports both getQuestions({ ...filters }) and
+ * getQuestions(certification, domain, difficulty, options).
+ * @param {Object|string} certificationOrFilters - Filter object or certification code
+ * @param {string} [domain] - Filter by domain slug
+ * @param {string} [difficulty] - Filter by difficulty level ('easy', 'medium', 'hard')
+ * @param {Object} [options] - Pagination options
+ * @param {number} [options.limit] - Max results (default: 10, max: 100)
+ * @param {number} [options.offset] - Pagination offset (default: 0)
+ * @returns {Promise<Array>} Array of questions
+ */
+export async function getQuestions(certificationOrFilters = {}, domain, difficulty, options = {}) {
+  const filters = normalizeQuestionFilters(certificationOrFilters, domain, difficulty, options);
+  const normalizedCertification = validateCertification(filters.certification);
+  const normalizedDomain = filters.domain
+    ? normalizeRequiredString(filters.domain, 'domain')
+    : undefined;
+  const normalizedDifficulty = validateDifficulty(filters.difficulty);
+  const limit = normalizeLimit(filters.limit, DEFAULT_QUESTION_LIMIT);
+  const offset = normalizeOffset(filters.offset);
 
   let query = 'SELECT * FROM questions WHERE is_active = TRUE';
   const params = [];
   let paramIndex = 1;
 
-  if (certification) {
+  if (normalizedCertification) {
     query += ` AND certification = $${paramIndex++}`;
-    params.push(normalizeCertificationId(certification));
+    params.push(normalizedCertification);
   }
 
-  if (domain) {
+  if (normalizedDomain) {
     query += ` AND domain = $${paramIndex++}`;
-    params.push(domain);
+    params.push(normalizedDomain);
   }
 
-  if (difficulty) {
+  if (normalizedDifficulty) {
     query += ` AND difficulty = $${paramIndex++}`;
-    params.push(difficulty);
+    params.push(normalizedDifficulty);
   }
 
   query += ` ORDER BY created_at DESC LIMIT $${paramIndex++} OFFSET $${paramIndex}`;
@@ -275,6 +600,7 @@ export async function getQuestions(filters = {}) {
  * @returns {Promise<Object|null>} Question object or null if not found
  */
 export async function getQuestionById(questionId) {
+  normalizeRequiredString(questionId, 'questionId');
   const query = 'SELECT * FROM questions WHERE id = $1 AND is_active = TRUE';
 
   try {
@@ -287,21 +613,29 @@ export async function getQuestionById(questionId) {
 }
 
 /**
- * Search questions by text query (full-text search)
- * @param {string} searchTerm - Term to search in question text
- * @param {number} limit - Max results (default: 20)
+ * Search questions by text query.
+ * @param {string} searchTerm - Term to search in question text, explanation, or domain
+ * @param {number} limit - Max results (default: 20, max: 100)
  * @returns {Promise<Array>} Array of matching questions
  */
 export async function searchQuestions(searchTerm, limit = 20) {
+  const normalizedSearchTerm = normalizeRequiredString(searchTerm, 'searchTerm');
+  const normalizedLimit = normalizeLimit(limit, DEFAULT_SEARCH_LIMIT);
+  const pattern = `%${escapeLikePattern(normalizedSearchTerm)}%`;
   const query = `
     SELECT * FROM questions 
     WHERE is_active = TRUE 
-    AND to_tsvector('portuguese', question_text) @@ plainto_tsquery('portuguese', $1)
+    AND (
+      question_text ILIKE $1 ESCAPE '\\'
+      OR explanation ILIKE $1 ESCAPE '\\'
+      OR domain ILIKE $1 ESCAPE '\\'
+    )
+    ORDER BY created_at DESC
     LIMIT $2
   `;
 
   try {
-    return await executeQuery(query, [searchTerm, limit]);
+    return await executeQuery(query, [pattern, normalizedLimit]);
   } catch (error) {
     console.error('✗ Error searching questions:', error.message);
     throw error;
@@ -323,6 +657,7 @@ export async function searchQuestions(searchTerm, limit = 20) {
  * @returns {Promise<Object>} Inserted question with ID
  */
 export async function insertQuestion(questionData) {
+  const normalizedQuestion = normalizeQuestionInput(questionData);
   const {
     certification,
     domain,
@@ -333,7 +668,7 @@ export async function insertQuestion(questionData) {
     explanation,
     reference_url = null,
     tags = [],
-  } = questionData;
+  } = normalizedQuestion;
 
   const query = `
     INSERT INTO questions (
@@ -369,33 +704,18 @@ export async function insertQuestion(questionData) {
  * @returns {Promise<Object|null>} Updated question or null if not found
  */
 export async function updateQuestion(questionId, updates) {
-  const allowedFields = [
-    'certification',
-    'domain',
-    'difficulty',
-    'question_text',
-    'options',
-    'correct_answer',
-    'explanation',
-    'reference_url',
-    'tags',
-    'validated_by',
-    'validated_at',
-  ];
+  normalizeRequiredString(questionId, 'questionId');
 
-  // Filter to allow only safe fields
-  const filteredUpdates = {};
-  Object.keys(updates).forEach((key) => {
-    if (allowedFields.includes(key)) {
-      filteredUpdates[key] = key === 'certification'
-        ? normalizeCertificationId(updates[key])
-        : updates[key];
-    }
-  });
-
-  if (Object.keys(filteredUpdates).length === 0) {
-    throw new Error('No valid fields to update');
+  if (!isPlainObject(updates)) {
+    throw new Error('questionData must be an object');
   }
+
+  const existingQuestion = await getQuestionById(questionId);
+  if (!existingQuestion) {
+    return null;
+  }
+
+  const filteredUpdates = await normalizeQuestionUpdate(updates, existingQuestion);
 
   // Build dynamic query
   const setClause = Object.keys(filteredUpdates)
@@ -410,7 +730,15 @@ export async function updateQuestion(questionId, updates) {
   `;
 
   try {
-    const params = [...Object.values(filteredUpdates), questionId];
+    const params = [
+      ...Object.entries(filteredUpdates).map(([key, value]) => {
+        if (key === 'options' || key === 'correct_answer') {
+          return JSON.stringify(value);
+        }
+        return value;
+      }),
+      questionId,
+    ];
     const result = await executeQuery(query, params);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
@@ -420,15 +748,31 @@ export async function updateQuestion(questionId, updates) {
 }
 
 /**
+ * Get questions by certification and domain.
+ * @param {string} certification - Certification code
+ * @param {string} domain - Domain slug
+ * @param {Object} options - Pagination options
+ * @returns {Promise<Array>} Array of questions
+ */
+export async function getQuestionsByDomain(certification, domain, options = {}) {
+  const normalizedCertification = validateCertification(certification, { required: true });
+  const normalizedDomain = normalizeRequiredString(domain, 'domain');
+
+  return getQuestions(normalizedCertification, normalizedDomain, undefined, options);
+}
+
+/**
  * Soft delete (deactivate) a question
  * @param {string} questionId - UUID of question to deactivate
- * @returns {Promise<void>}
+ * @returns {Promise<Object|null>} Deactivated question or null if not found
  */
 export async function deleteQuestion(questionId) {
-  const query = 'UPDATE questions SET is_active = FALSE WHERE id = $1';
+  normalizeRequiredString(questionId, 'questionId');
+  const query = 'UPDATE questions SET is_active = FALSE WHERE id = $1 AND is_active = TRUE RETURNING *';
 
   try {
-    await executeQuery(query, [questionId]);
+    const result = await executeQuery(query, [questionId]);
+    return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error('✗ Error deleting question:', error.message);
     throw error;
@@ -856,6 +1200,7 @@ export default {
   getQuestions,
   getQuestionById,
   searchQuestions,
+  getQuestionsByDomain,
   insertQuestion,
   updateQuestion,
   deleteQuestion,
