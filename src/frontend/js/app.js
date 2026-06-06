@@ -170,6 +170,7 @@ function wireUIActions() {
   bindClick("btn-language", toggleLanguage);
   bindClick("theme-toggle", toggleDarkMode);
   bindClick("btn-start-quiz", startQuiz);
+  bindClick("btn-start-journey", startJornada);
   bindClick("btn-start-flashcards", startFlashcards);
   bindClick("btn-practice-mistakes", startMistakesQuiz);
   bindClick("btn-clear-mistakes", clearMistakes);
@@ -185,7 +186,8 @@ function wireUIActions() {
   bindClick("btn-next-flashcard", nextFlashcard);
   bindClick("btn-flashcards-home", goHome);
   bindClick("btn-clear-history", clearHistory);
-  bindClick("btn-start-diagnostic", window.startDiagnostic);
+  bindClick("btn-start-diagnostic", startDiagnostic);
+  bindClick("sprint-start-btn", startMicroSprint);
 
   const flashcardContainer = document.getElementById("flashcard-container");
   if (flashcardContainer) {
@@ -310,7 +312,7 @@ async function startQuiz() {
 }
 
 // MOTOR DO DIAGNÓSTICO (NIVELAMENTO)
-window.startDiagnostic = async function () {
+async function startDiagnostic() {
   const certSelect = document.getElementById("certification-select");
   if (!certSelect) return;
 
@@ -368,7 +370,7 @@ window.startDiagnostic = async function () {
       btn.innerHTML = `Fazer Diagnóstico <i class="fa-solid fa-stethoscope ml-2"></i>`;
     }
   }
-};
+}
 
 function startTimer() {
   startExamTimer(uiState, () => {
@@ -1866,7 +1868,6 @@ window.filterFlashcardsByCert = filterFlashcardsByCert;
 window.startMistakesQuiz = startMistakesQuiz;
 window.clearMistakes = clearMistakes;
 window.showScreen = showScreen;
-window.startJornada = startJornada;
 window.updateSidebarProgress = updateSidebarProgress;
 window.updateSidebarTexts = updateSidebarTexts;
 window.togglePomodoroWidget = togglePomodoroWidget;
@@ -2310,14 +2311,14 @@ function renderSprintUI() {
   renderSprint(lang, currentCertId);
 }
 
-window.startMicroSprint = function () {
+function startMicroSprint() {
   const certSelect = document.getElementById("certification-select");
   const currentCertId = certSelect ? certSelect.value : "clf-c02";
   const lang = uiState.language || "pt";
   const getPillFn =
     typeof window.getPill === "function" ? window.getPill : () => null;
   startSprint(lang, currentCertId, getPillFn);
-};
+}
 
 window.closeSprintReader = function () {
   closeSprint();
