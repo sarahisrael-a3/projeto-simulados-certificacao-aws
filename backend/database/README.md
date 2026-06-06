@@ -56,6 +56,10 @@ node backend/database/example.js
 ### `initializeDatabase(options)`
 Inicializa a conexão com o banco de dados.
 
+Nota PGlite: o `schema.sql` declara as extensoes contrib `pgcrypto` e `pg_trgm`.
+Ambientes que executam o schema diretamente em PGlite devem carregar essas
+extensoes antes de chamar `db.exec(schemaSql)`.
+
 ```javascript
 await initializeDatabase({
   dataDir: '/caminho/para/persistencia' // opcional
