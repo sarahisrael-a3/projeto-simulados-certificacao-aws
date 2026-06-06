@@ -6,7 +6,7 @@
  * Now integrates with REST API for question loading.
  */
 
-import apiService from '../../services/api.js';
+import apiService from '../services/api.js';
 
 export class QuizEngine {
     constructor(passingScore = 70) {
