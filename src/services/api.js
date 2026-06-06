@@ -18,8 +18,8 @@ const API_CONFIG = {
   BASE_URL: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) 
     ? import.meta.env.VITE_API_URL 
     : 'http://localhost:3001',
-  TIMEOUT: 30000, // 30 seconds
-  RETRY_ATTEMPTS: 3,
+  TIMEOUT: 2000,
+  RETRY_ATTEMPTS: 1,
 };
 
 /**
@@ -48,14 +48,15 @@ function createError(message, statusCode = 0, details = {}) {
  */
 async function fetchWithRetry(endpoint, options = {}) {
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+  const { timeout = API_CONFIG.TIMEOUT, ...fetchOptions } = options;
   
   // Default options
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...fetchOptions.headers,
     },
-    ...options,
+    ...fetchOptions,
   };
 
   let lastError = null;
@@ -64,7 +65,7 @@ async function fetchWithRetry(endpoint, options = {}) {
   for (let attempt = 1; attempt <= API_CONFIG.RETRY_ATTEMPTS; attempt++) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
 
       const response = await fetch(url, {
         ...requestOptions,
@@ -414,7 +415,7 @@ export const apiService = {
   async isAvailable() {
     try {
       const response = await fetchWithRetry('/api/health', {
-        signal: AbortSignal.timeout(5000),
+        timeout: 1500,
       });
       return response.success;
     } catch {
