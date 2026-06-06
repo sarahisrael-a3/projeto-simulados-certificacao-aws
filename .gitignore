@@ -4,6 +4,7 @@ node_modules/
 dist/
 coverage/
 data/backups/
+.pglite/
 
 # --- PYTHON (Essencial para sua pasta scripts_python/) ---
 __pycache__/

@@ -30,9 +30,7 @@ async function startServer() {
     console.log('🚀 Starting PGLite Database Server...\n');
 
     // Initialize database
-    const db = await initializeDatabase({
-      dataDir: process.env.DB_DATA_DIR || undefined,
-    });
+    await initializeDatabase();
 
     console.log('\n✓ Server is ready');
     console.log(`⚙️  Environment: ${process.env.NODE_ENV || 'development'}`);

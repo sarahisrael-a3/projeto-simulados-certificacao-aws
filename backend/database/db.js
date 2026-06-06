@@ -4,49 +4,129 @@
  */
 
 import { PGlite } from '@electric-sql/pglite';
+import { config as loadEnvironment } from 'dotenv';
 import { readFileSync } from 'fs';
-import { dirname, join } from 'path';
+import { dirname, isAbsolute, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { normalizeCertificationId } from './normalizers.js';
 
-// Get current directory for schema path
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const SCHEMA_PATH = join(__dirname, 'schema.sql');
+const MEMORY_DATA_DIR = 'memory://';
+
+loadEnvironment({ quiet: true });
 
 let db = null;
+let initializationPromise = null;
+let closePromise = null;
+let schemaSql = null;
+
+function resolveDatabaseOptions(options = {}) {
+  const environment = options.environment || process.env.NODE_ENV || 'development';
+  const configuredDataDir = options.dataDir || process.env.DB_DATA_DIR;
+
+  if (configuredDataDir) {
+    const dataDir = configuredDataDir === MEMORY_DATA_DIR || isAbsolute(configuredDataDir)
+      ? configuredDataDir
+      : resolve(process.cwd(), configuredDataDir);
+
+    if (dataDir === MEMORY_DATA_DIR && environment !== 'test') {
+      throw new Error(
+        'In-memory PGlite is restricted to tests. Configure DB_DATA_DIR for this environment.',
+      );
+    }
+
+    return {
+      dataDir,
+      environment,
+      mode: dataDir === MEMORY_DATA_DIR ? 'memory' : 'persistent',
+    };
+  }
+
+  if (environment === 'test') {
+    return {
+      dataDir: MEMORY_DATA_DIR,
+      environment,
+      mode: 'memory',
+    };
+  }
+
+  throw new Error(
+    'DB_DATA_DIR is required outside the test environment. '
+    + 'Set it in .env or pass initializeDatabase({ dataDir }).',
+  );
+}
+
+function loadSchema() {
+  if (schemaSql) {
+    return schemaSql;
+  }
+
+  let schema = readFileSync(SCHEMA_PATH, 'utf-8');
+
+  schema = schema.replace(
+    /CREATE EXTENSION IF NOT EXISTS.*?;/gi,
+    '-- Extension not supported in PGlite\n',
+  );
+  schema = schema.replace(
+    /CREATE INDEX IF NOT EXISTS.*?USING GIN.*?;/gi,
+    '-- GIN index not supported in PGlite\n'
+    + 'CREATE INDEX IF NOT EXISTS idx_questions_tags ON questions(tags);\n',
+  );
+
+  schemaSql = schema;
+  return schemaSql;
+}
 
 /**
  * Initialize database connection
  * @param {Object} options - Configuration options
+ * @param {string} [options.dataDir] - Persistent directory or memory:// in tests
+ * @param {string} [options.environment] - Overrides NODE_ENV
  * @returns {Promise<PGlite>} Database instance
  */
 export async function initializeDatabase(options = {}) {
-  if (db) {
-    console.log('Database already initialized');
+  if (db && !db.closed) {
+    console.log('[database] Reusing active PGlite instance');
     return db;
   }
 
+  if (initializationPromise) {
+    return initializationPromise;
+  }
+
+  initializationPromise = (async () => {
+    const databaseOptions = resolveDatabaseOptions(options);
+    let database = null;
+
+    console.log(
+      `[database] Initializing PGlite in ${databaseOptions.mode} mode `
+      + `(${databaseOptions.environment})`,
+    );
+
+    try {
+      database = await PGlite.create({ dataDir: databaseOptions.dataDir });
+      console.log('[database] PGlite instance ready');
+
+      await database.exec(loadSchema());
+      console.log('[database] Schema applied successfully');
+
+      db = database;
+      return db;
+    } catch (error) {
+      if (database && !database.closed) {
+        await database.close().catch(() => {});
+      }
+      db = null;
+      console.error('[database] Initialization failed:', error.message);
+      throw error;
+    }
+  })();
+
   try {
-    db = await PGlite.create({
-      dataDir: options.dataDir || undefined,
-    });
-
-    console.log('✓ Database initialized successfully');
-
-    // Load and execute schema
-    const schemaPath = join(__dirname, 'schema.sql');
-    let schema = readFileSync(schemaPath, 'utf-8');
-    
-    // Remove PostgreSQL-specific extensions that PGLite doesn't support
-    schema = schema.replace(/CREATE EXTENSION IF NOT EXISTS.*?;/gi, '-- Extension not supported in PGLite\n');
-    schema = schema.replace(/CREATE INDEX IF NOT EXISTS.*?USING GIN.*?;/gi, '-- GIN index not supported, using standard index\nCREATE INDEX IF NOT EXISTS idx_questions_tags ON questions(tags);\n');
-    
-    console.log('✓ Executing schema migrations...');
-    await db.exec(schema);
-    console.log('✓ Schema migrations completed');
-
-    return db;
-  } catch (error) {
-    console.error('✗ Database initialization failed:', error.message);
-    throw error;
+    return await initializationPromise;
+  } finally {
+    initializationPromise = null;
   }
 }
 
@@ -66,16 +146,41 @@ export function getDatabase() {
  * @returns {Promise<void>}
  */
 export async function closeDatabase() {
-  if (db) {
-    try {
-      await db.close();
-      db = null;
-      console.log('✓ Database connection closed');
-    } catch (error) {
-      console.error('✗ Error closing database:', error.message);
-      throw error;
-    }
+  if (closePromise) {
+    return closePromise;
   }
+
+  closePromise = (async () => {
+    if (initializationPromise) {
+      await initializationPromise;
+    }
+
+    const activeDatabase = db;
+    db = null;
+
+    if (activeDatabase && !activeDatabase.closed) {
+      await activeDatabase.close();
+      console.log('[database] PGlite instance closed');
+    }
+  })();
+
+  try {
+    await closePromise;
+  } catch (error) {
+    console.error('[database] Close failed:', error.message);
+    throw error;
+  } finally {
+    closePromise = null;
+  }
+}
+
+/**
+ * Normalize an AWS certification ID for PostgreSQL enum values.
+ * @param {string} certification - Certification ID
+ * @returns {string} Normalized certification ID
+ */
+export function normalizeCertification(certification) {
+  return normalizeCertificationId(certification);
 }
 
 /**
@@ -140,7 +245,7 @@ export async function getQuestions(filters = {}) {
 
   if (certification) {
     query += ` AND certification = $${paramIndex++}`;
-    params.push(certification);
+    params.push(normalizeCertificationId(certification));
   }
 
   if (domain) {
@@ -153,7 +258,7 @@ export async function getQuestions(filters = {}) {
     params.push(difficulty);
   }
 
-  query += ` ORDER BY created_at DESC LIMIT $${paramIndex++} OFFSET $${paramIndex++}`;
+  query += ` ORDER BY created_at DESC LIMIT $${paramIndex++} OFFSET $${paramIndex}`;
   params.push(limit, offset);
 
   try {
@@ -240,7 +345,7 @@ export async function insertQuestion(questionData) {
 
   try {
     const result = await executeQuery(query, [
-      certification,
+      normalizeCertificationId(certification),
       domain,
       difficulty,
       question_text,
@@ -282,7 +387,9 @@ export async function updateQuestion(questionId, updates) {
   const filteredUpdates = {};
   Object.keys(updates).forEach((key) => {
     if (allowedFields.includes(key)) {
-      filteredUpdates[key] = updates[key];
+      filteredUpdates[key] = key === 'certification'
+        ? normalizeCertificationId(updates[key])
+        : updates[key];
     }
   });
 
@@ -506,7 +613,7 @@ export async function createQuizHistory(quizData) {
   try {
     const result = await executeQuery(query, [
       user_id,
-      certification,
+      normalizeCertificationId(certification),
       score,
       total_questions,
       percentage,

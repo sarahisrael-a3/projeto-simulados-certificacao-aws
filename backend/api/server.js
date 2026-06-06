@@ -14,7 +14,7 @@ import quizzesRoutes from './routes/quizzes.js';
 import usersRoutes from './routes/users.js';
 
 const app = express();
-const API_PORT = 3001;
+const API_PORT = Number.parseInt(process.env.PORT, 10) || 3001;
 const API_HOST = '127.0.0.1';
 
 // ============================================================================
@@ -97,7 +97,7 @@ app.use((req, res) => {
 // ERROR HANDLER
 // ============================================================================
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(`✗ Error: ${err.message}`);
   
   // Default to 500 error
@@ -142,9 +142,7 @@ async function startServer() {
 
     // Initialize database
     console.log('📦 Initializing database...');
-    await initializeDatabase({
-      dataDir: process.env.DB_DATA_DIR || undefined,
-    });
+    await initializeDatabase();
     console.log('✓ Database initialized');
 
     // Start Express server
