@@ -280,11 +280,21 @@ describe('Question CRUD operations', () => {
       'Which AWS service tracks monthly billing anomalies?',
       { domain: 'faturamento' },
     );
+    await insertQuestionWithText(
+      'Which AWS sample mentions a 100% availability target for this scenario?',
+      { domain: 'tecnologia' },
+    );
 
     const results = await searchQuestions('DynamoDB', 10);
+    const wildcardOnly = await searchQuestions('%', 10);
+    const literalPercent = await searchQuestions('100%', 10);
 
     expect(results).toHaveLength(1);
     expect(results[0].question_text).toContain('DynamoDB');
+    expect(wildcardOnly).toHaveLength(1);
+    expect(wildcardOnly[0].question_text).toContain('100%');
+    expect(literalPercent).toHaveLength(1);
+    expect(literalPercent[0].question_text).toContain('100%');
   });
 
   test('paginates questions with safe limit and offset', async () => {
@@ -321,6 +331,10 @@ describe('Question CRUD operations', () => {
     await expect(
       updateQuestion(inserted.id, { correct_answer: [9] }),
     ).rejects.toThrow('correct_answer[0] must reference a valid option index');
+
+    await expect(
+      updateQuestion(inserted.id, { ignored: 'value' }),
+    ).rejects.toThrow('No valid fields to update');
   });
 
   test('returns null when updating a missing question', async () => {
@@ -416,6 +430,9 @@ describe('User, gamification, leaderboard, and user stats operations', () => {
     expect(updated.id).toBe(user.id);
     expect(updated.anonymous_name).toMatch(/^AfterUpdate#/);
     expect(missing).toBeNull();
+    await expect(createUser('')).rejects.toThrow('anonymousName must be at least 1 character');
+    await expect(getUserById('')).rejects.toThrow('userId must be at least 1 character');
+    await expect(updateUser(user.id, {})).rejects.toThrow('No valid fields to update');
   });
 
   test('gets default gamification for a user', async () => {
@@ -462,6 +479,18 @@ describe('User, gamification, leaderboard, and user stats operations', () => {
     await expect(
       updateGamification(user.id, { current_streak: -1 }),
     ).rejects.toThrow('current_streak must be a non-negative number');
+
+    await expect(
+      updateGamification(user.id, { badges: 'first-quiz' }),
+    ).rejects.toThrow('badges must be an array');
+
+    await expect(
+      updateGamification(user.id, { best_score: 101 }),
+    ).rejects.toThrow('best_score must be between 0 and 100');
+
+    await expect(
+      updateGamification(user.id, { current_streak: 3, longest_streak: 2 }),
+    ).rejects.toThrow('current_streak cannot be greater than longest_streak');
   });
 
   test('returns leaderboard ordered by XP', async () => {
@@ -489,9 +518,12 @@ describe('User, gamification, leaderboard, and user stats operations', () => {
     await updateGamification(second.id, { xp_points: 20 });
 
     const leaderboard = await getLeaderboard(1);
+    const invalidLimit = await getLeaderboard(0);
 
     expect(leaderboard).toHaveLength(1);
     expect(leaderboard[0].anonymous_name).toBe(second.anonymous_name);
+    expect(invalidLimit).toHaveLength(2);
+    expect(invalidLimit[0].anonymous_name).toBe(second.anonymous_name);
   });
 
   test('calculates complete user stats from quizzes, answers, focus, and gamification', async () => {
@@ -608,12 +640,20 @@ describe('Quiz history and answers operations', () => {
     const user = await createTestUser();
     const quiz = await createQuizHistory(user.id, 'clf-c02', { total_questions: 3 });
     const fetched = await getQuizById(quiz.id);
+    const missing = await getQuizById(randomUUID());
 
     expect(quiz.id).toBeDefined();
     expect(quiz.user_id).toBe(user.id);
     expect(quiz.certification).toBe('CLF-C02');
     expect(quiz.total_questions).toBe(3);
     expect(fetched.id).toBe(quiz.id);
+    expect(missing).toBeNull();
+    await expect(
+      createQuizHistory(user.id, 'CLF-C02', {
+        score: 2,
+        total_questions: 1,
+      }),
+    ).rejects.toThrow('score cannot be greater than total_questions');
   });
 
   test('fetches quiz history by user with pagination', async () => {
@@ -624,9 +664,11 @@ describe('Quiz history and answers operations', () => {
 
     const firstPage = await getQuizHistory(user.id, 2, 0);
     const secondPage = await getQuizHistory(user.id, 2, 2);
+    const safeDefaults = await getQuizHistory(user.id, 0, -10);
 
     expect(firstPage).toHaveLength(2);
     expect(secondPage).toHaveLength(1);
+    expect(safeDefaults).toHaveLength(3);
   });
 
   test('records a correct answer calculated by the backend', async () => {
