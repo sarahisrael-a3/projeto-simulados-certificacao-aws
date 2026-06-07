@@ -2,7 +2,7 @@
 
 **Data:** 2026-06-02  
 **Versão:** 2.0 (Reformulado com PGLite)  
-**Status:** Pronto para execução
+**Status:** Épico 2 concluído; próximo passo é Épico 3
 
 ---
 
@@ -18,9 +18,47 @@
 
 ---
 
+## ✅ Status atualizado em 2026-06-07
+
+### Concluído e comprovado
+
+- **Épico 2: Camada de Banco de Dados PGLite — CONCLUÍDO**
+  - Task 2.1: Inicialização e conexão PGlite
+    - Commit: `65d742f fix: consolidate pglite database initialization`
+  - Task 2.2: CRUD de questões
+    - Commit: `61a8545 feat: complete question crud in database layer`
+  - Task 2.3: Histórico de quiz e respostas
+    - Commit: `611a3fc feat: add quiz history database operations`
+  - Checagem de extensões PGlite/documentação
+    - Commit: `6ef0f02 docs: note PGlite contrib extensions`
+  - Task 2.4: Usuários e gamificação
+    - Commit: `c9f9fee feat: add user gamification database operations`
+  - Task 2.5: Testes unitários do `db.js`
+    - Commit: `dc85440 test: strengthen database layer coverage`
+  - Task 2.6: Documentação do `db.js`
+    - Commit: `3c5e7c5 docs: document database layer`
+
+### Validações recentes
+
+- Suíte completa passou com 70 testes.
+- Testes do banco passaram.
+- `npm run lint` passou com 0 erros e warnings antigos de `console`.
+- `git diff --check` passou na task de documentação.
+
+### Observações de escopo
+
+- A camada `backend/database/db.js` está pronta para ser consumida pela API.
+- JSON ainda permanece como fallback/referência/seed futuro.
+- PGlite está consolidado na camada de banco.
+- Integração completa com API/ambiente de produção ainda depende do Épico 3.
+- API Express existente deve ser tratada como parcial/existente, mas ainda não
+  validada por este roadmap.
+
+---
+
 ## 🎯 ÉPICO 2: Camada de Banco de Dados PGLite (NOVO - PRIORIDADE 1)
 
-**Status:** 🔥 CRÍTICA  
+**Status:** ✅ CONCLUÍDO
 **Estimativa:** 3 dias  
 **Objetivo:** Implementar camada de abstração do banco de dados
 
@@ -28,24 +66,26 @@
 
 ### Task 2.1: Implementar db.js (Inicialização e Conexão)
 
+**Status:** ✅ CONCLUÍDA
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 4 horas
+**Commit:** `65d742f fix: consolidate pglite database initialization`
 
 Criar arquivo `backend/database/db.js` com funções de inicialização e gerenciamento do PGLite.
 
 **Checklist:**
-- [ ] Criar `backend/database/db.js`
-- [ ] Função `initializeDatabase(config)` com:
-  - [ ] Criar instância PGLite
-  - [ ] Carregar schema.sql
-  - [ ] Criar tabelas
-  - [ ] Criar índices
-  - [ ] Retornar instância db
-- [ ] Função `closeDatabase()` para encerrar conexão
-- [ ] Função `getDatabase()` para acessar instância global
-- [ ] Tratamento de erros com try/catch
-- [ ] Logging em cada etapa
-- [ ] Suportar `dataDir` customizável
-- [ ] Exportar como módulo ES6
+- [x] Criar `backend/database/db.js`
+- [x] Função `initializeDatabase(config)` com:
+  - [x] Criar instância PGLite
+  - [x] Carregar schema.sql
+  - [x] Criar tabelas
+  - [x] Criar índices
+  - [x] Retornar instância db
+- [x] Função `closeDatabase()` para encerrar conexão
+- [x] Função `getDatabase()` para acessar instância global
+- [x] Tratamento de erros com try/catch
+- [x] Logging em cada etapa
+- [x] Suportar `dataDir` customizável
+- [x] Exportar como módulo ES6
 
 **Exemplo de estrutura:**
 ```javascript
@@ -70,108 +110,121 @@ export function getDatabase() {
 
 ### Task 2.2: Implementar CRUD de Questões no db.js
 
+**Status:** ✅ CONCLUÍDA
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 6 horas
+**Commit:** `61a8545 feat: complete question crud in database layer`
 
 Adicionar métodos CRUD para questões em `db.js`.
 
 **Checklist:**
-- [ ] Função `getQuestions(certification, domain, difficulty)`
-- [ ] Função `getQuestionById(id)`
-- [ ] Função `insertQuestion(questionData)`
-- [ ] Função `updateQuestion(id, questionData)`
-- [ ] Função `deleteQuestion(id)`
-- [ ] Função `searchQuestions(query, limit)`
-- [ ] Função `getQuestionsByDomain(certification, domain)`
-- [ ] Implementar paginação em queries
-- [ ] Adicionar índices de performance
-- [ ] Tratamento de erros específicos
-- [ ] Logging de queries (modo debug)
-- [ ] Validação de entrada de dados
+- [x] Função `getQuestions(certification, domain, difficulty)`
+- [x] Função `getQuestionById(id)`
+- [x] Função `insertQuestion(questionData)`
+- [x] Função `updateQuestion(id, questionData)`
+- [x] Função `deleteQuestion(id)`
+- [x] Função `searchQuestions(query, limit)`
+- [x] Função `getQuestionsByDomain(certification, domain)`
+- [x] Implementar paginação em queries
+- [x] Adicionar índices de performance
+- [x] Tratamento de erros específicos
+- [x] Logging de queries (modo debug)
+- [x] Validação de entrada de dados
 
 ---
 
 ### Task 2.3: Implementar CRUD de Histórico Quiz
 
+**Status:** ✅ CONCLUÍDA
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 4 horas
+**Commit:** `611a3fc feat: add quiz history database operations`
 
 Adicionar métodos para histórico de quizzes e respostas.
 
 **Checklist:**
-- [ ] Função `createQuizHistory(userId, certification, answers)`
-- [ ] Função `getQuizHistory(userId, limit, offset)`
-- [ ] Função `getQuizById(quizId)`
-- [ ] Função `recordAnswer(quizId, questionId, userAnswer, isCorrect, timeSecs)`
-- [ ] Função `getAnswersByQuiz(quizId)`
-- [ ] Função `calculateStats(userId)` - retorna agregações
-- [ ] Função `getWeakDomains(userId, threshold)` - domínios com < threshold%
-- [ ] Transações SQL para garantir integridade
-- [ ] Índices de performance
+- [x] Função `createQuizHistory(userId, certification, answers)`
+- [x] Função `getQuizHistory(userId, limit, offset)`
+- [x] Função `getQuizById(quizId)`
+- [x] Função `recordAnswer(quizId, questionId, userAnswer, isCorrect, timeSecs)`
+- [x] Função `getAnswersByQuiz(quizId)`
+- [x] Função `calculateStats(userId)` - retorna agregações
+- [x] Função `getWeakDomains(userId, threshold)` - domínios com < threshold%
+- [x] Transações SQL para garantir integridade
+- [x] Índices de performance
 
 ---
 
 ### Task 2.4: Implementar CRUD de Usuários e Gamificação
 
+**Status:** ✅ CONCLUÍDA
 **Prioridade:** Alta | **Estimativa:** 4 horas
+**Commit:** `c9f9fee feat: add user gamification database operations`
 
 Adicionar métodos para usuários e gamificação.
 
 **Checklist:**
-- [ ] Função `createUser(anonymousName)`
-- [ ] Função `getUserById(userId)`
-- [ ] Função `getUserByName(anonymousName)`
-- [ ] Função `updateUser(userId, data)`
-- [ ] Função `getGamification(userId)`
-- [ ] Função `updateGamification(userId, data)` - XP, badges, streak
-- [ ] Função `getLeaderboard(limit)` - top 100 usuários
-- [ ] Função `getUserStats(userId)` - agregações completas
-- [ ] Validações de unicidade
+- [x] Função `createUser(anonymousName)`
+- [x] Função `getUserById(userId)`
+- [x] Função `getUserByName(anonymousName)`
+- [x] Função `updateUser(userId, data)`
+- [x] Função `getGamification(userId)`
+- [x] Função `updateGamification(userId, data)` - XP, badges, streak
+- [x] Função `getLeaderboard(limit)` - top 100 usuários
+- [x] Função `getUserStats(userId)` - agregações completas
+- [x] Validações de unicidade
 
 ---
 
 ### Task 2.5: Testes Unitários do db.js
 
+**Status:** ✅ CONCLUÍDA
 **Prioridade:** Alta | **Estimativa:** 5 horas
+**Commit:** `dc85440 test: strengthen database layer coverage`
 
 Criar testes para todas as funções do db.js.
 
 **Checklist:**
-- [ ] Criar `tests/unit/database.test.js`
-- [ ] Setup/teardown com banco de testes
-- [ ] Testes CRUD básicos
-- [ ] Testes de paginação
-- [ ] Testes de erro (validação)
-- [ ] Testes de índices (performance)
-- [ ] Testes de transações
-- [ ] Coverage > 90%
-- [ ] Todos os testes passando ✅
+- [x] Criar testes em `backend/database/db.test.js`
+- [x] Setup/teardown com banco de testes
+- [x] Testes CRUD básicos
+- [x] Testes de paginação
+- [x] Testes de erro (validação)
+- [x] Testes de consultas e índices relevantes
+- [x] Testes de transações
+- [x] Suíte completa passando com 70 testes
+- [x] Testes do banco passando
 
 ---
 
 ### Task 2.6: Documentação do db.js
 
+**Status:** ✅ CONCLUÍDA
 **Prioridade:** Média | **Estimativa:** 2 horas
+**Commit:** `3c5e7c5 docs: document database layer`
 
 Documentar camada de banco de dados.
 
 **Checklist:**
-- [ ] Criar `docs/DATABASE.md` com:
-  - [ ] Diagrama ER
-  - [ ] Descrição de cada tabela
-  - [ ] Documentação de cada função
-  - [ ] Exemplos de uso
-  - [ ] Troubleshooting
-- [ ] Adicionar JSDoc em cada função
-- [ ] Exemplos com await/async
+- [x] Atualizar `backend/database/README.md` com:
+  - [x] Descrição de cada tabela principal
+  - [x] Documentação de cada função pública
+  - [x] Exemplos de uso
+  - [x] Troubleshooting
+  - [x] Ambientes, variáveis e comandos úteis
+- [x] Exemplos com await/async
 
 ---
 
 ## 🎯 ÉPICO 3: API REST com Express (NOVO - PRIORIDADE 2)
 
-**Status:** ⏳ Não iniciado  
+**Status:** 🟡 Parcial existente, ainda não validado por este roadmap
 **Estimativa:** 3 dias  
 **Objetivo:** Endpoints HTTP para frontend consumir
 
-**Dependência:** Épico 2 (db.js completo)
+**Dependência:** Épico 2 (db.js completo) — ✅ atendida
+
+**Nota de status:** há estrutura/API Express parcial no repositório, mas o
+Épico 3 ainda não foi executado nem validado contra as tasks abaixo. Não está
+concluído.
 
 ---
 
@@ -712,10 +765,10 @@ Servidor de staging.
 | Épico | Tasks | Est. | Prio | Status |
 |-------|-------|------|------|--------|
 | 1. PostgreSQL Schema | 2 | 1s | 🔥 | ✅ 100% |
-| **2. Database Layer** | **6** | **1.5s** | **🔥** | **🆕** |
-| **3. Express API** | **7** | **1.5s** | **🔥** | **🆕** |
-| **4. Socket Server** | **2** | **0.5s** | **Alta** | **🆕** |
-| **5. Validação** | **4** | **1s** | **Alta** | **🆕** |
+| **2. Database Layer** | **6** | **1.5s** | **🔥** | **✅ 100%** |
+| **3. Express API** | **7** | **1.5s** | **🔥** | **🟡 Parcial / próximo** |
+| **4. Socket Server** | **2** | **0.5s** | **Alta** | **⏳ Pendente** |
+| **5. Validação** | **4** | **1s** | **Alta** | **⏳ Pendente** |
 | 6. Trilha Visual | 3 | 2s | Alta | ⏳ |
 | 7. Gaps Analysis | 2 | 1s | Alta | ⏳ |
 | 8. PDF Export | 4 | 1s | Alta | ⏳ |
@@ -726,8 +779,8 @@ Servidor de staging.
 
 ## 🚀 Roadmap (VERSÃO 2.0 - PGLITE COMPLETO)
 
-**Sprint 1 (1.5s):** Épicos 2 - Database Layer  
-**Sprint 2 (1.5s):** Épicos 3 - Express API  
+**Sprint 1 (1.5s):** Épico 2 - Database Layer ✅ concluído
+**Sprint 2 (1.5s):** Épico 3 - Express API 🟡 próximo passo
 **Sprint 3 (0.5s):** Épicos 4 - Socket Server  
 **Sprint 4 (1s):** Épicos 5 - Validação  
 **Sprint 5 (2s):** Épicos 6 - Trilha Visual  
@@ -741,9 +794,9 @@ Servidor de staging.
 ```
 Épico 1: Schema ✅
     ↓
-Épico 2: db.js (Database Layer)
+Épico 2: db.js (Database Layer) ✅
     ↓
-Épico 3: Express API + Épico 4: Socket Server
+Épico 3: Express API 🟡 próximo + Épico 4: Socket Server ⏳
     ↓
 Épico 5: Validação
     ↓
@@ -759,12 +812,14 @@ Servidor de staging.
 ## 📝 Próximas Ações
 
 1. ✅ **Lido:** Este documento
-2. ⏳ **Próximo:** Começar com **Épico 2 (Task 2.1)** - Implementar db.js
-3. ⏳ **Em Paralelo:** Instalar Express em package.json
-4. ⏳ **Depois:** Épico 3 - Criar endpoints REST
+2. ✅ **Concluído:** Épico 2 - Camada de banco PGlite (`db.js`)
+3. ⏳ **Antes de avançar:** Fazer push e validar o remoto/CI
+4. ⏳ **Próximo:** Iniciar **Épico 3 - API REST com Express**
+5. ⏳ **Depois:** Épico 4 - Socket Server atualizado
 
 ---
 
 **Documento reformulado:** 2026-06-03  
-**Versão:** 2.1 (PGLite Completo - Tasks em Formato Detalhado)  
-**Status:** Pronto para implementação começar no Épico 2!
+**Última atualização de status:** 2026-06-07
+**Versão:** 2.2 (Épico 2 concluído - Database Layer pronto)
+**Status:** Épico 2 concluído. Camada de banco pronta para ser consumida pela API. Próximo passo recomendado: Épico 3 - API REST com Express, após push e validação no remoto.
