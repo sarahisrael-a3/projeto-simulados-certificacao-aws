@@ -1,18 +1,43 @@
-const CACHE_NAME = 'aws-sim-cache-v4'; // Subimos a versão do cache!
+const CACHE_NAME = 'aws-sim-cache-v6'; // Subimos a versão do cache!
 
 // Removemos os .json daqui para não ficarem trancados para sempre
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/app.js',
-  '/js/data.js',
-  '/js/quizEngine.js',
-  '/js/storageManager.js',
-  '/js/chartManager.js',
-  '/js/flashcards.js',
-  '/manifest.json'
+  './',
+  './index.html',
+  './css/style.css',
+  './js/app.js',
+  './js/data.js',
+  './js/quizEngine.js',
+  './js/storageManager.js',
+  './js/chartManager.js',
+  './js/flashcards.js',
+  './manifest.json'
 ];
+
+const publicJsonPaths = [
+  'data/clf-c02.json',
+  'data/clf-c02-en.json',
+  'data/saa-c03.json',
+  'data/saa-c03-en.json',
+  'data/aif-c01.json',
+  'data/aif-c01-en.json',
+  'data/dva-c02.json',
+  'data/dva-c02-en.json',
+  'data/nivelamento/diagnostic-clf-c02.json',
+  'data/nivelamento/diagnostic-clf-c02-en.json',
+  'data/nivelamento/diagnostic-saa-c03.json',
+  'data/nivelamento/diagnostic-saa-c03-en.json',
+  'data/nivelamento/diagnostic-aif-c01.json',
+  'data/nivelamento/diagnostic-aif-c01-en.json',
+  'data/nivelamento/diagnostic-dva-c02.json',
+  'data/nivelamento/diagnostic-dva-c02-en.json',
+  'data/gamificacao/interactive-challenges.json'
+];
+
+function isPublicJsonRequest(requestUrl) {
+  const url = new URL(requestUrl);
+  return publicJsonPaths.some(path => url.pathname.endsWith(`/${path}`));
+}
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -54,6 +79,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   // LÓGICA MÁGICA: Se for um arquivo JSON de questões, tenta sempre a Rede Primeiro!
   if (event.request.url.endsWith('.json') && !event.request.url.includes('manifest.json')) {
+      if (!isPublicJsonRequest(event.request.url)) {
+          event.respondWith(fetch(event.request));
+          return;
+      }
+
       event.respondWith(
           fetch(event.request).then(response => {
               // Só faz cache se a resposta for válida

@@ -28,6 +28,31 @@ function copyDirectoryRecursive(src, dest) {
   }
 }
 
+function copyFile(src, dest) {
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.copyFileSync(src, dest);
+}
+
+const publicDataFiles = [
+  'clf-c02.json',
+  'clf-c02-en.json',
+  'saa-c03.json',
+  'saa-c03-en.json',
+  'aif-c01.json',
+  'aif-c01-en.json',
+  'dva-c02.json',
+  'dva-c02-en.json',
+  'nivelamento/diagnostic-clf-c02.json',
+  'nivelamento/diagnostic-clf-c02-en.json',
+  'nivelamento/diagnostic-saa-c03.json',
+  'nivelamento/diagnostic-saa-c03-en.json',
+  'nivelamento/diagnostic-aif-c01.json',
+  'nivelamento/diagnostic-aif-c01-en.json',
+  'nivelamento/diagnostic-dva-c02.json',
+  'nivelamento/diagnostic-dva-c02-en.json',
+  'gamificacao/interactive-challenges.json'
+];
+
 console.log('🔨 Building...');
 
 try {
@@ -50,9 +75,29 @@ try {
   // Copiar DATA (NOVO - necessário para os JSONs serem servidos)
   console.log('📊 Copiando arquivos de DATA...');
   if (fs.existsSync('data')) {
-    copyDirectoryRecursive('data', 'public/data');
+    fs.rmSync('public/data', { recursive: true, force: true });
+    for (const file of publicDataFiles) {
+      const srcPath = path.join('data', file);
+      const destPath = path.join('public/data', file);
+
+      if (!fs.existsSync(srcPath)) {
+        throw new Error(`Arquivo de dados publico nao encontrado: ${srcPath}`);
+      }
+
+      copyFile(srcPath, destPath);
+    }
   } else {
-    console.warn('⚠️  Pasta data/ não encontrada - pulando...');
+    throw new Error('Pasta data/ nao encontrada. O build precisa copiar os JSONs para public/data/.');
+  }
+
+  // Copiar painel de validacao estatico
+  console.log('Copiando painel de VALIDATION...');
+  if (fs.existsSync('validation/valid.html')) {
+    copyFile('validation/valid.html', 'public/validation/valid.html');
+    copyDirectoryRecursive('validation/css', 'public/validation/css');
+    copyDirectoryRecursive('validation/js', 'public/validation/js');
+  } else {
+    console.warn('validation/valid.html nao encontrado - pulando painel de validacao...');
   }
 
   // Copiar .nojekyll para o build (necessário para GitHub Pages)
