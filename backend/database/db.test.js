@@ -16,11 +16,15 @@ import {
   executeQuery,
   getDatabase,
   getAnswersByQuiz,
+  getGamification,
+  getLeaderboard,
   getQuestionById,
   getQuestions,
   getQuestionsByDomain,
   getQuizById,
   getQuizHistory,
+  getUserById,
+  getUserByName,
   getUserStats,
   getWeakDomains,
   initializeDatabase,
@@ -28,7 +32,9 @@ import {
   normalizeCertification,
   recordAnswer,
   searchQuestions,
+  updateGamification,
   updateQuestion,
+  updateUser,
 } from './db.js';
 
 describe('PGlite database lifecycle', () => {
@@ -335,6 +341,217 @@ describe('Question CRUD operations', () => {
     expect(fetched).toBeNull();
     expect(listed).toHaveLength(0);
     expect(missingDelete).toBeNull();
+  });
+});
+
+describe('User, gamification, leaderboard, and user stats operations', () => {
+  beforeEach(async () => {
+    await closeDatabase();
+    delete process.env.DB_DATA_DIR;
+    await initializeDatabase({ environment: 'test' });
+  });
+
+  afterEach(async () => {
+    await closeDatabase();
+  });
+
+  function uniqueName(prefix = 'User') {
+    return `${prefix}#${randomUUID()}`;
+  }
+
+  function validQuestion(overrides = {}) {
+    return {
+      certification: 'clf-c02',
+      domain: 'seguranca',
+      difficulty: 'medium',
+      question_text: 'Which AWS service manages identity and access permissions?',
+      options: [
+        { id: 'A', text: 'Amazon EC2' },
+        { id: 'B', text: 'AWS IAM' },
+        { id: 'C', text: 'Amazon S3' },
+      ],
+      correct_answer: ['B'],
+      explanation: 'AWS IAM manages identities and access permissions.',
+      reference_url: 'https://aws.amazon.com/iam/',
+      tags: ['iam', 'security'],
+      ...overrides,
+    };
+  }
+
+  test('creates a valid user', async () => {
+    const user = await createUser(uniqueName('CloudNinja'));
+
+    expect(user.id).toBeDefined();
+    expect(user.anonymous_name).toMatch(/^CloudNinja#/);
+    expect(user.created_at).toBeDefined();
+  });
+
+  test('fetches a user by ID', async () => {
+    const user = await createUser(uniqueName('ById'));
+    const found = await getUserById(user.id);
+
+    expect(found.id).toBe(user.id);
+    expect(found.anonymous_name).toBe(user.anonymous_name);
+  });
+
+  test('fetches a user by anonymous name', async () => {
+    const user = await createUser(uniqueName('ByName'));
+    const found = await getUserByName(user.anonymous_name);
+
+    expect(found.id).toBe(user.id);
+  });
+
+  test('rejects duplicate anonymous names', async () => {
+    const anonymousName = uniqueName('Duplicate');
+    await createUser(anonymousName);
+
+    await expect(createUser(anonymousName)).rejects.toThrow();
+  });
+
+  test('updates a user and returns null for a missing user', async () => {
+    const user = await createUser(uniqueName('BeforeUpdate'));
+    const updated = await updateUser(user.id, { anonymousName: uniqueName('AfterUpdate') });
+    const missing = await updateUser(randomUUID(), { anonymousName: uniqueName('Missing') });
+
+    expect(updated.id).toBe(user.id);
+    expect(updated.anonymous_name).toMatch(/^AfterUpdate#/);
+    expect(missing).toBeNull();
+  });
+
+  test('gets default gamification for a user', async () => {
+    const user = await createUser(uniqueName('Gamification'));
+    const gamification = await getGamification(user.id);
+
+    expect(gamification.user_id).toBe(user.id);
+    expect(gamification.xp_points).toBe(0);
+    expect(gamification.current_streak).toBe(0);
+    expect(gamification.badges).toEqual([]);
+    expect(gamification.completed_stages).toEqual([]);
+  });
+
+  test('updates gamification with validated arrays and counters', async () => {
+    const user = await createUser(uniqueName('Progress'));
+    const gamification = await updateGamification(user.id, {
+      total_quizzes: 3,
+      best_score: 88.5,
+      current_streak: 2,
+      longest_streak: 5,
+      badges: ['first-quiz', 'streak-2'],
+      completed_stages: ['clf-c02-basics'],
+      unlocked_stages: ['clf-c02-advanced'],
+      labs_completed: 1,
+      xp_points: 250,
+    });
+
+    expect(gamification.user_id).toBe(user.id);
+    expect(gamification.xp_points).toBe(250);
+    expect(gamification.current_streak).toBe(2);
+    expect(gamification.longest_streak).toBe(5);
+    expect(gamification.badges).toEqual(['first-quiz', 'streak-2']);
+    expect(gamification.completed_stages).toEqual(['clf-c02-basics']);
+    expect(gamification.unlocked_stages).toEqual(['clf-c02-advanced']);
+  });
+
+  test('rejects negative XP and streak values', async () => {
+    const user = await createUser(uniqueName('Validation'));
+
+    await expect(
+      updateGamification(user.id, { xp_points: -1 }),
+    ).rejects.toThrow('xp_points must be a non-negative number');
+
+    await expect(
+      updateGamification(user.id, { current_streak: -1 }),
+    ).rejects.toThrow('current_streak must be a non-negative number');
+  });
+
+  test('returns leaderboard ordered by XP', async () => {
+    const first = await createUser(uniqueName('LeaderboardA'));
+    const second = await createUser(uniqueName('LeaderboardB'));
+    const third = await createUser(uniqueName('LeaderboardC'));
+    await updateGamification(first.id, { xp_points: 100 });
+    await updateGamification(second.id, { xp_points: 300 });
+    await updateGamification(third.id, { xp_points: 200 });
+
+    const leaderboard = await getLeaderboard();
+
+    expect(leaderboard.map((entry) => entry.anonymous_name)).toEqual([
+      second.anonymous_name,
+      third.anonymous_name,
+      first.anonymous_name,
+    ]);
+    expect(leaderboard.map((entry) => entry.xp_points)).toEqual([300, 200, 100]);
+  });
+
+  test('applies leaderboard limit', async () => {
+    const first = await createUser(uniqueName('LimitedA'));
+    const second = await createUser(uniqueName('LimitedB'));
+    await updateGamification(first.id, { xp_points: 10 });
+    await updateGamification(second.id, { xp_points: 20 });
+
+    const leaderboard = await getLeaderboard(1);
+
+    expect(leaderboard).toHaveLength(1);
+    expect(leaderboard[0].anonymous_name).toBe(second.anonymous_name);
+  });
+
+  test('calculates complete user stats from quizzes, answers, focus, and gamification', async () => {
+    const user = await createUser(uniqueName('Stats'));
+    const quiz = await createQuizHistory({
+      user_id: user.id,
+      certification: 'CLF-C02',
+      score: 1,
+      total_questions: 2,
+      percentage: 50,
+      time_spent_secs: 90,
+    });
+    const firstQuestion = await insertQuestion(validQuestion());
+    const secondQuestion = await insertQuestion(validQuestion({
+      question_text: 'Which AWS service provides object storage with high durability?',
+      domain: 'tecnologia',
+      options: [
+        { id: 'A', text: 'Amazon EBS' },
+        { id: 'B', text: 'Amazon S3' },
+        { id: 'C', text: 'Amazon EC2' },
+      ],
+      correct_answer: ['B'],
+      explanation: 'Amazon S3 provides object storage designed for high durability.',
+    }));
+    await recordAnswer(quiz.id, firstQuestion.id, ['B'], 30);
+    await recordAnswer(quiz.id, secondQuestion.id, ['A'], 45);
+    await executeQuery(
+      `INSERT INTO focus_sessions (user_id, minutes, session_type, session_date)
+       VALUES ($1, 25, 'focus', CURRENT_DATE), ($1, 5, 'short_break', CURRENT_DATE)`,
+      [user.id],
+    );
+    await updateGamification(user.id, {
+      xp_points: 125,
+      current_streak: 1,
+      longest_streak: 2,
+      badges: ['focused'],
+      completed_stages: ['stage-1'],
+    });
+
+    const stats = await getUserStats(user.id);
+
+    expect(stats.user_id).toBe(user.id);
+    expect(stats.anonymous_name).toBe(user.anonymous_name);
+    expect(stats.total_quizzes).toBe(1);
+    expect(stats.total_time_secs).toBe(75);
+    expect(stats.total_focus_minutes).toBe(25);
+    expect(stats.total_answers).toBe(2);
+    expect(stats.correct_answers).toBe(1);
+    expect(stats.answer_accuracy).toBe(50);
+    expect(stats.xp_points).toBe(125);
+    expect(stats.current_streak).toBe(1);
+    expect(stats.badges).toEqual(['focused']);
+    expect(stats.completed_stages).toEqual(['stage-1']);
+  });
+
+  test('throws clear errors for missing user-dependent operations', async () => {
+    const missingUserId = randomUUID();
+
+    await expect(getGamification(missingUserId)).rejects.toThrow('User not found');
+    await expect(getUserStats(missingUserId)).rejects.toThrow('User not found');
   });
 });
 

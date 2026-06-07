@@ -33,6 +33,8 @@ const DEFAULT_SEARCH_LIMIT = 20;
 const DEFAULT_HISTORY_LIMIT = 10;
 const DEFAULT_WEAK_DOMAIN_THRESHOLD = 70;
 const MAX_QUESTION_LIMIT = 100;
+const DEFAULT_LEADERBOARD_LIMIT = 100;
+const MAX_LEADERBOARD_LIMIT = 100;
 
 loadEnvironment({ quiet: true });
 
@@ -277,6 +279,14 @@ function normalizeRequiredString(value, fieldName, { minLength = 1 } = {}) {
   return normalized;
 }
 
+function normalizeMaxLength(value, fieldName, maxLength) {
+  if (value.length > maxLength) {
+    throw new Error(`${fieldName} must be at most ${maxLength} character(s)`);
+  }
+
+  return value;
+}
+
 function normalizeOptionalString(value, fieldName) {
   if (value === undefined || value === null || value === '') {
     return null;
@@ -293,6 +303,16 @@ function normalizeLimit(value, defaultLimit = DEFAULT_QUESTION_LIMIT) {
   }
 
   return Math.min(numericValue, MAX_QUESTION_LIMIT);
+}
+
+function normalizeBoundedLimit(value, defaultLimit, maxLimit) {
+  const numericValue = Number.parseInt(value ?? defaultLimit, 10);
+
+  if (!Number.isFinite(numericValue) || numericValue < 1) {
+    return defaultLimit;
+  }
+
+  return Math.min(numericValue, maxLimit);
 }
 
 function normalizeOffset(value) {
@@ -792,16 +812,48 @@ export async function deleteQuestion(questionId) {
 // USERS - CRUD Operations
 // ============================================================================
 
+function normalizeUserId(userId) {
+  return normalizeRequiredString(userId, 'userId');
+}
+
+function normalizeAnonymousName(anonymousName) {
+  return normalizeMaxLength(
+    normalizeRequiredString(anonymousName, 'anonymousName'),
+    'anonymousName',
+    100,
+  );
+}
+
+function normalizeUserUpdate(data) {
+  if (!isPlainObject(data)) {
+    throw new Error('data must be an object');
+  }
+
+  const updates = {};
+  const anonymousName = data.anonymous_name ?? data.anonymousName;
+
+  if (anonymousName !== undefined) {
+    updates.anonymous_name = normalizeAnonymousName(anonymousName);
+  }
+
+  if (Object.keys(updates).length === 0) {
+    throw new Error('No valid fields to update');
+  }
+
+  return updates;
+}
+
 /**
  * Create a new anonymous user
  * @param {string} anonymousName - Unique anonymous name for the user
  * @returns {Promise<Object|null>} Created user object
  */
 export async function createUser(anonymousName) {
+  const normalizedName = normalizeAnonymousName(anonymousName);
   const query = 'INSERT INTO users (anonymous_name) VALUES ($1) RETURNING *';
 
   try {
-    const result = await executeQuery(query, [anonymousName]);
+    const result = await executeQuery(query, [normalizedName]);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error('✗ Error creating user:', error.message);
@@ -815,10 +867,11 @@ export async function createUser(anonymousName) {
  * @returns {Promise<Object|null>} User object or null
  */
 export async function getUserById(userId) {
+  const normalizedUserId = normalizeUserId(userId);
   const query = 'SELECT * FROM users WHERE id = $1';
 
   try {
-    const result = await executeQuery(query, [userId]);
+    const result = await executeQuery(query, [normalizedUserId]);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error('✗ Error fetching user:', error.message);
@@ -832,13 +885,42 @@ export async function getUserById(userId) {
  * @returns {Promise<Object|null>} User object or null
  */
 export async function getUserByName(anonymousName) {
+  const normalizedName = normalizeAnonymousName(anonymousName);
   const query = 'SELECT * FROM users WHERE anonymous_name = $1';
 
   try {
-    const result = await executeQuery(query, [anonymousName]);
+    const result = await executeQuery(query, [normalizedName]);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
     console.error('✗ Error fetching user by name:', error.message);
+    throw error;
+  }
+}
+
+/**
+ * Update an anonymous user
+ * @param {string} userId - UUID of the user
+ * @param {Object} data - Fields to update
+ * @returns {Promise<Object|null>} Updated user object or null if not found
+ */
+export async function updateUser(userId, data) {
+  const normalizedUserId = normalizeUserId(userId);
+  const updates = normalizeUserUpdate(data);
+  const setClause = Object.keys(updates)
+    .map((key, index) => `${key} = $${index + 1}`)
+    .join(', ');
+  const query = `
+    UPDATE users
+    SET ${setClause}
+    WHERE id = $${Object.keys(updates).length + 1}
+    RETURNING *
+  `;
+
+  try {
+    const result = await executeQuery(query, [...Object.values(updates), normalizedUserId]);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error('Error updating user:', error.message);
     throw error;
   }
 }
@@ -847,24 +929,99 @@ export async function getUserByName(anonymousName) {
 // GAMIFICATION - CRUD Operations
 // ============================================================================
 
+function normalizeGamificationDate(value, fieldName) {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (value === null || value === '') {
+    return null;
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+
+  const normalized = normalizeRequiredString(value, fieldName);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
+    throw new Error(`${fieldName} must use YYYY-MM-DD format`);
+  }
+
+  return normalized;
+}
+
+function normalizeGamificationUpdates(updates) {
+  if (!isPlainObject(updates)) {
+    throw new Error('updates must be an object');
+  }
+
+  const normalized = {};
+  const integerFields = [
+    'total_quizzes',
+    'current_streak',
+    'longest_streak',
+    'labs_completed',
+    'xp_points',
+  ];
+  const arrayFields = ['badges', 'completed_stages', 'unlocked_stages'];
+
+  integerFields.forEach((field) => {
+    if (updates[field] !== undefined) {
+      normalized[field] = normalizeNonNegativeInteger(updates[field], field);
+    }
+  });
+
+  if (updates.best_score !== undefined) {
+    normalized.best_score = normalizePercentage(updates.best_score, 'best_score');
+  }
+
+  arrayFields.forEach((field) => {
+    if (updates[field] !== undefined) {
+      normalized[field] = normalizeStringArray(updates[field], field);
+    }
+  });
+
+  const lastDate = normalizeGamificationDate(updates.last_date ?? updates.lastDate, 'last_date');
+  if (lastDate !== undefined) {
+    normalized.last_date = lastDate;
+  }
+
+  if (Object.keys(normalized).length === 0) {
+    throw new Error('No valid fields to update');
+  }
+
+  return normalized;
+}
+
+function assertStreakConsistency(candidate) {
+  if (Number(candidate.current_streak) > Number(candidate.longest_streak)) {
+    throw new Error('current_streak cannot be greater than longest_streak');
+  }
+}
+
 /**
  * Get or create gamification record for a user
  * @param {string} userId - UUID of the user
  * @returns {Promise<Object|null>} Gamification record
  */
 export async function getGamification(userId) {
+  const normalizedUserId = normalizeUserId(userId);
+  const user = await getUserById(normalizedUserId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+
   const query = 'SELECT * FROM gamification WHERE user_id = $1';
 
   try {
-    const result = await executeQuery(query, [userId]);
+    const result = await executeQuery(query, [normalizedUserId]);
     if (result.length === 0) {
-      // Create default gamification record if doesn't exist
       const insertQuery = `
         INSERT INTO gamification (user_id)
         VALUES ($1)
         RETURNING *
       `;
-      const insertResult = await executeQuery(insertQuery, [userId]);
+      const insertResult = await executeQuery(insertQuery, [normalizedUserId]);
       return insertResult.length > 0 ? insertResult[0] : null;
     }
     return result[0];
@@ -881,43 +1038,25 @@ export async function getGamification(userId) {
  * @returns {Promise<Object|null>} Updated gamification record
  */
 export async function updateGamification(userId, updates) {
-  const allowedFields = [
-    'total_quizzes',
-    'best_score',
-    'current_streak',
-    'longest_streak',
-    'last_date',
-    'badges',
-    'completed_stages',
-    'unlocked_stages',
-    'labs_completed',
-    'xp_points',
-  ];
+  const normalizedUserId = normalizeUserId(userId);
+  const normalizedUpdates = normalizeGamificationUpdates(updates);
+  const existingGamification = await getGamification(normalizedUserId);
+  const candidate = { ...existingGamification, ...normalizedUpdates };
+  assertStreakConsistency(candidate);
 
-  const filteredUpdates = {};
-  Object.keys(updates).forEach((key) => {
-    if (allowedFields.includes(key)) {
-      filteredUpdates[key] = updates[key];
-    }
-  });
-
-  if (Object.keys(filteredUpdates).length === 0) {
-    throw new Error('No valid fields to update');
-  }
-
-  const setClause = Object.keys(filteredUpdates)
+  const setClause = Object.keys(normalizedUpdates)
     .map((key, index) => `${key} = $${index + 1}`)
     .join(', ');
 
   const query = `
     UPDATE gamification 
     SET ${setClause}
-    WHERE user_id = $${Object.keys(filteredUpdates).length + 1}
+    WHERE user_id = $${Object.keys(normalizedUpdates).length + 1}
     RETURNING *
   `;
 
   try {
-    const params = [...Object.values(filteredUpdates), userId];
+    const params = [...Object.values(normalizedUpdates), normalizedUserId];
     const result = await executeQuery(query, params);
     return result.length > 0 ? result[0] : null;
   } catch (error) {
@@ -1337,10 +1476,20 @@ export async function getAnswersByQuiz(quizId) {
  * @returns {Promise<Array>} Array of leaderboard entries
  */
 export async function getLeaderboard(limit = 100) {
-  const query = 'SELECT * FROM leaderboard LIMIT $1';
+  const normalizedLimit = normalizeBoundedLimit(
+    limit,
+    DEFAULT_LEADERBOARD_LIMIT,
+    MAX_LEADERBOARD_LIMIT,
+  );
+  const query = `
+    SELECT *
+    FROM leaderboard
+    ORDER BY xp_points DESC, anonymous_name ASC
+    LIMIT $1
+  `;
 
   try {
-    return await executeQuery(query, [limit]);
+    return await executeQuery(query, [normalizedLimit]);
   } catch (error) {
     console.error('✗ Error fetching leaderboard:', error.message);
     throw error;
@@ -1357,11 +1506,64 @@ export async function getLeaderboard(limit = 100) {
  * @returns {Promise<Object|null>} User statistics record
  */
 export async function getUserStats(userId) {
+  const normalizedUserId = normalizeUserId(userId);
+  const user = await getUserById(normalizedUserId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+
   const query = 'SELECT * FROM user_stats WHERE user_id = $1';
+  const answerQuery = `
+    SELECT
+      COUNT(a.id)::int AS total_answers,
+      COALESCE(SUM(CASE WHEN a.is_correct THEN 1 ELSE 0 END), 0)::int AS correct_answers
+    FROM quiz_history qh
+    LEFT JOIN answers a ON a.quiz_id = qh.id
+    WHERE qh.user_id = $1
+  `;
 
   try {
-    const result = await executeQuery(query, [userId]);
-    return result.length > 0 ? result[0] : null;
+    const [statsResult, answerResult, gamification] = await Promise.all([
+      executeQuery(query, [normalizedUserId]),
+      executeQuery(answerQuery, [normalizedUserId]),
+      getGamification(normalizedUserId),
+    ]);
+    const stats = statsResult[0] || {
+      user_id: user.id,
+      anonymous_name: user.anonymous_name,
+      total_quizzes: 0,
+      avg_score: 0,
+      best_score: 0,
+      total_time_secs: 0,
+      certifications_practiced: 0,
+      total_focus_minutes: 0,
+    };
+    const answerStats = answerResult[0] || {};
+    const totalAnswers = Number(answerStats.total_answers || 0);
+    const correctAnswers = Number(answerStats.correct_answers || 0);
+
+    return {
+      ...stats,
+      total_quizzes: Number(stats.total_quizzes || 0),
+      avg_score: Number(stats.avg_score || 0),
+      best_score: Number(stats.best_score || 0),
+      total_time_secs: Number(stats.total_time_secs || 0),
+      certifications_practiced: Number(stats.certifications_practiced || 0),
+      total_focus_minutes: Number(stats.total_focus_minutes || 0),
+      total_answers: totalAnswers,
+      correct_answers: correctAnswers,
+      answer_accuracy: totalAnswers > 0
+        ? Number(((correctAnswers / totalAnswers) * 100).toFixed(2))
+        : 0,
+      xp_points: Number(gamification.xp_points || 0),
+      current_streak: Number(gamification.current_streak || 0),
+      longest_streak: Number(gamification.longest_streak || 0),
+      badges: gamification.badges,
+      completed_stages: gamification.completed_stages,
+      unlocked_stages: gamification.unlocked_stages,
+      labs_completed: Number(gamification.labs_completed || 0),
+      gamification,
+    };
   } catch (error) {
     console.error('✗ Error fetching user stats:', error.message);
     throw error;
@@ -1505,6 +1707,7 @@ export default {
   createUser,
   getUserById,
   getUserByName,
+  updateUser,
   // Gamification
   getGamification,
   updateGamification,
