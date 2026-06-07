@@ -12,9 +12,11 @@
 - ✅ Task 1.1: Schema PostgreSQL - **CONCLUÍDA**
 - ✅ Task 1.2: Script Migração - **CONCLUÍDA**
 - ⏳ Task 1.3: API FastAPI - AGUARDANDO INTEGRAÇÃO
-- ⏳ Task 1.4: Validação Questões - EM PROGRESSO (interface excelente, backend bloqueado)
+- 🟡 Task 1.4: Validação Questões - ABSORVIDA PELO ÉPICO 5 (interface interna iniciada; backend/API real pendente)
 
-**Bloqueador:** Integração PGLite com FastAPI
+**Bloqueador histórico:** Integração PGLite com FastAPI. A continuidade desta
+frente deve acontecer no Épico 5, após decisão sobre API oficial e integração
+com a camada `backend/database/db.js`.
 
 ---
 
@@ -53,6 +55,9 @@
 - Integração completa com API/ambiente de produção ainda depende do Épico 3.
 - API Express existente deve ser tratada como parcial/existente, mas ainda não
   validada por este roadmap.
+- A antiga Task 1.4 de validação possui UI interna iniciada em `validation/`,
+  mas foi absorvida pelo Épico 5 porque endpoints, persistência e auditoria real
+  ainda não estão concluídos.
 
 ---
 
@@ -432,11 +437,30 @@ Criar script que inicia banco + Express.
 
 ## 🎯 ÉPICO 5: Validação de Questões (PRIORIDADE 4)
 
-**Status:** ⏳ Aguardando Épicos 2-4  
+**Status:** 🟡 Parcial — UI interna iniciada; integração real pendente
 **Estimativa:** 3 dias  
 **Objetivo:** Sistema de validação 100% funcional
 
 **Dependência:** Épicos 2, 3, 4
+
+**Origem:** absorve a antiga Task 1.4 "Validação Questões".
+
+**Estado atual comprovado:**
+- UI interna iniciada em `validation/valid.html`.
+- Estilos da tela iniciados em `validation/css/valid.css`.
+- Lógica de UI/localStorage iniciada em `validation/js/validationUI.js` e
+  `validation/js/validationStorage.js`.
+- `validation/js/validationAPI.js` ainda usa mock com delay, sem endpoint real.
+- Backend FastAPI separado existe em `validation/backend/`, mas está em modo
+  stub/mock e ainda não está integrado ao schema/camada oficial de banco.
+
+**Critérios ainda pendentes:**
+- listar questões pendentes a partir de API real;
+- aprovar/reprovar questão persistindo no banco;
+- preencher `validated_by` e `validated_at` no schema oficial;
+- decidir se a integração será via API Express oficial ou backend FastAPI separado;
+- remover/substituir mocks por endpoints reais;
+- testar manualmente a tela completa.
 
 ---
 
@@ -768,7 +792,7 @@ Servidor de staging.
 | **2. Database Layer** | **6** | **1.5s** | **🔥** | **✅ 100%** |
 | **3. Express API** | **7** | **1.5s** | **🔥** | **🟡 Parcial / próximo** |
 | **4. Socket Server** | **2** | **0.5s** | **Alta** | **⏳ Pendente** |
-| **5. Validação** | **4** | **1s** | **Alta** | **⏳ Pendente** |
+| **5. Validação** | **4** | **1s** | **Alta** | **🟡 Parcial / UI iniciada** |
 | 6. Trilha Visual | 3 | 2s | Alta | ⏳ |
 | 7. Gaps Analysis | 2 | 1s | Alta | ⏳ |
 | 8. PDF Export | 4 | 1s | Alta | ⏳ |
@@ -815,7 +839,8 @@ Servidor de staging.
 2. ✅ **Concluído:** Épico 2 - Camada de banco PGlite (`db.js`)
 3. ⏳ **Antes de avançar:** Fazer push e validar o remoto/CI
 4. ⏳ **Próximo:** Iniciar **Épico 3 - API REST com Express**
-5. ⏳ **Depois:** Épico 4 - Socket Server atualizado
+5. 🟡 **Validação:** decidir se `validation/valid.html` será integrada à API Express oficial ou ao backend FastAPI separado
+6. ⏳ **Depois:** Épico 4 - Socket Server atualizado
 
 ---
 
