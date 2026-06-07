@@ -9,7 +9,7 @@ load_dotenv()
 from pydantic import ValidationError
 from generator import AWSQuestion
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PASTA_DATA = os.path.join(BASE_DIR, "data")
 
 def filter_valid_schema(raw_questions: list) -> list:
