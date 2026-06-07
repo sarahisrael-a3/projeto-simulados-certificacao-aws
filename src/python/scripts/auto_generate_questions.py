@@ -3,9 +3,9 @@ Script de Geração Automática de Questões AWS
 Balanceia automaticamente os níveis de dificuldade em cada certificação.
 
 USO:
-    python scripts_python/auto_generate_questions.py clf-c02
-    python scripts_python/auto_generate_questions.py all
-    python scripts_python/auto_generate_questions.py --balance-all
+    python src/python/scripts/auto_generate_questions.py clf-c02
+    python src/python/scripts/auto_generate_questions.py all
+    python src/python/scripts/auto_generate_questions.py --balance-all
 """
 
 import json
@@ -14,6 +14,9 @@ import os
 import time
 from pathlib import Path
 from generator import fabricar_questoes, EXAMES_CONFIG
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+DATA_DIR = PROJECT_ROOT / "data"
 
 # Número máximo de falhas consecutivas antes de abortar um lote
 MAX_CONSECUTIVE_FAILURES = 3
@@ -54,7 +57,7 @@ def analyze_current_distribution(cert_id):
     """
     Analisa a distribuição atual de questões por dificuldade.
     """
-    file_path = f"data/{cert_id}.json"
+    file_path = DATA_DIR / f"{cert_id}.json"
     
     if not os.path.exists(file_path):
         print(f"❌ Arquivo não encontrado: {file_path}")
@@ -158,7 +161,7 @@ def save_questions(cert_id, new_questions):
     """
     Adiciona novas questões ao arquivo existente.
     """
-    file_path = f"data/{cert_id}.json"
+    file_path = DATA_DIR / f"{cert_id}.json"
     
     # Carrega questões existentes
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -253,9 +256,9 @@ def main():
     if len(sys.argv) < 2:
         print("\n❌ Uso incorreto!")
         print("\nExemplos:")
-        print("   python scripts_python/auto_generate_questions.py clf-c02")
-        print("   python scripts_python/auto_generate_questions.py all")
-        print("   python scripts_python/auto_generate_questions.py --balance-all")
+        print("   python src/python/scripts/auto_generate_questions.py clf-c02")
+        print("   python src/python/scripts/auto_generate_questions.py all")
+        print("   python src/python/scripts/auto_generate_questions.py --balance-all")
         sys.exit(1)
     
     arg = sys.argv[1].lower()

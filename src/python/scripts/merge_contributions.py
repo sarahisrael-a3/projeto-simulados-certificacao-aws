@@ -17,7 +17,7 @@ class ContributionMerger:
     def __init__(self, cert_id: str, dry_run: bool = False):
         self.cert_id = cert_id
         self.dry_run = dry_run
-        self.project_root = Path(__file__).parent.parent
+        self.project_root = Path(__file__).resolve().parents[3]
         self.contributions_dir = self.project_root / 'data' / 'contributions' / cert_id
         self.main_file = self.project_root / 'data' / f'{cert_id}.json'
         self.backup_dir = self.project_root / 'data' / 'backups'

@@ -8,8 +8,8 @@ INSTALAÇÃO:
     pip install deep-translator
 
 USO:
-    python scripts_python/translate_with_api.py clf-c02
-    python scripts_python/translate_with_api.py all
+    python src/python/scripts/translate_with_api.py clf-c02
+    python src/python/scripts/translate_with_api.py all
 """
 
 import json
@@ -18,6 +18,9 @@ import re
 import time
 import os
 from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+DATA_DIR = PROJECT_ROOT / "data"
 
 try:
     from deep_translator import GoogleTranslator
@@ -245,14 +248,14 @@ def main():
     for cert in cert_ids:
         # Arquivos principais
         tasks.append({
-            "in_file": f"data/{cert}.json",
-            "out_file": f"data/{cert}-en.json",
+            "in_file": DATA_DIR / f"{cert}.json",
+            "out_file": DATA_DIR / f"{cert}-en.json",
             "name": f"{cert.upper()} (Principal)"
         })
         # Arquivos de nivelamento
         tasks.append({
-            "in_file": f"data/nivelamento/diagnostic-{cert}.json",
-            "out_file": f"data/nivelamento/diagnostic-{cert}-en.json",
+            "in_file": DATA_DIR / "nivelamento" / f"diagnostic-{cert}.json",
+            "out_file": DATA_DIR / "nivelamento" / f"diagnostic-{cert}-en.json",
             "name": f"{cert.upper()} (Nivelamento/Diagnóstico)"
         })
     

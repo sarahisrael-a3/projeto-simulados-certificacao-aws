@@ -4,13 +4,17 @@ Script Rápido de Geração de Questões AWS
 Gera questões sem confirmação para testes rápidos.
 
 USO:
-    python scripts_python/quick_generate.py clf-c02 easy 10
-    python scripts_python/quick_generate.py saa-c03 hard 5
+    python src/python/scripts/quick_generate.py clf-c02 easy 10
+    python src/python/scripts/quick_generate.py saa-c03 hard 5
 """
 
 import json
 import sys
+from pathlib import Path
 from generator import fabricar_questoes
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+DATA_DIR = PROJECT_ROOT / "data"
 
 
 def quick_generate(cert_id, difficulty, quantity):
@@ -36,7 +40,7 @@ def quick_generate(cert_id, difficulty, quantity):
     print(f"✅ Geradas: {len(questions)} questões")
     
     # Carrega arquivo existente
-    file_path = f"data/{cert_id}.json"
+    file_path = DATA_DIR / f"{cert_id}.json"
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             existing = json.load(f)
@@ -69,11 +73,11 @@ def main():
     if len(sys.argv) != 4:
         print("\n❌ Uso incorreto!")
         print("\nFormato:")
-        print("   python scripts_python/quick_generate.py <cert_id> <difficulty> <quantity>")
+        print("   python src/python/scripts/quick_generate.py <cert_id> <difficulty> <quantity>")
         print("\nExemplos:")
-        print("   python scripts_python/quick_generate.py clf-c02 easy 10")
-        print("   python scripts_python/quick_generate.py saa-c03 hard 5")
-        print("   python scripts_python/quick_generate.py dva-c02 medium 15")
+        print("   python src/python/scripts/quick_generate.py clf-c02 easy 10")
+        print("   python src/python/scripts/quick_generate.py saa-c03 hard 5")
+        print("   python src/python/scripts/quick_generate.py dva-c02 medium 15")
         print("\nDificuldades válidas: easy, medium, hard")
         sys.exit(1)
     

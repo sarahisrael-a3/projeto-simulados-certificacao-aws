@@ -1,10 +1,11 @@
 import json
 import pandas as pd
 import os
+from pathlib import Path
 
 # Pega o caminho da pasta onde este script está e sobe um nível para achar a raiz do projeto
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PASTA_DATA = os.path.join(BASE_DIR, "data")
+BASE_DIR = Path(__file__).resolve().parents[3]
+PASTA_DATA = BASE_DIR / "data"
 
 def gerar_relatorio(caminho_arquivo):
     nome_arquivo = os.path.basename(caminho_arquivo)
@@ -44,10 +45,14 @@ if __name__ == "__main__":
     print("\n🚀 INICIANDO CONTAGEM DO BANCO DE DADOS...")
     
     # Percorre todos os arquivos da pasta 'data' automaticamente
-    for arquivo in sorted(os.listdir(PASTA_DATA)):
-        if arquivo.endswith(".json") and "backup" not in arquivo:
-            caminho_completo = os.path.join(PASTA_DATA, arquivo)
-            total_geral += gerar_relatorio(caminho_completo)
+    if not PASTA_DATA.exists():
+        print(f"Aviso: pasta de dados nao encontrada: {PASTA_DATA}")
+    elif not PASTA_DATA.is_dir():
+        print(f"Erro: o caminho de dados existe, mas nao e uma pasta: {PASTA_DATA}")
+    else:
+        for caminho_completo in sorted(PASTA_DATA.glob("*.json")):
+            if "backup" not in caminho_completo.name:
+                total_geral += gerar_relatorio(caminho_completo)
             
     print("=" * 45)
     print(f"🏆 TOTAL GERAL NO BANCO: {total_geral} QUESTÕES")

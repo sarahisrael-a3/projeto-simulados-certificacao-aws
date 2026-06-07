@@ -32,7 +32,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Caminhos
-ROOT_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = Path(__file__).resolve().parents[3]
 DATA_DIR = ROOT_DIR / "data"
 load_dotenv(ROOT_DIR / ".env")
 

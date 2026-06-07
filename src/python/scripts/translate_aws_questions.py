@@ -15,6 +15,9 @@ import sys
 import re
 from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+DATA_DIR = PROJECT_ROOT / "data"
+
 # Mapeamento de traduções contextuais
 CONTEXT_TRANSLATIONS = {
     # Inícios de perguntas
@@ -184,8 +187,8 @@ def process_file(cert_id):
     """
     Processa um arquivo de certificação específico.
     """
-    input_file = f"data/{cert_id}.json"
-    output_file = f"data/{cert_id}-en.json"
+    input_file = DATA_DIR / f"{cert_id}.json"
+    output_file = DATA_DIR / f"{cert_id}-en.json"
     
     print(f"\n{'='*70}")
     print(f"📁 Processando: {cert_id.upper()}")

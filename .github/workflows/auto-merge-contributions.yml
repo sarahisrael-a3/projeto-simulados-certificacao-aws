@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r scripts_python/requirements.txt
+          pip install -r src/python/scripts/requirements.txt
       
       - name: Run merge script
         id: merge
@@ -52,9 +52,9 @@ jobs:
           
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             echo "DRY-RUN mode activated"
-            python scripts_python/merge_contributions.py ${{ inputs.cert_id }} --dry-run
+            python src/python/scripts/merge_contributions.py ${{ inputs.cert_id }} --dry-run
           else
-            python scripts_python/merge_contributions.py ${{ inputs.cert_id }}
+            python src/python/scripts/merge_contributions.py ${{ inputs.cert_id }}
           fi
           
           if [ -d "data/contributions/${{ inputs.cert_id }}/_processed" ]; then

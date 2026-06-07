@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from pathlib import Path
 
 def validate_semantics(questions: list, exame_id: str) -> list:
     """Verifica se o conteúdo das questões faz sentido logicamente e respeita o escopo do exame."""
@@ -138,8 +139,17 @@ def validate_advanced_semantics(questions: list, exame_id: str) -> list:
 
 # Função auxiliar para rodar isso em todos os JSONs da pasta data/
 def auditar_qualidade_banco():
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    PASTA_DATA = os.path.join(BASE_DIR, "data")
+    base_dir = Path(__file__).resolve().parents[3]
+    pasta_data = base_dir / "data"
+    if not pasta_data.exists():
+        print(f"Aviso: pasta de dados nao encontrada: {pasta_data}")
+        return True
+
+    if not pasta_data.is_dir():
+        print(f"Erro: o caminho de dados existe, mas nao e uma pasta: {pasta_data}")
+        return False
+
+    PASTA_DATA = pasta_data
     
     print("Iniciando auditoria avançada de fluidez e pegadinhas...")
     for arquivo in os.listdir(PASTA_DATA):

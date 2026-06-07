@@ -1,6 +1,7 @@
 import os
 import json
 import time
+from pathlib import Path
 from google import genai
 from google.genai import types 
 from pydantic import BaseModel, Field, field_validator
@@ -17,7 +18,7 @@ except ImportError:
 
 # 1. CONFIGURAÇÕES DE AMBIENTE
 load_dotenv()
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = str(Path(__file__).resolve().parents[3])
 
 # Clientes inicializados de forma lazy (sob demanda) para evitar falha
 # na importação quando GEMINI_API_KEY ainda não está no ambiente.
