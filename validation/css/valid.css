@@ -111,6 +111,40 @@ body {
     font-weight: 600;
 }
 
+.mock-notice {
+    margin: 0.5rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.screen-message {
+    margin-bottom: 1.5rem;
+    padding: 0.9rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: 1px solid var(--border-theme);
+    background-color: var(--bg-card);
+}
+
+.screen-message.hidden {
+    display: none;
+}
+
+.screen-message.info {
+    color: #bfdbfe;
+    border-color: var(--info-blue);
+}
+
+.screen-message.success {
+    color: #bbf7d0;
+    border-color: var(--success-green);
+}
+
+.screen-message.error {
+    color: #fecaca;
+    border-color: var(--error-red);
+}
+
 /* --------------------------------------------------------------------------
    3. DASHBOARD DE ESTATÍSTICAS
    -------------------------------------------------------------------------- */
@@ -194,6 +228,40 @@ body {
     font-weight: 600;
 }
 
+.question-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.status-pill {
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pill.pending {
+    color: #fde68a;
+    background-color: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.status-pill.approved {
+    color: #bbf7d0;
+    background-color: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.status-pill.rejected {
+    color: #fecaca;
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
 .question-card p strong {
     color: var(--text-main);
     font-size: 1.05rem;
@@ -214,6 +282,11 @@ body {
     color: var(--text-main);
     background-color: var(--bg-main);
     font-size: 0.95rem;
+}
+
+.answer-label {
+    font-weight: 700;
+    margin-right: 0.35rem;
 }
 
 /* Resposta correta em destaque com cores Dark */
@@ -269,6 +342,7 @@ body {
 
 .btn-edit { background-color: var(--bg-main); color: var(--text-main); border: 1px solid var(--border-theme) !important; }
 .btn-edit:hover:not(:disabled) { border-color: var(--info-blue) !important; color: var(--info-blue); }
+.btn-edit:disabled { color: var(--text-muted); }
 
 .card-actions button:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 

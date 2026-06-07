@@ -1,5 +1,5 @@
 // js/validation/validationStorage.js
-export const ValidationStorage = {
+window.ValidationStorage = {
     KEYS: {
         VALIDATOR_NAME: 'validator_name',
         STATS: 'validation_stats'

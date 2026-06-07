@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="warning-banner">
-        ⚠️ USO INTERNO - APENAS ESPECIALISTAS ⚠️
+        ⚠️ Uso interno — Validação de Questões ⚠️
     </div>
 
     <main class="validation-container">
@@ -19,7 +19,10 @@
                 <button id="btn-save-validator" class="btn-primary">Salvar</button>
             </div>
             <p id="validator-status" class="status-text">Status: Aguardando identificação...</p>
+            <p class="mock-notice">Modo mock local ativo. A integração real depende da Task 3/API.</p>
         </section>
+
+        <div id="screen-message" class="screen-message hidden" role="status" aria-live="polite"></div>
 
         <section class="dashboard-section">
             <div class="stat-card pending">
@@ -58,6 +61,8 @@
         </div>
     </div>
 
-    <script type="module" src="js/validationUI.js"></script>
+    <script src="js/validationStorage.js"></script>
+    <script src="js/validationAPI.js"></script>
+    <script src="js/validationUI.js"></script>
 </body>
 </html>
