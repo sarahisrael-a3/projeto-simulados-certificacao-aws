@@ -32,8 +32,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          if [ -f scripts_python/requirements.txt ]; then
-            pip install -r scripts_python/requirements.txt
+          if [ -f src/python/scripts/requirements.txt ]; then
+            pip install -r src/python/scripts/requirements.txt
           fi
       
       - name: Get changed files
@@ -75,7 +75,7 @@ jobs:
             
             echo "Validating: $file"
             
-            if python scripts_python/validate_contribution.py "$file"; then
+            if python src/python/scripts/validate_contribution.py "$file"; then
               echo "PASSED: $file"
               PASSED=$((PASSED + 1))
             else
@@ -121,7 +121,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Validation Failed\n\nSome questions did not pass validation. Please check the logs above and fix the errors.\n\n### How to fix:\n\n1. Check the logs for specific errors\n2. Fix locally using:\n   \`\`\`bash\n   python scripts_python/validate_contribution.py your-file.json\n   \`\`\`\n3. Commit and push the fixes`
+              body: `## Validation Failed\n\nSome questions did not pass validation. Please check the logs above and fix the errors.\n\n### How to fix:\n\n1. Check the logs for specific errors\n2. Fix locally using:\n   \`\`\`bash\n   python src/python/scripts/validate_contribution.py your-file.json\n   \`\`\`\n3. Commit and push the fixes`
             });
       
       - name: No contributions detected

@@ -2,85 +2,57 @@ import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 
 export default [
-  js.configs.recommended,
-  prettier,
   {
+    ignores: ['node_modules/', 'dist/', 'build/', 'coverage/', '.husky/'],
+  },
+  {
+    files: ['src/**/*.js', 'backend/**/*.js'],
     languageOptions: {
-      ecmaVersion: 'latest',
+      ecmaVersion: 2021,
       sourceType: 'module',
       globals: {
-        // Browser globals
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 'warn',
+    },
+  },
+  {
+    files: ['src/frontend/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: 'module',
+      globals: {
         window: 'readonly',
         document: 'readonly',
-        navigator: 'readonly',
         localStorage: 'readonly',
         sessionStorage: 'readonly',
-        console: 'readonly',
+        fetch: 'readonly',
         alert: 'readonly',
         confirm: 'readonly',
-        prompt: 'readonly',
-        fetch: 'readonly',
-        FormData: 'readonly',
-        URLSearchParams: 'readonly',
-        
-        // Node.js globals
-        process: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-        module: 'readonly',
-        require: 'readonly',
-        
-        // Jest globals
-        describe: 'readonly',
-        test: 'readonly',
-        expect: 'readonly',
-        beforeEach: 'readonly',
-        afterEach: 'readonly',
-        beforeAll: 'readonly',
-        afterAll: 'readonly',
-        jest: 'readonly',
-        
-        // Chart.js global
-        Chart: 'readonly',
-        
-        // Timer functions
+        console: 'readonly',
         setTimeout: 'readonly',
         setInterval: 'readonly',
-        clearTimeout: 'readonly',
         clearInterval: 'readonly',
-        
-        // Browser APIs
+        clearTimeout: 'readonly',
         Blob: 'readonly',
         URL: 'readonly',
         Event: 'readonly',
-        
-        // External libraries
-        jsPDF: 'readonly',
+        Chart: 'readonly',
         Sortable: 'readonly',
-        storageManager: 'readonly',
-        
-        // Global functions (defined in other files)
-        getPill: 'readonly',
-        sprintPills: 'readonly',
-        closeSprintReader: 'readonly'
-      }
+        jsPDF: 'readonly',
+      },
     },
     rules: {
-      'no-console': 'off',
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      'no-undef': 'error',
-      'prefer-const': 'warn',
-      'no-var': 'error'
-    }
+      ...js.configs.recommended.rules,
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 'warn',
+    },
   },
-  {
-    ignores: [
-      'node_modules/',
-      'dist/',
-      'build/',
-      '*.min.js',
-      'coverage/',
-      '__tests__/'
-    ]
-  }
+  prettier,
 ];

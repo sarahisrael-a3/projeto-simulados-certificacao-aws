@@ -57,5 +57,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Direct Edit of Main Files Blocked\n\nThis PR attempts to edit main database files directly, which is not allowed to avoid merge conflicts.\n\n### Blocked files:\n${fileList}\n\n### How to contribute correctly:\n\n1. Create an individual file in data/contributions/<cert-id>/\n2. Use the provided templates\n3. Validate with: python scripts_python/validate_contribution.py\n\nSee the contribution guide for details.`
+              body: `## Direct Edit of Main Files Blocked\n\nThis PR attempts to edit main database files directly, which is not allowed to avoid merge conflicts.\n\n### Blocked files:\n${fileList}\n\n### How to contribute correctly:\n\n1. Create an individual file in data/contributions/<cert-id>/\n2. Use the provided templates\n3. Validate with: python src/python/scripts/validate_contribution.py\n\nSee the contribution guide for details.`
             });

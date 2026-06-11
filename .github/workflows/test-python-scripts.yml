@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - 'scripts_python/**/*.py'
-      - 'scripts_python/requirements.txt'
+      - 'src/python/scripts/**/*.py'
+      - 'src/python/scripts/requirements.txt'
   pull_request:
     branches: [ main, develop ]
     paths:
-      - 'scripts_python/**/*.py'
-      - 'scripts_python/requirements.txt'
+      - 'src/python/scripts/**/*.py'
+      - 'src/python/scripts/requirements.txt'
   workflow_dispatch:
 
 jobs:
@@ -35,17 +35,17 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r scripts_python/requirements.txt
+          pip install -r src/python/scripts/requirements.txt
       
       - name: Test validator script
         run: |
           echo "Testing validator..."
-          python scripts_python/validate_contribution.py data/contributions/clf-c02/exemplo-questao-s3.json
+          python src/python/scripts/validate_contribution.py data/contributions/clf-c02/exemplo-questao-s3.json
       
       - name: Test merger script dry-run
         run: |
           echo "Testing merger in dry-run mode..."
-          python scripts_python/merge_contributions.py clf-c02 --dry-run
+          python src/python/scripts/merge_contributions.py clf-c02 --dry-run
       
       - name: Display test results
         run: |

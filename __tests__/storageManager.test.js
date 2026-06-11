@@ -3,7 +3,7 @@
  * Framework: Jest
  */
 
-import { StorageManager } from '../js/storageManager.js';
+import { StorageManager } from '../src/frontend/js/storageManager.js';
 
 describe('StorageManager - Persistência de Dados', () => {
     let storage;

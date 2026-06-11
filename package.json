@@ -2,14 +2,20 @@
   "name": "projeto-simulados-certificacao-aws",
   "version": "1.0.0",
   "description": "[![Desenvolvido por](https://img.shields.io/badge/Desenvolvido%20por-Karla%20Renata-orange?style=for-the-badge&logoColor=white)](#-autor) [![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)](#) [![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](#) [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](#)",
-  "main": "app.js",
+  "main": "src/frontend/js/app.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
-    "lint": "eslint js/**/*.js",
-    "lint:fix": "eslint js/**/*.js --fix",
-    "format": "prettier --write \"js/**/*.js\" \"css/**/*.css\" \"*.html\"",
-    "format:check": "prettier --check \"js/**/*.js\" \"css/**/*.css\" \"*.html\""
+    "lint": "eslint src/frontend/js/**/*.js",
+    "lint:fix": "eslint src/frontend/js/**/*.js --fix",
+    "format": "prettier --write \"src/frontend/js/**/*.js\" \"src/frontend/styles/**/*.css\" \"public/*.html\"",
+    "format:check": "prettier --check \"src/frontend/js/**/*.js\" \"src/frontend/styles/**/*.css\" \"public/*.html\"",
+    "build": "node scripts/build.cjs",
+    "dev": "npm run build && npx live-server public",
+    "db:start": "node backend/server.js",
+    "db:dev": "NODE_ENV=development node backend/server.js",
+    "api:start": "node backend/api/server.js",
+    "api:dev": "NODE_ENV=development node backend/api/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,8 +30,12 @@
   },
   "homepage": "https://github.com/karlarenatadev/projeto-simulados-certificacao-aws#readme",
   "dependencies": {
+    "@electric-sql/pglite": "^0.5.1",
+    "@electric-sql/pglite-socket": "^0.2.1",
     "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
     "dotenv": "^17.3.1",
+    "express": "^4.18.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "string-similarity": "^4.0.4"
@@ -46,6 +56,9 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
     "transform": {}
   }
 }

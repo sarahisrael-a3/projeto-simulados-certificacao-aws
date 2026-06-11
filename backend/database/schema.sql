@@ -273,19 +273,36 @@ COMMENT ON VIEW leaderboard IS 'Ranking público de usuários por pontos de XP';
 -- ============================================================================
 
 CREATE OR REPLACE VIEW user_stats AS
+WITH quiz_stats AS (
+    SELECT
+        user_id,
+        COUNT(*)                                             AS total_quizzes,
+        COALESCE(AVG(percentage), 0)::DECIMAL(5,2)           AS avg_score,
+        COALESCE(MAX(percentage), 0)                         AS best_score,
+        COALESCE(SUM(time_spent_secs), 0)                    AS total_time_secs,
+        COUNT(DISTINCT certification)                        AS certifications_practiced
+    FROM quiz_history
+    GROUP BY user_id
+),
+focus_stats AS (
+    SELECT
+        user_id,
+        COALESCE(SUM(minutes) FILTER (WHERE session_type = 'focus'), 0) AS total_focus_minutes
+    FROM focus_sessions
+    GROUP BY user_id
+)
 SELECT
     u.id              AS user_id,
     u.anonymous_name,
-    COUNT(DISTINCT qh.id)                                   AS total_quizzes,
-    COALESCE(AVG(qh.percentage), 0)::DECIMAL(5,2)           AS avg_score,
-    COALESCE(MAX(qh.percentage), 0)                         AS best_score,
-    COALESCE(SUM(qh.time_spent_secs), 0)                    AS total_time_secs,
-    COUNT(DISTINCT qh.certification)                        AS certifications_practiced,
-    COALESCE(SUM(fs.minutes) FILTER (WHERE fs.session_type = 'focus'), 0) AS total_focus_minutes
+    COALESCE(qs.total_quizzes, 0)                            AS total_quizzes,
+    COALESCE(qs.avg_score, 0)::DECIMAL(5,2)                  AS avg_score,
+    COALESCE(qs.best_score, 0)                               AS best_score,
+    COALESCE(qs.total_time_secs, 0)                          AS total_time_secs,
+    COALESCE(qs.certifications_practiced, 0)                 AS certifications_practiced,
+    COALESCE(fs.total_focus_minutes, 0)                      AS total_focus_minutes
 FROM users u
-LEFT JOIN quiz_history qh ON qh.user_id = u.id
-LEFT JOIN focus_sessions fs ON fs.user_id = u.id
-GROUP BY u.id, u.anonymous_name;
+LEFT JOIN quiz_stats qs ON qs.user_id = u.id
+LEFT JOIN focus_stats fs ON fs.user_id = u.id;
 
 COMMENT ON VIEW user_stats IS 'Estatísticas consolidadas de cada usuário';
 
