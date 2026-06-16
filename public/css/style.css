@@ -4,48 +4,169 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. IMPORTAÇÕES E FONTES
+   1. FONTES
    -------------------------------------------------------------------------- */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
 
 /* --------------------------------------------------------------------------
    2. VARIÁVEIS (THEMING)
    -------------------------------------------------------------------------- */
 :root {
-  /* Cores da Marca AWS */
-  --aws-dark: #232f3e;
-  --aws-orange: #ff9900;
-  --aws-orange-hover: #ec7211;
-  --aws-light-gray: #f2f3f3;
-  --aws-border: #eaeded;
+  /* A3Data Brand Tokens */
+  --a3-deep-sea: #001863;
+  --a3-tech-blue: #0033ff;
+  --a3-pink-nic: #f53199;
+  --a3-summer-time: #ffee00;
+  --a3-amethyst-velvet: #7b4aaf;
+  --a3-sky-frost: #39d0ff;
+  --a3-background-light: #f5f5f5;
+  --a3-surface: #ffffff;
+  --a3-text-on-light: #00083d;
+  --a3-text-on-dark: #f5f7ff;
+  --a3-border-default: #ebebeb;
+  --a3-success: #35b769;
+  --a3-danger: #f91c1c;
+  --a3-warning: #ff822e;
 
-  /* Cores de Feedback */
-  --success-green: #22c55e;
-  --error-red: #ef4444;
-  --info-blue: #3b82f6;
+  /* Product UI Tokens */
+  --a3-surface-raised: var(--a3-surface);
+  --a3-surface-soft: color-mix(
+    in srgb,
+    var(--a3-background-light) 88%,
+    var(--a3-sky-frost)
+  );
+  --a3-surface-info: color-mix(
+    in srgb,
+    var(--a3-sky-frost) 12%,
+    var(--a3-surface)
+  );
+  --a3-surface-selected: color-mix(
+    in srgb,
+    var(--a3-tech-blue) 8%,
+    var(--a3-surface)
+  );
+  --a3-surface-success: color-mix(
+    in srgb,
+    var(--a3-success) 12%,
+    var(--a3-surface)
+  );
+  --a3-surface-danger: color-mix(
+    in srgb,
+    var(--a3-danger) 10%,
+    var(--a3-surface)
+  );
+  --a3-surface-warning: color-mix(
+    in srgb,
+    var(--a3-warning) 12%,
+    var(--a3-surface)
+  );
+  --a3-text-muted: color-mix(
+    in srgb,
+    var(--a3-text-on-light) 64%,
+    var(--a3-surface)
+  );
+  --a3-border-soft: color-mix(
+    in srgb,
+    var(--a3-border-default) 70%,
+    var(--a3-surface)
+  );
+  --a3-shadow-card: 0 14px 32px
+    color-mix(in srgb, var(--a3-deep-sea) 10%, transparent);
+  --a3-shadow-action: 0 12px 24px
+    color-mix(in srgb, var(--a3-tech-blue) 18%, transparent);
+
+  /* Legacy aliases kept for existing HTML/JS class names. */
+  --aws-dark: var(--a3-deep-sea);
+  --aws-orange: var(--a3-tech-blue);
+  --aws-orange-hover: color-mix(
+    in srgb,
+    var(--a3-tech-blue) 84%,
+    var(--a3-deep-sea)
+  );
+  --aws-light-gray: var(--a3-background-light);
+  --aws-border: var(--a3-border-default);
+  --success-green: var(--a3-success);
+  --error-red: var(--a3-danger);
+  --info-blue: var(--a3-sky-frost);
 
   /* Modo Claro (Default) */
-  --bg-main: var(--aws-light-gray);
-  --bg-card: #f5f5f5;
-  --text-main: var(--aws-dark);
-  --text-muted: #6b7280;
-  --border-theme: #e5e7eb;
+  --bg-main: var(--a3-background-light);
+  --bg-card: var(--a3-surface);
+  --text-main: var(--a3-text-on-light);
+  --text-muted: var(--a3-text-muted);
+  --border-theme: var(--a3-border-default);
 }
 
 .dark {
   /* Modo Escuro */
-  --bg-main: #0f172a; /* Slate 900 */
-  --bg-card: #1e293b; /* Slate 800 */
-  --text-main: #f8fafc; /* Slate 50 */
-  --text-muted: #cbd5e1; /* Slate 300 */
-  --border-theme: #334155; /* Slate 700 */
+  --bg-main: var(--a3-deep-sea);
+  --bg-card: color-mix(in srgb, var(--a3-deep-sea) 88%, var(--a3-tech-blue));
+  --text-main: var(--a3-text-on-dark);
+  --text-muted: color-mix(
+    in srgb,
+    var(--a3-text-on-dark) 72%,
+    var(--a3-deep-sea)
+  );
+  --border-theme: color-mix(
+    in srgb,
+    var(--a3-sky-frost) 24%,
+    var(--a3-deep-sea)
+  );
+  --a3-surface-raised: color-mix(
+    in srgb,
+    var(--a3-deep-sea) 82%,
+    var(--a3-tech-blue)
+  );
+  --a3-surface-soft: color-mix(
+    in srgb,
+    var(--a3-deep-sea) 92%,
+    var(--a3-sky-frost)
+  );
+  --a3-surface-info: color-mix(
+    in srgb,
+    var(--a3-deep-sea) 84%,
+    var(--a3-sky-frost)
+  );
+  --a3-surface-selected: color-mix(
+    in srgb,
+    var(--a3-deep-sea) 80%,
+    var(--a3-tech-blue)
+  );
+  --a3-surface-success: color-mix(
+    in srgb,
+    var(--a3-deep-sea) 86%,
+    var(--a3-success)
+  );
+  --a3-surface-danger: color-mix(
+    in srgb,
+    var(--a3-deep-sea) 86%,
+    var(--a3-danger)
+  );
+  --a3-surface-warning: color-mix(
+    in srgb,
+    var(--a3-deep-sea) 86%,
+    var(--a3-warning)
+  );
+  --a3-border-soft: color-mix(
+    in srgb,
+    var(--a3-sky-frost) 18%,
+    var(--a3-deep-sea)
+  );
+  --a3-shadow-card: 0 18px 40px
+    color-mix(in srgb, var(--a3-deep-sea) 42%, transparent);
+  --a3-shadow-action: 0 12px 24px
+    color-mix(in srgb, var(--a3-tech-blue) 30%, transparent);
 }
 
 /* --------------------------------------------------------------------------
    3. ESTILOS BASE
    -------------------------------------------------------------------------- */
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   background-color: var(--bg-main);
   color: var(--text-main);
   transition:
@@ -58,7 +179,7 @@ body {
 }
 
 ::selection {
-  background-color: rgba(255, 153, 0, 0.3);
+  background-color: color-mix(in srgb, var(--a3-sky-frost) 36%, transparent);
   color: inherit;
 }
 
@@ -86,6 +207,231 @@ body {
 }
 
 /* --------------------------------------------------------------------------
+   4.1. ALIASES VISUAIS A3 PARA UTILITÁRIOS EXISTENTES
+   -------------------------------------------------------------------------- */
+.bg-white,
+.dark .dark\:bg-slate-800 {
+  background-color: var(--a3-surface-raised) !important;
+}
+.bg-gray-50,
+.bg-gray-100,
+.bg-gray-100\/10,
+.bg-slate-200,
+.dark .dark\:bg-slate-700,
+.dark .dark\:bg-slate-700\/50,
+.dark .dark\:bg-slate-750 {
+  background-color: var(--a3-surface-soft) !important;
+}
+.bg-gray-200,
+.dark .dark\:bg-slate-900,
+.bg-slate-900\/95 {
+  background-color: var(--bg-main) !important;
+}
+.bg-gray-700,
+.bg-slate-700,
+.bg-slate-800,
+.bg-slate-900,
+.aws-bg-dark,
+.bg-aws-dark {
+  background-color: var(--a3-deep-sea) !important;
+}
+.bg-orange-50,
+.bg-orange-500\/10,
+.bg-blue-50,
+.bg-blue-500\/10,
+.bg-indigo-500\/10,
+.bg-purple-500\/10,
+.dark .dark\:bg-orange-900\/20,
+.dark .dark\:bg-blue-900,
+.dark .dark\:bg-blue-900\/30 {
+  background-color: var(--a3-surface-info) !important;
+}
+.bg-orange-100,
+.bg-orange-100\/50,
+.bg-yellow-50,
+.bg-yellow-500\/10,
+.dark .dark\:bg-orange-900\/40,
+.dark .dark\:bg-orange-900\/30 {
+  background-color: var(--a3-surface-warning) !important;
+}
+.bg-orange-500,
+.bg-orange-600,
+.bg-blue-600,
+.bg-blue-700,
+.bg-aws-orange {
+  background-color: var(--a3-tech-blue) !important;
+}
+.bg-green-50,
+.bg-green-600,
+.dark .dark\:bg-green-900\/20,
+.dark .dark\:bg-green-900\/30 {
+  background-color: var(--a3-surface-success) !important;
+}
+.bg-red-50,
+.bg-red-100,
+.bg-red-200,
+.dark .dark\:bg-red-900,
+.dark .dark\:bg-red-800,
+.dark .dark\:bg-red-900\/30 {
+  background-color: var(--a3-surface-danger) !important;
+}
+.hover\:bg-orange-500:hover,
+.hover\:bg-orange-500\/20:hover,
+.hover\:bg-orange-600:hover,
+.hover\:bg-blue-700:hover,
+.hover\:bg-gray-800:hover,
+.hover\:bg-slate-900:hover,
+.dark .dark\:hover\:bg-slate-600:hover {
+  background-color: var(--aws-orange-hover) !important;
+}
+.hover\:bg-gray-50:hover,
+.hover\:bg-gray-100:hover,
+.hover\:bg-gray-200:hover,
+.hover\:bg-slate-300:hover,
+.hover\:bg-red-200:hover,
+.dark .dark\:hover\:bg-red-800:hover,
+.dark .dark\:hover\:bg-slate-700:hover {
+  background-color: var(--a3-surface-soft) !important;
+}
+.text-gray-300,
+.text-gray-400,
+.text-gray-500,
+.text-gray-600,
+.text-slate-500,
+.text-slate-400,
+.dark .dark\:text-slate-500,
+.dark .dark\:text-gray-300,
+.dark .dark\:text-gray-400,
+.dark .dark\:text-slate-400 {
+  color: var(--text-muted) !important;
+}
+.text-gray-700,
+.text-gray-800,
+.text-gray-900,
+.text-slate-700,
+.text-slate-800,
+.text-slate-200,
+.dark .dark\:text-slate-200,
+.text-aws-dark,
+.aws-text-dark,
+.dark .dark\:text-white {
+  color: var(--text-main) !important;
+}
+.text-white {
+  color: var(--a3-text-on-dark) !important;
+}
+.text-orange-300,
+.text-orange-400,
+.text-orange-500,
+.text-orange-600,
+.text-orange-700,
+.text-orange-800,
+.text-blue-500,
+.text-blue-400,
+.text-blue-600,
+.text-blue-800,
+.text-blue-900,
+.dark .dark\:text-blue-100,
+.dark .dark\:text-blue-300,
+.text-aws-orange,
+.aws-text-orange {
+  color: var(--a3-tech-blue) !important;
+}
+.text-green-400,
+.text-green-500,
+.text-green-600,
+.text-green-700,
+.dark .dark\:text-green-400 {
+  color: var(--a3-success) !important;
+}
+.text-red-400,
+.text-red-500,
+.text-red-600,
+.text-red-700,
+.dark .dark\:text-red-100,
+.dark .dark\:text-red-400 {
+  color: var(--a3-danger) !important;
+}
+.text-yellow-500 {
+  color: var(--a3-summer-time) !important;
+}
+.text-purple-500,
+.text-purple-400,
+.text-indigo-400,
+.text-indigo-500 {
+  color: var(--a3-amethyst-velvet) !important;
+}
+.border-gray-100,
+.border-gray-200,
+.border-gray-300,
+.border-slate-500,
+.border-slate-600,
+.border-slate-700,
+.dark .dark\:border-slate-500,
+.dark .dark\:border-slate-600,
+.dark .dark\:border-slate-700 {
+  border-color: var(--border-theme) !important;
+}
+.border-orange-200,
+.border-orange-300,
+.border-orange-400,
+.border-orange-500,
+.border-orange-600,
+.border-orange-700,
+.border-orange-800,
+.border-orange-500\/50,
+.border-blue-200,
+.border-blue-500,
+.border-blue-700,
+.border-aws-orange,
+.dark .dark\:border-orange-800\/50,
+.dark .dark\:border-orange-500\/30 {
+  border-color: var(--a3-tech-blue) !important;
+}
+.border-green-200,
+.border-green-500,
+.border-green-700,
+.dark .dark\:border-green-700 {
+  border-color: var(--a3-success) !important;
+}
+.border-red-300,
+.border-red-500,
+.border-red-700,
+.dark .dark\:border-red-700 {
+  border-color: var(--a3-danger) !important;
+}
+.border-yellow-500 {
+  border-color: var(--a3-summer-time) !important;
+}
+.shadow-md,
+.shadow-lg,
+.shadow-xl,
+.shadow-2xl,
+.shadow-sm {
+  box-shadow: var(--a3-shadow-card) !important;
+}
+.shadow-orange-500\/30,
+.hover\:shadow-orange-500\/50:hover {
+  box-shadow: var(--a3-shadow-action) !important;
+}
+.bg-gradient-to-r,
+.trail-node.boss-node {
+  background-image: none !important;
+  background-color: var(--a3-tech-blue) !important;
+}
+.focus\:border-orange-500:focus,
+.focus\:ring-aws-orange:focus,
+.focus\:ring-orange-200:focus,
+.focus-visible\:ring-orange-500:focus-visible {
+  border-color: var(--a3-tech-blue) !important;
+  --tw-ring-color: color-mix(
+    in srgb,
+    var(--a3-tech-blue) 24%,
+    transparent
+  ) !important;
+}
+
+/* --------------------------------------------------------------------------
    5. ANIMAÇÕES
    -------------------------------------------------------------------------- */
 .fade-in {
@@ -109,8 +455,8 @@ body {
 }
 
 .spinner {
-  border: 3px solid rgba(255, 153, 0, 0.3);
-  border-top-color: var(--aws-orange);
+  border: 3px solid color-mix(in srgb, var(--a3-tech-blue) 22%, transparent);
+  border-top-color: var(--a3-tech-blue);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -178,12 +524,13 @@ body {
 .option-card {
   transition: all 0.2s ease;
   border: 2px solid var(--border-theme);
+  border-radius: 16px;
   cursor: pointer;
-  background-color: var(--bg-card);
+  background-color: var(--a3-surface-raised);
   color: var(--text-main);
 }
 .option-card:focus {
-  outline: 2px solid var(--aws-orange);
+  outline: 2px solid var(--a3-tech-blue);
   outline-offset: 2px;
 }
 .option-card.disabled {
@@ -193,43 +540,43 @@ body {
 
 /* Light Mode Hover & States */
 .option-card:hover:not(.disabled) {
-  border-color: var(--aws-orange);
-  background-color: #fffaf0;
+  border-color: var(--a3-tech-blue);
+  background-color: var(--a3-surface-selected);
   transform: translateX(5px);
 }
 .option-card.selected {
-  border-color: var(--aws-orange);
-  background-color: #fffaf0;
-  box-shadow: 0 4px 6px -1px rgba(255, 153, 0, 0.2);
+  border-color: var(--a3-tech-blue);
+  background-color: var(--a3-surface-selected);
+  box-shadow: var(--a3-shadow-action);
 }
 .option-card.correct {
   border-color: var(--success-green);
-  background-color: #f0fdf4;
-  color: #166534;
+  background-color: var(--a3-surface-success);
+  color: var(--text-main);
 }
 .option-card.incorrect {
   border-color: var(--error-red);
-  background-color: #fef2f2;
-  color: #991b1b;
+  background-color: var(--a3-surface-danger);
+  color: var(--text-main);
 }
 
 /* Dark Mode Hover & States */
 .dark .option-card:hover:not(.disabled) {
-  background-color: #334155 !important;
-  border-color: var(--aws-orange) !important;
+  background-color: var(--a3-surface-selected) !important;
+  border-color: var(--a3-tech-blue) !important;
 }
 .dark .option-card.selected {
-  background-color: #334155 !important;
-  border-color: var(--aws-orange) !important;
-  box-shadow: 0 4px 6px -1px rgba(255, 153, 0, 0.4);
+  background-color: var(--a3-surface-selected) !important;
+  border-color: var(--a3-tech-blue) !important;
+  box-shadow: var(--a3-shadow-action);
 }
 .dark .option-card.correct {
-  background-color: rgba(34, 197, 94, 0.15) !important;
-  color: #4ade80 !important;
+  background-color: var(--a3-surface-success) !important;
+  color: var(--a3-text-on-dark) !important;
 }
 .dark .option-card.incorrect {
-  background-color: rgba(239, 68, 68, 0.15) !important;
-  color: #f87171 !important;
+  background-color: var(--a3-surface-danger) !important;
+  color: var(--a3-text-on-dark) !important;
 }
 
 /* Letras A, B, C, D */
@@ -240,9 +587,9 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #f3f4f6;
+  background: var(--a3-surface-soft);
   font-weight: bold;
-  color: #4b5563;
+  color: var(--text-muted);
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
@@ -263,27 +610,37 @@ body {
   }
 }
 .option-card.selected .option-letter {
-  background: var(--aws-orange);
-  color: white;
+  background: var(--a3-tech-blue);
+  color: var(--a3-text-on-dark);
+}
+
+.option-card.correct .option-letter {
+  background: var(--a3-success);
+  color: var(--a3-text-on-dark);
+}
+
+.option-card.incorrect .option-letter {
+  background: var(--a3-danger);
+  color: var(--a3-text-on-dark);
 }
 
 /* Tailwind Form Peers (Dark Mode) */
 .dark .peer:checked ~ .peer-checked\:bg-orange-50 {
-  background-color: rgba(255, 153, 0, 0.15) !important;
-  border-color: var(--aws-orange) !important;
-  box-shadow: 0 4px 6px -1px rgba(255, 153, 0, 0.2);
+  background-color: var(--a3-surface-selected) !important;
+  border-color: var(--a3-tech-blue) !important;
+  box-shadow: var(--a3-shadow-action);
 }
 .dark .peer:checked ~ .peer-checked\:bg-blue-50 {
-  background-color: rgba(59, 130, 246, 0.15) !important;
-  border-color: var(--info-blue) !important;
-  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+  background-color: var(--a3-surface-info) !important;
+  border-color: var(--a3-sky-frost) !important;
+  box-shadow: var(--a3-shadow-card);
 }
 .dark .peer:not(:checked) ~ .hover\:border-gray-400:hover {
-  background-color: #1e293b !important;
-  border-color: #475569 !important;
+  background-color: var(--a3-surface-soft) !important;
+  border-color: var(--a3-border-soft) !important;
 }
 .dark .peer:checked ~ div .font-bold {
-  color: #ffffff !important;
+  color: var(--a3-text-on-dark) !important;
 }
 
 /* Melhorar responsividade de selects e inputs */
@@ -316,21 +673,21 @@ textarea {
 }
 #side-info .shadow-sm:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--a3-shadow-card);
 }
 
 /* Reset Geral de Bordas para Look Clean */
 #side-info .bg-white,
 #sprint-module,
 #global-performance-dashboard {
-  box-shadow: none !important;
-  border: 1px solid #e2e8f0 !important;
+  box-shadow: var(--a3-shadow-card) !important;
+  border: 1px solid var(--border-theme) !important;
 }
 .dark #side-info .bg-slate-800,
 .dark #sprint-module,
 .dark #global-performance-dashboard {
-  border: 1px solid #334155 !important;
-  background-color: #1e293b !important;
+  border: 1px solid var(--border-theme) !important;
+  background-color: var(--a3-surface-raised) !important;
 }
 
 #global-performance-dashboard {
@@ -360,16 +717,16 @@ textarea {
 .light #side-info h3,
 .light #side-info h4,
 .light #side-info p:not(.text-gray-400) {
-  color: #1e293b !important;
+  color: var(--a3-text-on-light) !important;
 }
 .dark #side-info h3 {
-  color: #64748b;
+  color: var(--a3-text-on-dark);
 }
 
 /* Módulo Sprint */
 #sprint-module button {
-  background-color: var(--aws-orange) !important;
-  color: #ffffff !important;
+  background-color: var(--a3-tech-blue) !important;
+  color: var(--a3-text-on-dark) !important;
   border: none !important;
   font-weight: 700 !important;
 }
@@ -390,31 +747,31 @@ textarea {
 }
 
 .sprint-day-current {
-  background-color: var(--aws-orange) !important;
-  border-color: #e68a00 !important;
-  color: #ffffff !important;
+  background-color: var(--a3-summer-time) !important;
+  border-color: var(--a3-tech-blue) !important;
+  color: var(--a3-text-on-light) !important;
   font-weight: 900 !important;
 }
 .light #sprint-days-grid .bg-gray-50 {
-  background-color: #f8fafc !important;
-  border-color: #e2e8f0 !important;
-  color: #94a3b8 !important;
+  background-color: var(--a3-surface-soft) !important;
+  border-color: var(--a3-border-default) !important;
+  color: var(--text-muted) !important;
 }
 
 /* Rodapé/Fundo do Sprint */
 #sprint-module .bg-gray-50 {
-  background-color: #f8fafc !important;
-  border: 1px solid #e2e8f0 !important;
+  background-color: var(--a3-surface-soft) !important;
+  border: 1px solid var(--border-theme) !important;
   transition: all 0.3s ease;
 }
 .dark #sprint-module .dark\:bg-slate-750 {
-  background-color: #0f172a !important;
-  border: 1px solid #334155 !important;
+  background-color: var(--a3-surface-soft) !important;
+  border: 1px solid var(--border-theme) !important;
 }
 
 /* Insight & Histórico */
 #study-insight-container {
-  border-left: 4px solid var(--aws-orange);
+  border-left: 4px solid var(--a3-pink-nic);
 }
 #dynamic-insight,
 #history-list {
@@ -461,33 +818,33 @@ textarea {
   justify-content: center;
   padding: 2rem;
   border-radius: 1rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  border: 2px solid #e5e7eb;
+  box-shadow: var(--a3-shadow-card);
+  border: 2px solid var(--border-theme);
 }
 
 .flashcard-front {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  background: var(--a3-surface-raised);
 }
 .flashcard-back {
   transform: rotateY(180deg);
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  background: var(--a3-surface-info);
 }
 
 .dark .flashcard-front,
 .dark .flashcard-back {
-  border-color: #334155;
+  border-color: var(--border-theme);
 }
 .dark .flashcard-front {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: var(--a3-surface-raised);
 }
 .dark .flashcard-back {
-  background: linear-gradient(135deg, #422006 0%, #292524 100%);
+  background: var(--a3-surface-info);
 }
 
 /* Interações Flashcard */
 .flashcard-container:hover .flashcard-front,
 .flashcard-container:hover .flashcard-back {
-  box-shadow: 0 15px 40px rgba(255, 153, 0, 0.3);
+  box-shadow: var(--a3-shadow-action);
 }
 .flashcard-container:not(.flipped):hover .flashcard {
   transform: scale(1.02);
@@ -506,27 +863,27 @@ textarea {
   border-radius: 4px;
 }
 .custom-scroll::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--a3-border-default);
   border-radius: 4px;
 }
 .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--a3-sky-frost);
 }
 .dark .custom-scroll::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: var(--border-theme);
 }
 .dark .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: var(--a3-sky-frost);
 }
 
 .improvement-up {
-  color: #16a34a;
+  color: var(--a3-success);
 }
 .improvement-down {
-  color: #dc2626;
+  color: var(--a3-danger);
 }
 .improvement-same {
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .site-link {
@@ -542,14 +899,14 @@ textarea {
 }
 .site-link:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--a3-shadow-card);
 }
 
 #timer-display {
   transition: background-color 0.3s ease;
 }
 #timer-display.warning {
-  background-color: #dc2626 !important;
+  background-color: var(--a3-danger) !important;
   animation: pulse 1s infinite;
 }
 #contador-questoes {
@@ -762,7 +1119,7 @@ textarea {
    11. ACESSIBILIDADE (A11Y)
    -------------------------------------------------------------------------- */
 *:focus-visible {
-  outline: 2px solid var(--aws-orange) !important;
+  outline: 2px solid var(--a3-tech-blue) !important;
   outline-offset: 2px !important;
 }
 *:focus:not(:focus-visible) {
@@ -804,8 +1161,8 @@ textarea {
     overflow: visible !important;
     display: block !important;
     background: transparent !important;
-    background-color: white !important;
-    color: black !important;
+    background-color: var(--a3-surface) !important;
+    color: var(--a3-text-on-light) !important;
     box-shadow: none !important;
     border: none !important;
   }
@@ -843,7 +1200,7 @@ textarea {
   .font-bold,
   strong {
     font-family: Arial, Helvetica, sans-serif !important;
-    color: black !important;
+    color: var(--a3-text-on-light) !important;
   }
 
   * {
@@ -853,24 +1210,24 @@ textarea {
 
   .print-text-green,
   .print-text-green * {
-    color: #008000 !important;
+    color: var(--a3-success) !important;
     font-weight: bold !important;
   }
   .print-text-red,
   .print-text-red * {
-    color: #cc0000 !important;
+    color: var(--a3-danger) !important;
     font-weight: bold !important;
   }
   .print-text-black,
   .print-text-black * {
-    color: #000000 !important;
+    color: var(--a3-text-on-light) !important;
   }
 
   .page-break-safe {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     display: block !important;
-    border-bottom: 1px solid #ccc !important;
+    border-bottom: 1px solid var(--a3-border-default) !important;
     margin-bottom: 20px !important;
     padding-bottom: 20px !important;
   }
@@ -884,7 +1241,7 @@ textarea {
   }
 
   .explanation-print {
-    border-top: 1px dashed #888 !important;
+    border-top: 1px dashed var(--a3-border-default) !important;
     margin-top: 15px !important;
     padding-top: 15px !important;
   }
