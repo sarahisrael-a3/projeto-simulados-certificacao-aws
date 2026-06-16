@@ -4,6 +4,7 @@ import { storageManager } from "./storageManager.js";
 const A3_CHART_COLORS = {
   deepSea: "#001863",
   techBlue: "#0033FF",
+  pinkNic: "#F53199",
   skyFrost: "#39D0FF",
   surface: "#FFFFFF",
   textOnLight: "#00083D",
@@ -13,11 +14,12 @@ const A3_CHART_COLORS = {
 function getA3ChartColors(isDark) {
   return {
     text: isDark ? A3_CHART_COLORS.textOnDark : A3_CHART_COLORS.textOnLight,
-    grid: isDark ? "rgba(57, 208, 255, 0.24)" : "rgba(0, 24, 99, 0.12)",
-    fill: "rgba(0, 51, 255, 0.16)",
+    grid: isDark ? "rgba(245, 247, 255, 0.16)" : "rgba(0, 8, 61, 0.12)",
+    fill: isDark ? "rgba(0, 51, 255, 0.18)" : "rgba(0, 51, 255, 0.1)",
     line: A3_CHART_COLORS.techBlue,
+    point: A3_CHART_COLORS.pinkNic,
     pointBorder: isDark ? A3_CHART_COLORS.deepSea : A3_CHART_COLORS.surface,
-    tooltipBg: isDark ? A3_CHART_COLORS.deepSea : A3_CHART_COLORS.textOnLight,
+    tooltipBg: isDark ? "#101B4A" : A3_CHART_COLORS.textOnLight,
   };
 }
 
@@ -116,10 +118,10 @@ export async function renderRadarChart(results, currentCertInfo) {
           backgroundColor: chartColors.fill,
           borderColor: chartColors.line,
           borderWidth: 2,
-          pointBackgroundColor: chartColors.line,
+          pointBackgroundColor: chartColors.point,
           pointBorderColor: chartColors.pointBorder,
           pointHoverBackgroundColor: chartColors.pointBorder,
-          pointHoverBorderColor: chartColors.line,
+          pointHoverBorderColor: chartColors.point,
           pointRadius: 4,
           pointHoverRadius: 6,
         },
@@ -336,10 +338,10 @@ export async function renderGlobalRadarChart() {
           backgroundColor: chartColors.fill,
           borderColor: chartColors.line,
           borderWidth: 2,
-          pointBackgroundColor: chartColors.line,
+          pointBackgroundColor: chartColors.point,
           pointBorderColor: chartColors.pointBorder,
           pointHoverBackgroundColor: chartColors.pointBorder,
-          pointHoverBorderColor: chartColors.line,
+          pointHoverBorderColor: chartColors.point,
           pointRadius: 4,
           pointHoverRadius: 6,
         },

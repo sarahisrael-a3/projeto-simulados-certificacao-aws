@@ -12,36 +12,46 @@
    -------------------------------------------------------------------------- */
 :root {
   /* A3Data Brand Tokens */
+  --a3-bg: #f5f5f5;
+  --a3-surface: #ffffff;
+  --a3-surface-alt: #f8fafc;
+  --a3-primary-dark: #001863;
+  --a3-primary: #0033ff;
+  --a3-accent: #f53199;
+  --a3-text: #111111;
+  --a3-text-strong: #00083d;
+  --a3-text-inverse: #f5f7ff;
+  --a3-border: #ebebeb;
   --a3-deep-sea: #001863;
   --a3-tech-blue: #0033ff;
   --a3-pink-nic: #f53199;
-  --a3-summer-time: #ffee00;
+  --a3-summer-time: var(--a3-accent);
   --a3-amethyst-velvet: #7b4aaf;
   --a3-sky-frost: #39d0ff;
-  --a3-background-light: #f5f5f5;
-  --a3-surface: #ffffff;
-  --a3-text-on-light: #00083d;
-  --a3-text-on-dark: #f5f7ff;
-  --a3-border-default: #ebebeb;
+  --a3-background-light: var(--a3-bg);
+  --a3-text-on-light: var(--a3-text-strong);
+  --a3-text-on-dark: var(--a3-text-inverse);
+  --a3-border-default: var(--a3-border);
   --a3-success: #35b769;
   --a3-danger: #f91c1c;
   --a3-warning: #ff822e;
 
   /* Product UI Tokens */
   --a3-surface-raised: var(--a3-surface);
-  --a3-surface-soft: color-mix(
-    in srgb,
-    var(--a3-background-light) 88%,
-    var(--a3-sky-frost)
-  );
+  --a3-surface-soft: var(--a3-surface-alt);
   --a3-surface-info: color-mix(
     in srgb,
-    var(--a3-sky-frost) 12%,
+    var(--a3-primary) 5%,
+    var(--a3-surface)
+  );
+  --a3-surface-accent: color-mix(
+    in srgb,
+    var(--a3-accent) 8%,
     var(--a3-surface)
   );
   --a3-surface-selected: color-mix(
     in srgb,
-    var(--a3-tech-blue) 8%,
+    var(--a3-primary) 7%,
     var(--a3-surface)
   );
   --a3-surface-success: color-mix(
@@ -61,7 +71,7 @@
   );
   --a3-text-muted: color-mix(
     in srgb,
-    var(--a3-text-on-light) 64%,
+    var(--a3-text-strong) 58%,
     var(--a3-surface)
   );
   --a3-border-soft: color-mix(
@@ -91,65 +101,48 @@
   /* Modo Claro (Default) */
   --bg-main: var(--a3-background-light);
   --bg-card: var(--a3-surface);
-  --text-main: var(--a3-text-on-light);
+  --text-main: var(--a3-text);
+  --text-strong: var(--a3-text-strong);
   --text-muted: var(--a3-text-muted);
   --border-theme: var(--a3-border-default);
 }
 
 .dark {
   /* Modo Escuro */
-  --bg-main: var(--a3-deep-sea);
-  --bg-card: color-mix(in srgb, var(--a3-deep-sea) 88%, var(--a3-tech-blue));
+  --bg-main: #07113c;
+  --bg-card: #101b4a;
   --text-main: var(--a3-text-on-dark);
-  --text-muted: color-mix(
-    in srgb,
-    var(--a3-text-on-dark) 72%,
-    var(--a3-deep-sea)
-  );
+  --text-strong: var(--a3-text-on-dark);
+  --text-muted: color-mix(in srgb, var(--a3-text-on-dark) 68%, var(--bg-main));
   --border-theme: color-mix(
     in srgb,
-    var(--a3-sky-frost) 24%,
-    var(--a3-deep-sea)
+    var(--a3-text-on-dark) 16%,
+    var(--bg-main)
   );
-  --a3-surface-raised: color-mix(
-    in srgb,
-    var(--a3-deep-sea) 82%,
-    var(--a3-tech-blue)
-  );
-  --a3-surface-soft: color-mix(
-    in srgb,
-    var(--a3-deep-sea) 92%,
-    var(--a3-sky-frost)
-  );
-  --a3-surface-info: color-mix(
-    in srgb,
-    var(--a3-deep-sea) 84%,
-    var(--a3-sky-frost)
-  );
+  --a3-surface-raised: var(--bg-card);
+  --a3-surface-soft: #172151;
+  --a3-surface-info: color-mix(in srgb, var(--bg-card) 90%, var(--a3-primary));
+  --a3-surface-accent: color-mix(in srgb, var(--bg-card) 86%, var(--a3-accent));
   --a3-surface-selected: color-mix(
     in srgb,
-    var(--a3-deep-sea) 80%,
-    var(--a3-tech-blue)
+    var(--bg-card) 84%,
+    var(--a3-primary)
   );
   --a3-surface-success: color-mix(
     in srgb,
-    var(--a3-deep-sea) 86%,
+    var(--bg-card) 84%,
     var(--a3-success)
   );
-  --a3-surface-danger: color-mix(
-    in srgb,
-    var(--a3-deep-sea) 86%,
-    var(--a3-danger)
-  );
+  --a3-surface-danger: color-mix(in srgb, var(--bg-card) 84%, var(--a3-danger));
   --a3-surface-warning: color-mix(
     in srgb,
-    var(--a3-deep-sea) 86%,
+    var(--bg-card) 84%,
     var(--a3-warning)
   );
   --a3-border-soft: color-mix(
     in srgb,
-    var(--a3-sky-frost) 18%,
-    var(--a3-deep-sea)
+    var(--a3-text-on-dark) 10%,
+    var(--bg-card)
   );
   --a3-shadow-card: 0 18px 40px
     color-mix(in srgb, var(--a3-deep-sea) 42%, transparent);
@@ -179,7 +172,7 @@ body {
 }
 
 ::selection {
-  background-color: color-mix(in srgb, var(--a3-sky-frost) 36%, transparent);
+  background-color: color-mix(in srgb, var(--a3-accent) 28%, transparent);
   color: inherit;
 }
 
@@ -190,7 +183,7 @@ body {
   background-color: var(--aws-dark) !important;
 }
 .aws-text-dark {
-  color: var(--aws-dark) !important;
+  color: var(--text-strong) !important;
 }
 .dark .aws-text-dark {
   color: var(--text-main) !important;
@@ -237,21 +230,28 @@ body {
 }
 .bg-orange-50,
 .bg-orange-500\/10,
-.bg-blue-50,
-.bg-blue-500\/10,
 .bg-indigo-500\/10,
 .bg-purple-500\/10,
+.bg-yellow-50,
+.bg-yellow-500\/10,
 .dark .dark\:bg-orange-900\/20,
+.dark .dark\:bg-orange-900\/40,
+.dark .dark\:bg-orange-900\/30 {
+  background-color: var(--a3-surface-accent) !important;
+}
+.bg-blue-50,
+.bg-blue-500\/10,
 .dark .dark\:bg-blue-900,
 .dark .dark\:bg-blue-900\/30 {
   background-color: var(--a3-surface-info) !important;
 }
 .bg-orange-100,
-.bg-orange-100\/50,
-.bg-yellow-50,
-.bg-yellow-500\/10,
-.dark .dark\:bg-orange-900\/40,
-.dark .dark\:bg-orange-900\/30 {
+.bg-orange-100\/50 {
+  background-color: var(--a3-surface-accent) !important;
+}
+.bg-amber-50,
+.bg-amber-100,
+.bg-yellow-100 {
   background-color: var(--a3-surface-warning) !important;
 }
 .bg-orange-500,
@@ -262,10 +262,12 @@ body {
   background-color: var(--a3-tech-blue) !important;
 }
 .bg-green-50,
-.bg-green-600,
 .dark .dark\:bg-green-900\/20,
 .dark .dark\:bg-green-900\/30 {
   background-color: var(--a3-surface-success) !important;
+}
+.bg-green-600 {
+  background-color: var(--a3-success) !important;
 }
 .bg-red-50,
 .bg-red-100,
@@ -320,12 +322,27 @@ body {
 .text-white {
   color: var(--a3-text-on-dark) !important;
 }
+.bg-white .text-white,
+.bg-gray-50 .text-white,
+.bg-gray-100 .text-white,
+.bg-blue-50 .text-white,
+.bg-orange-50 .text-white {
+  color: var(--a3-text-on-dark) !important;
+}
 .text-orange-300,
 .text-orange-400,
 .text-orange-500,
 .text-orange-600,
 .text-orange-700,
 .text-orange-800,
+.text-yellow-500,
+.text-yellow-400,
+.text-purple-500,
+.text-purple-400,
+.text-indigo-400,
+.text-indigo-500 {
+  color: var(--a3-accent) !important;
+}
 .text-blue-500,
 .text-blue-400,
 .text-blue-600,
@@ -352,15 +369,6 @@ body {
 .dark .dark\:text-red-400 {
   color: var(--a3-danger) !important;
 }
-.text-yellow-500 {
-  color: var(--a3-summer-time) !important;
-}
-.text-purple-500,
-.text-purple-400,
-.text-indigo-400,
-.text-indigo-500 {
-  color: var(--a3-amethyst-velvet) !important;
-}
 .border-gray-100,
 .border-gray-200,
 .border-gray-300,
@@ -380,12 +388,15 @@ body {
 .border-orange-700,
 .border-orange-800,
 .border-orange-500\/50,
+.border-yellow-500,
+.dark .dark\:border-orange-800\/50,
+.dark .dark\:border-orange-500\/30 {
+  border-color: var(--a3-accent) !important;
+}
 .border-blue-200,
 .border-blue-500,
 .border-blue-700,
-.border-aws-orange,
-.dark .dark\:border-orange-800\/50,
-.dark .dark\:border-orange-500\/30 {
+.border-aws-orange {
   border-color: var(--a3-tech-blue) !important;
 }
 .border-green-200,
@@ -400,9 +411,6 @@ body {
 .dark .dark\:border-red-700 {
   border-color: var(--a3-danger) !important;
 }
-.border-yellow-500 {
-  border-color: var(--a3-summer-time) !important;
-}
 .shadow-md,
 .shadow-lg,
 .shadow-xl,
@@ -414,8 +422,7 @@ body {
 .hover\:shadow-orange-500\/50:hover {
   box-shadow: var(--a3-shadow-action) !important;
 }
-.bg-gradient-to-r,
-.trail-node.boss-node {
+.bg-gradient-to-r {
   background-image: none !important;
   background-color: var(--a3-tech-blue) !important;
 }
@@ -428,6 +435,105 @@ body {
     in srgb,
     var(--a3-tech-blue) 24%,
     transparent
+  ) !important;
+}
+
+header {
+  background-color: var(--a3-primary-dark) !important;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--a3-text-inverse) 16%, transparent);
+}
+header .hover\:bg-gray-700:hover,
+header .hover\:bg-gray-800:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--a3-text-inverse) 12%,
+    transparent
+  ) !important;
+}
+header #home-trigger i,
+header #home-trigger:hover h1 {
+  color: var(--a3-accent) !important;
+}
+header #header-pomodoro-btn {
+  background-color: color-mix(
+    in srgb,
+    var(--a3-accent) 16%,
+    transparent
+  ) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--a3-accent) 52%,
+    transparent
+  ) !important;
+  color: var(--a3-text-inverse) !important;
+}
+header #score-container {
+  background-color: color-mix(
+    in srgb,
+    var(--a3-text-inverse) 12%,
+    transparent
+  ) !important;
+}
+
+#main-section,
+#screen-start,
+#screen-quiz,
+#screen-results {
+  background-color: var(--a3-surface) !important;
+  color: var(--text-main);
+}
+
+.dark #main-section,
+.dark #screen-start,
+.dark #screen-quiz,
+.dark #screen-results {
+  background-color: var(--a3-surface-raised) !important;
+}
+
+#screen-start > .w-20.h-20 {
+  background:
+    radial-gradient(
+      circle at 70% 25%,
+      color-mix(in srgb, var(--a3-accent) 26%, transparent),
+      transparent 34%
+    ),
+    color-mix(in srgb, var(--a3-primary) 8%, var(--a3-surface)) !important;
+  box-shadow: inset 0 0 0 1px var(--a3-border-soft) !important;
+}
+
+#screen-start > .w-20.h-20 i {
+  color: var(--a3-primary) !important;
+}
+
+#screen-start .w-full.max-w-md,
+#screen-results .bg-gray-50,
+#screen-quiz .bg-gray-50,
+#screen-quiz .dark\:bg-slate-700\/50,
+#screen-results .dark\:bg-slate-700\/50 {
+  background-color: var(--a3-surface-soft) !important;
+  border-color: var(--border-theme) !important;
+}
+
+select,
+input[type="text"],
+input[type="number"],
+input[type="email"],
+textarea {
+  background-color: var(--a3-surface) !important;
+  border-color: var(--a3-border-default) !important;
+  color: var(--text-main) !important;
+}
+
+.dark select,
+.dark input[type="text"],
+.dark input[type="number"],
+.dark input[type="email"],
+.dark textarea {
+  background-color: color-mix(
+    in srgb,
+    var(--a3-surface-soft) 86%,
+    #000000
   ) !important;
 }
 
@@ -747,10 +853,15 @@ textarea {
 }
 
 .sprint-day-current {
-  background-color: var(--a3-summer-time) !important;
-  border-color: var(--a3-tech-blue) !important;
-  color: var(--a3-text-on-light) !important;
+  background-color: var(--a3-accent) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--a3-accent) 70%,
+    var(--a3-surface)
+  ) !important;
+  color: var(--a3-text-inverse) !important;
   font-weight: 900 !important;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--a3-accent) 24%, transparent);
 }
 .light #sprint-days-grid .bg-gray-50 {
   background-color: var(--a3-surface-soft) !important;

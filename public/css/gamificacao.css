@@ -139,13 +139,14 @@
 
 /* 3. Ativo/Atual (Com efeito de pulso e destaque) */
 .trail-node.active {
-  background-color: var(--a3-surface-raised);
-  color: var(--a3-tech-blue);
-  border-color: var(--a3-tech-blue);
+  background-color: var(--a3-accent);
+  color: var(--a3-text-inverse);
+  border-color: color-mix(in srgb, var(--a3-accent) 74%, var(--a3-surface));
   animation: nodePulse 2s infinite;
 }
 .dark .trail-node.active {
-  background-color: var(--a3-surface-raised);
+  background-color: var(--a3-accent);
+  color: var(--a3-text-inverse);
 }
 
 /* Texto abaixo do nó */
@@ -214,8 +215,8 @@
 }
 
 .badge-glass:not(.grayscale):hover {
-  border-color: var(--a3-tech-blue);
-  box-shadow: var(--a3-shadow-action);
+  border-color: var(--a3-accent);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--a3-accent) 18%, transparent);
 }
 
 /* Adaptação do Glassmorphism para o Dark Mode */
@@ -226,8 +227,8 @@
 }
 
 .dark .badge-glass:hover {
-  box-shadow: var(--a3-shadow-action);
-  border-color: var(--a3-tech-blue);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--a3-accent) 22%, transparent);
+  border-color: var(--a3-accent);
 }
 
 /* Ícone da Insígnia */
@@ -260,7 +261,7 @@
 /* Animação suave de pulso para o nó atual da jornada */
 @keyframes nodePulse {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--a3-tech-blue) 34%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--a3-accent) 32%, transparent);
   }
   70% {
     box-shadow: 0 0 0 15px transparent;
@@ -292,12 +293,11 @@
 .trail-node.boss-node {
   width: 90px;
   height: 90px;
-  background: var(--a3-deep-sea);
-  border: 4px solid var(--a3-summer-time);
-  color: var(--a3-summer-time);
+  background: var(--a3-primary-dark);
+  border: 4px solid var(--a3-accent);
+  color: var(--a3-text-inverse);
   font-size: 2rem;
-  box-shadow: 0 0 20px
-    color-mix(in srgb, var(--a3-summer-time) 34%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--a3-accent) 24%, transparent);
   text-shadow: 0 2px 4px color-mix(in srgb, var(--a3-deep-sea) 50%, transparent);
   z-index: 10;
 }
@@ -321,14 +321,13 @@
 }
 
 .trail-node.boss-node.active {
-  background: var(--a3-deep-sea);
+  background: var(--a3-primary-dark);
   animation: bossPulse 2s infinite;
 }
 
 @keyframes bossPulse {
   0% {
-    box-shadow: 0 0 0 0
-      color-mix(in srgb, var(--a3-summer-time) 54%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--a3-accent) 38%, transparent);
   }
   70% {
     box-shadow: 0 0 0 20px transparent;
@@ -339,14 +338,14 @@
 }
 
 .dark .trail-node.boss-node {
-  border-color: var(--a3-summer-time);
-  color: var(--a3-summer-time);
+  border-color: var(--a3-accent);
+  color: var(--a3-text-inverse);
 }
 
 .aws-drag-item {
-  background-color: var(--a3-deep-sea);
-  color: var(--a3-text-on-dark);
-  border: 1px solid var(--a3-tech-blue);
+  background-color: var(--a3-surface-raised);
+  color: var(--text-main);
+  border: 1px solid var(--border-theme);
   padding: 12px;
   margin: 8px 0;
   border-radius: 4px;
