@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await quizManager.initialize(user.id);
     console.log(`✓ Initialized with user: ${user.id}`);
   } catch (error) {
-    console.error('Failed to initialize user:', error);
+    console.error("Failed to initialize user:", error);
     // Continue anyway - app can still work in offline mode
   }
 
@@ -230,12 +230,15 @@ async function startQuiz() {
     const userId = userManager.getUserId();
     if (userId) {
       try {
-        const quizResponse = await quizManager.startQuiz(certId, parseInt(quantityInput));
+        const quizResponse = await quizManager.startQuiz(
+          certId,
+          parseInt(quantityInput),
+        );
         if (!quizResponse.fromAPI) {
-          console.log('⚠ Quiz started in local mode (API unavailable)');
+          console.log("⚠ Quiz started in local mode (API unavailable)");
         }
       } catch (error) {
-        console.warn('Could not start quiz on backend:', error);
+        console.warn("Could not start quiz on backend:", error);
         // Continue anyway - frontend will work in local mode
       }
     }
@@ -506,15 +509,17 @@ function submitAnswer() {
 
   // Record answer to backend asynchronously (don't block UI)
   if (quizManager.currentQuizId && question.id) {
-    quizManager.recordAnswer({
-      question_id: question.id,
-      user_answer: uiState.tempSelectedAnswer,
-      is_correct: result.isCorrect,
-      time_secs: 0, // Could be enhanced with actual timer
-    }).catch(error => {
-      console.warn('Failed to record answer:', error);
-      // UI continues anyway
-    });
+    quizManager
+      .recordAnswer({
+        question_id: question.id,
+        user_answer: uiState.tempSelectedAnswer,
+        is_correct: result.isCorrect,
+        time_secs: 0, // Could be enhanced with actual timer
+      })
+      .catch((error) => {
+        console.warn("Failed to record answer:", error);
+        // UI continues anyway
+      });
   }
 
   if (uiState.currentMode === "mission") {
@@ -1107,12 +1112,14 @@ function saveQuizResult() {
 
   const results = engine.getFinalResults();
   storageManager.saveQuizResult(results);
-  
+
   // Confirm backend sync if quiz was started via API
   if (quizManager && quizManager.currentQuizId) {
-    console.log(`✓ Quiz ${quizManager.currentQuizId} completed and synced to backend`);
+    console.log(
+      `✓ Quiz ${quizManager.currentQuizId} completed and synced to backend`,
+    );
   }
-  
+
   updateGamification(results.percentage);
 }
 

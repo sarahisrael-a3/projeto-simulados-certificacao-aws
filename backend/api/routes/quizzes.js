@@ -98,7 +98,7 @@ router.post('/:id/answer', async (req, res, next) => {
     const { question_id, user_answer, time_secs } = req.body;
 
     // Validate required fields
-    if (!quiz_id || !question_id || !user_answer) {
+    if (!quiz_id || !question_id || user_answer === undefined || user_answer === null) {
       return res.status(400).json({
         success: false,
         message: 'quiz_id, question_id, and user_answer are required',

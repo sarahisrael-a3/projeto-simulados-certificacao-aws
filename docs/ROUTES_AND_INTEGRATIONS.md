@@ -1,270 +1,354 @@
-# Mapeamento de Rotas e Integrações
+# Rotas e Integracoes
 
-Documento que mapeia todas as rotas, fetch calls e integrações do projeto.
+Atualizado em: 2026-06-16
 
-## 📋 Sumário Executivo
+Este documento descreve o estado real das rotas, fontes de dados e integracoes locais do projeto.
 
-| Item | Status | Porta | Descrição |
-|------|--------|-------|-----------|
-| Frontend (Live Server) | ✅ | 8000 | Serve `public/` com auto-reload |
-| Backend (Node.js) | ⏳ | 3000 | `npm run db:dev` (opcional) |
-| Data Files | ✅ | 8000 | Copiados para `public/data/` via build |
-| API Endpoints | 📝 | N/A | Mapeados mas não implementados |
+## Resumo
 
----
+| Item | Status | Porta/Origem | Observacao |
+| --- | --- | --- | --- |
+| Frontend SPA/PWA | Implementado | `public/` via `npm run dev` | Usa `src/frontend/` como fonte e `public/` como build |
+| JSON local/offline | Implementado | `public/data/` | Copiado de `data/` por `npm run build` |
+| API Express | Implementado | `http://127.0.0.1:3001` | Rotas em `backend/api/` |
+| PGlite | Implementado | `DB_DATA_DIR` | Schema em `backend/database/schema.sql` |
+| Seed JSON -> PGlite | Implementado | `npm run db:seed` | Importa JSONs principais PT/EN |
+| Painel de validacao | Demo/mock | `validation/` e `public/validation/` | Nao persiste aprovacoes/rejeicoes |
 
-## 🔄 Fluxo de Requisições
+## Como Rodar Localmente
 
-```
-Cliente (Frontend)
-    ↓
-    ├─→ GET /data/{certId}.json
-    ├─→ GET /data/nivelamento/diagnostic-{certId}.json
-    ├─→ GET /data/gamificacao/interactive-challenges.json
-    └─→ Service Worker (intercepta .json files)
-```
+### Frontend offline/fallback
 
----
-
-## 📂 Estrutura de Dados e Arquivos
-
-### Localização Original (Desenvolvimento)
-```
-projeto-root/
-├── data/
-│   ├── clf-c02.json
-│   ├── clf-c02-en.json
-│   ├── saa-c03.json
-│   ├── saa-c03-en.json
-│   ├── dva-c02.json
-│   ├── dva-c02-en.json
-│   ├── aif-c01.json
-│   ├── aif-c01-en.json
-│   ├── nivelamento/
-│   │   ├── diagnostic-clf-c02.json
-│   │   ├── diagnostic-clf-c02-en.json
-│   │   ├── diagnostic-saa-c03.json
-│   │   ├── diagnostic-saa-c03-en.json
-│   │   ├── diagnostic-dva-c02.json
-│   │   ├── diagnostic-dva-c02-en.json
-│   │   ├── diagnostic-aif-c01.json
-│   │   └── diagnostic-aif-c01-en.json
-│   └── gamificacao/
-│       └── interactive-challenges.json
-├── src/
-│   └── frontend/
-│       ├── js/
-│       └── styles/
-└── public/
-    ├── index.html
-    └── (vazio antes do build)
+```bash
+npm run dev
 ```
 
-### Localização Servida (Runtime - após `npm run build`)
+Esse comando executa build e serve `public/`. Os dados sao carregados de `public/data/`.
+
+### Banco local com dados dos JSONs
+
+Configure `.env`:
+
+```ini
+NODE_ENV=development
+DB_DATA_DIR=.pglite-data
+PORT=3001
 ```
-public/
-├── index.html
-├── js/          ← Copiado de src/frontend/js/
-├── css/         ← Copiado de src/frontend/styles/
-├── data/        ← Copiado de /data/ (NOVO!)
-│   ├── clf-c02.json
-│   ├── nivelamento/
-│   └── gamificacao/
-└── manifest.json
+
+Crie o arquivo local a partir do exemplo:
+
+```bash
+cp .env.example .env
 ```
 
----
+No Windows/PowerShell:
 
-## 🎯 Todas as Fetch Calls
-
-### 1. Quiz Principal
-**Localização**: `src/frontend/js/quizEngine.js:33`
-**Chamada**:
-```javascript
-const fileSuffix = language === 'en' ? '-en' : '';
-const response = await fetch(`data/${certId}${fileSuffix}.json`);
+```powershell
+Copy-Item .env.example .env
 ```
-**Exemplo**: `GET /data/clf-c02.json` ou `GET /data/clf-c02-en.json`
-**Status**: ✅ Funciona (dados em `public/data/`)
 
-### 2. Teste Diagnóstico
-**Localização**: `src/frontend/js/quizEngine.js:73-81`
-**Chamada**:
-```javascript
-const fileSuffix = language === 'en' ? '-en' : '';
-let filePath = `data/nivelamento/diagnostic-${certId}${fileSuffix}.json`;
-let response = await fetch(filePath);
+`DB_DATA_DIR` e obrigatorio fora de `NODE_ENV=test`; ele define onde o PGlite grava os dados locais. O arquivo `.env` nao deve ser commitado.
+
+Rode o seed:
+
+```bash
+npm run db:seed
 ```
-**Exemplo**: `GET /data/nivelamento/diagnostic-clf-c02.json`
-**Status**: ✅ Funciona
 
-### 3. Quiz (Carregamento Secundário)
-**Localização**: `src/frontend/js/app.js:1350-1356`
-**Chamada**:
-```javascript
-const fileSuffix = uiState.language === "en" ? "-en" : "";
-const response = await fetch(`data/${certId}${fileSuffix}.json`);
+### API Express
+
+```bash
+npm run api:start
 ```
-**Status**: ✅ Funciona
 
-### 4. Desafios Interativos (Gamificação)
-**Localização**: `src/frontend/js/gamificacao/interactiveEngine.js:19`
-**Chamada**:
-```javascript
-const response = await fetch('data/gamificacao/interactive-challenges.json');
+Health check:
+
+```text
+GET http://127.0.0.1:3001/api/health
 ```
-**Status**: ✅ Funciona
 
----
+### App completo
 
-## 🔌 Service Worker Configuration
+Use terminais separados:
 
-**Arquivo**: `public/sw.js`
+```bash
+npm run db:seed
+npm run api:start
+npm run dev
+```
 
-### Estratégia de Cache
-- **JSON files**: Network First (tenta rede primeiro, depois cache)
-- **Outros assets**: Cache First (tenta cache, depois rede)
+O frontend tenta usar a API quando ela esta disponivel e mantem fallback para JSON/localStorage quando ela nao esta.
 
-### Lógica
-```javascript
-// Para .json files
-if (event.request.url.endsWith('.json') && !event.request.url.includes('manifest.json')) {
-    event.respondWith(
-        fetch(event.request).then(response => {
-            // Faz cache se válido
-            if (response && response.status === 200) {
-                cache.put(event.request, responseClone);
-            }
-            return response;
-        }).catch(err => {
-            // Se offline, usa cache
-            return caches.match(event.request);
-        })
-    );
+## Fluxo de Dados
+
+```text
+src/frontend/ + src/services/ + data/
+        |
+        | npm run build
+        v
+public/js + public/services + public/data
+        |
+        | navegador/PWA
+        v
+API Express opcional -> PGlite persistente
+        |
+        | fallback quando indisponivel
+        v
+JSON local + localStorage
+```
+
+## Fetches Do Frontend
+
+### Quiz principal
+
+Origem:
+
+- API preferencial: `src/frontend/js/quizEngine.js` chama `apiService.loadQuestions()`.
+- Fallback: `fetch("data/{certId}.json")` ou `fetch("data/{certId}-en.json")`.
+
+Arquivos:
+
+- `data/clf-c02.json`
+- `data/clf-c02-en.json`
+- `data/saa-c03.json`
+- `data/saa-c03-en.json`
+- `data/dva-c02.json`
+- `data/dva-c02-en.json`
+- `data/aif-c01.json`
+- `data/aif-c01-en.json`
+
+### Diagnostico
+
+Origem:
+
+- API tentada por `apiService.loadQuestions({ search: "diagnostic" })`.
+- Fallback principal: `data/nivelamento/diagnostic-{certId}.json`.
+- Fallback de idioma: se EN nao existir, tenta PT.
+
+### Gamificacao interativa
+
+Origem:
+
+- `data/gamificacao/interactive-challenges.json`.
+
+### Leaderboard
+
+Origem:
+
+- API: `GET /api/leaderboard`.
+- Fallback: dados locais/mock combinados no frontend.
+
+## API Express Real
+
+Arquivo principal: `backend/api/server.js`.
+
+### Health
+
+```text
+GET /api/health
+```
+
+Resposta:
+
+```json
+{
+  "success": true,
+  "message": "API is healthy",
+  "timestamp": "2026-06-16T00:00:00.000Z"
 }
 ```
 
----
+### Questoes
 
-## 🛠️ Build Process
-
-**Arquivo**: `scripts/build.cjs`
-
-### O que Faz
-1. ✅ Copia `src/frontend/js/` → `public/js/`
-2. ✅ Copia `src/frontend/styles/` → `public/css/`
-3. ✅ **NEW**: Copia `data/` → `public/data/`
-
-### Execução
-```bash
-npm run build   # Executa o script
-npm run dev     # Executa build + live-server
-```
-
----
-
-## 📝 Endpoints Planejados (Não Implementados)
-
-### Arquivos: `validation/js/validationAPI.js`
-
-#### TODO: Pendentes de Implementação
-```javascript
-// Buscar questões pendentes
-await fetch('/api/questions/pending');
-
-// Validar questão
-POST /api/questions/{id}/validate
-Body: { status: 'approved' | 'rejected' }
-
-// Listar questões
+```text
 GET /api/questions
-
-// Criar questão
+GET /api/questions?certification=CLF-C02&domain=faturamento&difficulty=easy&limit=10&offset=0
+GET /api/questions?search=s3&limit=20
+GET /api/questions/:id
 POST /api/questions
-Body: { question, options, correct, ... }
+PUT /api/questions/:id
+DELETE /api/questions/:id
 ```
 
-**Status**: 📝 Mocks com delay em vez de chamadas reais
-**Próximo Passo**: Implementar backend em Node.js ou FastAPI
+Payload minimo para `POST /api/questions`:
 
----
-
-## 🐍 Backend Configuration (Opcional)
-
-**Arquivo**: `.env.example` e `.env`
-
-```ini
-# FastAPI Backend (se implementar)
-API_HOST=localhost
-API_PORT=8000
-
-# PostgreSQL Database (se usar)
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=aws_simulator
-DB_USER=postgres
-DB_PASSWORD=postgres
-
-# Google Gemini API
-GOOGLE_API_KEY=seu_key_aqui
-
-# Groq API
-GROQ_API_KEY=seu_key_aqui
+```json
+{
+  "certification": "CLF-C02",
+  "domain": "faturamento",
+  "difficulty": "easy",
+  "question_text": "Question text with at least ten characters",
+  "options": ["A", "B", "C", "D"],
+  "correct_answer": [0],
+  "explanation": "Why the answer is correct"
+}
 ```
 
-**Status**: ⏳ Configurado mas não usado no frontend
+### Quiz
 
----
+```text
+POST /api/quiz/start
+POST /api/quizzes/start
+POST /api/quiz/:id/answer
+POST /api/quizzes/:id/answer
+GET /api/quiz/:id/results
+GET /api/quizzes/:id/results
+GET /api/quiz/:id
+GET /api/quizzes/:id
+```
 
-## ✅ Checklist de Rotas
+Iniciar quiz:
 
-### Desenvolvimento (`npm run dev`)
-- [x] Frontend em http://localhost:8000
-- [x] Auto-reload habilitado
-- [x] Dados em `/data/` servidos em `http://localhost:8000/data/`
-- [x] Service Worker interceptando .json
-- [x] Cache estratégia Network First para JSON
+```json
+{
+  "user_id": "uuid-do-usuario",
+  "certification": "CLF-C02",
+  "num_questions": 10
+}
+```
 
-### Produção (GitHub Pages)
-- [ ] Build process copia `data/` para `public/data/`
-- [ ] GitHub Pages serve `public/` como root
-- [ ] URLs relativas funcionam: `GET /data/clf-c02.json`
+Responder:
 
----
+```json
+{
+  "question_id": "uuid-da-questao",
+  "user_answer": 0,
+  "time_secs": 12
+}
+```
 
-## 🔍 Troubleshooting
+O backend calcula `is_correct` com base em `questions.correct_answer`; ele nao confia no `is_correct` enviado pelo cliente.
 
-### Erro 404 em `/data/*.json`
-**Causa**: Pasta `data/` não foi copiada para `public/`
-**Solução**: Execute `npm run build`
+### Usuarios
 
-### Service Worker não cacheando
-**Causa**: Página aberta antes do Service Worker registrar
-**Solução**: Limpar cache do navegador (DevTools → Storage → Clear)
+```text
+POST /api/users
+GET /api/users/:id/stats
+GET /api/users/:id/weak-domains?threshold=70
+```
 
-### Live reload não funciona
-**Causa**: Live Server não rodando
-**Solução**: `npm run dev` ou `npx live-server public`
+Criar usuario anonimo:
 
-### Dados não atualizam
-**Causa**: Cache está muito antigo
-**Solução**: Abrir em aba privada ou limpar cache
+```json
+{
+  "anonymous_name": "CloudNinja#1234"
+}
+```
 
----
+Se `anonymous_name` nao for enviado, a API gera um nome anonimo.
 
-## 📊 Resumo de Mudanças
+### Leaderboard
 
-| Data | Mudança | Status |
-|------|---------|--------|
-| 2026-06-02 | Criado eslint.config.js | ✅ |
-| 2026-06-02 | Build script com data copy | ✅ |
-| 2026-06-02 | Documentação de rotas | ✅ |
+```text
+GET /api/leaderboard?limit=100
+```
 
----
+## PGlite
 
-## 🔗 Referências
+Arquivos principais:
 
-- [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
-- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
-- [Cache API](https://developer.mozilla.org/en-US/docs/Web/API/Cache)
+- `backend/database/db.js`
+- `backend/database/schema.sql`
+- `backend/database/normalizers.js`
+- `backend/database/db.test.js`
 
+O banco exige `DB_DATA_DIR` fora de `NODE_ENV=test`. Em testes, usa `memory://`.
+
+## Seed Dos JSONs
+
+Comando:
+
+```bash
+npm run db:seed
+```
+
+Ou:
+
+```bash
+npm run db:seed -- --data-dir .pglite-data
+```
+
+Alternativa temporaria no Windows/PowerShell:
+
+```powershell
+$env:DB_DATA_DIR=".pglite-data"
+npm run db:seed
+```
+
+O seed importa:
+
+- `data/clf-c02.json`
+- `data/clf-c02-en.json`
+- `data/saa-c03.json`
+- `data/saa-c03-en.json`
+- `data/dva-c02.json`
+- `data/dva-c02-en.json`
+- `data/aif-c01.json`
+- `data/aif-c01-en.json`
+
+Caracteristicas:
+
+- normaliza certificacao, campos de pergunta, alternativas, resposta correta, referencia e tags;
+- adiciona tags `language:{pt|en}` e `source:{arquivo}`;
+- evita duplicidade por `certification + domain + question_text`;
+- falha explicitamente em JSON invalido ou questao sem campos obrigatorios;
+- registra importados, ignorados e lidos por certificacao/idioma.
+
+Erro conhecido:
+
+```text
+DB_DATA_DIR is required outside the test environment.
+```
+
+Causa: `DB_DATA_DIR` nao foi configurado. Solucao: crie `.env` com `DB_DATA_DIR=.pglite-data` ou passe `-- --data-dir .pglite-data`.
+
+## Build
+
+Comando:
+
+```bash
+npm run build
+```
+
+O build:
+
+- copia `src/frontend/js/` para `public/js/`;
+- copia `src/frontend/styles/` para `public/css/`;
+- copia `src/services/` para `public/services/`;
+- copia arquivos selecionados de `data/` para `public/data/`;
+- copia `validation/` para `public/validation/`;
+- preserva arquivos necessarios para GitHub Pages.
+
+## Painel De Validacao
+
+Arquivos:
+
+- `validation/valid.html`
+- `validation/js/validationAPI.js`
+- `validation/js/validationUI.js`
+- `validation/js/validationStorage.js`
+
+Status atual: demo/mock local.
+
+Ele nao persiste aprovacoes, rejeicoes, validador, data ou motivo no PGlite. Os contratos planejados estao documentados em `window.VALIDATION_API_CONTRACT`, mas os endpoints reais abaixo ainda nao existem:
+
+```text
+GET /api/questions/pending
+POST /api/questions/:id/validate
+```
+
+## Testes
+
+```bash
+npm test -- --runInBand
+npm test -- __tests__/api.integration.test.js --runInBand
+```
+
+Cobertura atual relevante:
+
+- banco PGlite e queries principais;
+- API service/fallback;
+- quiz engine;
+- storage manager;
+- sprint manager;
+- endpoints Express criticos via teste de integracao.

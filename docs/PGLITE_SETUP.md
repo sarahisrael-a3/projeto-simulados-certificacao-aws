@@ -1,137 +1,129 @@
-# 🗄️ PGLite Setup - Guia Rápido
+# PGlite Setup
 
-## ✅ O que foi instalado
+PGlite e a camada de banco local usada pela API Express. Ela permite demonstrar persistencia sem depender de um PostgreSQL externo.
 
-### Pacotes NPM
-- `@electric-sql/pglite` - Motor de banco de dados PostgreSQL em memória/local
-- `@electric-sql/pglite-socket` - Acesso remoto via socket
+## Arquivos
 
-### Arquivos Criados
-
-```
-backend/
-├── database/
-│   ├── db.js              ← Módulo principal de conexão
-│   ├── socketServer.js    ← Servidor socket (futuro)
-│   ├── example.js         ← Exemplo completo de uso
-│   └── README.md          ← Documentação detalhada
-└── server.js              ← Script para iniciar o servidor
+```text
+backend/database/db.js          camada publica de acesso ao banco
+backend/database/schema.sql     schema principal
+backend/database/normalizers.js normalizadores compartilhados
+backend/database/db.test.js     testes da camada de banco
+scripts/seed-pglite.mjs         seed dos JSONs principais
 ```
 
-### Scripts adicionados ao `package.json`
-```json
-"db:start": "node backend/server.js",
-"db:dev": "NODE_ENV=development node backend/server.js"
+## Variaveis
+
+Configure `.env` ou variaveis de ambiente:
+
+```ini
+NODE_ENV=development
+DB_DATA_DIR=.pglite-data
+PORT=3001
 ```
 
-## 🚀 Como Começar
+Regras:
 
-### Terminal 1: Iniciar o servidor
+- fora de `NODE_ENV=test`, `DB_DATA_DIR` e obrigatorio;
+- em testes, o banco usa `memory://`;
+- `memory://` nao e permitido em desenvolvimento/producao.
+- `.env` e local e nao deve ser commitado; versionamos apenas `.env.example`.
+
+Para criar o `.env`:
 
 ```bash
-npm run db:start
+cp .env.example .env
 ```
 
-Você verá:
-```
-🚀 Starting PGLite Database Server...
-✓ Database initialized successfully
-✓ Server is ready
-⚙️  Environment: development
-📝 Database API available for imports
-Press Ctrl+C to stop the server
+No Windows/PowerShell:
+
+```powershell
+Copy-Item .env.example .env
 ```
 
-### Terminal 2: Usar o banco
+Alternativa temporaria no PowerShell:
 
-#### Opção A - Testar com o exemplo
-```bash
-node backend/database/example.js
+```powershell
+$env:DB_DATA_DIR=".pglite-data"
+npm run db:seed
 ```
 
-#### Opção B - Usar em seu código
-```javascript
-import { initializeDatabase, executeQuery, executeSql } from './backend/database/db.js';
-
-// Inicializar
-await initializeDatabase();
-
-// Criar tabela
-await executeSql(`
-  CREATE TABLE questions (
-    id SERIAL PRIMARY KEY,
-    title TEXT NOT NULL
-  );
-`);
-
-// Inserir
-const result = await executeQuery(
-  'INSERT INTO questions (title) VALUES ($1) RETURNING *',
-  ['Minha pergunta']
-);
-
-// Buscar
-const questions = await executeQuery('SELECT * FROM questions');
-console.log(questions);
-```
-
-## 📚 API Rápida
-
-| Função | Uso |
-|--------|-----|
-| `initializeDatabase()` | Inicializa o banco |
-| `getDatabase()` | Retorna instância |
-| `executeQuery(sql, params)` | Executa query com retorno |
-| `executeSql(sql)` | Executa SQL puro |
-| `closeDatabase()` | Fecha conexão |
-
-## 🔧 Variáveis de Ambiente (Opcional)
+## Criar Banco E Popular Dados
 
 ```bash
-# .env ou command line
-DB_DATA_DIR=/caminho/para/dados      # Para persistência
-NODE_ENV=development                  # Ambiente
+npm run db:seed
 ```
 
-## ✨ Características
+Com diretorio explicito:
 
-- ✅ Sem dependências externas (funciona offline)
-- ✅ Rápido (em memória)
-- ✅ Suporte a PostgreSQL SQL completo
-- ✅ Queries parametrizadas (seguro)
-- ✅ Extensão `vector` para embeddings
-- ✅ Fácil de testar
-- ✅ Shutdown gracioso
+```bash
+npm run db:seed -- --data-dir .pglite-data
+```
 
-## 📖 Documentação Completa
+O seed le os JSONs principais PT/EN em `data/`, normaliza campos minimos e evita duplicar registros ja importados.
 
-Veja `backend/database/README.md` para:
-- Exemplos detalhados
-- Troubleshooting
-- Configurações avançadas
-- Próximos passos
+## Rodar API Com PGlite
 
-## 🐛 Problemas Comuns
+```bash
+npm run api:start
+```
 
-**"Database not initialized"**
-→ Chame `initializeDatabase()` primeiro
+Health check:
 
-**"Port 5432 in use"**
-→ Use `DB_PORT=5433 npm run db:start`
+```text
+http://127.0.0.1:3001/api/health
+```
 
-**"Dados sumiram"**
-→ Configure `DB_DATA_DIR` para persistência
+## Rodar Testes
 
-## 🎯 Próximos Passos
+```bash
+npm test -- backend/database/db.test.js --runInBand
+npm test -- __tests__/api.integration.test.js --runInBand
+```
 
-1. [ ] Criar schema completo do projeto
-2. [ ] Integrar com rotas da API
-3. [ ] Adicionar seed data para testes
-4. [ ] Configurar migrations automáticas
-5. [ ] Adicionar validações ao banco
+## Funcoes Principais
 
----
+- `initializeDatabase(options)`
+- `closeDatabase()`
+- `executeQuery(sql, params)`
+- `executeSql(sql)`
+- `getQuestions(filters)`
+- `insertQuestion(question)`
+- `createUser(name)`
+- `createQuizHistory(data)`
+- `recordAnswer(data)`
+- `getLeaderboard(limit)`
+- `getWeakDomains(userId, threshold)`
 
-**Status**: ✅ Pronto para usar!
+## Observacoes
 
-Para dúvidas, veja `backend/database/README.md`
+- O schema completo ja existe e e aplicado por `initializeDatabase()`.
+- A API Express usa essa camada diretamente.
+- O frontend continua com fallback para JSON/localStorage para preservar o modo offline.
+- O painel de validacao ainda esta em modo demo/mock e nao grava status de aprovacao no banco.
+
+## Troubleshooting
+
+### `DB_DATA_DIR is required outside the test environment.`
+
+Causa: `DB_DATA_DIR` nao foi configurado e o processo nao esta rodando com `NODE_ENV=test`.
+
+Solucao:
+
+```env
+DB_DATA_DIR=.pglite-data
+```
+
+Depois:
+
+```bash
+npm run db:seed
+```
+
+Em testes automatizados, `memory://` e permitido:
+
+```powershell
+$env:NODE_ENV="test"
+$env:DB_DATA_DIR="memory://"
+npm run db:seed
+```

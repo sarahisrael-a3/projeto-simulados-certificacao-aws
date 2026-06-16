@@ -1,11 +1,11 @@
 /**
  * User Manager
  * Handles anonymous user creation and persistence
- * 
+ *
  * @module userManager
  */
 
-import apiService from '../services/api.js';
+import apiService from "../services/api.js";
 
 /**
  * User Manager Object
@@ -15,87 +15,90 @@ export const userManager = {
   /**
    * Get or create current user
    * Returns existing user if available, creates new anonymous user if not
-   * 
+   *
    * @returns {Promise<object>} { id, anonymous_name }
    */
   async getOrCreateUser() {
     try {
       // Check if user exists in local storage
       const existingUserId = this.getUserId();
-      
+
       if (existingUserId) {
         console.log(`✓ Using existing user: ${existingUserId}`);
         return {
           id: existingUserId,
-          anonymous_name: localStorage.getItem('aws_sim_user_name') || 'Anonymous',
+          anonymous_name:
+            localStorage.getItem("aws_sim_user_name") || "Anonymous",
         };
       }
 
       // Try to create user via API
       try {
         const response = await apiService.createUser({});
-        
+
         if (response.success && response.data && response.data.id) {
           const userId = response.data.id;
-          const userName = response.data.anonymous_name || 'Anonymous';
-          
+          const userName = response.data.anonymous_name || "Anonymous";
+
           // Store in local storage
-          localStorage.setItem('aws_sim_user_id', userId);
-          localStorage.setItem('aws_sim_user_name', userName);
-          
+          localStorage.setItem("aws_sim_user_id", userId);
+          localStorage.setItem("aws_sim_user_name", userName);
+
           console.log(`✓ Created new user via API: ${userId} (${userName})`);
-          
+
           return {
             id: userId,
             anonymous_name: userName,
           };
         }
       } catch (apiError) {
-        console.warn('Failed to create user via API, using local fallback:', apiError);
+        console.warn(
+          "Failed to create user via API, using local fallback:",
+          apiError,
+        );
       }
 
       // Fallback: Generate local user ID if API fails
       const fallbackUserId = this._generateLocalUserId();
-      localStorage.setItem('aws_sim_user_id', fallbackUserId);
-      localStorage.setItem('aws_sim_user_name', 'AnonymousLocal');
-      
+      localStorage.setItem("aws_sim_user_id", fallbackUserId);
+      localStorage.setItem("aws_sim_user_name", "AnonymousLocal");
+
       console.log(`✓ Using local fallback user: ${fallbackUserId}`);
-      
+
       return {
         id: fallbackUserId,
-        anonymous_name: 'AnonymousLocal',
+        anonymous_name: "AnonymousLocal",
       };
-
     } catch (error) {
-      console.error('Fatal error in user creation:', error);
+      console.error("Fatal error in user creation:", error);
       throw error;
     }
   },
 
   /**
    * Get current user ID from storage
-   * 
+   *
    * @returns {string|null} User ID or null if not found
    */
   getUserId() {
-    return localStorage.getItem('aws_sim_user_id');
+    return localStorage.getItem("aws_sim_user_id");
   },
 
   /**
    * Get current user name from storage
-   * 
+   *
    * @returns {string} User name or 'Anonymous'
    */
   getUserName() {
-    return localStorage.getItem('aws_sim_user_name') || 'Anonymous';
+    return localStorage.getItem("aws_sim_user_name") || "Anonymous";
   },
 
   /**
    * Clear user session
    */
   clearUser() {
-    localStorage.removeItem('aws_sim_user_id');
-    localStorage.removeItem('aws_sim_user_name');
+    localStorage.removeItem("aws_sim_user_id");
+    localStorage.removeItem("aws_sim_user_name");
   },
 
   /**

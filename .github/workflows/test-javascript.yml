@@ -2,21 +2,28 @@ name: JavaScript Tests
 
 on:
   push:
-    branches: [ "main" ]
-    # Executa apenas se arquivos JS ou configurações do NPM mudarem
+    branches: ["main"]
     paths:
-      - 'js/**'
-      - '__tests__/**'
-      - 'package.json'
-      - 'package-lock.json'
+      - "src/frontend/js/**"
+      - "src/services/**"
+      - "backend/**"
+      - "__tests__/**"
+      - "scripts/**"
+      - "jest.setup.js"
+      - "package.json"
+      - "package-lock.json"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
-      - 'js/**'
-      - '__tests__/**'
-      - 'package.json'
-      - 'package-lock.json'
-  workflow_dispatch: # Adiciona um botão no GitHub para rodar manualmente se quiser
+      - "src/frontend/js/**"
+      - "src/services/**"
+      - "backend/**"
+      - "__tests__/**"
+      - "scripts/**"
+      - "jest.setup.js"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
 
 jobs:
   test:
@@ -30,8 +37,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Versão estável do Node
-          cache: 'npm'       # Acelera as execuções futuras fazendo cache das dependências
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci

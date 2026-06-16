@@ -1,70 +1,138 @@
-# 🏛️ Arquitetura do Projeto
+# Arquitetura do Projeto
 
-Bem-vindo à documentação de arquitetura do **Projeto Simulados Certificação AWS**.
+Atualizado em: 2026-06-16
 
-Este documento explica como os diferentes componentes da nossa plataforma comunicam entre si.  
-O projeto segue uma arquitetura baseada em **Static Site Generation (SSG) / Single Page Application (SPA)** aliada a **Automação de Dados via CI/CD**, dispensando a necessidade de um servidor back-end tradicional a correr 24/7.
+O Cloud Certification Study Tool usa uma arquitetura local-first: o frontend continua funcionando com JSON/localStorage para preservar o modo PWA/offline, mas tambem pode usar uma API Express com PGlite quando disponivel.
 
----
+## Visao Geral
 
-## 🗺️ Visão Geral (Diagrama)
+```text
+Navegador
+  |
+  | Frontend SPA/PWA em public/
+  |
+  |-- tenta API Express em http://127.0.0.1:3001
+  |       |
+  |       |-- backend/api/*
+  |       |-- backend/database/db.js
+  |       |-- PGlite em DB_DATA_DIR
+  |
+  |-- fallback offline
+          |
+          |-- public/data/*.json
+          |-- localStorage
+          |-- service worker/cache
+```
 
-O fluxo principal do projeto divide-se em duas grandes áreas:  
+## Frontend
 
-- **Experiência do Utilizador (Front-end)**  
-- **Motor de Contribuição (Back-end / Automação)**  
+Fonte principal:
 
----
+- `src/frontend/js/`
+- `src/frontend/styles/`
+- `src/services/api.js`
 
-## 💻 1. Front-end (Aplicação Cliente)
+Artefato servido:
 
-A aplicação cliente é construída com **HTML, CSS e Vanilla JavaScript**, focando em performance e simplicidade. É servida diretamente como ficheiros estáticos (ex.: GitHub Pages).
+- `public/js/`
+- `public/css/`
+- `public/services/`
+- `public/data/`
 
-### Ficheiros Principais
+O build copia os arquivos de fonte para `public/`. Evite editar `public/js` e `public/css` manualmente quando a mudanca deve nascer em `src/`.
 
-- **`index.html`** e **`style.css`** → Estrutura e design da página  
-- **`js/app.js`** → Ponto de entrada; gere navegação, eventos de clique e troca de idiomas  
-- **`js/quizEngine.js`** → Motor do simulado: lê questões, embaralha, valida respostas e calcula pontuação  
-- **`js/storageManager.js`** → Persistência de dados via localStorage (histórico e progresso)  
-- **`js/chartManager.js`** → Renderiza gráficos de desempenho no ecrã de resultados  
-- **`js/flashcards.js`** → Sistema de estudo por cartões de memorização  
-- **`sw.js`** e **`manifest.json`** → Configurações de PWA, permitindo instalação em dispositivos  
+## Dados JSON
 
----
+Os arquivos em `data/` sao a fonte versionada das questoes e diagnosticos. Eles tambem alimentam:
 
-## 🗄️ 2. Camada de Dados (JSON DB)
+- o fallback offline do frontend;
+- o build para GitHub Pages;
+- o seed para PGlite via `npm run db:seed`.
 
-Não usamos base de dados relacional. Toda a base de conhecimento (questões) está em ficheiros **JSON** na pasta `data/`.
+## API Express
 
-- **`data/clf-c02.json`**, **`data/saa-c03.json`** → Ficheiros principais com questões validadas em Português  
-- **`data/*-en.json`** → Versões traduzidas em Inglês  
+Entrada principal:
 
-**Fluxo:**  
-O Front-end faz um `fetch()` para carregar o JSON correspondente na memória sempre que o usuário inicia um simulado.
+- `backend/api/server.js`
 
----
+Rotas:
 
-## ⚙️ 3. Motor de Automação e Back-end (Python + GitHub Actions)
+- `backend/api/routes/questions.js`
+- `backend/api/routes/quizzes.js`
+- `backend/api/routes/users.js`
 
-Responsável por validar e integrar novas questões sem quebrar o site.
+Responsabilidades:
 
-### Fluxo de Contribuição
+- listar/criar/atualizar/remover questoes;
+- criar usuarios anonimos;
+- iniciar quiz;
+- registrar respostas;
+- calcular resultado e dominios fracos;
+- expor leaderboard.
 
-1. **Submissão:** Contribuidor cria um JSON na pasta `data/contributions/` e abre um Pull Request  
-2. **Gatilho:** GitHub Actions detecta o PR e inicia a pipeline  
-3. **Validação (Python):**  
-   - **`validate_contribution.py`** → Estrutura e campos obrigatórios  
-   - **`duplicate_detector.py`** → Evita questões duplicadas  
-   - **`aws_semantic_validator.py`** (opcional) → Validação semântica de serviços AWS  
-4. **Tradução:** **`translate_with_api.py`** gera versão em Inglês automaticamente  
-5. **Integração:** **`merge_contributions.py`** move a questão aprovada para o ficheiro principal (`data/clf-c02.json`)  
-6. **Deploy:** Após merge na branch principal, o site é atualizado automaticamente  
+## Banco PGlite
 
----
+Arquivos:
 
-## 🚀 Visão de Futuro (Roadmap Arquitetural)
+- `backend/database/db.js`
+- `backend/database/schema.sql`
+- `backend/database/normalizers.js`
 
-Embora a arquitetura atual seja rápida e escalável por ser estática, planejamos evoluções para personalização avançada:
+O banco armazena:
 
-- **Autenticação de Usuários:** Integração com Amazon Cognito para contas de usuário  
-- **Sincronização na Cloud (BaaS):** Migrar dados do `localStorage` para **DynamoDB** via **API Gateway + Lambda**, permitindo sincronização entre dispositivos
+- usuarios anonimos;
+- questoes;
+- historico de quiz;
+- respostas;
+- gamificacao;
+- sessoes de foco;
+- dominios;
+- views de leaderboard e estatisticas.
+
+Fora de testes, configure `DB_DATA_DIR`.
+
+## Seed
+
+O script `scripts/seed-pglite.mjs` importa os JSONs principais PT/EN para PGlite.
+
+```bash
+npm run db:seed
+```
+
+Ele e idempotente para reexecucoes comuns: se uma questao com mesma certificacao, dominio e texto ja existir, ela e ignorada.
+
+## Automacoes Python
+
+Os scripts em `src/python/scripts/` cuidam de tarefas de contribuicao e qualidade de dados:
+
+- validacao de contribuicoes;
+- deteccao de duplicidades;
+- geracao/traducao de questoes;
+- merge de contribuicoes aprovadas.
+
+## GitHub Actions
+
+Workflows principais:
+
+- `test-javascript.yml`: testes Jest para frontend/backend/scripts relevantes.
+- `test-python-scripts.yml`: validacoes Python.
+- `validate-contributions.yml`: valida arquivos em `data/contributions/`.
+- `deploy-pages.yml`: build e deploy do frontend em GitHub Pages.
+
+## Painel De Validacao
+
+O diretorio `validation/` contem uma interface demo/mock para revisao de questoes. No estado atual, aprovacoes e rejeicoes nao sao persistidas no PGlite.
+
+Endpoints planejados, ainda nao implementados:
+
+- `GET /api/questions/pending`
+- `POST /api/questions/:id/validate`
+
+## Direcao De Evolucao
+
+Prioridades antes de novas features grandes:
+
+1. Consolidar API + PGlite como caminho local oficial.
+2. Manter fallback offline por JSON/localStorage.
+3. Integrar painel de validacao a endpoints reais quando a arquitetura for decidida.
+4. Melhorar auditoria de qualidade dos dados PT/EN.
