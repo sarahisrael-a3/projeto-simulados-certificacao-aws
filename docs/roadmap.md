@@ -1,133 +1,135 @@
-# Roadmap do Projeto
+# Roadmap Do Projeto
 
-Atualizado em: 2026-06-16
+Atualizado em: 2026-06-18
 
-Este roadmap reflete a avaliacao do estado atual do repositorio. A plataforma ja saiu do MVP estatico puro e hoje combina frontend SPA/PWA, dados JSON versionados, automacoes de contribuicao, API Express com PGlite e modulos de gamificacao.
+Este roadmap mostra a evolucao real do repositorio. O projeto nao e mais apenas um simulador estatico: hoje combina SPA/PWA, dados JSON versionados, API Express, PGlite, validacao colaborativa, automacoes Python, seed e testes.
 
 ## Status Geral
 
-| Frente | Status | Evidencia no projeto |
-| :--- | :--- | :--- |
-| Frontend de simulados | Concluido e em evolucao | `public/index.html`, `src/frontend/js/app.js`, `quizEngine.js`, `quizManager.js` |
-| Base de questoes | Concluido e em manutencao | 2.545 questoes nos JSONs principais PT/EN em `data/` |
-| Flashcards, historico e relatorios | Concluido e em evolucao | `flashcards.js`, `storageManager.js`, `pdfReport.js`, dashboard de resultados |
-| Sprint de 14 dias e trilhas | Concluido para a versao atual | `sprintManager.js`, `sprintData.js`, `trailManager.js`, testes dedicados |
-| API e banco local | Parcial | API Express + PGlite implementados, mas uso em producao ainda opcional/local |
-| Validacao interna de questoes | Parcial | UI mock existe; backend FastAPI ainda contem TODOs e dados mock |
-| CI/CD e deploy | Parcial | GitHub Actions para testes, deploy e validacao existem; alguns paths precisam revisao |
-| Plataforma comunitaria | Planejado | Autenticacao real, perfis persistentes cloud e ranking publico ainda faltam |
+| Frente | Status | Evidencia |
+| --- | --- | --- |
+| Frontend SPA/PWA | Funcional | `public/index.html`, `src/frontend/js/`, `public/manifest.json`, `public/sw.js` |
+| Dados JSON | Funcional | 2.545 registros principais em `data/*.json` |
+| API Express | Funcional com pendencias | `backend/api/server.js`, rotas em `backend/api/routes/` |
+| PGlite | Funcional | `backend/database/db.js`, `schema.sql`, `db.test.js` |
+| Seed JSON -> PGlite | Funcional | `scripts/seed-pglite.mjs` |
+| Validacao colaborativa | Funcional tecnicamente | `validation/js/validationAPI.js`, rotas `/pending` e `/validate` |
+| Testes Jest | Verde em 2026-06-18 | 9 suites, 77 testes |
+| Produto cloud/comunidade | Planejado | autenticacao real, producao API, observabilidade e governanca ainda pendentes |
 
 ## Marcos Concluidos
 
-- Motor de quiz com suporte a prova principal, diagnostico, questoes marcadas e pratica de erros.
-- Suporte a quatro certificacoes: CLF-C02, SAA-C03, DVA-C02 e AIF-C01.
-- Base bilingue PT/EN para simulados principais e diagnosticos.
-- PWA com `manifest.json`, service worker e cache de dados JSON.
-- Persistencia local via `localStorage` para historico, progresso, badges, streak e erros.
-- Flashcards por certificacao/dominio.
-- Dashboard de desempenho com graficos e insights.
-- Relatorio PDF de desempenho.
-- Pomodoro e cronometros de estudo/prova.
-- Sprint de estudos de 14 dias e trilhas de gamificacao.
-- API Express em `backend/api/server.js` com rotas de questoes, usuarios, quiz e leaderboard.
-- Camada PGlite em `backend/database/db.js` com CRUD de questoes, historico, respostas, gamificacao, ranking, estatisticas e dominios fracos.
-- Testes automatizados em Jest cobrindo quiz, storage, sprint, insights, handlers, API service e banco.
-- Build script copiando JS, CSS, services, dados e painel de validacao para `public/`.
-- GitHub Actions para deploy Pages, testes JS, validacao de contribuicoes e automacoes auxiliares.
+- Simulados para CLF-C02, SAA-C03, DVA-C02 e AIF-C01.
+- Base bilingue PT/EN dos simulados principais.
+- Diagnosticos por certificacao.
+- PWA com cache/offline.
+- LocalStorage para historico, progresso e gamificacao local.
+- Flashcards, Pomodoro, sprint de 14 dias, trilha e desafios.
+- Dashboard, graficos, insights e relatorio PDF.
+- API Express para questoes, quiz, usuarios, stats, dominios fracos e leaderboard.
+- PGlite com schema relacional, views, normalizadores e testes.
+- Seed dos JSONs principais para PGlite.
+- Validacao de questoes via Express + PGlite.
+- Helmet, CORS, rate limit e error handler na API.
+- Build automatizado para `public/`.
 
-## Fase 1 - Estabilizacao da Base Atual
+## Fase 1 - Estabilizacao Da Base
 
-Objetivo: garantir que o que ja existe seja confiavel, documentado e facil de rodar.
+Objetivo: garantir que o que existe rode com previsibilidade.
 
-- [x] Consolidar frontend estatico com build para `public/`.
-- [x] Manter suite Jest verde.
-- [x] Documentar comandos principais em README e docs.
-- [x] Centralizar acesso ao backend no `apiService`.
-- [x] Revisar documentacao desatualizada que ainda descrevia API como "nao implementada".
-- [x] Corrigir caminhos do workflow `test-javascript.yml`, que monitorava diretorios antigos.
-- [ ] Padronizar encoding dos arquivos que aparecem com caracteres corrompidos em alguns terminais.
-- [ ] Definir processo oficial para atualizar `public/` a partir de `src/` sem alteracoes manuais divergentes.
+- [x] Consolidar frontend em `src/frontend/` com build para `public/`.
+- [x] Documentar comandos oficiais.
+- [x] Manter fallback offline.
+- [x] Manter Jest verde.
+- [x] Verificar build em 2026-06-18.
+- [x] Rodar `npm run lint` e `npm run format:check`.
+- [ ] Reduzir ou justificar os 72 warnings de `console` do lint.
+- [ ] Evitar edicoes manuais permanentes em `public/`.
+- [ ] Padronizar encoding dos documentos legados.
 
-## Fase 2 - Integracao Real API + Frontend
+## Fase 2 - API + PGlite Como Caminho Local Oficial
 
-Objetivo: transformar a API local em caminho principal, mantendo JSON como fallback offline.
+Objetivo: manter JSON como fallback, mas usar API/PGlite quando disponiveis.
 
-- [x] Implementar endpoints REST basicos: health, questions, quiz, users e leaderboard.
-- [x] Implementar fallback no frontend quando a API nao esta disponivel.
-- [x] Persistir historico e respostas no PGlite.
-- [x] Calcular estatisticas, ranking e dominios fracos no banco.
-- [x] Definir modo oficial de execucao combinando frontend + API + `DB_DATA_DIR`.
-- [x] Popular PGlite a partir dos JSONs atuais por seed/migracao reprodutivel.
-- [ ] Ajustar quiz API para embaralhar/selecionar questoes de forma equivalente ao frontend.
-- [ ] Conectar fluxo principal do frontend ao backend de forma progressiva, sem perder funcionamento offline.
-- [x] Documentar contrato real dos endpoints em `docs/ROUTES_AND_INTEGRATIONS.md`.
+- [x] Criar API Express.
+- [x] Criar camada PGlite.
+- [x] Implementar seed reprodutivel.
+- [x] Implementar questoes, quiz, usuarios, stats e leaderboard.
+- [x] Integrar frontend por `apiService`.
+- [x] Documentar rotas reais em `docs/ROUTES_AND_INTEGRATIONS.md`.
+- [ ] Uniformizar contrato de resposta.
+- [ ] Completar rotas opcionais de historico/gamificacao se continuarem no escopo.
+- [ ] Criar OpenAPI ou `docs/API.md`.
+- [ ] Teste manual completo do app com API persistente.
 
-## Fase 3 - Validacao Colaborativa de Questoes
+## Fase 3 - Validacao Colaborativa
 
-Objetivo: tirar o painel interno de validacao do modo mock.
+Objetivo: revisar questoes em uma tela interna e persistir decisao.
 
-- [x] Criar painel estatico de validacao em `validation/` e publica-lo no build.
-- [x] Criar modelos e esqueleto FastAPI para validacao.
-- [x] Criar scripts Python para validar, detectar duplicatas, traduzir e mesclar contribuicoes.
-- [x] Criar workflow de validacao de contribuicoes JSON em PR.
-- [ ] Implementar endpoints reais para listar pendentes e aprovar/reprovar questoes.
-- [ ] Persistir status, validador, historico e motivo de rejeicao no banco.
-- [ ] Integrar `validation/js/validationAPI.js` com API real.
-- [x] Sinalizar painel atual como demo/mock sem persistencia.
-- [ ] Decidir se a validacao usara Express, FastAPI ou um unico backend consolidado.
-- [ ] Criar testes para fluxo de aprovacao/reprovacao.
+- [x] Criar painel em `validation/`.
+- [x] Publicar painel no build.
+- [x] Adicionar campos de validacao em `questions`.
+- [x] Implementar `getPendingQuestions()` e `validateQuestion()`.
+- [x] Implementar `GET /api/questions/pending`.
+- [x] Implementar `POST /api/questions/:id/validate`.
+- [x] Rejeicao exige motivo.
+- [x] Persistir `validation_status`, `rejection_reason`, `validated_by`, `validated_at` e `validation_logs`.
+- [x] Criar testes de integracao de validacao.
+- [ ] Testar a tela manualmente com API + PGlite seedado.
+- [ ] Decidir o futuro do FastAPI em `validation/backend/`.
+- [ ] Avaliar tabela normalizada de auditoria.
 
-## Fase 4 - Qualidade dos Dados e Conteudo
+## Fase 4 - Qualidade Dos Dados
 
-Objetivo: aumentar confianca pedagogica e tecnica da base.
+Objetivo: aumentar confianca tecnica e pedagogica da base.
 
-- [x] Manter base principal para quatro certificacoes.
+- [x] Manter quatro certificacoes.
 - [x] Manter templates de contribuicao.
-- [x] Ter validacao automatizada basica para contribuicoes.
-- [ ] Auditar inconsistencias de traducao nos arquivos `*-en.json`.
-- [ ] Normalizar contagens PT/EN onde ha diferenca entre pares de arquivos.
-- [ ] Definir campos obrigatorios finais: fonte, dominio, dificuldade, explicacao, tags e tipo de resposta.
-- [ ] Criar relatorio de duplicidade/semelhanca por certificacao.
-- [ ] Criar criterios de qualidade por nivel de dificuldade.
+- [x] Manter validadores Python.
+- [ ] Auditar traducoes EN.
+- [ ] Corrigir diferencas PT/EN onde existirem.
+- [ ] Relatorio de duplicidade/semelhanca.
+- [ ] Criterios finais de dificuldade e qualidade.
+- [ ] Revisao tecnica por especialistas AWS.
 
-## Fase 5 - Produto e Experiencia de Estudo
+## Fase 5 - Produto E Experiencia
 
-Objetivo: evoluir de simulador para plataforma de aprendizado guiado.
+Objetivo: evoluir de simulador para plataforma de estudo guiado.
 
 - [x] Simulados, diagnostico, flashcards, relatorios e Pomodoro.
 - [x] Trilha visual e sprint de 14 dias.
-- [x] Insights de estudo com base no historico local.
-- [ ] Implementar testes adaptativos (CAT) por dominio, dificuldade e historico.
-- [ ] Criar recomendacoes de estudo baseadas nos dominios fracos vindos da API.
-- [ ] Melhorar acessibilidade e navegacao por teclado em todos os fluxos.
-- [ ] Revisar responsividade em dispositivos reais.
-- [ ] Ampliar cobertura de testes para componentes de UI e fluxos de ponta a ponta.
+- [x] Insights locais.
+- [ ] Recomendacoes conectadas aos dominios fracos vindos da API.
+- [ ] Teste adaptativo por dominio/dificuldade/historico.
+- [ ] Acessibilidade completa.
+- [ ] Testes e2e de UI.
+- [ ] Responsividade validada em dispositivos reais.
 
-## Fase 6 - Plataforma, Comunidade e Escala
+## Fase 6 - Plataforma, Comunidade E Escala
 
-Objetivo: preparar uso por comunidade maior sem depender apenas de estado local.
+Objetivo: preparar uso maior sem depender so de estado local.
 
-- [ ] Autenticacao real ou identidade anonima persistente com sincronizacao.
-- [ ] Ranking comunitario com regras de privacidade.
-- [ ] Sincronizacao cloud de progresso, historico e badges.
+- [ ] Autenticacao real ou identidade anonima sincronizada.
 - [ ] Ambiente de producao para API e banco.
-- [ ] Observabilidade basica: logs estruturados, metricas e erros.
-- [ ] Politica de moderacao e governanca para contribuicoes externas.
-- [ ] Estudo de custos e arquitetura AWS alvo.
-- [ ] Avaliar app mobile nativo ou empacotamento PWA aprimorado.
+- [ ] Ranking comunitario com privacidade.
+- [ ] Sincronizacao cloud de progresso.
+- [ ] Observabilidade: logs estruturados, metricas e erros.
+- [ ] Governanca e moderacao de contribuicoes.
+- [ ] Arquitetura AWS alvo e estimativa de custos.
 
 ## Prioridades Recomendadas
 
-1. Validar manualmente o app completo com API + PGlite seedado antes da apresentacao.
-2. Auditar qualidade e paridade dos dados PT/EN.
-3. Decidir arquitetura final do painel de validacao real.
-4. Adicionar testes e2e dos fluxos principais do navegador.
-5. Padronizar encoding dos documentos legados.
+1. Validar manualmente o app completo com API + PGlite seedado.
+2. Reduzir ou justificar warnings de `console` do lint.
+3. Documentar contrato de API com exemplos.
+4. Criar e2e minimo para fluxos criticos.
+5. Auditar dados PT/EN e duplicidades.
+6. Decidir destino do backend FastAPI de validacao.
 
-## Evidencia de Verificacao
+## Evidencia De Verificacao
 
-- `npm test -- --runInBand`: 8 suites passaram, 73 testes passaram.
-- Contagem atual de questoes principais em `data/`: 2.545 registros somando PT/EN.
-- `npm run build`: passou.
-- `npm run db:seed` validado em memoria: 2.545 registros lidos, 2.423 importados e 122 ignorados por duplicidade natural.
-- Arquivos avaliados: `package.json`, `README.md`, `docs/ARCHITECTURE.md`, `docs/ROUTES_AND_INTEGRATIONS.md`, `backend/api/*`, `backend/database/*`, `src/frontend/js/*`, `src/services/api.js`, `scripts/build.cjs`, `.github/workflows/*`.
+- `npm test -- --runInBand`: 9 suites passaram, 77 testes passaram em 2026-06-18.
+- `npm run build`: passou em 2026-06-18.
+- Contagem atual em `data/`: 2.545 registros principais PT/EN.
+- `npm run lint`: passou com 0 erros e 72 warnings de `console` em 2026-06-18.
+- `npm run format:check`: passou em 2026-06-18.

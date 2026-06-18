@@ -1,69 +1,83 @@
-# 📝 Contribuições de Questões - Guia Rápido
+# Contribuicoes De Questoes
 
-Esta pasta permite que você contribua com novas questões **sem conflitos de merge**!
+Atualizado em: 2026-06-18
 
-## 🎯 Como Contribuir com Novas Questões
+Esta pasta recebe novas questoes antes de elas entrarem nos arquivos principais em `data/*.json`.
 
-### Passo 1: Crie um arquivo individual
+## Estrutura
 
-Crie um arquivo JSON na pasta correspondente à certificação:
-
-```
+```text
 data/contributions/
-├── clf-c02/
-│   └── sua-questao-unica-123.json
-├── saa-c03/
-│   └── sua-questao-unica-456.json
-├── aif-c01/
-│   └── sua-questao-unica-789.json
-└── dva-c02/
-    └── sua-questao-unica-012.json
+  _TEMPLATE.json
+  _TEMPLATE_MULTIPLE_ANSWER.json
+  clf-c02/
+  saa-c03/
+  dva-c02/
+  aif-c01/
 ```
 
-### Passo 2: Use o template
+## Como Criar Uma Questao
 
-Copie o arquivo `_TEMPLATE.json` e preencha com sua questão:
+Copie um template:
 
 ```bash
-cp data/contributions/_TEMPLATE.json data/contributions/clf-c02/minha-questao-s3.json
+cp data/contributions/_TEMPLATE.json data/contributions/clf-c02/questao-s3-versionamento.json
 ```
 
-### Passo 3: Valide sua questão
-
-Execute o script de validação antes de fazer commit:
+Para multipla resposta:
 
 ```bash
-python scripts_python/validate_contribution.py data/contributions/clf-c02/minha-questao-s3.json
+cp data/contributions/_TEMPLATE_MULTIPLE_ANSWER.json data/contributions/clf-c02/questao-iam-politicas.json
 ```
 
-### Passo 4: Faça o Pull Request
+Preencha:
 
-Seu PR conterá apenas **1 arquivo novo**, evitando conflitos com outras contribuições!
+- dominio;
+- subdominio, se aplicavel;
+- servico AWS;
+- dificuldade;
+- tags;
+- pergunta;
+- opcoes;
+- resposta correta;
+- explicacao;
+- referencia;
+- dados do contribuidor.
 
-## 🔄 Merge Automático
-
-Os mantenedores executarão periodicamente:
+## Validar
 
 ```bash
-python scripts_python/merge_contributions.py clf-c02
+python src/python/scripts/validate_contribution.py data/contributions/clf-c02/questao-s3-versionamento.json
 ```
 
-Isso consolidará todas as contribuições validadas no arquivo principal `clf-c02.json`.
+## Boas Praticas
 
-## ✅ Regras de Nomenclatura
+- Use cenario realista.
+- Evite pergunta de definicao pura.
+- Evite ambiguidade.
+- Use referencias oficiais AWS quando possivel.
+- Explique a resposta correta de forma didatica.
+- Crie um arquivo por questao.
+- Use nomes descritivos e sem espacos.
 
-- Use nomes descritivos: `questao-s3-versionamento.json`
-- Evite caracteres especiais (use apenas letras, números e hífens)
-- Seja específico sobre o tópico da questão
+## O Que Nao Fazer
 
-## 🚫 O que NÃO fazer
+- Nao copie dumps de prova.
+- Nao edite `data/*.json` diretamente sem alinhamento.
+- Nao envie questoes sem referencia.
+- Nao misture muitas questoes diferentes no mesmo PR.
 
-- ❌ Não edite os arquivos principais (`clf-c02.json`, `saa-c03.json`, etc.)
-- ❌ Não crie arquivos com nomes genéricos (`questao1.json`, `nova.json`)
-- ❌ Não submeta múltiplas questões no mesmo arquivo
+## Merge
 
-## 📚 Recursos
+Mantenedores podem consolidar contribuicoes com:
 
-- [Template de Questão](./_TEMPLATE.json)
-- [Guia de Contribuição](../../CONTRIBUTING.md)
-- [Documentação Completa](../../docs/)
+```bash
+python src/python/scripts/merge_contributions.py clf-c02
+```
+
+Depois do merge, rode:
+
+```bash
+npm test -- --runInBand
+npm run build
+```

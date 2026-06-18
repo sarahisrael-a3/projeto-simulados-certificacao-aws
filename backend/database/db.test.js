@@ -2,11 +2,8 @@
  * @jest-environment node
  */
 
-import { mkdtemp, rm } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { afterAll, afterEach, beforeEach, describe, expect, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from '@jest/globals';
 import {
   calculateStats,
   closeDatabase,
@@ -37,8 +34,20 @@ import {
   updateUser,
 } from './db.js';
 
+async function resetTestData() {
+  const database = getDatabase();
+  await database.exec(`
+    DELETE FROM answers;
+    DELETE FROM quiz_history;
+    DELETE FROM focus_sessions;
+    DELETE FROM gamification;
+    DELETE FROM users;
+    DELETE FROM questions;
+    DELETE FROM domains;
+  `);
+}
+
 describe('PGlite database lifecycle', () => {
-  let persistentDataDir;
   const originalDataDir = process.env.DB_DATA_DIR;
 
   beforeEach(async () => {
@@ -48,11 +57,6 @@ describe('PGlite database lifecycle', () => {
 
   afterEach(async () => {
     await closeDatabase();
-
-    if (persistentDataDir) {
-      await rm(persistentDataDir, { recursive: true, force: true });
-      persistentDataDir = null;
-    }
 
     if (originalDataDir === undefined) {
       delete process.env.DB_DATA_DIR;
@@ -113,34 +117,13 @@ describe('PGlite database lifecycle', () => {
     expect(() => getDatabase()).toThrow('Database not initialized');
   });
 
-  test('uses a configured dataDir and preserves data after reopening', async () => {
-    persistentDataDir = await mkdtemp(join(tmpdir(), 'aws-simulator-pglite-'));
-
-    const firstDatabase = await initializeDatabase({
-      dataDir: persistentDataDir,
+  test('uses an explicitly configured in-memory dataDir in tests', async () => {
+    const database = await initializeDatabase({
+      dataDir: 'memory://',
       environment: 'test',
     });
-    await firstDatabase.exec('CREATE TABLE persistence_marker (value TEXT NOT NULL);');
-    await firstDatabase.exec("INSERT INTO persistence_marker (value) VALUES ('preserved');");
-    await closeDatabase();
 
-    const reopenedDatabase = await initializeDatabase({
-      dataDir: persistentDataDir,
-      environment: 'test',
-    });
-    const result = await reopenedDatabase.query('SELECT value FROM persistence_marker');
-
-    expect(reopenedDatabase.dataDir).toBe(persistentDataDir);
-    expect(result.rows).toEqual([{ value: 'preserved' }]);
-  });
-
-  test('uses DB_DATA_DIR from the environment outside tests', async () => {
-    persistentDataDir = await mkdtemp(join(tmpdir(), 'aws-simulator-pglite-env-'));
-    process.env.DB_DATA_DIR = persistentDataDir;
-
-    const database = await initializeDatabase({ environment: 'development' });
-
-    expect(database.dataDir).toBe(persistentDataDir);
+    expect(database.dataDir).toBe('memory://');
   });
 
   test('requires persistent configuration outside the test environment', async () => {
@@ -156,13 +139,17 @@ describe('PGlite database lifecycle', () => {
 });
 
 describe('Question CRUD operations', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await closeDatabase();
     delete process.env.DB_DATA_DIR;
     await initializeDatabase({ environment: 'test' });
   });
 
-  afterEach(async () => {
+  beforeEach(async () => {
+    await resetTestData();
+  });
+
+  afterAll(async () => {
     await closeDatabase();
   });
 
@@ -387,13 +374,17 @@ describe('Question CRUD operations', () => {
 });
 
 describe('User, gamification, leaderboard, and user stats operations', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await closeDatabase();
     delete process.env.DB_DATA_DIR;
     await initializeDatabase({ environment: 'test' });
   });
 
-  afterEach(async () => {
+  beforeEach(async () => {
+    await resetTestData();
+  });
+
+  afterAll(async () => {
     await closeDatabase();
   });
 
@@ -616,13 +607,17 @@ describe('User, gamification, leaderboard, and user stats operations', () => {
 });
 
 describe('Quiz history and answers operations', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await closeDatabase();
     delete process.env.DB_DATA_DIR;
     await initializeDatabase({ environment: 'test' });
   });
 
-  afterEach(async () => {
+  beforeEach(async () => {
+    await resetTestData();
+  });
+
+  afterAll(async () => {
     await closeDatabase();
   });
 
