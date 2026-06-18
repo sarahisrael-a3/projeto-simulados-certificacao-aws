@@ -4,6 +4,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-informational?style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.12+-informational?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
+![CI](https://github.com/karlarenatadev/projeto-simulados-certificacao-aws/actions/workflows/ci.yml/badge.svg)
 
 Simulador colaborativo para estudos de certificações AWS, desenvolvido pela **Guilda dos Estagiários da A3Data**.
 
