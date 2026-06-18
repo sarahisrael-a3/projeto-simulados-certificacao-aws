@@ -1,7 +1,6 @@
 // js/validation/validationAPI.js
 
-const USE_MOCK_DATA = true;
-const MOCK_DELAY_MS = 350;
+const API_BASE_URL = window.VALIDATION_API_BASE_URL || 'http://localhost:3001';
 
 window.VALIDATION_API_CONTRACT = {
     pending: {
@@ -21,7 +20,7 @@ window.VALIDATION_API_CONTRACT = {
                     ],
                     correct_answer: ['A'],
                     explanation: 'Explanation text',
-                    validation_status: 'pending'
+                    validation_status: 'PENDING'
                 }
             ]
         }
@@ -30,8 +29,9 @@ window.VALIDATION_API_CONTRACT = {
         method: 'POST',
         path: '/api/questions/:id/validate',
         payload: {
-            status: 'approved | rejected',
+            status: 'APPROVED | REJECTED',
             feedback: 'Optional reviewer feedback',
+            rejection_reason: 'Required when status is REJECTED',
             validated_by: 'Validator name',
             validated_at: 'ISO timestamp'
         },
@@ -39,7 +39,7 @@ window.VALIDATION_API_CONTRACT = {
             success: true,
             data: {
                 id: 'question-id',
-                validation_status: 'approved | rejected',
+                validation_status: 'APPROVED | REJECTED',
                 validated_by: 'Validator name',
                 validated_at: 'ISO timestamp'
             }
@@ -47,129 +47,81 @@ window.VALIDATION_API_CONTRACT = {
     }
 };
 
-// Mock local para preparar a UI interna. A integração real depende da Task 3/API.
-let mockQuestions = [
-    {
-        id: 'mock-clf-001',
-        certification: 'CLF-C02',
-        domain: 'Cloud Concepts',
-        difficulty: 'easy',
-        question_text: 'O que é uma Região AWS?',
-        options: [
-            { id: 'A', text: 'Um único data center isolado.' },
-            { id: 'B', text: 'Uma área geográfica com múltiplas Zonas de Disponibilidade.' },
-            { id: 'C', text: 'Uma VPC dentro de uma zona.' },
-            { id: 'D', text: 'Um serviço de computação gerenciado.' }
-        ],
-        correct_answer: ['B'],
-        explanation: 'Uma Região AWS é uma área geográfica independente composta por múltiplas Zonas de Disponibilidade.',
-        validation_status: 'pending',
-        validated_by: null,
-        validated_at: null
-    },
-    {
-        id: 'mock-clf-002',
-        certification: 'CLF-C02',
-        domain: 'Security and Compliance',
-        difficulty: 'medium',
-        question_text: 'Qual serviço AWS provê proteção gerenciada contra ataques DDoS?',
-        options: [
-            { id: 'A', text: 'AWS WAF' },
-            { id: 'B', text: 'AWS Shield' },
-            { id: 'C', text: 'Amazon GuardDuty' },
-            { id: 'D', text: 'AWS KMS' }
-        ],
-        correct_answer: ['B'],
-        explanation: 'O AWS Shield é o serviço gerenciado da AWS para proteção contra ataques DDoS.',
-        validation_status: 'pending',
-        validated_by: null,
-        validated_at: null
-    },
-    {
-        id: 'mock-saa-001',
-        certification: 'SAA-C03',
-        domain: 'Design Resilient Architectures',
-        difficulty: 'hard',
-        question_text: 'Qual arquitetura melhora a disponibilidade de uma aplicação web na AWS?',
-        options: [
-            { id: 'A', text: 'Executar uma única instância EC2 em uma única AZ.' },
-            { id: 'B', text: 'Distribuir instâncias EC2 em múltiplas AZs atrás de um Elastic Load Balancer.' },
-            { id: 'C', text: 'Usar somente snapshots manuais do EBS.' },
-            { id: 'D', text: 'Armazenar logs no volume raiz da instância.' }
-        ],
-        correct_answer: ['B'],
-        explanation: 'Distribuir recursos em múltiplas AZs com balanceamento de carga reduz impacto de falhas localizadas.',
-        validation_status: 'pending',
-        validated_by: null,
-        validated_at: null
+async function fetchJSON(path, options = {}) {
+    try {
+        const response = await fetch(`${API_BASE_URL}${path}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            },
+            ...options
+        });
+
+        let body = null;
+        try {
+            body = await response.json();
+        } catch {
+            body = null;
+        }
+
+        if (!response.ok) {
+            const message = body?.error || body?.message || `HTTP ${response.status}`;
+            const error = new Error(message);
+            error.status = response.status;
+            error.details = body;
+            throw error;
+        }
+
+        return body;
+    } catch (error) {
+        if (error.status) {
+            throw error;
+        }
+
+        throw new Error(`Falha de comunicacao com a API de validacao: ${error.message}`);
     }
-];
-
-function waitForMockDelay() {
-    return new Promise(resolve => {
-        setTimeout(resolve, MOCK_DELAY_MS);
-    });
 }
 
-function cloneQuestion(question) {
-    return JSON.parse(JSON.stringify(question));
-}
+function normalizeValidationPayload(payload) {
+    const status = String(payload.status || '').toUpperCase();
+    const rejectionReason = payload.rejection_reason || payload.feedback || '';
 
-function isPending(question) {
-    return question.validation_status === 'pending' || question.status === 'pending';
+    return {
+        status,
+        feedback: payload.feedback,
+        rejection_reason: status === 'REJECTED' ? rejectionReason : null,
+        correctionNeeded: payload.correctionNeeded || payload.correction_needed || false,
+        validated_by: payload.validated_by,
+        validated_at: payload.validated_at || new Date().toISOString()
+    };
 }
 
 window.ValidationAPI = {
     isMockMode() {
-        return USE_MOCK_DATA;
+        return false;
     },
 
     async fetchPendingQuestions() {
-        if (!USE_MOCK_DATA) {
-            throw new Error('Integração real pendente da Task 3/API: GET /api/questions/pending');
+        try {
+            return await fetchJSON('/api/questions/pending');
+        } catch (error) {
+            throw new Error(`Nao foi possivel carregar questoes pendentes: ${error.message}`);
         }
-
-        await waitForMockDelay();
-        const pending = mockQuestions.filter(isPending).map(cloneQuestion);
-        return { success: true, source: 'mock', data: pending };
     },
 
     async validateQuestion(id, payload) {
-        if (!USE_MOCK_DATA) {
-            throw new Error('Integração real pendente da Task 3/API: POST /api/questions/:id/validate');
+        return this.submitValidation(id, payload);
+    },
+
+    async submitValidation(id, payload) {
+        try {
+            const normalizedPayload = normalizeValidationPayload(payload);
+            return await fetchJSON(`/api/questions/${encodeURIComponent(id)}/validate`, {
+                method: 'POST',
+                body: JSON.stringify(normalizedPayload)
+            });
+        } catch (error) {
+            throw new Error(`Nao foi possivel enviar a validacao: ${error.message}`);
         }
-
-        await waitForMockDelay();
-
-        const allowedStatuses = ['approved', 'rejected'];
-        if (!allowedStatuses.includes(payload.status)) {
-            throw new Error('Status de validação inválido.');
-        }
-
-        const questionIndex = mockQuestions.findIndex(question => question.id === id);
-        if (questionIndex === -1) {
-            throw new Error('Questão não encontrada no mock local.');
-        }
-
-        const validatedAt = payload.validated_at || payload.timestamp || new Date().toISOString();
-        const updatedQuestion = {
-            ...mockQuestions[questionIndex],
-            validation_status: payload.status,
-            status: payload.status,
-            feedback: payload.feedback || payload.rejection_reason || '',
-            rejection_reason: payload.rejection_reason || '',
-            validated_by: payload.validated_by,
-            validated_at: validatedAt
-        };
-
-        mockQuestions[questionIndex] = updatedQuestion;
-
-        // Mock não persiste no banco. O salvamento real de validated_by depende da API oficial.
-        return {
-            success: true,
-            source: 'mock',
-            new_status: payload.status,
-            data: cloneQuestion(updatedQuestion)
-        };
     }
 };

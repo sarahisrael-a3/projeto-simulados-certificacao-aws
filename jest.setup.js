@@ -7,3 +7,11 @@ if (!globalThis.TextEncoder) {
 if (!globalThis.TextDecoder) {
   globalThis.TextDecoder = TextDecoder;
 }
+
+if (typeof window !== 'undefined') {
+  Object.defineProperty(window, 'alert', {
+    configurable: true,
+    writable: true,
+    value: () => {},
+  });
+}

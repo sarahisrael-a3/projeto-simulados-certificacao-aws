@@ -9,6 +9,7 @@
 ## 📊 Status Atual
 
 ### ✅ Épico 1: PostgreSQL (PGLite) - 50%
+
 - ✅ Task 1.1: Schema PostgreSQL - **CONCLUÍDA**
 - ✅ Task 1.2: Script Migração - **CONCLUÍDA**
 - ⏳ Task 1.3: API FastAPI - AGUARDANDO INTEGRAÇÃO
@@ -78,6 +79,7 @@ com a camada `backend/database/db.js`.
 Criar arquivo `backend/database/db.js` com funções de inicialização e gerenciamento do PGLite.
 
 **Checklist:**
+
 - [x] Criar `backend/database/db.js`
 - [x] Função `initializeDatabase(config)` com:
   - [x] Criar instância PGLite
@@ -93,6 +95,7 @@ Criar arquivo `backend/database/db.js` com funções de inicialização e gerenc
 - [x] Exportar como módulo ES6
 
 **Exemplo de estrutura:**
+
 ```javascript
 export async function initializeDatabase(config) {
   // Inicializar PGLite
@@ -122,6 +125,7 @@ export function getDatabase() {
 Adicionar métodos CRUD para questões em `db.js`.
 
 **Checklist:**
+
 - [x] Função `getQuestions(certification, domain, difficulty)`
 - [x] Função `getQuestionById(id)`
 - [x] Função `insertQuestion(questionData)`
@@ -146,6 +150,7 @@ Adicionar métodos CRUD para questões em `db.js`.
 Adicionar métodos para histórico de quizzes e respostas.
 
 **Checklist:**
+
 - [x] Função `createQuizHistory(userId, certification, answers)`
 - [x] Função `getQuizHistory(userId, limit, offset)`
 - [x] Função `getQuizById(quizId)`
@@ -167,6 +172,7 @@ Adicionar métodos para histórico de quizzes e respostas.
 Adicionar métodos para usuários e gamificação.
 
 **Checklist:**
+
 - [x] Função `createUser(anonymousName)`
 - [x] Função `getUserById(userId)`
 - [x] Função `getUserByName(anonymousName)`
@@ -188,6 +194,7 @@ Adicionar métodos para usuários e gamificação.
 Criar testes para todas as funções do db.js.
 
 **Checklist:**
+
 - [x] Criar testes em `backend/database/db.test.js`
 - [x] Setup/teardown com banco de testes
 - [x] Testes CRUD básicos
@@ -209,6 +216,7 @@ Criar testes para todas as funções do db.js.
 Documentar camada de banco de dados.
 
 **Checklist:**
+
 - [x] Atualizar `backend/database/README.md` com:
   - [x] Descrição de cada tabela principal
   - [x] Documentação de cada função pública
@@ -240,6 +248,7 @@ concluído.
 Criar aplicação Express com middlewares essenciais.
 
 **Checklist:**
+
 - [ ] Instalar `express` em package.json
 - [ ] Criar `backend/server-express.js` (novo arquivo, substitui server.js)
 - [ ] Configurar:
@@ -261,6 +270,7 @@ Criar aplicação Express com middlewares essenciais.
 Implementar CRUD de questões em REST API.
 
 **Checklist:**
+
 - [ ] `GET /api/questions` - Listar com filtros
   - [ ] Filtrar por `certification`
   - [ ] Filtrar por `domain`
@@ -285,6 +295,7 @@ Implementar CRUD de questões em REST API.
 Implementar endpoints de quiz e histórico.
 
 **Checklist:**
+
 - [ ] `POST /api/quiz/start` - Inicia novo quiz
   - [ ] Recebe `userId`, `certification`, `numQuestions`
   - [ ] Retorna array de questões
@@ -313,6 +324,7 @@ Implementar endpoints de quiz e histórico.
 Implementar endpoints de usuários.
 
 **Checklist:**
+
 - [ ] `POST /api/users` - Criar usuário anônimo
   - [ ] Gera `anonymousName` automático se não fornecido (ex: CloudNinja#4821)
   - [ ] Retorna `userId`
@@ -343,12 +355,13 @@ Implementar endpoints de usuários.
 Implementar validações e segurança.
 
 **Checklist:**
+
 - [ ] Criar `backend/middleware/validation.js`
 - [ ] Validar estrutura JSON de questões
 - [ ] Sanitizar inputs (XSS prevention)
-- [ ] Rate limiting por IP
+- [x] Rate limiting por IP
 - [ ] Validação de tipos (schema)
-- [ ] Error handler customizado
+- [x] Error handler customizado
 - [ ] Middleware de autenticação básica (se necessário)
 - [ ] Testes de segurança
 
@@ -361,6 +374,7 @@ Implementar validações e segurança.
 Testes E2E dos endpoints.
 
 **Checklist:**
+
 - [ ] Criar `tests/integration/api.test.js`
 - [ ] Testes para cada endpoint
 - [ ] Testes de erro (404, 400, 500)
@@ -378,6 +392,7 @@ Testes E2E dos endpoints.
 Documentar todos os endpoints.
 
 **Checklist:**
+
 - [ ] Criar `docs/API.md` com:
   - [ ] Lista completa de endpoints
   - [ ] Método HTTP e caminho
@@ -407,6 +422,7 @@ Documentar todos os endpoints.
 Limpar e refatorar o script de inicialização.
 
 **Checklist:**
+
 - [ ] Remover import não utilizado (`exec`)
 - [ ] Integrar com `db.js`
 - [ ] Usar função `initializeDatabase()` do Épico 2
@@ -424,6 +440,7 @@ Limpar e refatorar o script de inicialização.
 Criar script que inicia banco + Express.
 
 **Checklist:**
+
 - [ ] `scripts/start-dev.js` que:
   - [ ] Inicia PGLite
   - [ ] Inicia Express API
@@ -437,7 +454,7 @@ Criar script que inicia banco + Express.
 
 ## 🎯 ÉPICO 5: Validação de Questões (PRIORIDADE 4)
 
-**Status:** 🟡 Parcial — UI interna iniciada; integração real pendente
+**Status:** ✅ Concluído tecnicamente via Express + PGlite; validação manual completa pendente
 **Estimativa:** 3 dias  
 **Objetivo:** Sistema de validação 100% funcional
 
@@ -446,23 +463,49 @@ Criar script que inicia banco + Express.
 **Origem:** absorve a antiga Task 1.4 "Validação Questões".
 
 **Estado atual comprovado:**
+
 - UI interna iniciada em `validation/valid.html`.
 - Estilos da tela iniciados em `validation/css/valid.css`.
 - Lógica de UI/localStorage iniciada em `validation/js/validationUI.js` e
   `validation/js/validationStorage.js`.
-- `validation/js/validationAPI.js` ainda usa mock com delay, sem endpoint real.
+- `validation/js/validationAPI.js` usa API real com `USE_MOCK_DATA = false`.
+- Schema oficial de `questions` ja possui `validation_status`, `rejection_reason`
+  e `validation_logs`.
+- Funcoes `getPendingQuestions()` e `validateQuestion()` foram finalizadas em
+  `backend/database/db.js` com named export, validacoes e cobertura dedicada.
 - Backend FastAPI separado existe em `validation/backend/`, mas está em modo
   stub/mock e ainda não está integrado ao schema/camada oficial de banco.
 
-**Critérios ainda pendentes:**
+**Critérios concluidos tecnicamente:**
+
 - listar questões pendentes a partir de API real;
 - aprovar/reprovar questão persistindo no banco;
-- preencher `validated_by` e `validated_at` no schema oficial;
-- decidir se a integração será via API Express oficial ou backend FastAPI separado;
-- remover/substituir mocks por endpoints reais;
+- preencher `validated_by`, `validated_at`, `validation_status`,
+  `rejection_reason` e `validation_logs` por rota Express real;
+- integrar via API Express oficial;
+- remover mock como caminho padrao do painel.
+
+**Pendencias residuais:**
+
 - testar manualmente a tela completa.
+- investigar timeout da suite Jest completa.
 
 ---
+
+### Status tecnico atualizado - 2026-06-18
+
+- [x] Fluxo oficial definido como Express + PGlite.
+- [x] Schema oficial de `questions` com `validation_status`, `rejection_reason` e `validation_logs`.
+- [x] Constraint de status limitada a `PENDING`, `APPROVED` e `REJECTED`.
+- [x] Funcoes `getPendingQuestions()` e `validateQuestion()` implementadas e exportadas em `backend/database/db.js`.
+- [x] Rota `GET /api/questions/pending` implementada.
+- [x] Rota `POST /api/questions/:id/validate` implementada.
+- [x] `validation/js/validationAPI.js` usa API real com `USE_MOCK_DATA = false`.
+- [x] Rejeicoes exigem justificativa.
+- [x] Sprint 1 de seguranca aplicada: Helmet, rate limiting e middleware global de erro `{ error, status }`.
+- [x] Testes `__tests__/api.validation.test.js` cobrindo listar, aprovar, rejeitar e payload invalido.
+- [ ] Teste manual completo do painel com API + PGlite seedado.
+- [ ] Investigacao do timeout da suite Jest completa.
 
 ### Task 5.1: Schema de Validação no PGLite
 
@@ -471,12 +514,19 @@ Criar script que inicia banco + Express.
 Criar tabelas adicionais para validação (se necessário).
 
 **Checklist:**
-- [ ] Analisar schema.sql existente
-- [ ] Adicionar tabelas se faltando:
-  - [ ] `validation_logs` (auditoria)
+
+- [x] Analisar schema.sql existente
+- [x] Adicionar colunas de controle em `questions`:
+  - [x] `validation_status`
+  - [x] `rejection_reason`
+  - [x] `validation_logs`
+- [x] Adicionar constraint para status `PENDING`, `APPROVED` e `REJECTED`
+- [x] Adicionar indice para `validation_status`
+- [ ] Avaliar se ainda sera necessaria tabela separada:
+  - [ ] `validation_logs` (auditoria normalizada)
   - [ ] `validator_assignments` (quem valida o quê)
 - [ ] Migração SQL para dados existentes
-- [ ] Testar schema
+- [x] Testar schema com teste focado do banco
 
 ---
 
@@ -487,6 +537,7 @@ Criar tabelas adicionais para validação (se necessário).
 Implementar conexão Python/asyncpg.
 
 **Checklist:**
+
 - [ ] Instalar asyncpg em requirements.txt
 - [ ] Criar `backend/database/async_client.py`
 - [ ] Pool de conexões
@@ -497,20 +548,24 @@ Implementar conexão Python/asyncpg.
 
 ---
 
-### Task 5.3: Endpoints de Validação em FastAPI
+### Task 5.3: Endpoints de Validação em Express
 
 **Prioridade:** Alta | **Estimativa:** 4 horas
 
-Implementar endpoints de validação.
+Implementar endpoints de validação no backend oficial Express.
 
 **Checklist:**
-- [ ] `GET /api/questions/pending` - Lista para validar
-- [ ] `POST /api/questions/:id/validate` - Validar questão
-  - [ ] Recebe: `status`, `feedback`, `correctionNeeded`
-  - [ ] Salva em validation_logs
-- [ ] `GET /api/validators/me/stats` - Stats do validador
-- [ ] `GET /api/validations/:id` - Histórico
-- [ ] Testar endpoints
+
+- [x] `GET /api/questions/pending` - Lista para validar
+- [x] `POST /api/questions/:id/validate` - Validar questão
+  - [x] Recebe: `status`, `feedback`, `correctionNeeded`
+  - [x] Valida estritamente `APPROVED` ou `REJECTED`
+  - [x] Exige justificativa ao rejeitar
+  - [x] Atualiza `validation_status`, `rejection_reason`, `validated_by`,
+        `validated_at` e `validation_logs`
+- [ ] `GET /api/validators/me/stats` - Stats do validador, backlog
+- [ ] `GET /api/validations/:id` - Histórico, backlog
+- [x] Testar endpoints principais
 
 ---
 
@@ -521,12 +576,14 @@ Implementar endpoints de validação.
 Testes E2E do fluxo de validação.
 
 **Checklist:**
-- [ ] `tests/integration/validation.test.js`
-- [ ] Teste: Listar questões pendentes
-- [ ] Teste: Aprovar questão
-- [ ] Teste: Rejeitar com feedback
-- [ ] Teste: Histórico de validação
-- [ ] Todos passando ✅
+
+- [x] `__tests__/api.validation.test.js`
+- [x] Teste: Listar questões pendentes
+- [x] Teste: Aprovar questão
+- [x] Teste: Rejeitar com feedback
+- [x] Teste: Payload inválido
+- [ ] Teste: Histórico de validação, backlog
+- [x] Todos os testes do arquivo passando
 
 ---
 
@@ -545,6 +602,7 @@ Testes E2E do fluxo de validação.
 Trilha visual com SVG.
 
 **Checklist:**
+
 - [ ] `js/gamificacao/trailSVG.js`
 - [ ] `css/trail.css`
 - [ ] Nós para módulos
@@ -562,6 +620,7 @@ Trilha visual com SVG.
 Animações ao desbloquear módulo.
 
 **Checklist:**
+
 - [ ] `css/trail-animations.css`
 - [ ] `js/gamificacao/trailAnimations.js`
 - [ ] Linha iluminando
@@ -579,6 +638,7 @@ Animações ao desbloquear módulo.
 Modo especial para último módulo.
 
 **Checklist:**
+
 - [ ] `js/modes/bossBattle.js`
 - [ ] `css/boss-battle.css`
 - [ ] 65 questões
@@ -603,6 +663,7 @@ Modo especial para último módulo.
 Query agregada para análise de gaps.
 
 **Checklist:**
+
 - [ ] `backend/analytics/gaps_analyzer.py`
 - [ ] Query SQL agregada
 - [ ] Taxa de erro por domínio
@@ -618,6 +679,7 @@ Query agregada para análise de gaps.
 Card na sidebar mostrando domínios fracos.
 
 **Checklist:**
+
 - [ ] `js/recommendations/studyNow.js`
 - [ ] `css/recommendations.css`
 - [ ] Buscar API
@@ -639,6 +701,7 @@ Card na sidebar mostrando domínios fracos.
 **Prioridade:** Alta | **Estimativa:** 3 horas
 
 **Checklist:**
+
 - [ ] Verificar instalação
 - [ ] `js/export/pdfGenerator.js`
 - [ ] Função básica
@@ -651,6 +714,7 @@ Card na sidebar mostrando domínios fracos.
 **Prioridade:** Alta | **Estimativa:** 6 horas
 
 **Checklist:**
+
 - [ ] Capturar canvas
 - [ ] Converter imagem
 - [ ] Adicionar ao PDF
@@ -664,6 +728,7 @@ Card na sidebar mostrando domínios fracos.
 **Prioridade:** Média | **Estimativa:** 4 horas
 
 **Checklist:**
+
 - [ ] `js/export/pdfTemplate.js`
 - [ ] Cabeçalho com logo
 - [ ] Performance
@@ -678,6 +743,7 @@ Card na sidebar mostrando domínios fracos.
 **Prioridade:** Baixa | **Estimativa:** 2 horas
 
 **Checklist:**
+
 - [ ] Checkbox na UI
 - [ ] Filtrar erros
 - [ ] PDF só erros
@@ -700,6 +766,7 @@ Card na sidebar mostrando domínios fracos.
 Servidor de staging.
 
 **Checklist:**
+
 - [ ] Plataforma (Vercel/Netlify)
 - [ ] Deploy automático
 - [ ] Banco de testes
@@ -712,6 +779,7 @@ Servidor de staging.
 **Prioridade:** Média | **Estimativa:** 2 horas
 
 **Checklist:**
+
 - [ ] `feedback.html`
 - [ ] `js/feedback/feedbackForm.js`
 - [ ] Avaliação 1-5
@@ -725,6 +793,7 @@ Servidor de staging.
 **Prioridade:** Média | **Estimativa:** 2 horas
 
 **Checklist:**
+
 - [ ] Lista de 10-15
 - [ ] Enviar convites
 - [ ] Link staging
@@ -738,6 +807,7 @@ Servidor de staging.
 **Prioridade:** Alta | **Estimativa:** 3 horas
 
 **Checklist:**
+
 - [ ] Compilar feedbacks
 - [ ] Categorizar
 - [ ] Priorizar
@@ -750,6 +820,7 @@ Servidor de staging.
 **Prioridade:** 🔥 CRÍTICA | **Estimativa:** 8 horas
 
 **Checklist:**
+
 - [ ] Listar bugs
 - [ ] Dividir equipe
 - [ ] Corrigir
@@ -763,6 +834,7 @@ Servidor de staging.
 **Prioridade:** Média | **Estimativa:** 4 horas
 
 **Checklist:**
+
 - [ ] Listar melhorias
 - [ ] Priorizar simples
 - [ ] Implementar
@@ -776,6 +848,7 @@ Servidor de staging.
 **Prioridade:** Alta | **Estimativa:** 4 horas
 
 **Checklist:**
+
 - [ ] Slides PowerPoint
 - [ ] Demo ao vivo
 - [ ] Resultados
@@ -792,7 +865,7 @@ Servidor de staging.
 | **2. Database Layer** | **6** | **1.5s** | **🔥** | **✅ 100%** |
 | **3. Express API** | **7** | **1.5s** | **🔥** | **🟡 Parcial / próximo** |
 | **4. Socket Server** | **2** | **0.5s** | **Alta** | **⏳ Pendente** |
-| **5. Validação** | **4** | **1s** | **Alta** | **🟡 Parcial / UI iniciada** |
+| **5. Validação** | **4** | **1s** | **Alta** | **✅ Concluído tecnicamente** |
 | 6. Trilha Visual | 3 | 2s | Alta | ⏳ |
 | 7. Gaps Analysis | 2 | 1s | Alta | ⏳ |
 | 8. PDF Export | 4 | 1s | Alta | ⏳ |

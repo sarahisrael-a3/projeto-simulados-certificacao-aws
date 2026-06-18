@@ -15,9 +15,18 @@ import {
   updateQuestion,
   deleteQuestion,
   searchQuestions,
+  getPendingQuestions,
+  validateQuestion,
 } from '../../database/db.js';
 
 const router = Router();
+const VALID_VALIDATION_STATUSES = new Set(['APPROVED', 'REJECTED']);
+
+function createHttpError(statusCode, message) {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+}
 
 // ============================================================================
 // VALIDATION HELPERS
@@ -59,6 +68,98 @@ function validateQuestionPayload(data, isCreation = true) {
 
   return errors;
 }
+
+function validateValidationPayload(payload = {}) {
+  const errors = [];
+  const status = payload.status;
+  const rejectionReason = (
+    payload.rejection_reason
+    || payload.rejectionReason
+    || payload.feedback
+    || ''
+  ).trim();
+  const validator = (
+    payload.validated_by
+    || payload.validator_id
+    || payload.validatorId
+    || ''
+  ).trim();
+
+  if (!VALID_VALIDATION_STATUSES.has(status)) {
+    errors.push('status must be one of: APPROVED, REJECTED');
+  }
+
+  if (!validator) {
+    errors.push('validated_by is required');
+  }
+
+  if (status === 'REJECTED' && rejectionReason.length < 10) {
+    errors.push('rejection_reason with at least 10 characters is required when rejecting');
+  }
+
+  return {
+    errors,
+    data: {
+      status,
+      rejection_reason: status === 'REJECTED' ? rejectionReason : null,
+      validated_by: validator,
+    },
+  };
+}
+
+// ============================================================================
+// GET /api/questions/pending - List questions waiting for validation
+// ============================================================================
+
+router.get('/pending', async (req, res, next) => {
+  try {
+    const { limit = 50, offset = 0 } = req.query;
+    const questions = await getPendingQuestions({ limit, offset });
+
+    res.status(200).json({
+      success: true,
+      data: questions,
+      count: questions.length,
+      pagination: {
+        limit: Number.parseInt(limit, 10) || 50,
+        offset: Number.parseInt(offset, 10) || 0,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ============================================================================
+// POST /api/questions/:id/validate - Approve or reject a question
+// ============================================================================
+
+router.post('/:id/validate', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { errors, data } = validateValidationPayload(req.body);
+
+    if (!id) {
+      throw createHttpError(400, 'Question ID is required');
+    }
+
+    if (errors.length > 0) {
+      throw createHttpError(400, errors.join('; '));
+    }
+
+    const question = await validateQuestion(id, data.validated_by, data.status, data.rejection_reason);
+    if (!question) {
+      throw createHttpError(404, `Question with ID ${id} not found`);
+    }
+
+    res.status(200).json({
+      success: true,
+      data: question,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 // ============================================================================
 // GET /api/questions - List questions with filters and pagination

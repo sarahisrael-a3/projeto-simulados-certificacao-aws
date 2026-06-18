@@ -104,7 +104,7 @@ class ValidationUI {
 
             this.renderQuestions(response.data);
             this.updatePendingCount(response.data.length);
-            this.showMessage('Questões pendentes carregadas em modo mock local.', 'success');
+            this.showMessage('Questões pendentes carregadas.', 'success');
         } catch (error) {
             this.updatePendingCount(0);
             this.elements.questionsList.innerHTML = '<p class="loading-msg">Erro ao carregar questões pendentes.</p>';
@@ -114,7 +114,7 @@ class ValidationUI {
 
     renderQuestions(questions) {
         if (questions.length === 0) {
-            this.elements.questionsList.innerHTML = '<p class="loading-msg">Tudo limpo! Nenhuma questão pendente no mock local.</p>';
+            this.elements.questionsList.innerHTML = '<p class="loading-msg">Tudo limpo! Nenhuma questão pendente.</p>';
             return;
         }
 
@@ -225,7 +225,7 @@ class ValidationUI {
             this.finishQuestion(id);
             ValidationStorage.incrementApproved();
             this.loadDashboardStats();
-            this.showMessage('Questão aprovada no mock local. Nenhum registro foi salvo no banco.', 'success');
+            this.showMessage('Questão aprovada e salva no banco.', 'success');
         } catch (error) {
             this.showMessage(error.message || 'Erro ao aprovar questão.', 'error');
             this.restoreButton(button, 'Aprovar');
@@ -281,7 +281,7 @@ class ValidationUI {
             this.finishQuestion(id);
             ValidationStorage.incrementRejected();
             this.loadDashboardStats();
-            this.showMessage('Questão reprovada no mock local. Motivo registrado apenas em memória.', 'success');
+            this.showMessage('Questão reprovada e salva no banco.', 'success');
         } catch (error) {
             this.showMessage(error.message || 'Erro ao reprovar questão.', 'error');
         } finally {
@@ -295,7 +295,7 @@ class ValidationUI {
 
         if (this.currentPendingCount === 0) {
             setTimeout(() => {
-                this.elements.questionsList.innerHTML = '<p class="loading-msg">Tudo limpo! Nenhuma questão pendente no mock local.</p>';
+                this.elements.questionsList.innerHTML = '<p class="loading-msg">Tudo limpo! Nenhuma questão pendente.</p>';
             }, 320);
         }
     }

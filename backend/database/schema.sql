@@ -103,6 +103,9 @@ CREATE TABLE IF NOT EXISTS questions (
     reference_url   TEXT,
     tags            TEXT[]            DEFAULT '{}',
     is_active       BOOLEAN           NOT NULL DEFAULT TRUE,
+    validation_status VARCHAR(20)     NOT NULL DEFAULT 'PENDING',
+    rejection_reason TEXT,
+    validation_logs JSONB             NOT NULL DEFAULT '[]'::jsonb,
     validated_by    VARCHAR(100),
     validated_at    TIMESTAMP,
     created_at      TIMESTAMP         NOT NULL DEFAULT NOW(),
@@ -110,7 +113,8 @@ CREATE TABLE IF NOT EXISTS questions (
 
     CONSTRAINT chk_options_not_empty    CHECK (jsonb_array_length(options) >= 2),
     CONSTRAINT chk_correct_not_empty    CHECK (jsonb_array_length(correct_answer) >= 1),
-    CONSTRAINT chk_question_text_len    CHECK (char_length(question_text) >= 10)
+    CONSTRAINT chk_question_text_len    CHECK (char_length(question_text) >= 10),
+    CONSTRAINT chk_validation_status    CHECK (validation_status IN ('PENDING', 'APPROVED', 'REJECTED'))
 );
 
 COMMENT ON TABLE  questions                IS 'Banco de questões de certificação AWS';
@@ -120,10 +124,21 @@ COMMENT ON COLUMN questions.tags           IS 'Tags livres para agrupamento (ex:
 COMMENT ON COLUMN questions.is_active      IS 'FALSE = questão desativada/aposentada';
 COMMENT ON COLUMN questions.domain_id      IS 'FK para tabela domains (opcional, complementa domain text)';
 
+ALTER TABLE questions
+    ADD COLUMN IF NOT EXISTS validation_status VARCHAR(20) NOT NULL DEFAULT 'PENDING'
+        CHECK (validation_status IN ('PENDING', 'APPROVED', 'REJECTED')),
+    ADD COLUMN IF NOT EXISTS rejection_reason TEXT,
+    ADD COLUMN IF NOT EXISTS validation_logs JSONB NOT NULL DEFAULT '[]'::jsonb;
+
+COMMENT ON COLUMN questions.validation_status IS 'Status de validacao da questao: PENDING, APPROVED ou REJECTED';
+COMMENT ON COLUMN questions.rejection_reason  IS 'Motivo informado quando a questao e rejeitada na validacao';
+COMMENT ON COLUMN questions.validation_logs   IS 'Historico JSON de eventos de validacao da questao';
+
 CREATE INDEX IF NOT EXISTS idx_questions_certification ON questions(certification);
 CREATE INDEX IF NOT EXISTS idx_questions_domain        ON questions(domain);
 CREATE INDEX IF NOT EXISTS idx_questions_domain_id     ON questions(domain_id);
 CREATE INDEX IF NOT EXISTS idx_questions_difficulty    ON questions(difficulty);
+CREATE INDEX IF NOT EXISTS idx_questions_validation_status ON questions(validation_status);
 CREATE INDEX IF NOT EXISTS idx_questions_validated     ON questions(validated_by);
 CREATE INDEX IF NOT EXISTS idx_questions_active        ON questions(is_active) WHERE is_active = TRUE;
 CREATE INDEX IF NOT EXISTS idx_questions_tags          ON questions USING GIN(tags);

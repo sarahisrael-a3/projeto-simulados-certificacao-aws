@@ -8,6 +8,8 @@
 
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeDatabase, closeDatabase } from '../database/db.js';
@@ -19,12 +21,28 @@ const app = express();
 const API_PORT = Number.parseInt(process.env.PORT, 10) || 3001;
 const API_HOST = '127.0.0.1';
 
+app.use(helmet());
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 300,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  handler: (_req, res) => {
+    res.status(429).json({
+      error: 'Too many requests',
+      status: 429,
+    });
+  },
+});
+
+app.use('/api', apiLimiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
@@ -64,25 +82,27 @@ app.get('/api/leaderboard', async (req, res, next) => {
 
 app.use((req, res) => {
   res.status(404).json({
-    success: false,
-    message: `Route not found: ${req.method} ${req.path}`,
-    timestamp: new Date().toISOString(),
+    error: `Route not found: ${req.method} ${req.path}`,
+    status: 404,
   });
 });
 
 app.use((err, _req, res, _next) => {
-  console.error(`API error: ${err.message}`);
+  const statusCode = err.statusCode || err.status || 500;
+  if (process.env.NODE_ENV !== 'production' && statusCode >= 500) {
+    console.error(`API error: ${err.message}`);
+    if (err.stack) {
+      console.error(err.stack);
+    }
+  }
 
-  const statusCode = err.statusCode || 500;
-  const message = process.env.NODE_ENV === 'production'
+  const message = process.env.NODE_ENV === 'production' && statusCode >= 500
     ? 'Internal server error'
-    : err.message;
+    : err.message || 'Internal server error';
 
   res.status(statusCode).json({
-    success: false,
-    message,
-    error: process.env.NODE_ENV === 'production' ? undefined : err.stack,
-    timestamp: new Date().toISOString(),
+    error: message,
+    status: statusCode,
   });
 });
 

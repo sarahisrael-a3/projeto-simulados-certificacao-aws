@@ -6,7 +6,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
+import { afterAll, afterEach, beforeEach, describe, expect, test } from '@jest/globals';
 import {
   calculateStats,
   closeDatabase,
@@ -59,6 +59,10 @@ describe('PGlite database lifecycle', () => {
     } else {
       process.env.DB_DATA_DIR = originalDataDir;
     }
+  });
+
+  afterAll(async () => {
+    await closeDatabase();
   });
 
   test('initializes an isolated in-memory database in the test environment', async () => {
@@ -317,20 +321,44 @@ describe('Question CRUD operations', () => {
   test('updates a question and validates updated answers', async () => {
     const inserted = await insertQuestion(validQuestion());
 
+    expect(inserted.validation_status).toBe('PENDING');
+    expect(inserted.rejection_reason).toBeNull();
+    expect(inserted.validation_logs).toEqual([]);
+
     const updated = await updateQuestion(inserted.id, {
       difficulty: 'hard',
       question_text: 'Which AWS identity service should be used for permission management?',
       options: ['Amazon RDS', 'AWS IAM', 'Amazon VPC'],
       correct_answer: [1],
+      validation_status: 'approved',
+      rejection_reason: null,
+      validation_logs: [
+        {
+          action: 'approved',
+          validator: 'Tech Lead',
+        },
+      ],
     });
 
     expect(updated.id).toBe(inserted.id);
     expect(updated.difficulty).toBe('hard');
     expect(updated.options).toEqual(['Amazon RDS', 'AWS IAM', 'Amazon VPC']);
+    expect(updated.validation_status).toBe('APPROVED');
+    expect(updated.rejection_reason).toBeNull();
+    expect(updated.validation_logs).toEqual([
+      {
+        action: 'approved',
+        validator: 'Tech Lead',
+      },
+    ]);
 
     await expect(
       updateQuestion(inserted.id, { correct_answer: [9] }),
     ).rejects.toThrow('correct_answer[0] must reference a valid option index');
+
+    await expect(
+      updateQuestion(inserted.id, { validation_status: 'ARCHIVED' }),
+    ).rejects.toThrow('validation_status must be one of: PENDING, APPROVED, REJECTED');
 
     await expect(
       updateQuestion(inserted.id, { ignored: 'value' }),

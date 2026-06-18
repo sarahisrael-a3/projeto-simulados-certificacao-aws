@@ -28,6 +28,7 @@ const VALID_CERTIFICATIONS = new Set([
   'AIF-C01',
 ]);
 const VALID_DIFFICULTIES = new Set(['easy', 'medium', 'hard']);
+const VALID_VALIDATION_STATUSES = new Set(['PENDING', 'APPROVED', 'REJECTED']);
 const DEFAULT_QUESTION_LIMIT = 10;
 const DEFAULT_SEARCH_LIMIT = 20;
 const DEFAULT_HISTORY_LIMIT = 10;
@@ -360,6 +361,34 @@ function validateDifficulty(difficulty, { required = false } = {}) {
   return normalized;
 }
 
+function validateValidationStatus(status, { required = false } = {}) {
+  if (status === undefined || status === null || status === '') {
+    if (required) {
+      throw new Error('validation_status is required');
+    }
+    return undefined;
+  }
+
+  const normalized = normalizeRequiredString(status, 'validation_status').toUpperCase();
+  if (!VALID_VALIDATION_STATUSES.has(normalized)) {
+    throw new Error('validation_status must be one of: PENDING, APPROVED, REJECTED');
+  }
+
+  return normalized;
+}
+
+function normalizeValidationLogs(logs) {
+  if (logs === undefined || logs === null) {
+    return undefined;
+  }
+
+  if (!Array.isArray(logs)) {
+    throw new Error('validation_logs must be an array');
+  }
+
+  return logs;
+}
+
 function normalizeTags(tags) {
   if (tags === undefined || tags === null) {
     return [];
@@ -494,6 +523,21 @@ function normalizeQuestionInput(questionData, { partial = false } = {}) {
     normalized.tags = normalizeTags(questionData.tags);
   }
 
+  if (questionData.validation_status !== undefined) {
+    normalized.validation_status = validateValidationStatus(questionData.validation_status);
+  }
+
+  if (questionData.rejection_reason !== undefined) {
+    normalized.rejection_reason = normalizeOptionalString(
+      questionData.rejection_reason,
+      'rejection_reason',
+    );
+  }
+
+  if (questionData.validation_logs !== undefined) {
+    normalized.validation_logs = normalizeValidationLogs(questionData.validation_logs);
+  }
+
   return Object.fromEntries(
     Object.entries(normalized).filter(([, value]) => value !== undefined),
   );
@@ -517,6 +561,9 @@ async function normalizeQuestionUpdate(updates, existingQuestion) {
     'explanation',
     'reference_url',
     'tags',
+    'validation_status',
+    'rejection_reason',
+    'validation_logs',
     'validated_by',
     'validated_at',
   ]);
@@ -761,7 +808,7 @@ export async function updateQuestion(questionId, updates) {
   try {
     const params = [
       ...Object.entries(filteredUpdates).map(([key, value]) => {
-        if (key === 'options' || key === 'correct_answer') {
+        if (key === 'options' || key === 'correct_answer' || key === 'validation_logs') {
           return JSON.stringify(value);
         }
         return value;
@@ -1688,6 +1735,102 @@ export async function getWeakDomains(userId, threshold = DEFAULT_WEAK_DOMAIN_THR
   }
 }
 
+// Busca apenas as questões que precisam de revisão
+export async function getPendingQuestions(options = {}) {
+  const limit = normalizeLimit(options.limit, DEFAULT_QUESTION_LIMIT);
+  const offset = normalizeOffset(options.offset);
+
+  try {
+    return await executeQuery(`
+      SELECT *
+      FROM questions
+      WHERE is_active = TRUE
+        AND validation_status = 'PENDING'
+      ORDER BY created_at ASC
+      LIMIT $1 OFFSET $2
+    `, [limit, offset]);
+  } catch (error) {
+    console.error("Erro ao buscar questões pendentes:", error);
+    throw error;
+  }
+}
+
+// Atualiza o status da questão (Aprova ou Rejeita)
+function normalizeValidationInput(questionIdOrData, validatorId, status, rejectionReason) {
+  const source = isPlainObject(questionIdOrData)
+    ? questionIdOrData
+    : {
+        question_id: questionIdOrData,
+        validator_id: validatorId,
+        status,
+        rejection_reason: rejectionReason,
+      };
+
+  const normalizedStatus = validateValidationStatus(source.status, { required: true });
+  const normalizedRejectionReason = normalizeOptionalString(
+    source.rejection_reason ?? source.rejectionReason ?? source.feedback,
+    'rejection_reason',
+  );
+
+  if (normalizedStatus === 'REJECTED' && !normalizedRejectionReason) {
+    throw new Error('rejection_reason is required when rejecting a question');
+  }
+
+  return {
+    question_id: normalizeRequiredString(source.question_id ?? source.questionId, 'questionId'),
+    validator_id: normalizeRequiredString(
+      source.validator_id ?? source.validatorId ?? source.validated_by,
+      'validatorId',
+    ),
+    status: normalizedStatus,
+    rejection_reason: normalizedStatus === 'REJECTED' ? normalizedRejectionReason : null,
+  };
+}
+
+export async function validateQuestion(questionId, validatorId, status, rejectionReason = null) {
+  const validation = normalizeValidationInput(questionId, validatorId, status, rejectionReason);
+
+  try {
+    const existingQuestion = await getQuestionById(validation.question_id);
+    if (!existingQuestion) {
+      return null;
+    }
+
+    const logEntry = {
+      validatorId: validation.validator_id,
+      action: validation.status,
+      timestamp: new Date().toISOString(),
+      reason: validation.rejection_reason,
+    };
+
+    const query = `
+      UPDATE questions 
+      SET validation_status = $1,
+          rejection_reason = $2,
+          validated_by = $3,
+          validated_at = CURRENT_TIMESTAMP,
+          validation_logs = validation_logs || $4::jsonb
+      WHERE id = $5
+        AND is_active = TRUE
+      RETURNING *
+    `;
+    
+    const values = [
+      validation.status,
+      validation.rejection_reason,
+      validation.validator_id,
+      JSON.stringify([logEntry]),
+      validation.question_id,
+    ];
+    const result = await executeQuery(query, values);
+    
+    return result[0] || null;
+  } catch (error) {
+    console.error(`Erro ao validar questão ${questionId}:`, error);
+    throw error;
+  }
+}
+
 export default {
   // Core functions
   initializeDatabase,
@@ -1723,4 +1866,6 @@ export default {
   getLeaderboard,
   getUserStats,
   getWeakDomains,
+  getPendingQuestions,
+  validateQuestion
 };
