@@ -12,7 +12,7 @@ Este roadmap mostra a evolucao real do repositorio. O projeto nao e mais apenas 
 | Dados JSON | Funcional | 2.545 registros principais em `data/*.json` |
 | API Express | Funcional com pendencias | `backend/api/server.js`, rotas em `backend/api/routes/` |
 | PGlite | Funcional | `backend/database/db.js`, `schema.sql`, `db.test.js` |
-| Seed JSON -> PGlite | Funcional | `scripts/seed-pglite.mjs` |
+| Seed JSON -> PGlite | Funcional e verificado | `npm run db:seed` leu 2.545 registros em 2026-06-18 |
 | Validacao colaborativa | Funcional tecnicamente | `validation/js/validationAPI.js`, rotas `/pending` e `/validate` |
 | Testes Jest | Verde em 2026-06-18 | 9 suites, 77 testes |
 | Produto cloud/comunidade | Planejado | autenticacao real, producao API, observabilidade e governanca ainda pendentes |
@@ -57,6 +57,7 @@ Objetivo: manter JSON como fallback, mas usar API/PGlite quando disponiveis.
 - [x] Implementar questoes, quiz, usuarios, stats e leaderboard.
 - [x] Integrar frontend por `apiService`.
 - [x] Documentar rotas reais em `docs/ROUTES_AND_INTEGRATIONS.md`.
+- [x] Verificar API local com PGlite persistente seedado via `GET /api/health` e `GET /api/questions/pending?limit=2`.
 - [ ] Uniformizar contrato de resposta.
 - [ ] Completar rotas opcionais de historico/gamificacao se continuarem no escopo.
 - [ ] Criar OpenAPI ou `docs/API.md`.
@@ -75,7 +76,8 @@ Objetivo: revisar questoes em uma tela interna e persistir decisao.
 - [x] Rejeicao exige motivo.
 - [x] Persistir `validation_status`, `rejection_reason`, `validated_by`, `validated_at` e `validation_logs`.
 - [x] Criar testes de integracao de validacao.
-- [ ] Testar a tela manualmente com API + PGlite seedado.
+- [x] Verificar endpoint de pendencias com API + PGlite seedado.
+- [ ] Testar a tela manualmente no navegador com API + PGlite seedado.
 - [ ] Decidir o futuro do FastAPI em `validation/backend/`.
 - [ ] Avaliar tabela normalizada de auditoria.
 
@@ -130,6 +132,9 @@ Objetivo: preparar uso maior sem depender so de estado local.
 
 - `npm test -- --runInBand`: 9 suites passaram, 77 testes passaram em 2026-06-18.
 - `npm run build`: passou em 2026-06-18.
+- `npm run db:seed`: passou em 2026-06-18, com 2.545 registros lidos e ja presentes no PGlite.
+- API local: `GET /api/health` e `GET /api/questions/pending?limit=2` retornaram HTTP 200 em 2026-06-18.
 - Contagem atual em `data/`: 2.545 registros principais PT/EN.
 - `npm run lint`: passou com 0 erros e 72 warnings de `console` em 2026-06-18.
 - `npm run format:check`: passou em 2026-06-18.
+- `npm audit --omit=dev`: passou com 0 vulnerabilidades de producao em 2026-06-18.

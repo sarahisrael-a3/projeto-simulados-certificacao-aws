@@ -17,9 +17,12 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] Seguranca basica aplicada na API: Helmet, CORS, rate limit e error handler.
 - [x] `npm test -- --runInBand` passou em 2026-06-18: 9 suites, 77 testes.
 - [x] `npm run build` passou em 2026-06-18.
+- [x] `npm run db:seed` passou em 2026-06-18: 2.545 registros lidos e ja presentes no PGlite.
+- [x] API local com PGlite seedado respondeu `GET /api/health` e `GET /api/questions/pending?limit=2` com HTTP 200.
 - [ ] Validacao manual completa em navegador com API + PGlite seedado.
 - [x] `npm run lint` passou em 2026-06-18 com 0 erros e 72 warnings antigos de `console`.
 - [x] `npm run format:check` passou em 2026-06-18.
+- [x] `npm audit --omit=dev` passou em 2026-06-18 com 0 vulnerabilidades de producao.
 
 ## Frontend E Produto
 
@@ -113,8 +116,11 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] `npm run build`: passou.
 - [x] `npm run lint`: passou com 0 erros e 72 warnings de `console`.
 - [x] `npm run format:check`: passou.
+- [x] `npm run db:seed`: passou, 2.545 registros lidos e ja presentes no PGlite.
+- [x] `npm audit --omit=dev`: passou, 0 vulnerabilidades de producao.
+- [x] API local com PGlite persistente seedado: `GET /api/health` e `GET /api/questions/pending?limit=2` retornaram HTTP 200.
 - [ ] Teste manual do navegador: pendente.
-- [ ] Teste manual da API com PGlite persistente seedado: pendente.
+- [ ] Teste manual completo do painel de validacao no navegador: pendente.
 
 ## Proximos Passos Praticos
 
