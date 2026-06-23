@@ -1,7 +1,7 @@
 /**
  * StorageManager - Gerencia toda a persistência de dados do simulador
  * Encapsula lógica de localStorage para facilitar manutenção e testes
- * 
+ *
  * @module storageManager
  * @author AWS Exam Simulator Team
  */
@@ -15,7 +15,7 @@ export class StorageManager {
    * Cria uma nova instância do StorageManager
    * @param {string} storageKeyPrefix - Prefixo para todas as chaves do localStorage (default: 'aws_sim_')
    */
-  constructor(storageKeyPrefix = 'aws_sim_') {
+  constructor(storageKeyPrefix = "aws_sim_") {
     this.prefix = storageKeyPrefix;
   }
 
@@ -41,7 +41,7 @@ export class StorageManager {
    * @param {string[]} result.weakDomains - Array de domínios fracos
    * @param {Array} result.answers - Array com todas as respostas
    * @returns {boolean} True se salvou com sucesso, False caso contrário
-   * 
+   *
    * @example
    * storageManager.saveQuizResult({
    *   certId: 'clf-c02',
@@ -59,7 +59,7 @@ export class StorageManager {
       // Adiciona timestamp se não existir
       const resultWithDate = {
         ...result,
-        date: result.date || new Date().toISOString()
+        date: result.date || new Date().toISOString(),
       };
 
       // Salva como último resultado da certificação
@@ -76,10 +76,10 @@ export class StorageManager {
       }
 
       this.saveHistory(history);
-      
+
       return true;
     } catch (error) {
-      console.error('Erro ao salvar resultado do quiz:', error);
+      console.error("Erro ao salvar resultado do quiz:", error);
       return false;
     }
   }
@@ -88,7 +88,7 @@ export class StorageManager {
    * Carrega último score de uma certificação
    * @param {string} certId - ID da certificação (ex: 'aif-c01')
    * @returns {Object|null} Objeto com score, percentage e passed, ou null se não existir
-   * 
+   *
    * @example
    * const lastScore = storageManager.loadLastScore('clf-c02');
    * // Retorna: { score: 45, percentage: 69.23, passed: false }
@@ -97,17 +97,17 @@ export class StorageManager {
     try {
       const lastKey = this._getKey(`last_${certId}`);
       const data = localStorage.getItem(lastKey);
-      
+
       if (!data) return null;
-      
+
       const result = JSON.parse(data);
       return {
         score: result.score,
         percentage: result.percentage,
-        passed: result.passed
+        passed: result.passed,
       };
     } catch (error) {
-      console.error('Erro ao carregar último score:', error);
+      console.error("Erro ao carregar último score:", error);
       return null;
     }
   }
@@ -116,7 +116,7 @@ export class StorageManager {
    * Carrega último resultado completo de uma certificação
    * @param {string} certId - ID da certificação
    * @returns {Object|null} Resultado completo ou null
-   * 
+   *
    * @example
    * const lastResult = storageManager.loadLastResult('clf-c02');
    * // Retorna objeto completo com todos os campos
@@ -125,12 +125,12 @@ export class StorageManager {
     try {
       const lastKey = this._getKey(`last_${certId}`);
       const data = localStorage.getItem(lastKey);
-      
+
       if (!data) return null;
-      
+
       return JSON.parse(data);
     } catch (error) {
-      console.error('Erro ao carregar último resultado:', error);
+      console.error("Erro ao carregar último resultado:", error);
       return null;
     }
   }
@@ -138,30 +138,35 @@ export class StorageManager {
   /**
    * Carrega histórico completo de todos os quizzes
    * @returns {Array} Array de resultados históricos (ordenado do mais recente para o mais antigo)
-   * 
+   *
    * @example
    * const history = storageManager.getHistory();
    * // Retorna: [{certId: 'clf-c02', score: 45, ...}, ...]
    */
   getHistory() {
     try {
-      const historyKey = this._getKey('history');
+      const historyKey = this._getKey("history");
       const data = localStorage.getItem(historyKey);
-      
+
       if (!data) return [];
-      
+
       const parsed = JSON.parse(data);
-      
+
       // VALIDAÇÃO CRÍTICA: Garante que sempre retorna um Array válido
       if (!Array.isArray(parsed)) {
-        console.warn('Histórico corrompido detectado (não é array). Limpando cache...');
+        console.warn(
+          "Histórico corrompido detectado (não é array). Limpando cache...",
+        );
         this.clearHistory();
         return [];
       }
-      
+
       return parsed;
     } catch (error) {
-      console.error('Erro ao carregar histórico (JSON inválido). Limpando cache...', error);
+      console.error(
+        "Erro ao carregar histórico (JSON inválido). Limpando cache...",
+        error,
+      );
       // Se o JSON está corrompido, limpa silenciosamente
       this.clearHistory();
       return [];
@@ -175,11 +180,11 @@ export class StorageManager {
    */
   saveHistory(history) {
     try {
-      const historyKey = this._getKey('history');
+      const historyKey = this._getKey("history");
       localStorage.setItem(historyKey, JSON.stringify(history));
       return true;
     } catch (error) {
-      console.error('Erro ao salvar histórico:', error);
+      console.error("Erro ao salvar histórico:", error);
       return false;
     }
   }
@@ -190,11 +195,11 @@ export class StorageManager {
    */
   clearHistory() {
     try {
-      const historyKey = this._getKey('history');
+      const historyKey = this._getKey("history");
       localStorage.removeItem(historyKey);
       return true;
     } catch (error) {
-      console.error('Erro ao limpar histórico:', error);
+      console.error("Erro ao limpar histórico:", error);
       return false;
     }
   }
@@ -202,35 +207,35 @@ export class StorageManager {
   /**
    * Carrega dados de gamificação (badges, streaks, etc.)
    * @returns {Object} Objeto com totalQuizzes, bestScore, currentStreak, badges
-   * 
+   *
    * @example
    * const gamification = storageManager.getGamification();
    * // Retorna: { totalQuizzes: 10, bestScore: 85, currentStreak: 3, badges: ['perfect'] }
    */
   getGamification() {
     try {
-      const gamificationKey = this._getKey('gamification');
+      const gamificationKey = this._getKey("gamification");
       const data = localStorage.getItem(gamificationKey);
-      
+
       if (!data) {
         return {
           totalQuizzes: 0,
           bestScore: 0,
           currentStreak: 0,
-          lastDate: '',
-          badges: []
+          lastDate: "",
+          badges: [],
         };
       }
-      
+
       return JSON.parse(data);
     } catch (error) {
-      console.error('Erro ao carregar gamificação:', error);
+      console.error("Erro ao carregar gamificação:", error);
       return {
         totalQuizzes: 0,
         bestScore: 0,
         currentStreak: 0,
-        lastDate: '',
-        badges: []
+        lastDate: "",
+        badges: [],
       };
     }
   }
@@ -239,7 +244,7 @@ export class StorageManager {
    * Atualiza dados de gamificação com base no resultado do quiz
    * @param {number} percentage - Percentual de acerto do quiz
    * @returns {Object|null} Objeto de gamificação atualizado ou null em caso de erro
-   * 
+   *
    * @example
    * const gamification = storageManager.updateGamification(85);
    * // Retorna objeto atualizado com novos badges e estatísticas
@@ -247,14 +252,14 @@ export class StorageManager {
   updateGamification(percentage) {
     try {
       const gamification = this.getGamification();
-      const today = new Date().toISOString().split('T')[0];
-      
+      const today = new Date().toISOString().split("T")[0];
+
       gamification.totalQuizzes += 1;
-      
+
       if (percentage > gamification.bestScore) {
         gamification.bestScore = percentage;
       }
-      
+
       // Atualiza streak
       if (percentage >= 70) {
         if (gamification.lastDate !== today) {
@@ -264,26 +269,32 @@ export class StorageManager {
       } else {
         gamification.currentStreak = 0;
       }
-      
+
       // Adiciona badges baseado em conquistas
-      if (percentage === 100 && !gamification.badges.includes('perfect')) {
-        gamification.badges.push('perfect');
+      if (percentage === 100 && !gamification.badges.includes("perfect")) {
+        gamification.badges.push("perfect");
       }
-      
-      if (gamification.totalQuizzes >= 10 && !gamification.badges.includes('dedicated')) {
-        gamification.badges.push('dedicated');
+
+      if (
+        gamification.totalQuizzes >= 10 &&
+        !gamification.badges.includes("dedicated")
+      ) {
+        gamification.badges.push("dedicated");
       }
-      
-      if (gamification.currentStreak >= 5 && !gamification.badges.includes('streak')) {
-        gamification.badges.push('streak');
+
+      if (
+        gamification.currentStreak >= 5 &&
+        !gamification.badges.includes("streak")
+      ) {
+        gamification.badges.push("streak");
       }
-      
-      const gamificationKey = this._getKey('gamification');
+
+      const gamificationKey = this._getKey("gamification");
       localStorage.setItem(gamificationKey, JSON.stringify(gamification));
-      
+
       return gamification;
     } catch (error) {
-      console.error('Erro ao atualizar gamificação:', error);
+      console.error("Erro ao atualizar gamificação:", error);
       return null;
     }
   }
@@ -311,11 +322,11 @@ export class StorageManager {
    */
   saveGamification(gamification) {
     try {
-      const key = this._getKey('gamification');
+      const key = this._getKey("gamification");
       localStorage.setItem(key, JSON.stringify(gamification));
       return true;
     } catch (error) {
-      console.error('Erro ao salvar gamificação:', error);
+      console.error("Erro ao salvar gamificação:", error);
       return false;
     }
   }
@@ -325,23 +336,23 @@ export class StorageManager {
    * @param {number} minutes - Quantidade de minutos focados
    * @param {string} type - Tipo da sessão ('work', 'shortBreak', 'longBreak')
    */
-  saveFocusSession(minutes, type = 'work') {
+  saveFocusSession(minutes, type = "work") {
     try {
-      const key = this._getKey('focus_log'); // Gera a chave 'aws_sim_focus_log'
+      const key = this._getKey("focus_log"); // Gera a chave 'aws_sim_focus_log'
       const history = this.getFocusHistory();
-      
+
       const newEntry = {
-        date: new Date().toISOString().split('T')[0], // Formato 'YYYY-MM-DD'
+        date: new Date().toISOString().split("T")[0], // Formato 'YYYY-MM-DD'
         timestamp: new Date().toISOString(),
         minutes: minutes,
-        type: type
+        type: type,
       };
 
       history.push(newEntry);
       localStorage.setItem(key, JSON.stringify(history));
       return true;
     } catch (error) {
-      console.error('Erro ao salvar sessão de foco:', error);
+      console.error("Erro ao salvar sessão de foco:", error);
       return false;
     }
   }
@@ -352,11 +363,11 @@ export class StorageManager {
    */
   getFocusHistory() {
     try {
-      const key = this._getKey('focus_log');
+      const key = this._getKey("focus_log");
       const data = localStorage.getItem(key);
       return data ? JSON.parse(data) : [];
     } catch (error) {
-      console.error('Erro ao carregar histórico de foco:', error);
+      console.error("Erro ao carregar histórico de foco:", error);
       return [];
     }
   }
@@ -368,7 +379,7 @@ export class StorageManager {
   getTotalFocusMinutes() {
     const history = this.getFocusHistory();
     return history
-      .filter(session => session.type === 'work')
+      .filter((session) => session.type === "work")
       .reduce((total, session) => total + session.minutes, 0);
   }
 
@@ -377,17 +388,17 @@ export class StorageManager {
    */
   clearFocusHistory() {
     try {
-      localStorage.removeItem(this._getKey('focus_log'));
+      localStorage.removeItem(this._getKey("focus_log"));
       return true;
     } catch {
       return false;
     }
   }
-  
+
   /**
    * Limpa todos os dados do simulador
    * @returns {boolean} True se limpou com sucesso, False caso contrário
-   * 
+   *
    * @example
    * storageManager.clearAll();
    * // Remove todos os dados com prefixo 'aws_sim_'
@@ -395,14 +406,14 @@ export class StorageManager {
   clearAll() {
     try {
       const keys = Object.keys(localStorage);
-      keys.forEach(key => {
+      keys.forEach((key) => {
         if (key.startsWith(this.prefix)) {
           localStorage.removeItem(key);
         }
       });
       return true;
     } catch (error) {
-      console.error('Erro ao limpar todos os dados:', error);
+      console.error("Erro ao limpar todos os dados:", error);
       return false;
     }
   }
@@ -410,7 +421,7 @@ export class StorageManager {
   /**
    * Exporta todos os dados para backup
    * @returns {Object} Objeto com todos os dados
-   * 
+   *
    * @example
    * const backup = storageManager.exportData();
    * const json = JSON.stringify(backup);
@@ -420,16 +431,16 @@ export class StorageManager {
     try {
       const data = {};
       const keys = Object.keys(localStorage);
-      
-      keys.forEach(key => {
+
+      keys.forEach((key) => {
         if (key.startsWith(this.prefix)) {
           data[key] = localStorage.getItem(key);
         }
       });
-      
+
       return data;
     } catch (error) {
-      console.error('Erro ao exportar dados:', error);
+      console.error("Erro ao exportar dados:", error);
       return {};
     }
   }
@@ -438,7 +449,7 @@ export class StorageManager {
    * Importa dados de backup
    * @param {Object} data - Objeto com dados para importar
    * @returns {boolean} True se importou com sucesso, False caso contrário
-   * 
+   *
    * @example
    * const backup = { 'aws_sim_history': '[...]', ... };
    * storageManager.importData(backup);
@@ -452,11 +463,11 @@ export class StorageManager {
       });
       return true;
     } catch (error) {
-      console.error('Erro ao importar dados:', error);
+      console.error("Erro ao importar dados:", error);
       return false;
     }
   }
 }
 
 // Exporta instância singleton para uso no app
-export const storageManager = new StorageManager('aws_sim_');
+export const storageManager = new StorageManager("aws_sim_");
