@@ -50,3 +50,15 @@ class QuizHistoryResponse(BaseModel):
 class QuizSubmitResponse(BaseModel):
     id: str
     message: str
+
+class WeakDomain(BaseModel):
+    domain: str
+    error_rate: float
+    total_attempts: int
+    errors: int
+
+class GapsAnalysisResponse(BaseModel):
+    status: str
+    user_id: str
+    weak_domains: list[WeakDomain]
+    timestamp: str
