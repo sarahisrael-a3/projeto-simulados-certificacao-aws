@@ -9,11 +9,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.database import get_connection
 from backend.api.models import (
+    GapsAnalysisResponse,
     QuestionResponse,
     QuizHistoryResponse,
     QuizSubmission,
     QuizSubmitResponse,
 )
+from backend.analytics.gaps_analyzer import analyze_gaps, validate_uuid
 
 app = FastAPI(
     title="AWS Simulator API",
@@ -261,3 +263,83 @@ def get_history(user_id: str):
     finally:
         cursor.close()
         conn.close()
+
+
+@app.get(
+    "/api/analytics/gaps/{user_id}",
+    tags=["Analytics"],
+    summary="Analisa domínios fracos do usuário (taxa de erro alta)",
+    response_model=GapsAnalysisResponse,
+    status_code=status.HTTP_200_OK,
+)
+def get_gaps_analysis(user_id: str):
+    """
+    Analisa respostas incorretas do usuário e retorna os domínios com maior taxa de erro.
+
+    **Path Parameters:**
+    - `user_id`: UUID do usuário
+
+    **Query Logic:**
+    - Agrupa respostas por domínio
+    - Calcula taxa de erro = erros / total_tentativas
+    - Filtra apenas domínios com >= 3 tentativas (cold start mitigation)
+    - Ordena por taxa_erro DESC
+    - Retorna top 3 domínios fracos
+
+    **Response Examples:**
+
+    Usuário com histórico:
+    ```json
+    {
+        "status": "success",
+        "user_id": "550e8400-e29b-41d4-a716-446655440000",
+        "weak_domains": [
+            {
+                "domain": "design-performance",
+                "error_rate": 0.6153846153846154,
+                "total_attempts": 13,
+                "errors": 8
+            },
+            {
+                "domain": "seguranca-aplicacoes",
+                "error_rate": 0.5,
+                "total_attempts": 8,
+                "errors": 4
+            }
+        ],
+        "timestamp": "2026-06-23T10:30:45.123456Z"
+    }
+    ```
+
+    Usuário novo (sem histórico):
+    ```json
+    {
+        "status": "success",
+        "user_id": "550e8400-e29b-41d4-a716-446655440000",
+        "weak_domains": [],
+        "timestamp": "2026-06-23T10:30:45.123456Z"
+    }
+    ```
+
+    **Status Codes:**
+    - 200: Sucesso (mesmo se weak_domains vazio)
+    - 400: user_id inválido (não é UUID v4)
+    - 500: Erro interno do banco de dados
+    """
+
+    # Validar UUID
+    if not validate_uuid(user_id):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid user_id format: '{user_id}' is not a valid UUID v4",
+        )
+
+    try:
+        result = analyze_gaps(user_id)
+        return result
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to analyze gaps: {str(e)}",
+        )
