@@ -389,9 +389,30 @@ function loadQuestionUI() {
   const progress = engine.getProgress();
   const isMulti = Array.isArray(q.correct);
 
-  document.getElementById("question-category").textContent = getDomainName(
-    q.domain,
-  );
+  const categoryElement = document.getElementById("question-category");
+  if (categoryElement) {
+    categoryElement.textContent = getDomainName(q.domain);
+    
+    const oldBadge = document.getElementById("question-validation-badge");
+    if (oldBadge) oldBadge.remove();
+
+    if (q.validated_by) {
+      const badge = document.createElement("span");
+      badge.id = "question-validation-badge";
+      badge.className = "validation-badge tooltip-container";
+      
+      const isValidatedText = uiState.language === "en" ? "Validated" : "Validada";
+      const tooltipText = uiState.language === "en" 
+        ? `Validated by specialist: ${q.validated_by}`
+        : `Validada por especialista: ${q.validated_by}`;
+
+      badge.innerHTML = `
+        <i class="fa-solid fa-circle-check mr-1" style="color: #35B769;"></i> ${isValidatedText}
+        <span class="tooltip-text">${tooltipText}</span>
+      `;
+      categoryElement.parentNode.insertBefore(badge, categoryElement.nextSibling);
+    }
+  }
 
   const questionText = isMulti
     ? `${q.question} <br><span class="text-sm text-aws-orange italic mt-2 block">(${t("choose_options", uiState.language, { count: q.correct.length })})</span>`

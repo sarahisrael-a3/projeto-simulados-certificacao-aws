@@ -295,6 +295,7 @@ export class QuizEngine {
       correct: q.correct || q.correct_answer || q.correctAnswer || 0,
       explanation: q.explanation || "",
       reference_url: q.reference_url || q.referenceUrl || undefined,
+      validated_by: q.validated_by || q.validatedBy || undefined,
       // Keep original fields as fallback
       ...q,
     };
