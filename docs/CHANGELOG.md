@@ -2,7 +2,30 @@
 
 Todas as mudancas notaveis sao registradas aqui. Este arquivo foi normalizado em 2026-06-18 para refletir a evolucao real do repositorio.
 
-## [Atual] - 2026-06-18
+## [Atual] - 2026-06-25
+
+### Adicionado
+
+- `docs/API.md` com contrato principal da API Express.
+- Documentacao do fluxo diagnostico -> dominios fracos -> simulado personalizado.
+- Documentacao dos aliases de dominio usados para alinhar IDs do diagnostico aos IDs do banco principal.
+
+### Confirmado
+
+- Diagnostico lista dominios fracos e oferece CTA "Praticar dominios fracos".
+- Simulado personalizado prioriza dominios fracos, completa com questoes gerais e roda em modo revisao.
+- Quiz normal continua usando `startQuiz()` e `QuizEngine.loadQuestions()`.
+- `npm test` passou com 9 suites e 82 testes.
+- `npm run build` passou.
+- `npm run lint` passou com 0 erros e 77 warnings de `console`.
+
+### Pendencias Registradas
+
+- Persistir historico do diagnostico, se entrar no escopo futuro.
+- Evoluir simulado focado para plano de estudo completo.
+- Criar OpenAPI caso o contrato da API estabilize.
+
+## [2.5.0] - 2026-06-18
 
 ### Adicionado
 
@@ -24,8 +47,8 @@ Todas as mudancas notaveis sao registradas aqui. Este arquivo foi normalizado em
 ### Pendencias Registradas
 
 - Teste manual completo do app com API + PGlite seedado.
-- Reducao ou justificativa dos warnings de `console` reportados pelo lint.
-- OpenAPI ou `docs/API.md`.
+- Reducao ou justificativa dos 77 warnings de `console` reportados pelo lint.
+- OpenAPI ou documentacao de API mais completa.
 - E2E de navegador.
 - Auditoria PT/EN e duplicidades.
 

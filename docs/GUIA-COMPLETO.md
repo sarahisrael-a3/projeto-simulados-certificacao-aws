@@ -1,6 +1,6 @@
 # Guia Completo
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Este guia consolida o uso do projeto por estudantes, contribuidores e desenvolvedores.
 
@@ -43,11 +43,14 @@ npm run dev
 
 - Simulados para CLF-C02, SAA-C03, DVA-C02 e AIF-C01.
 - Diagnosticos por certificacao.
+- Lista de dominios fracos ao finalizar diagnostico.
+- CTA para praticar dominios fracos com simulado personalizado.
 - Flashcards.
 - Pomodoro.
 - Historico e progresso local.
 - Dashboard e graficos.
 - Insights de estudo.
+- Card "O Que Estudar Agora".
 - Relatorio PDF.
 - Tema claro/escuro.
 - Idiomas PT/EN.
@@ -74,7 +77,7 @@ data/
   contributions/
 ```
 
-Contagem em 2026-06-18: 2.545 registros principais PT/EN.
+Contagem em 2026-06-25: 2.545 registros principais PT/EN.
 
 ## Contribuir Com Questoes
 
@@ -140,6 +143,19 @@ Rotas principais:
 - `GET /api/questions/pending`
 - `POST /api/questions/:id/validate`
 
+## Diagnostico E Simulado Personalizado
+
+O fluxo de diagnostico funciona assim:
+
+1. O usuario inicia o Raio-X da Nuvem.
+2. O app carrega questoes de `data/nivelamento/` ou tenta API quando disponivel.
+3. Ao finalizar, `domainScores` registra acertos por dominio.
+4. Dominios abaixo de 60% sao tratados como fracos.
+5. Se nenhum dominio estiver abaixo de 60%, o menor percentual vira foco sugerido.
+6. O CTA "Praticar dominios fracos" inicia um simulado em modo revisao.
+
+O simulado personalizado prioriza questoes dos dominios fracos e completa com questoes gerais da mesma certificacao quando necessario.
+
 ## Testes
 
 ```bash
@@ -147,10 +163,10 @@ npm test -- --runInBand
 npm run build
 ```
 
-Verificacao de 2026-06-18:
+Verificacao de 2026-06-25:
 
 - 9 suites passaram.
-- 77 testes passaram.
+- 82 testes passaram.
 - Build passou.
 
 ## Resolucao De Problemas
@@ -186,6 +202,7 @@ Confirme que os arquivos existem em `public/data/`.
 - `docs/LEIA-ME-PRIMEIRO.md`
 - `docs/ONBOARDING_VISUAL.md`
 - `docs/ARCHITECTURE.md`
+- `docs/API.md`
 - `docs/ROUTES_AND_INTEGRATIONS.md`
 - `docs/EPICOS-E-TASKS.md`
 - `docs/CHECKLIST.md`

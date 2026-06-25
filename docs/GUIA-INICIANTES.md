@@ -1,6 +1,6 @@
 # Guia Para Iniciantes
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Este guia e para quem esta chegando agora e quer contribuir sem se perder.
 
@@ -37,8 +37,10 @@ npm run dev
 
 2. Explore uma certificacao.
 3. Faça um simulado curto.
-4. Abra `src/frontend/js/app.js`.
-5. Abra `src/frontend/js/quizEngine.js`.
+4. Rode o diagnostico e veja os dominios fracos.
+5. Use o CTA "Praticar dominios fracos".
+6. Abra `src/frontend/js/app.js`.
+7. Abra `src/frontend/js/quizEngine.js`.
 
 ## Segundo Passo: API
 
@@ -75,6 +77,16 @@ frontend
   -> PGlite
 ```
 
+Diagnostico personalizado:
+
+```text
+data/nivelamento/*.json
+  -> QuizEngine.loadDiagnostic()
+  -> domainScores
+  -> identifyWeakDomains()
+  -> QuizEngine.loadPersonalizedQuestions()
+```
+
 ## Como Criar Uma Questao
 
 ```bash
@@ -98,7 +110,7 @@ npm test -- --runInBand
 npm run build
 ```
 
-Testes atuais verificados em 2026-06-18: 9 suites e 77 testes passando.
+Testes atuais verificados em 2026-06-25: 9 suites e 82 testes passando.
 
 ## Tarefas Boas Para Comecar
 

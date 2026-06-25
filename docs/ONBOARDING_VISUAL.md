@@ -1,6 +1,6 @@
 # Onboarding Visual
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Leia este arquivo quando quiser entender o projeto em poucos minutos.
 
@@ -41,6 +41,8 @@ __tests__/              testes Jest
 ## O Que Ja Existe
 
 - Simulados e diagnosticos.
+- Simulado personalizado gerado a partir dos dominios fracos do diagnostico.
+- Card "O Que Estudar Agora".
 - Flashcards.
 - Pomodoro.
 - Dashboard e relatorios.
@@ -90,6 +92,8 @@ npm run dev
 | PGlite | Banco local persistente, parecido com PostgreSQL |
 | Build | Copia fontes para `public/` |
 | Validacao | Fluxo interno para aprovar/rejeitar questoes |
+| Dominios fracos | Dominios com baixo percentual de acerto no diagnostico ou historico |
+| Simulado personalizado | Quiz em modo revisao priorizando dominios fracos |
 
 ## Primeira Contribuicao
 

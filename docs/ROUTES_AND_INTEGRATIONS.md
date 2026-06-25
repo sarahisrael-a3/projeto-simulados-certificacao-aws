@@ -1,6 +1,6 @@
 # Rotas E Integracoes
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Este documento descreve o estado real das rotas e integracoes locais.
 
@@ -14,6 +14,7 @@ Este documento descreve o estado real das rotas e integracoes locais.
 | PGlite | Implementado | `DB_DATA_DIR` |
 | Seed | Implementado | `npm run db:seed` |
 | Painel de validacao | Integrado tecnicamente | `validation/` e `public/validation/` |
+| Diagnostico personalizado | Implementado no frontend | `src/frontend/js/app.js` + `QuizEngine.loadPersonalizedQuestions()` |
 
 ## Como Rodar
 
@@ -185,8 +186,36 @@ GET /api/leaderboard?limit=100
 
 - Quiz principal: `apiService.loadQuestions()` com fallback para `data/{certId}.json`.
 - Diagnostico: tentativa via API e fallback para `data/nivelamento/diagnostic-{certId}.json`.
+- Simulado personalizado do diagnostico: carrega questoes da mesma certificacao, prioriza dominios fracos e completa com questoes gerais quando necessario.
+- "O Que Estudar Agora": usa historico/localStorage e, quando disponivel, API para dominios fracos.
 - Leaderboard: `GET /api/leaderboard` com fallback local/mock.
 - Validacao: `GET /api/questions/pending` e `POST /api/questions/:id/validate`.
+
+## Fluxo Do Diagnostico Personalizado
+
+```text
+startDiagnostic()
+  -> QuizEngine.loadDiagnostic()
+  -> finishQuiz()
+  -> renderDiagnosticReport()
+  -> identifyWeakDomains(domainScores, domains)
+  -> CTA "Praticar dominios fracos"
+  -> startPersonalizedDiagnosticQuiz()
+  -> QuizEngine.loadPersonalizedQuestions()
+  -> fluxo normal da tela de quiz em modo revisao
+```
+
+Regras atuais:
+
+- dominio fraco: abaixo de 60% de acerto;
+- se nenhum dominio estiver abaixo de 60%, usar o dominio com menor percentual como foco sugerido;
+- ignorar dominios sem respostas;
+- ordenar do pior para o melhor desempenho;
+- priorizar questoes dos dominios fracos;
+- se faltarem questoes, completar com questoes gerais da mesma certificacao;
+- se nao houver nenhuma questao, mostrar mensagem amigavel e nao iniciar quiz quebrado.
+
+Observacao: `DIAGNOSTIC_DOMAIN_ALIASES` em `src/frontend/js/app.js` mapeia IDs de diagnostico para IDs do banco principal quando eles diferem.
 
 ## Rotas Planejadas Que Ainda Nao Existem
 
@@ -200,13 +229,18 @@ GET /api/leaderboard?limit=100
 - `GET /api/validators/me/stats`.
 - `GET /api/validations/:id`.
 
+## Documentacao Da API
+
+Veja tambem `docs/API.md` para exemplos de request/response e observacoes de contrato.
+
 ## Testes
 
-Verificado em 2026-06-18:
+Verificado em 2026-06-25:
 
 ```bash
-npm test -- --runInBand
+npm test
 npm run build
+npm run lint
 ```
 
-Resultado: 9 suites e 77 testes passaram; build passou.
+Resultado registrado: 9 suites e 82 testes passaram; build passou; lint passou com 0 erros e 77 warnings de `console`.

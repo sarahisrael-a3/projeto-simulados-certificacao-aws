@@ -1,6 +1,6 @@
 # Leia-Me Primeiro
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Se voce e novo no projeto, comece aqui.
 
@@ -13,6 +13,7 @@ Um simulador de estudos para certificacoes AWS com:
 - API Express local;
 - banco PGlite;
 - validacao colaborativa de questoes;
+- diagnostico com simulado personalizado para dominios fracos;
 - automacoes Python;
 - testes Jest.
 
@@ -53,6 +54,7 @@ Copy-Item .env.example .env
 | `docs/ONBOARDING_VISUAL.md` | Entender rapido |
 | `docs/GUIA-INICIANTES.md` | Aprender passo a passo |
 | `docs/ARCHITECTURE.md` | Entender arquitetura |
+| `docs/API.md` | Ver contrato principal da API |
 | `docs/ROUTES_AND_INTEGRATIONS.md` | Ver rotas reais |
 | `docs/CHECKLIST.md` | Ver status atual |
 | `docs/ROADMAP.md` | Ver proximas fases |
@@ -86,6 +88,6 @@ npm run build
 
 ## Estado Atual Medido
 
-- Testes em 2026-06-18: 9 suites, 77 testes passando.
-- Build em 2026-06-18: passou.
+- Testes em 2026-06-25: 9 suites, 82 testes passando.
+- Build em 2026-06-25: passou.
 - Base principal: 2.545 registros JSON PT/EN.
