@@ -74,6 +74,12 @@ export const translations = {
     meets_competencies: "Atende às Competências",
     needs_improvement: "Precisa de Melhoria",
     domain_score: "Score do Domínio:",
+    weak_domains_title: "Domínios fracos identificados",
+    practice_weak_domains: "Praticar domínios fracos",
+    diagnostic_not_enough_data:
+      "Ainda não há dados suficientes para gerar uma recomendação personalizada.",
+    personalized_quiz_unavailable:
+      "Não foi possível iniciar o simulado personalizado. {{message}}",
 
     // Flashcards
     flashcards_mode_title: "Modo Flashcards",
@@ -299,6 +305,12 @@ export const translations = {
     meets_competencies: "Meets Competencies",
     needs_improvement: "Needs Improvement",
     domain_score: "Domain Score:",
+    weak_domains_title: "Weak domains identified",
+    practice_weak_domains: "Practice weak domains",
+    diagnostic_not_enough_data:
+      "There is not enough data yet to generate a personalized recommendation.",
+    personalized_quiz_unavailable:
+      "Could not start the personalized quiz. {{message}}",
 
     // Flashcards
     flashcards_mode_title: "Flashcards Mode",
