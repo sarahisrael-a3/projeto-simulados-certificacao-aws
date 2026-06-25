@@ -191,6 +191,27 @@ function bindClick(id, handler) {
   }
 }
 
+/**
+ * Suprime temporariamente o efeito hover nos option-cards e botões de ação
+ * do quiz após navegação por teclado (Enter). Remove a supressão assim que
+ * o mouse se mover, garantindo que o hover volta a funcionar normalmente.
+ */
+function suppressHover() {
+  const targets = [
+    document.getElementById("options-container"),
+    document.getElementById("btn-submit"),
+    document.getElementById("btn-next"),
+    document.getElementById("btn-finish"),
+  ];
+  targets.forEach((el) => el?.classList.add("no-hover"));
+
+  const cleanup = () => {
+    targets.forEach((el) => el?.classList.remove("no-hover"));
+    document.removeEventListener("mousemove", cleanup);
+  };
+  document.addEventListener("mousemove", cleanup, { once: true });
+}
+
 function wireUIActions() {
   bindClick("home-trigger", goHome);
   bindClick("btn-language", toggleLanguage);
@@ -225,6 +246,29 @@ function wireUIActions() {
       }
     });
   }
+
+  // Atalho de teclado: Enter para "Confirmar Resposta" ou "Próxima"
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+
+    // Ignora se o foco estiver em um input, textarea ou botão (evita conflitos)
+    const tag = document.activeElement?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON") return;
+
+    const btnSubmit = document.getElementById("btn-submit");
+
+    const submitVisible =
+      btnSubmit &&
+      !btnSubmit.classList.contains("hidden") &&
+      !btnSubmit.disabled;
+
+    if (submitVisible) {
+      event.preventDefault();
+      submitAnswer();
+      document.activeElement?.blur();
+      suppressHover();
+    }
+  });
 }
 
 // MOTOR DO QUIZ E TIMER
@@ -437,14 +481,137 @@ function startTimer() {
 
 // UI DE QUESTÕES E MÚLTIPLAS ESCOLHAS
 
+// Retorna o tooltip global de validação
+function getValidationTooltip() {
+  const TOOLTIP_ID = "validation-tooltip-global";
+  let tooltip = document.getElementById(TOOLTIP_ID);
+  if (!tooltip) {
+    tooltip = document.createElement("div");
+    tooltip.id = TOOLTIP_ID;
+    tooltip.className = "validation-tooltip arrow-down";
+    tooltip.setAttribute("role", "tooltip");
+    document.body.appendChild(tooltip);
+  }
+  return tooltip;
+}
+
+// Inicializa o tooltip do badge de validação
+function initValidationBadgeTooltip(badge, text) {
+  const GAP = 8;
+  const MARGIN = 12;
+
+  badge._tooltipAbortController?.abort();
+  const { signal } = (badge._tooltipAbortController = new AbortController());
+
+  const tooltip = getValidationTooltip();
+
+  function showTooltip() {
+    tooltip.textContent = text;
+    tooltip.classList.remove("arrow-up", "arrow-down", "is-visible");
+    tooltip.style.visibility = "hidden";
+    tooltip.style.display = "block";
+
+    const {
+      top: bTop,
+      bottom: bBottom,
+      left: bLeft,
+      width: bWidth,
+    } = badge.getBoundingClientRect();
+    const ttWidth = tooltip.offsetWidth;
+    const ttHeight = tooltip.offsetHeight;
+    const centerX = bLeft + bWidth / 2;
+
+    const placeAbove =
+      bTop >= ttHeight + GAP || bTop >= window.innerHeight - bBottom;
+    const top = placeAbove ? bTop - ttHeight - GAP : bBottom + GAP;
+    tooltip.classList.add(placeAbove ? "arrow-down" : "arrow-up");
+
+    const left = Math.max(
+      MARGIN,
+      Math.min(centerX - ttWidth / 2, window.innerWidth - ttWidth - MARGIN),
+    );
+    const arrowPct = Math.max(
+      10,
+      Math.min(90, ((centerX - left) / ttWidth) * 100),
+    );
+
+    Object.assign(tooltip.style, {
+      top: `${top}px`,
+      left: `${left}px`,
+      visibility: "",
+      display: "",
+    });
+    tooltip.style.setProperty("--arrow-left", `${arrowPct}%`);
+
+    requestAnimationFrame(() => tooltip.classList.add("is-visible"));
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove("is-visible");
+  }
+
+  // Mouse / teclado (desktop)
+  badge.addEventListener("mouseenter", showTooltip, { signal });
+  badge.addEventListener("mouseleave", hideTooltip, { signal });
+  badge.addEventListener("focus", showTooltip, { signal });
+  badge.addEventListener("blur", hideTooltip, { signal });
+
+  // Touch (mobile): toca no badge alterna; toca fora fecha
+  badge.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      tooltip.classList.contains("is-visible") ? hideTooltip() : showTooltip();
+    },
+    { passive: false, signal },
+  );
+
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!badge.contains(e.target) && !tooltip.contains(e.target))
+        hideTooltip();
+    },
+    { passive: true, signal },
+  );
+}
+
 function loadQuestionUI() {
   const q = engine.getCurrentQuestion();
   const progress = engine.getProgress();
   const isMulti = Array.isArray(q.correct);
 
-  document.getElementById("question-category").textContent = getDomainName(
-    q.domain,
-  );
+  const categoryElement = document.getElementById("question-category");
+  if (categoryElement) {
+    categoryElement.textContent = getDomainName(q.domain);
+
+    const oldBadge = document.getElementById("question-validation-badge");
+    if (oldBadge) oldBadge.remove();
+
+    if (q.validated_by) {
+      const badge = document.createElement("span");
+      badge.id = "question-validation-badge";
+      badge.className = "validation-badge";
+
+      const isValidatedText =
+        uiState.language === "en" ? "Validated" : "Validada";
+      const tooltipText =
+        uiState.language === "en"
+          ? `Validated by specialist: ${q.validated_by}`
+          : `Validada por especialista: ${q.validated_by}`;
+
+      badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1" style="color: #35B769;" aria-hidden="true"></i> ${isValidatedText}`;
+      badge.setAttribute("aria-label", tooltipText);
+      badge.setAttribute("role", "tooltip");
+
+      initValidationBadgeTooltip(badge, tooltipText);
+
+      categoryElement.parentNode.insertBefore(
+        badge,
+        categoryElement.nextSibling,
+      );
+    }
+  }
 
   const questionText = isMulti
     ? `${q.question} <br><span class="text-sm text-aws-orange italic mt-2 block">(${t("choose_options", uiState.language, { count: q.correct.length })})</span>`
@@ -1577,9 +1744,40 @@ function toggleLanguage() {
     }
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // 7. Atualiza badge de validação se o quiz estiver ativo
+  // ══════════════════════════════════════════════════════════════
+  updateValidationBadgeLanguage();
+
   console.log(
     `[i18n] Interface atualizada para: ${uiState.language.toUpperCase()}`,
   );
+}
+
+/**
+ * Atualiza o texto e o tooltip do badge de validação para o idioma atual.
+ */
+function updateValidationBadgeLanguage() {
+  const quizScreen = document.getElementById("screen-quiz");
+  if (!quizScreen || quizScreen.classList.contains("hidden")) return;
+
+  const badge = document.getElementById("question-validation-badge");
+  if (!badge) return;
+
+  if (!engine || typeof engine.getCurrentQuestion !== "function") return;
+  const q = engine.getCurrentQuestion();
+  if (!q || !q.validated_by) return;
+
+  const isValidatedText = uiState.language === "en" ? "Validated" : "Validada";
+  const tooltipText =
+    uiState.language === "en"
+      ? `Validated by specialist: ${q.validated_by}`
+      : `Validada por especialista: ${q.validated_by}`;
+
+  // Atualiza o texto visível do badge (mantém o ícone)
+  badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1" style="color: #35B769;" aria-hidden="true"></i> ${isValidatedText}`;
+  badge.setAttribute("aria-label", tooltipText);
+  initValidationBadgeTooltip(badge, tooltipText);
 }
 
 function updateLanguageButtonUI() {
