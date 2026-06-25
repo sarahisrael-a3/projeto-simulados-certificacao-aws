@@ -3,7 +3,11 @@
  * Framework: Jest
  */
 
-import { QuizEngine } from '../src/frontend/js/quizEngine.js';
+import {
+    buildPersonalizedQuestionSet,
+    identifyWeakDomains,
+    QuizEngine,
+} from '../src/frontend/js/quizEngine.js';
 
 describe('QuizEngine - Testes Base', () => {
     let engine;
@@ -64,5 +68,93 @@ describe('QuizEngine - Testes Base', () => {
         expect(engine.state.score).toBe(0);
         expect(engine.state.domainScores.compute.correct).toBe(0);
         expect(engine.state.domainScores.compute.total).toBe(1);
+    });
+});
+
+describe('QuizEngine - Diagnóstico Personalizado', () => {
+    const domainsConfig = [
+        { id: 'storage', name: 'Storage' },
+        { id: 'compute', name: 'Compute' },
+        { id: 'security', name: 'Security' },
+    ];
+
+    test('identifyWeakDomains identifica domínios abaixo de 60%', () => {
+        const result = identifyWeakDomains(
+            {
+                storage: { total: 5, correct: 2 },
+                compute: { total: 5, correct: 4 },
+            },
+            domainsConfig,
+        );
+
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject({
+            id: 'storage',
+            name: 'Storage',
+            total: 5,
+            correct: 2,
+        });
+        expect(result[0].percentage).toBe(40);
+    });
+
+    test('identifyWeakDomains usa o menor percentual quando nenhum domínio está abaixo de 60%', () => {
+        const result = identifyWeakDomains(
+            {
+                storage: { total: 5, correct: 4 },
+                compute: { total: 5, correct: 5 },
+            },
+            domainsConfig,
+        );
+
+        expect(result).toHaveLength(1);
+        expect(result[0].id).toBe('storage');
+        expect(result[0].percentage).toBe(80);
+    });
+
+    test('identifyWeakDomains ordena os domínios fracos do pior para o melhor desempenho', () => {
+        const result = identifyWeakDomains(
+            {
+                storage: { total: 5, correct: 2 },
+                compute: { total: 5, correct: 1 },
+                security: { total: 5, correct: 3 },
+            },
+            domainsConfig,
+        );
+
+        expect(result.map((domain) => domain.id)).toEqual([
+            'compute',
+            'storage',
+        ]);
+    });
+
+    test('identifyWeakDomains retorna vazio quando domainScores não tem respostas', () => {
+        expect(identifyWeakDomains({}, domainsConfig)).toEqual([]);
+        expect(
+            identifyWeakDomains(
+                {
+                    storage: { total: 0, correct: 0 },
+                },
+                domainsConfig,
+            ),
+        ).toEqual([]);
+    });
+
+    test('buildPersonalizedQuestionSet prioriza domínios fracos e completa com questões gerais', () => {
+        const questions = [
+            { id: 'q1', domain: 'storage' },
+            { id: 'q2', domain: 'compute' },
+            { id: 'q3', domain: 'security' },
+            { id: 'q4', domain: 'compute' },
+        ];
+
+        const result = buildPersonalizedQuestionSet(questions, ['storage'], 3);
+
+        expect(result).toHaveLength(3);
+        expect(result[0].id).toBe('q1');
+        expect(result.map((question) => question.id)).toEqual([
+            'q1',
+            'q2',
+            'q3',
+        ]);
     });
 });

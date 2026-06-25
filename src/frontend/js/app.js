@@ -1,4 +1,4 @@
-import { QuizEngine } from "./quizEngine.js";
+import { identifyWeakDomains, QuizEngine } from "./quizEngine.js";
 import { certificationPaths } from "./data.js";
 import { initStudyNow, refreshStudyNow } from "./recommendations/studyNow.js";
 import { storageManager } from "./storageManager.js";
@@ -34,6 +34,27 @@ const APP_CONFIG = {
   STORAGE_KEY: "aws_sim_",
 };
 
+const DIAGNOSTIC_DOMAIN_ALIASES = {
+  "clf-c02": {
+    "cloud-concepts": "conceitos-cloud",
+    "security-compliance": "seguranca",
+    "cloud-storage": "tecnologia",
+    "billing-cost-management": "faturamento",
+  },
+  "saa-c03": {
+    "design-secure-architectures": "seguranca-aplicacoes",
+    "design-resilient-architectures": "design-resiliente",
+    "design-high-performing-architectures": "design-performance",
+    "design-cost-optimized-architectures": "design-custo",
+  },
+  "dva-c02": {
+    development: "desenvolvimento-servicos",
+    security: "seguranca-app",
+    deployment: "implementacao",
+    "troubleshooting-performance": "resolucao-problemas",
+  },
+};
+
 const engine = new QuizEngine(APP_CONFIG.PASSING_SCORE);
 
 let uiState = {
@@ -53,6 +74,7 @@ let uiState = {
 };
 
 let lastRenderedResult = null;
+let lastDiagnosticRecommendation = null;
 // INICIALIZAÇÃO
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -234,6 +256,7 @@ function wireUIActions() {
   bindClick("btn-flashcards-home", goHome);
   bindClick("btn-clear-history", clearHistory);
   bindClick("btn-start-diagnostic", startDiagnostic);
+  bindClick("btn-start-personalized-diagnostic-quiz", startPersonalizedDiagnosticQuiz);
   bindClick("sprint-start-btn", startMicroSprint);
 
   const flashcardContainer = document.getElementById("flashcard-container");
@@ -468,6 +491,103 @@ async function startDiagnostic() {
     if (btn) {
       btn.disabled = false;
       btn.innerHTML = `Fazer Diagnóstico <i class="fa-solid fa-stethoscope ml-2"></i>`;
+    }
+  }
+}
+
+async function startPersonalizedDiagnosticQuiz() {
+  if (
+    !lastDiagnosticRecommendation ||
+    !lastDiagnosticRecommendation.certificationId ||
+    !Array.isArray(lastDiagnosticRecommendation.weakDomains) ||
+    lastDiagnosticRecommendation.weakDomains.length === 0
+  ) {
+    alert(t("diagnostic_not_enough_data", uiState.language));
+    return;
+  }
+
+  const certId = lastDiagnosticRecommendation.certificationId;
+  const currentCertInfo = certificationPaths[certId];
+
+  if (!currentCertInfo || !Array.isArray(currentCertInfo.domains)) {
+    alert(t("diagnostic_not_enough_data", uiState.language));
+    return;
+  }
+
+  const btn = document.getElementById("btn-start-personalized-diagnostic-quiz");
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i>${t("loading", uiState.language)}`;
+  }
+
+  try {
+    const certSelect = document.getElementById("certification-select");
+    if (certSelect && certSelect.value !== certId) {
+      certSelect.value = certId;
+      localStorage.setItem("aws_sim_cert", certId);
+      uiState.currentCertificationInfo = currentCertInfo;
+      updateTopicDropdown();
+      loadLastScore();
+      updateDifficultyFilters(certId);
+    }
+
+    uiState.currentCertificationInfo = currentCertInfo;
+    uiState.currentMode = "review";
+
+    const weakDomainIds = getQuizDomainIdsForDiagnosticDomains(
+      lastDiagnosticRecommendation.weakDomains.map((domain) => domain.id),
+      certId,
+    );
+
+    const result = await engine.loadPersonalizedQuestions(
+      certId,
+      currentCertInfo.domains,
+      weakDomainIds,
+      10,
+      uiState.language,
+    );
+
+    if (!result.success || result.totalQuestions === 0) {
+      alert(
+        t("personalized_quiz_unavailable", uiState.language, {
+          message: result.message || "",
+        }),
+      );
+      return;
+    }
+
+    showScreen("quiz");
+
+    const sidebar = document.getElementById("side-info");
+    const mainSection = document.getElementById("main-section");
+
+    if (sidebar) sidebar.classList.add("hidden");
+    if (mainSection) {
+      mainSection.classList.remove("lg:w-2/3");
+      mainSection.classList.add("w-full");
+    }
+
+    const timerContainer = document.getElementById("timer-container");
+    if (timerContainer) timerContainer.classList.add("hidden");
+
+    const missionHud = document.getElementById("mission-hud");
+    if (missionHud) missionHud.classList.add("hidden");
+
+    const scoreContainer = document.getElementById("score-container");
+    if (scoreContainer) scoreContainer.style.display = "flex";
+
+    loadQuestionUI();
+  } catch (err) {
+    console.error("Erro ao iniciar simulado personalizado:", err);
+    alert(
+      t("personalized_quiz_unavailable", uiState.language, {
+        message: err.message,
+      }),
+    );
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = `${t("practice_weak_domains", uiState.language)} <i class="fa-solid fa-arrow-right ml-2"></i>`;
     }
   }
 }
@@ -1253,9 +1373,49 @@ function renderDiagnosticReport(results) {
   const resultsScreen = document.getElementById("screen-results");
   resultsScreen.innerHTML = "";
 
-  // Recupera os domínios fracos que o motor (getFinalResults) já calcula automaticamente
-  const weakDomains = results.weakDomains || [];
-  const encodedWeakDomains = weakDomains.join(",");
+  const weakDomains = identifyWeakDomains(
+    results.domainScores,
+    uiState.currentCertificationInfo?.domains || [],
+  ).map((domain) => ({
+    ...domain,
+    name: getDiagnosticDomainName(domain.id, results.certId),
+  }));
+
+  lastDiagnosticRecommendation =
+    weakDomains.length > 0
+      ? {
+          certificationId: results.certId,
+          weakDomains,
+          generatedAt: new Date().toISOString(),
+          source: "diagnostic",
+        }
+      : null;
+
+  const weakDomainsHtml =
+    weakDomains.length > 0
+      ? `
+        <div class="w-full max-w-4xl mx-auto mb-8 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-5 text-left fade-in">
+            <h3 class="font-black text-orange-800 dark:text-orange-300 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-bullseye"></i> ${t("weak_domains_title", uiState.language)}
+            </h3>
+            <div class="flex flex-wrap gap-2">
+                ${weakDomains
+                  .map(
+                    (domain) => `
+                    <span class="px-3 py-2 bg-white dark:bg-slate-800 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300 rounded-lg text-sm font-bold">
+                        ${domain.name} - ${domain.percentage.toFixed(0)}%
+                    </span>
+                `,
+                  )
+                  .join("")}
+            </div>
+        </div>
+    `
+      : `
+        <div class="w-full max-w-4xl mx-auto mb-8 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-5 text-center fade-in">
+            <p class="text-sm text-gray-600 dark:text-gray-300">${t("diagnostic_not_enough_data", uiState.language)}</p>
+        </div>
+    `;
 
   let html = `
         <div class="text-center mb-8 fade-in">
@@ -1267,6 +1427,8 @@ function renderDiagnosticReport(results) {
             <canvas id="radarChart" style="max-height: 250px;"></canvas>
         </div>
 
+        ${weakDomainsHtml}
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
     `;
 
@@ -1274,7 +1436,7 @@ function renderDiagnosticReport(results) {
     const scoreData = results.domainScores[domain.id];
     if (scoreData && scoreData.total > 0) {
       const pct = (scoreData.correct / scoreData.total) * 100;
-      const isWeak = pct < 70;
+      const isWeak = pct < 60;
 
       const cardColor = isWeak
         ? "bg-orange-50 border-orange-200 dark:bg-orange-900/20 dark:border-orange-800"
@@ -1282,7 +1444,7 @@ function renderDiagnosticReport(results) {
       const iconColor = isWeak ? "text-orange-500" : "text-green-500";
       const icon = isWeak ? "fa-book-open" : "fa-check-circle";
       const msg = isWeak
-        ? "Recomendamos revisar este domínio nos Flashcards oficiais."
+        ? "Recomendamos praticar questões focadas neste domínio."
         : "Conceito consolidado! Ótimo trabalho.";
 
       html += `
@@ -1303,20 +1465,28 @@ function renderDiagnosticReport(results) {
     }
   });
 
-  // BOTÃO ATUALIZADO PARA ESTUDO INTELIGENTE
+  // CTA para transformar o diagnóstico em prática focada.
   html += `
         </div>
         <div class="mt-10 text-center flex justify-center gap-4 fade-in">
             <button onclick="goHome()" class="bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-800 dark:text-white font-bold py-3 px-8 rounded-xl transition-all">
                 Voltar ao Início
             </button>
-            <button onclick="startSmartFlashcards('${encodedWeakDomains}')" class="bg-aws-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md">
-                Estudar Meus Pontos Fracos <i class="fa-solid fa-bolt ml-2"></i>
-            </button>
+            ${
+              weakDomains.length > 0
+                ? `<button id="btn-start-personalized-diagnostic-quiz" class="bg-aws-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md">
+                    ${t("practice_weak_domains", uiState.language)} <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>`
+                : ""
+            }
         </div>
     `;
 
   resultsScreen.innerHTML = html;
+  bindClick(
+    "btn-start-personalized-diagnostic-quiz",
+    startPersonalizedDiagnosticQuiz,
+  );
   showScreen("results");
 
   // Força a renderização do gráfico
@@ -1674,6 +1844,28 @@ function getDomainName(id) {
     uiState.currentCertificationInfo?.domains.find((d) => d.id === id)?.name ||
     id
   );
+}
+
+function getQuizDomainIdsForDiagnosticDomains(domainIds, certId) {
+  const aliases = DIAGNOSTIC_DOMAIN_ALIASES[certId] || {};
+  const resolvedIds = [];
+
+  domainIds.forEach((domainId) => {
+    if (!domainId) return;
+    resolvedIds.push(domainId);
+    if (aliases[domainId]) resolvedIds.push(aliases[domainId]);
+  });
+
+  return [...new Set(resolvedIds)];
+}
+
+function getDiagnosticDomainName(domainId, certId) {
+  const quizDomainId = DIAGNOSTIC_DOMAIN_ALIASES[certId]?.[domainId] || domainId;
+  const domain = certificationPaths[certId]?.domains?.find(
+    (item) => item.id === quizDomainId,
+  );
+
+  return domain?.name || domainId;
 }
 
 function initTheme() {

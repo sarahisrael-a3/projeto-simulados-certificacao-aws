@@ -8,6 +8,72 @@
 
 import apiService from "../services/api.js";
 
+const DEFAULT_PERSONALIZED_QUESTION_COUNT = 10;
+const WEAK_DOMAIN_THRESHOLD = 60;
+
+export function identifyWeakDomains(
+  domainScores,
+  domainsConfig = [],
+  threshold = WEAK_DOMAIN_THRESHOLD,
+) {
+  if (!domainScores || typeof domainScores !== "object") return [];
+
+  const domainNames = new Map(
+    domainsConfig.map((domain) => [domain.id, domain.name || domain.id]),
+  );
+
+  const rankedDomains = Object.entries(domainScores)
+    .filter(([, scoreData]) => scoreData && scoreData.total > 0)
+    .map(([id, scoreData]) => {
+      const percentage = (scoreData.correct / scoreData.total) * 100;
+      return {
+        id,
+        name: domainNames.get(id) || id,
+        total: scoreData.total,
+        correct: scoreData.correct,
+        percentage,
+      };
+    })
+    .sort((a, b) => a.percentage - b.percentage);
+
+  if (rankedDomains.length === 0) return [];
+
+  const weakDomains = rankedDomains.filter(
+    (domain) => domain.percentage < threshold,
+  );
+
+  return weakDomains.length > 0 ? weakDomains : [rankedDomains[0]];
+}
+
+export function buildPersonalizedQuestionSet(
+  questions,
+  weakDomainIds,
+  quantity = DEFAULT_PERSONALIZED_QUESTION_COUNT,
+) {
+  if (!Array.isArray(questions) || questions.length === 0) return [];
+
+  const desiredQuantity = Math.max(1, parseInt(quantity, 10) || 1);
+  const weakSet = new Set((weakDomainIds || []).map((id) => String(id)));
+  const selected = [];
+  const selectedQuestions = new Set();
+
+  const addQuestion = (question) => {
+    if (!question || selectedQuestions.has(question)) return;
+    if (selected.length >= desiredQuantity) return;
+
+    selected.push(question);
+    selectedQuestions.add(question);
+  };
+
+  questions
+    .filter((question) => weakSet.has(String(question.domain).trim()))
+    .forEach(addQuestion);
+
+  questions.forEach(addQuestion);
+
+  return selected;
+}
+
 export class QuizEngine {
   constructor(passingScore = 70) {
     this.PASSING_SCORE = passingScore;
@@ -87,6 +153,82 @@ export class QuizEngine {
         .map((q) => this._shuffleOptions(q));
 
       // Inicializa o placar de domínios
+      domainsConfig.forEach((d) => {
+        this.state.domainScores[d.id] = { total: 0, correct: 0 };
+      });
+
+      return { success: true, totalQuestions: this.state.questions.length };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
+
+  async loadPersonalizedQuestions(
+    certId,
+    domainsConfig,
+    weakDomainIds,
+    quantity = DEFAULT_PERSONALIZED_QUESTION_COUNT,
+    language = "pt",
+  ) {
+    this.resetState();
+    this.state.certId = certId;
+    this.state.mode = "review";
+
+    try {
+      let data = null;
+
+      try {
+        const response = await apiService.loadQuestions({
+          certification: certId,
+          limit: 200,
+        });
+
+        if (response.success && response.data && response.data.length > 0) {
+          data = response.data;
+          console.log(
+            `✓ Loaded ${data.length} questions from API for personalized quiz`,
+          );
+        }
+      } catch (apiError) {
+        console.warn(
+          "API request failed for personalized quiz, falling back to JSON:",
+          apiError,
+        );
+      }
+
+      if (!data || data.length === 0) {
+        const fileSuffix = language === "en" ? "-en" : "";
+        let response = await fetch(`data/${certId}${fileSuffix}.json`);
+
+        if (!response.ok && language === "en") {
+          response = await fetch(`data/${certId}.json`);
+        }
+
+        if (!response.ok)
+          throw new Error("Arquivo de questões não encontrado.");
+
+        data = await response.json();
+        console.log(
+          `✓ Loaded ${data.length} questions from JSON for personalized quiz`,
+        );
+      }
+
+      data = data.map((q) => this._normalizeQuestion(q));
+
+      const selectedQuestions = buildPersonalizedQuestionSet(
+        this._shuffleArray(data),
+        weakDomainIds,
+        quantity,
+      );
+
+      if (selectedQuestions.length === 0) {
+        throw new Error("Nenhuma questão disponível para este simulado.");
+      }
+
+      this.state.questions = selectedQuestions.map((q) =>
+        this._shuffleOptions(q),
+      );
+
       domainsConfig.forEach((d) => {
         this.state.domainScores[d.id] = { total: 0, correct: 0 };
       });
