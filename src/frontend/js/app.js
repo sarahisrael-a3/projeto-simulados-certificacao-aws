@@ -1,5 +1,6 @@
 import { QuizEngine } from "./quizEngine.js";
 import { certificationPaths } from "./data.js";
+import { initStudyNow, refreshStudyNow } from "./recommendations/studyNow.js";
 import { storageManager } from "./storageManager.js";
 import { userManager } from "./userManager.js";
 import { quizManager } from "./quizManager.js";
@@ -80,6 +81,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   updateLanguageButtonUI();
   initPWAInstall();
   wireUIActions();
+  initStudyNow({ startFilteredQuiz: startWeakestDomainQuiz });
+  refreshStudyNow();
 
   // FASE 5: Setup de Certificação
   const certSelect = document.getElementById("certification-select");
@@ -225,6 +228,33 @@ function wireUIActions() {
 }
 
 // MOTOR DO QUIZ E TIMER
+
+async function startWeakestDomainQuiz(domainId, certId) {
+  if (!domainId) return;
+
+  const certSelect = document.getElementById("certification-select");
+  const topicSelect = document.getElementById("topic-filter");
+
+  if (certSelect && certId && certificationPaths[certId]) {
+    if (certSelect.value !== certId) {
+      certSelect.value = certId;
+      localStorage.setItem("aws_sim_cert", certId);
+      uiState.currentCertificationInfo = certificationPaths[certId];
+      updateTopicDropdown();
+      loadLastScore();
+      updateDifficultyFilters(certId);
+    }
+  }
+
+  if (topicSelect) {
+    const hasOption = Array.from(topicSelect.options).some(
+      (opt) => opt.value === domainId,
+    );
+    if (hasOption) topicSelect.value = domainId;
+  }
+
+  await startQuiz();
+}
 
 async function startQuiz() {
   const certSelect = document.getElementById("certification-select");
@@ -757,6 +787,7 @@ function finishQuiz() {
   }
 
   showResultsScreen();
+  refreshStudyNow();
 }
 
 function toggleFlag() {
