@@ -177,10 +177,10 @@ function suppressHover() {
     document.getElementById("btn-next"),
     document.getElementById("btn-finish"),
   ];
-  targets.forEach(el => el?.classList.add("no-hover"));
+  targets.forEach((el) => el?.classList.add("no-hover"));
 
   const cleanup = () => {
-    targets.forEach(el => el?.classList.remove("no-hover"));
+    targets.forEach((el) => el?.classList.remove("no-hover"));
     document.removeEventListener("mousemove", cleanup);
   };
   document.addEventListener("mousemove", cleanup, { once: true });
@@ -231,7 +231,10 @@ function wireUIActions() {
 
     const btnSubmit = document.getElementById("btn-submit");
 
-    const submitVisible = btnSubmit && !btnSubmit.classList.contains("hidden") && !btnSubmit.disabled;
+    const submitVisible =
+      btnSubmit &&
+      !btnSubmit.classList.contains("hidden") &&
+      !btnSubmit.disabled;
 
     if (submitVisible) {
       event.preventDefault();
@@ -455,19 +458,36 @@ function initValidationBadgeTooltip(badge, text) {
     tooltip.style.visibility = "hidden";
     tooltip.style.display = "block";
 
-    const { top: bTop, bottom: bBottom, left: bLeft, width: bWidth } = badge.getBoundingClientRect();
-    const ttWidth  = tooltip.offsetWidth;
+    const {
+      top: bTop,
+      bottom: bBottom,
+      left: bLeft,
+      width: bWidth,
+    } = badge.getBoundingClientRect();
+    const ttWidth = tooltip.offsetWidth;
     const ttHeight = tooltip.offsetHeight;
-    const centerX  = bLeft + bWidth / 2;
+    const centerX = bLeft + bWidth / 2;
 
-    const placeAbove = bTop >= ttHeight + GAP || bTop >= window.innerHeight - bBottom;
+    const placeAbove =
+      bTop >= ttHeight + GAP || bTop >= window.innerHeight - bBottom;
     const top = placeAbove ? bTop - ttHeight - GAP : bBottom + GAP;
     tooltip.classList.add(placeAbove ? "arrow-down" : "arrow-up");
 
-    const left = Math.max(MARGIN, Math.min(centerX - ttWidth / 2, window.innerWidth - ttWidth - MARGIN));
-    const arrowPct = Math.max(10, Math.min(90, ((centerX - left) / ttWidth) * 100));
+    const left = Math.max(
+      MARGIN,
+      Math.min(centerX - ttWidth / 2, window.innerWidth - ttWidth - MARGIN),
+    );
+    const arrowPct = Math.max(
+      10,
+      Math.min(90, ((centerX - left) / ttWidth) * 100),
+    );
 
-    Object.assign(tooltip.style, { top: `${top}px`, left: `${left}px`, visibility: "", display: "" });
+    Object.assign(tooltip.style, {
+      top: `${top}px`,
+      left: `${left}px`,
+      visibility: "",
+      display: "",
+    });
     tooltip.style.setProperty("--arrow-left", `${arrowPct}%`);
 
     requestAnimationFrame(() => tooltip.classList.add("is-visible"));
@@ -480,18 +500,27 @@ function initValidationBadgeTooltip(badge, text) {
   // Mouse / teclado (desktop)
   badge.addEventListener("mouseenter", showTooltip, { signal });
   badge.addEventListener("mouseleave", hideTooltip, { signal });
-  badge.addEventListener("focus",      showTooltip, { signal });
-  badge.addEventListener("blur",       hideTooltip, { signal });
+  badge.addEventListener("focus", showTooltip, { signal });
+  badge.addEventListener("blur", hideTooltip, { signal });
 
   // Touch (mobile): toca no badge alterna; toca fora fecha
-  badge.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    tooltip.classList.contains("is-visible") ? hideTooltip() : showTooltip();
-  }, { passive: false, signal });
+  badge.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      tooltip.classList.contains("is-visible") ? hideTooltip() : showTooltip();
+    },
+    { passive: false, signal },
+  );
 
-  document.addEventListener("touchstart", (e) => {
-    if (!badge.contains(e.target) && !tooltip.contains(e.target)) hideTooltip();
-  }, { passive: true, signal });
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!badge.contains(e.target) && !tooltip.contains(e.target))
+        hideTooltip();
+    },
+    { passive: true, signal },
+  );
 }
 
 function loadQuestionUI() {
@@ -502,7 +531,7 @@ function loadQuestionUI() {
   const categoryElement = document.getElementById("question-category");
   if (categoryElement) {
     categoryElement.textContent = getDomainName(q.domain);
-    
+
     const oldBadge = document.getElementById("question-validation-badge");
     if (oldBadge) oldBadge.remove();
 
@@ -510,11 +539,13 @@ function loadQuestionUI() {
       const badge = document.createElement("span");
       badge.id = "question-validation-badge";
       badge.className = "validation-badge";
-      
-      const isValidatedText = uiState.language === "en" ? "Validated" : "Validada";
-      const tooltipText = uiState.language === "en" 
-        ? `Validated by specialist: ${q.validated_by}`
-        : `Validada por especialista: ${q.validated_by}`;
+
+      const isValidatedText =
+        uiState.language === "en" ? "Validated" : "Validada";
+      const tooltipText =
+        uiState.language === "en"
+          ? `Validated by specialist: ${q.validated_by}`
+          : `Validada por especialista: ${q.validated_by}`;
 
       badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1" style="color: #35B769;" aria-hidden="true"></i> ${isValidatedText}`;
       badge.setAttribute("aria-label", tooltipText);
@@ -522,7 +553,10 @@ function loadQuestionUI() {
 
       initValidationBadgeTooltip(badge, tooltipText);
 
-      categoryElement.parentNode.insertBefore(badge, categoryElement.nextSibling);
+      categoryElement.parentNode.insertBefore(
+        badge,
+        categoryElement.nextSibling,
+      );
     }
   }
 
@@ -1681,9 +1715,10 @@ function updateValidationBadgeLanguage() {
   if (!q || !q.validated_by) return;
 
   const isValidatedText = uiState.language === "en" ? "Validated" : "Validada";
-  const tooltipText = uiState.language === "en"
-    ? `Validated by specialist: ${q.validated_by}`
-    : `Validada por especialista: ${q.validated_by}`;
+  const tooltipText =
+    uiState.language === "en"
+      ? `Validated by specialist: ${q.validated_by}`
+      : `Validada por especialista: ${q.validated_by}`;
 
   // Atualiza o texto visível do badge (mantém o ícone)
   badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1" style="color: #35B769;" aria-hidden="true"></i> ${isValidatedText}`;

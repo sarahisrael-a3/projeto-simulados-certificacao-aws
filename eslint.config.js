@@ -46,6 +46,9 @@ export default [
         Chart: 'readonly',
         Sortable: 'readonly',
         jsPDF: 'readonly',
+        AbortController: 'readonly',
+        requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
       },
     },
     rules: {
