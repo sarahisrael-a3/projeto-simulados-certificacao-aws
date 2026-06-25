@@ -55,6 +55,7 @@
 
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/gamificacao.css" />
+    <link rel="stylesheet" href="./css/recommendations.css" />
     <link rel="manifest" href="./manifest.json" />
     <meta name="theme-color" content="#001863" />
   </head>
@@ -548,6 +549,12 @@
             >
               Limpar histórico de erros
             </button>
+            <p
+              id="mistakes-feature-notice"
+              role="status"
+              aria-live="polite"
+              class="hidden mt-3 text-xs text-center text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-700/40 border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2"
+            ></p>
           </div>
         </div>
 
@@ -1004,11 +1011,21 @@
           class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 w-full shadow-sm overflow-hidden flex flex-col"
         >
           <div
-            class="bg-gray-50 dark:bg-slate-700/50 px-5 py-3 border-b border-gray-200 dark:border-slate-700 flex items-center gap-2"
+            class="bg-gray-50 dark:bg-slate-700/50 px-5 py-3 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between gap-2 flex-wrap"
           >
             <h3 class="text-sm font-bold text-gray-800 dark:text-gray-200 m-0">
               <span id="sidebar-my-progress-title">O Meu Progresso</span>
             </h3>
+            <div class="flex items-center gap-2">
+              <span
+                id="sidebar-cert-badge"
+                class="text-[10px] font-bold uppercase tracking-wide bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300 px-2 py-0.5 rounded-full"
+              ></span>
+              <span
+                id="sidebar-cert-status"
+                class="text-[10px] font-semibold text-gray-500 dark:text-gray-400"
+              ></span>
+            </div>
           </div>
           <div class="p-5">
             <div class="flex justify-between items-center mb-2">
@@ -1097,6 +1114,25 @@
                 Iniciar Sprint
               </button>
             </div>
+          </div>
+        </div>
+
+        <div
+          id="weak-domains-card"
+          class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 w-full shadow-sm overflow-hidden flex flex-col"
+        >
+          <div
+            class="bg-gray-50 dark:bg-slate-700/50 px-5 py-3 border-b border-gray-200 dark:border-slate-700 flex items-center gap-2"
+          >
+            <i class="fa-solid fa-book-open-reader text-aws-orange"></i>
+            <h3 class="text-sm font-bold text-gray-800 dark:text-gray-200 m-0">
+              O Que Estudar Agora
+            </h3>
+          </div>
+          <div id="weak-domains-content" class="p-5">
+            <p class="study-now-empty">
+              Complete um quiz para ver suas áreas de foco.
+            </p>
           </div>
         </div>
 
@@ -1258,6 +1294,40 @@
         id="pomodoro-display"
       >
         15:00
+      </div>
+
+      <div
+        class="flex justify-center gap-2 mb-6"
+        role="group"
+        aria-label="Duração da sessão de foco"
+      >
+        <button
+          type="button"
+          data-pomodoro-duration="15"
+          onclick="setPomodoroDuration(15)"
+          aria-pressed="true"
+          class="pomodoro-duration-btn text-xs font-bold px-3 py-1.5 rounded-lg transition-colors bg-aws-orange text-white"
+        >
+          15 min
+        </button>
+        <button
+          type="button"
+          data-pomodoro-duration="30"
+          onclick="setPomodoroDuration(30)"
+          aria-pressed="false"
+          class="pomodoro-duration-btn text-xs font-bold px-3 py-1.5 rounded-lg transition-colors bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300"
+        >
+          30 min
+        </button>
+        <button
+          type="button"
+          data-pomodoro-duration="60"
+          onclick="setPomodoroDuration(60)"
+          aria-pressed="false"
+          class="pomodoro-duration-btn text-xs font-bold px-3 py-1.5 rounded-lg transition-colors bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300"
+        >
+          60 min
+        </button>
       </div>
 
       <div class="flex justify-center gap-4">

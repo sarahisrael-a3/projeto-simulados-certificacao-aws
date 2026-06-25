@@ -1,5 +1,6 @@
 import { QuizEngine } from "./quizEngine.js";
 import { certificationPaths } from "./data.js";
+import { initStudyNow, refreshStudyNow } from "./recommendations/studyNow.js";
 import { storageManager } from "./storageManager.js";
 import { userManager } from "./userManager.js";
 import { quizManager } from "./quizManager.js";
@@ -80,9 +81,34 @@ document.addEventListener("DOMContentLoaded", async () => {
   updateLanguageButtonUI();
   initPWAInstall();
   wireUIActions();
+  initStudyNow({ startFilteredQuiz: startWeakestDomainQuiz });
+  refreshStudyNow();
 
   // FASE 5: Setup de Certificação
   const certSelect = document.getElementById("certification-select");
+
+  // SINCRONIZAÇÃO INICIAL DA CERTIFICAÇÃO
+  // Alinha o <select> com a certificação persistida (aws_sim_cert) no
+  // carregamento. Sem isso, a trilha (renderTrail lê aws_sim_cert) e o
+  // startMission (lê certification-select) podem usar certificações diferentes
+  // após um reload — ex.: trilha desenha cards "saa-1" enquanto o select está
+  // em "clf-c02", e startMission("saa-1") não encontra o módulo na trilha CLF.
+  if (certSelect && certificationPaths) {
+    const savedCert = localStorage.getItem("aws_sim_cert");
+    const savedCertIsValid =
+      savedCert &&
+      certificationPaths[savedCert] &&
+      Array.from(certSelect.options).some((opt) => opt.value === savedCert);
+
+    if (savedCertIsValid) {
+      // Restaura a escolha anterior do usuário no controle visual.
+      if (certSelect.value !== savedCert) certSelect.value = savedCert;
+    } else if (certificationPaths[certSelect.value]) {
+      // Primeira visita (ou valor inválido): persiste a certificação que o
+      // select já exibe, mantendo select e aws_sim_cert consistentes.
+      localStorage.setItem("aws_sim_cert", certSelect.value);
+    }
+  }
 
   if (
     certSelect &&
@@ -246,6 +272,33 @@ function wireUIActions() {
 }
 
 // MOTOR DO QUIZ E TIMER
+
+async function startWeakestDomainQuiz(domainId, certId) {
+  if (!domainId) return;
+
+  const certSelect = document.getElementById("certification-select");
+  const topicSelect = document.getElementById("topic-filter");
+
+  if (certSelect && certId && certificationPaths[certId]) {
+    if (certSelect.value !== certId) {
+      certSelect.value = certId;
+      localStorage.setItem("aws_sim_cert", certId);
+      uiState.currentCertificationInfo = certificationPaths[certId];
+      updateTopicDropdown();
+      loadLastScore();
+      updateDifficultyFilters(certId);
+    }
+  }
+
+  if (topicSelect) {
+    const hasOption = Array.from(topicSelect.options).some(
+      (opt) => opt.value === domainId,
+    );
+    if (hasOption) topicSelect.value = domainId;
+  }
+
+  await startQuiz();
+}
 
 async function startQuiz() {
   const certSelect = document.getElementById("certification-select");
@@ -901,6 +954,7 @@ function finishQuiz() {
   }
 
   showResultsScreen();
+  refreshStudyNow();
 }
 
 function toggleFlag() {
@@ -1820,7 +1874,17 @@ function cancelQuiz() {
 }
 
 function startMistakesQuiz() {
-  alert(t("mistakes_feature_coming", uiState.language));
+  // Estado amigável (sem alert bloqueante). A revisão completa de erros
+  // ainda será implementada; por ora exibimos um aviso claro e não
+  // prometemos visualmente uma funcionalidade que ainda não existe.
+  const message = t("mistakes_feature_coming", uiState.language);
+  const notice = document.getElementById("mistakes-feature-notice");
+  if (notice) {
+    notice.textContent = message;
+    notice.classList.remove("hidden");
+  } else {
+    console.info(message);
+  }
 }
 
 function clearMistakes() {
@@ -2016,10 +2080,10 @@ function updateSidebarProgress() {
       "Cloud Practitioner";
   }
 
-  const statusEl = document.getElementById("sidebar-cert-status");
-  if (statusEl) {
-    statusEl.textContent =
-      currentLang === "en" ? "In Progress" : "Em andamento";
+  // Badge da certificação/trilha ativa (ex.: "CLF-C02")
+  const badgeEl = document.getElementById("sidebar-cert-badge");
+  if (badgeEl) {
+    badgeEl.textContent = currentCertId.toUpperCase();
   }
 
   const certPrefix = currentCertId.split("-")[0];
@@ -2032,6 +2096,21 @@ function updateSidebarProgress() {
     Math.round((completedCount / totalModules) * 100),
     100,
   );
+
+  // Status da trilha calculado a partir do progresso real disponível (local).
+  // Fallback seguro: sem etapas concluídas -> "Não iniciada".
+  const statusEl = document.getElementById("sidebar-cert-status");
+  if (statusEl) {
+    let statusText;
+    if (completedCount <= 0) {
+      statusText = currentLang === "en" ? "Not started" : "Não iniciada";
+    } else if (completedCount < totalModules) {
+      statusText = currentLang === "en" ? "In progress" : "Em andamento";
+    } else {
+      statusText = currentLang === "en" ? "Completed" : "Concluída";
+    }
+    statusEl.textContent = statusText;
+  }
 
   const bar = document.getElementById("sidebar-pct-bar");
   const text = document.getElementById("sidebar-pct-text");
