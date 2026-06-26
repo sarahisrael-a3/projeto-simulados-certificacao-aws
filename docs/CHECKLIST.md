@@ -16,9 +16,10 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] Validacao persiste status, validador, data, motivo de rejeicao e logs JSONB.
 - [x] Seguranca basica aplicada na API: Helmet, CORS, rate limit e error handler.
 - [x] `npm test` passou em 2026-06-25: 9 suites, 82 testes.
-- [x] `npm test -- --runInBand` passou em 2026-06-26: 9 suites, 85 testes, incluindo regressao de finalizacao duplicada e progresso por historico.
+- [x] `npm test -- --runInBand` passou em 2026-06-26: 9 suites, 89 testes, incluindo regressao de finalizacao duplicada, progresso por historico e remocao individual de sessao.
 - [x] `npm run build` passou em 2026-06-25.
 - [x] `npm run build` passou em 2026-06-26 apos correcao do fluxo de finalizacao do simulado.
+- [x] `npm run build` passou em 2026-06-26 apos exclusao individual de historico e bump do Service Worker.
 - [x] `npm run db:seed` passou em 2026-06-18: 2.545 registros lidos e ja presentes no PGlite.
 - [x] API local com PGlite seedado respondeu `GET /api/health` e `GET /api/questions/pending?limit=2` com HTTP 200.
 - [ ] Validacao manual completa em navegador com API + PGlite seedado.
@@ -42,6 +43,7 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] Tema claro/escuro.
 - [x] Internacionalizacao PT/EN.
 - [x] Historico, progresso e erros via `localStorage`.
+- [x] Historico permite remover uma sessao individual sem limpar todo o historico local.
 - [x] Gamificacao local: badges, streak, leaderboard e trilha.
 - [x] Sprint de estudo de 14 dias.
 - [x] Desafios interativos em `data/gamificacao/interactive-challenges.json`.
@@ -130,6 +132,7 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] `npm run db:seed`: passou, 2.545 registros lidos e ja presentes no PGlite.
 - [x] `npm audit --omit=dev`: passou, 0 vulnerabilidades de producao.
 - [x] API local com PGlite persistente seedado: `GET /api/health` e `GET /api/questions/pending?limit=2` retornaram HTTP 200.
+- [x] Validacao local de build/test/lint apos exclusao individual do historico.
 - [ ] Teste manual do navegador: pendente.
 - [ ] Teste manual completo do painel de validacao no navegador: pendente.
 

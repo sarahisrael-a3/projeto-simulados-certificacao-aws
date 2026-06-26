@@ -124,6 +124,126 @@ describe('StorageManager - Persistência de Dados', () => {
         expect(gamification.badges).toContain('perfect');
     });
 
+    test('removeHistoryItem deve remover apenas uma sessao e preservar as demais', () => {
+        storage.saveQuizResult({
+            attemptId: 'attempt-1',
+            certId: 'clf-c02',
+            score: 8,
+            total: 10,
+            percentage: 80,
+            date: '2026-06-24T10:00:00.000Z',
+        });
+        storage.saveQuizResult({
+            attemptId: 'attempt-2',
+            certId: 'clf-c02',
+            score: 9,
+            total: 10,
+            percentage: 90,
+            date: '2026-06-25T10:00:00.000Z',
+        });
+        storage.saveQuizResult({
+            attemptId: 'attempt-3',
+            certId: 'saa-c03',
+            score: 7,
+            total: 10,
+            percentage: 70,
+            date: '2026-06-26T10:00:00.000Z',
+        });
+
+        const removed = storage.removeHistoryItem(1);
+        const history = storage.getHistory();
+
+        expect(removed.attemptId).toBe('attempt-2');
+        expect(history).toHaveLength(2);
+        expect(history.map((item) => item.attemptId)).toEqual([
+            'attempt-3',
+            'attempt-1',
+        ]);
+    });
+
+    test('removeHistoryItem deve lidar com sessao antiga sem attemptId', () => {
+        storage.saveHistory([
+            {
+                certId: 'clf-c02',
+                score: 9,
+                total: 10,
+                percentage: 90,
+                date: '2026-06-25T10:00:00.000Z',
+            },
+            {
+                certId: 'clf-c02',
+                score: 7,
+                total: 10,
+                percentage: 70,
+                date: '2026-06-24T10:00:00.000Z',
+            },
+        ]);
+
+        const removed = storage.removeHistoryItem(0);
+        const history = storage.getHistory();
+
+        expect(removed.score).toBe(9);
+        expect(history).toHaveLength(1);
+        expect(history[0].score).toBe(7);
+    });
+
+    test('removeHistoryItem deve recalcular progresso, ultimo resultado e gamificacao', () => {
+        storage.saveQuizResult({
+            attemptId: 'attempt-perfect',
+            certId: 'clf-c02',
+            score: 10,
+            total: 10,
+            percentage: 100,
+            date: '2026-06-25T10:00:00.000Z',
+        });
+        storage.saveQuizResult({
+            attemptId: 'attempt-regular',
+            certId: 'clf-c02',
+            score: 8,
+            total: 10,
+            percentage: 80,
+            date: '2026-06-26T10:00:00.000Z',
+        });
+
+        expect(storage.getGamification().badges).toContain('perfect');
+
+        storage.removeHistoryItem(1);
+
+        expect(storage.getProgressFromHistory('clf-c02', 5)).toEqual({
+            completedCount: 1,
+            percentage: 20,
+        });
+        expect(storage.loadLastResult('clf-c02').attemptId).toBe(
+            'attempt-regular',
+        );
+
+        const gamification = storage.getGamification();
+        expect(gamification.totalQuizzes).toBe(1);
+        expect(gamification.bestScore).toBe(80);
+        expect(gamification.badges).not.toContain('perfect');
+    });
+
+    test('removeHistoryItem deve suportar historico vazio apos remocao', () => {
+        storage.saveQuizResult({
+            attemptId: 'attempt-only',
+            certId: 'clf-c02',
+            score: 8,
+            total: 10,
+            percentage: 80,
+            date: '2026-06-25T10:00:00.000Z',
+        });
+
+        const removed = storage.removeHistoryItem(0);
+
+        expect(removed.attemptId).toBe('attempt-only');
+        expect(storage.getHistory()).toEqual([]);
+        expect(storage.loadLastResult('clf-c02')).toBeNull();
+        expect(storage.getProgressFromHistory('clf-c02', 5)).toEqual({
+            completedCount: 0,
+            percentage: 0,
+        });
+    });
+
     test('updateGamification deve atualizar streak e conceder badge "perfect" para 100%', () => {
         // Primeiro quiz com 100%
         const gamification = storage.updateGamification(100);

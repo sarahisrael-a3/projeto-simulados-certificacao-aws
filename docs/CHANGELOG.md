@@ -2,7 +2,34 @@
 
 Todas as mudancas notaveis sao registradas aqui. Este arquivo foi normalizado em 2026-06-18 para refletir a evolucao real do repositorio.
 
-## [Atual] - 2026-06-25
+## [Atual] - 2026-06-26
+
+### Corrigido
+
+- Invalidação do cache do Service Worker de `aws-sim-cache-v6` para `aws-sim-cache-v7`, reduzindo risco de deploy servir HTML/JS antigos após publicação.
+- Exclusão individual de uma sessão em "Últimas Sessões", removendo somente o item selecionado do `aws_sim_history`.
+- Recalculo de último resultado por certificação, progresso, ofensiva e badges derivados do histórico restante após remoção individual.
+
+### Confirmado
+
+- Último commit investigado (`a59faab`) alterou apenas documentação (`docs/CHECKLIST.md` e `docs/error-lifecycle.md`); não foi identificada regressão de código introduzida por ele.
+- `src/frontend/js/app.js` e `src/frontend/js/storageManager.js` foram sincronizados com `public/js/` via build.
+- A correção anterior de finalização duplicada continua coberta por teste: a mesma tentativa não gera múltiplas sessões.
+
+### Decisões
+
+- Duplicatas antigas no histórico local não são apagadas automaticamente. A limpeza é manual e item a item para evitar perda inesperada de dados.
+- Sessões antigas sem `attemptId` continuam compatíveis: a remoção usa o índice real do item renderizado no array de histórico.
+
+### Verificações
+
+- `npm test -- --runInBand`: passou com 9 suites e 89 testes.
+- `npm run build`: passou.
+- `npm run lint`: passou com 0 erros e 80 warnings existentes de `console`.
+- Servidor estático local em `public/`: home, `js/app.js` e `sw.js` responderam HTTP 200.
+- `npm run format:check` completo ainda aponta 16 arquivos fora do padrão atual do Prettier; não foi aplicado format geral para evitar churn fora do escopo.
+
+## [Anterior] - 2026-06-25
 
 ### Adicionado
 

@@ -109,38 +109,73 @@ export class StorageManager {
     return streak;
   }
 
+  _deriveGamificationFromSessions(sessions) {
+    const validSessions = Array.isArray(sessions) ? sessions : [];
+    const bestScore = validSessions.reduce(
+      (best, session) => Math.max(best, Number(session.percentage) || 0),
+      0,
+    );
+    const historyStreak = this._calculateStreakFromHistory(validSessions);
+    const badges = [];
+
+    if (bestScore === 100) badges.push("perfect");
+    if (validSessions.length >= 10) badges.push("dedicated");
+    if (historyStreak >= 5) badges.push("streak");
+
+    return {
+      totalQuizzes: validSessions.length,
+      bestScore,
+      currentStreak: historyStreak,
+      lastDate:
+        validSessions
+          .map((session) => session.date)
+          .filter(Boolean)
+          .sort()
+          .at(-1) || "",
+      badges,
+    };
+  }
+
   _mergeGamificationWithHistory(gamification) {
     const sessions = this._getUniqueCompletedSessions();
     if (sessions.length === 0) return gamification;
 
-    const bestScore = sessions.reduce(
-      (best, session) => Math.max(best, Number(session.percentage) || 0),
-      0,
-    );
-    const historyStreak = this._calculateStreakFromHistory(sessions);
+    const derived = this._deriveGamificationFromSessions(sessions);
     const badges = new Set(
       Array.isArray(gamification.badges) ? gamification.badges : [],
     );
 
-    if (bestScore === 100) badges.add("perfect");
-    if (sessions.length >= 10) badges.add("dedicated");
-    if (historyStreak >= 5) badges.add("streak");
+    derived.badges.forEach((badgeId) => badges.add(badgeId));
 
     return {
       ...gamification,
-      totalQuizzes: Math.max(gamification.totalQuizzes || 0, sessions.length),
-      bestScore: Math.max(gamification.bestScore || 0, bestScore),
-      currentStreak: Math.max(gamification.currentStreak || 0, historyStreak),
-      lastDate:
-        gamification.lastDate ||
-        sessions
-          .map((session) => session.date)
-          .filter(Boolean)
-          .sort()
-          .at(-1) ||
-        "",
+      totalQuizzes: Math.max(
+        gamification.totalQuizzes || 0,
+        derived.totalQuizzes,
+      ),
+      bestScore: Math.max(gamification.bestScore || 0, derived.bestScore),
+      currentStreak: Math.max(
+        gamification.currentStreak || 0,
+        derived.currentStreak,
+      ),
+      lastDate: gamification.lastDate || derived.lastDate,
       badges: [...badges],
     };
+  }
+
+  _refreshLastResultForCert(certId, history) {
+    if (!certId) return;
+
+    const lastKey = this._getKey(`last_${certId}`);
+    const latestForCert = Array.isArray(history)
+      ? history.find((session) => session && session.certId === certId)
+      : null;
+
+    if (latestForCert) {
+      localStorage.setItem(lastKey, JSON.stringify(latestForCert));
+    } else {
+      localStorage.removeItem(lastKey);
+    }
   }
 
   /**
@@ -329,6 +364,33 @@ export class StorageManager {
   }
 
   /**
+   * Remove uma entrada específica do histórico pelo índice renderizado.
+   * Mantém compatibilidade com sessões antigas sem attemptId.
+   *
+   * @param {number} index - Índice da sessão no array aws_sim_history
+   * @returns {Object|null} Sessão removida ou null se o índice for inválido
+   */
+  removeHistoryItem(index) {
+    try {
+      if (!Number.isInteger(index) || index < 0) return null;
+
+      const history = this.getHistory();
+      if (index >= history.length) return null;
+
+      const [removed] = history.splice(index, 1);
+      if (!this.saveHistory(history)) return null;
+
+      this._refreshLastResultForCert(removed?.certId, history);
+      this.recalculateGamificationFromHistory();
+
+      return removed || null;
+    } catch (error) {
+      console.error("Erro ao remover item do histórico:", error);
+      return null;
+    }
+  }
+
+  /**
    * Carrega dados de gamificação (badges, streaks, etc.)
    * @returns {Object} Objeto com totalQuizzes, bestScore, currentStreak, badges
    *
@@ -467,6 +529,39 @@ export class StorageManager {
     } catch (error) {
       console.error("Erro ao salvar gamificação:", error);
       return false;
+    }
+  }
+
+  /**
+   * Recalcula os campos de gamificação derivados do histórico restante.
+   * Preserva badges e estados que não são derivados de sessões concluídas.
+   *
+   * @returns {Object|null} Gamificação recalculada ou null em caso de erro
+   */
+  recalculateGamificationFromHistory() {
+    try {
+      const current = this.getGamification();
+      const sessions = this._getUniqueCompletedSessions();
+      const derived = this._deriveGamificationFromSessions(sessions);
+      const historyBadgeIds = new Set(["perfect", "dedicated", "streak"]);
+      const preservedBadges = Array.isArray(current.badges)
+        ? current.badges.filter((badgeId) => !historyBadgeIds.has(badgeId))
+        : [];
+
+      const gamification = {
+        ...current,
+        totalQuizzes: derived.totalQuizzes,
+        bestScore: derived.bestScore,
+        currentStreak: derived.currentStreak,
+        lastDate: derived.lastDate,
+        badges: [...new Set([...preservedBadges, ...derived.badges])],
+      };
+
+      this.saveGamification(gamification);
+      return gamification;
+    } catch (error) {
+      console.error("Erro ao recalcular gamificação pelo histórico:", error);
+      return null;
     }
   }
 

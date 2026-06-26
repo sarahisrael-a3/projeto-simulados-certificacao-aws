@@ -1680,6 +1680,7 @@ function updateHistoryDisplay() {
   const lang = uiState.language || "pt";
   const locale = lang === "en" ? "en-US" : "pt-BR";
   const viewReportLabel = lang === "en" ? "View Report" : "Ver Relatório";
+  const removeLabel = lang === "en" ? "Remove session" : "Remover sessão";
 
   let html = '<ul class="space-y-3 w-full">';
 
@@ -1699,18 +1700,23 @@ function updateHistoryDisplay() {
     const originalIndex = rawHistory.indexOf(item);
 
     html += `
-        <li onclick="showHistoricalReport(${originalIndex})" class="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-lg shadow-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600 transition-all group">
+        <li onclick="showHistoricalReport(${originalIndex})" class="flex justify-between items-center gap-3 p-3 bg-gray-50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-lg shadow-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600 transition-all group">
             <div>
                 <div class="font-bold text-gray-700 dark:text-gray-200 group-hover:text-aws-orange transition-colors">${certName}</div>
                 <div class="text-xs text-gray-500 dark:text-gray-400">${date}</div>
             </div>
-            <div class="flex flex-col items-end">
-                <div class="${color} font-bold text-lg flex items-center gap-1">
-                    ${awsScore} <i class="fa-solid ${icon}"></i>
+            <div class="flex items-start gap-2">
+                <div class="flex flex-col items-end">
+                    <div class="${color} font-bold text-lg flex items-center gap-1">
+                        ${awsScore} <i class="fa-solid ${icon}"></i>
+                    </div>
+                    <div class="history-view-report text-[10px] text-blue-500 dark:text-blue-400 opacity-80 group-hover:opacity-100 group-hover:underline mt-1 transition-all">
+                        <i class="fa-solid fa-eye"></i> ${viewReportLabel}
+                    </div>
                 </div>
-                <div class="history-view-report text-[10px] text-blue-500 dark:text-blue-400 opacity-80 group-hover:opacity-100 group-hover:underline mt-1 transition-all">
-                    <i class="fa-solid fa-eye"></i> ${viewReportLabel}
-                </div>
+                <button type="button" onclick="removeHistoryItem(event, ${originalIndex})" class="history-remove-btn shrink-0 w-8 h-8 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="${removeLabel}" aria-label="${removeLabel}">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
             </div>
         </li>
         `;
@@ -1719,6 +1725,34 @@ function updateHistoryDisplay() {
   html += "</ul>";
   historyList.innerHTML = html;
   updateDynamicInsight(history);
+}
+
+function removeHistoryItem(event, index) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  const confirmMessage =
+    uiState.language === "en"
+      ? "Remove this session from history?"
+      : "Remover esta sessão do histórico?";
+
+  if (!confirm(confirmMessage)) return;
+
+  const removed = storageManager.removeHistoryItem(index);
+  if (!removed) return;
+
+  updateHistoryDisplay();
+  loadLastScore();
+  updateSidebarProgress();
+
+  if (typeof renderGlobalRadarChart === "function") {
+    renderGlobalRadarChart();
+  }
+
+  if (typeof renderBadges === "function") renderBadges();
+  refreshStudyNow();
 }
 
 function clearHistory() {
@@ -2381,6 +2415,7 @@ window.retakeQuiz = retakeQuiz;
 window.toggleDarkMode = toggleDarkMode;
 window.toggleLanguage = toggleLanguage;
 window.clearHistory = clearHistory;
+window.removeHistoryItem = removeHistoryItem;
 window.showLastReport = showLastReport;
 window.showHistoricalReport = showHistoricalReport;
 window.generatePerformanceReport = generatePerformanceReport;

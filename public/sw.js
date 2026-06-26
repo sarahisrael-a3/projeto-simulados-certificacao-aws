@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aws-sim-cache-v6'; // Subimos a versão do cache!
+const CACHE_NAME = 'aws-sim-cache-v7'; // Invalida caches antigos do deploy.
 
 // Removemos os .json daqui para não ficarem trancados para sempre
 const urlsToCache = [
