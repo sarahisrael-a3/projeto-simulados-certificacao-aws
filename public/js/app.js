@@ -143,6 +143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateTopicDropdown();
     loadLastScore();
     updateDifficultyFilters(certSelect.value);
+    updateMistakesControls(certSelect.value);
   }
 
   // LISTENER: Mudança de Certificação
@@ -159,6 +160,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateTopicDropdown();
         loadLastScore();
         updateDifficultyFilters(certId);
+        updateMistakesControls(certId);
 
         // 2. Atualiza a Sprint para a nova certificação
         const badge = document.getElementById("sprint-current-cert-badge");
@@ -223,6 +225,63 @@ function setFinishButtonLoading(isLoading) {
   btnFinish.innerHTML = isLoading
     ? `<i class="fa-solid fa-spinner fa-spin mr-2"></i>${t("loading", uiState.language)}`
     : `${t("view_result", uiState.language)} <i class="fa-solid fa-flag-checkered ml-2" aria-hidden="true"></i>`;
+}
+
+function getActiveCertificationId() {
+  return (
+    engine.state?.certId ||
+    document.getElementById("certification-select")?.value ||
+    localStorage.getItem("aws_sim_cert") ||
+    ""
+  );
+}
+
+function getMistakeSource() {
+  const sourceByMode = {
+    exam: "simulation",
+    diagnostic: "diagnostic",
+    review: "review",
+    mission: "mission",
+    boss: "mission",
+    "mistakes-review": "mistakes-review",
+  };
+
+  return sourceByMode[uiState.currentMode] || "quiz";
+}
+
+function updateMistakesControls(certId = getActiveCertificationId()) {
+  const countEl = document.getElementById("mistakes-count");
+  const btnPractice = document.getElementById("btn-practice-mistakes");
+  const btnClear = document.getElementById("btn-clear-mistakes");
+  const notice = document.getElementById("mistakes-feature-notice");
+  const mistakes = storageManager.getMistakes(certId);
+  const hasMistakes = mistakes.length > 0;
+
+  if (countEl) countEl.textContent = String(mistakes.length);
+  if (btnPractice) btnPractice.classList.toggle("hidden", !hasMistakes);
+  if (btnClear) btnClear.classList.toggle("hidden", !hasMistakes);
+  if (notice && !hasMistakes) notice.classList.add("hidden");
+}
+
+function syncMistakeRecord(question, result) {
+  const certId = getActiveCertificationId();
+  if (!certId || !question || !result) return;
+
+  if (!result.isCorrect) {
+    storageManager.recordMistake(question, uiState.tempSelectedAnswer, {
+      certId,
+      source: getMistakeSource(),
+      attemptId: engine.state?.attemptId,
+      quizId: quizManager.currentQuizId,
+    });
+  } else if (
+    uiState.currentMode === "review" ||
+    uiState.currentMode === "mistakes-review"
+  ) {
+    storageManager.removeMistake(question, certId);
+  }
+
+  updateMistakesControls(certId);
 }
 
 function resetFinishState() {
@@ -874,6 +933,7 @@ function submitAnswer() {
   const question = engine.getCurrentQuestion();
   const isMulti = Array.isArray(question.correct);
   const result = engine.submitAnswer(uiState.tempSelectedAnswer);
+  syncMistakeRecord(question, result);
 
   // Record answer to backend asynchronously (don't block UI)
   if (quizManager.currentQuizId && question.id) {
@@ -2150,6 +2210,7 @@ function startMistakesQuiz() {
   // ainda será implementada; por ora exibimos um aviso claro e não
   // prometemos visualmente uma funcionalidade que ainda não existe.
   const message = t("mistakes_feature_coming", uiState.language);
+  updateMistakesControls();
   const notice = document.getElementById("mistakes-feature-notice");
   if (notice) {
     notice.textContent = message;
@@ -2161,11 +2222,9 @@ function startMistakesQuiz() {
 
 function clearMistakes() {
   if (confirm(t("clear_mistakes_confirm", uiState.language))) {
+    storageManager.clearMistakes(getActiveCertificationId());
+    updateMistakesControls();
     alert(t("mistakes_cleared", uiState.language));
-    const btnPractice = document.getElementById("btn-practice-mistakes");
-    const btnClear = document.getElementById("btn-clear-mistakes");
-    if (btnPractice) btnPractice.classList.add("hidden");
-    if (btnClear) btnClear.classList.add("hidden");
   }
 }
 

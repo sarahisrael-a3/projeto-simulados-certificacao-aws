@@ -124,6 +124,115 @@ describe('StorageManager - Persistência de Dados', () => {
         expect(gamification.badges).toContain('perfect');
     });
 
+    test('recordMistake deve registrar uma questao errada', () => {
+        const record = storage.recordMistake(
+            {
+                id: 'q1',
+                domain: 'cloud',
+                difficulty: 'easy',
+                question: 'Qual servico armazena objetos?',
+                options: ['EC2', 'S3'],
+                correct: 1,
+            },
+            0,
+            { certId: 'clf-c02', source: 'simulation' },
+        );
+
+        expect(record).not.toBeNull();
+        expect(record.questionId).toBe('q1');
+        expect(record.certification).toBe('clf-c02');
+        expect(record.selectedAnswer).toBe(0);
+        expect(record.selectedAnswerText).toBe('EC2');
+        expect(record.correctAnswer).toBe(1);
+        expect(record.correctAnswerText).toBe('S3');
+        expect(record.wrongCount).toBe(1);
+        expect(storage.getMistakes('clf-c02')).toHaveLength(1);
+    });
+
+    test('recordMistake deve atualizar erro repetido sem duplicar', () => {
+        const question = {
+            id: 'q1',
+            domain: 'cloud',
+            question: 'Qual servico armazena objetos?',
+            options: ['EC2', 'S3'],
+            correct: 1,
+        };
+
+        storage.recordMistake(question, 0, { certId: 'clf-c02' });
+        storage.recordMistake(question, 0, { certId: 'clf-c02' });
+
+        const mistakes = storage.getMistakes('clf-c02');
+        expect(mistakes).toHaveLength(1);
+        expect(mistakes[0].wrongCount).toBe(2);
+    });
+
+    test('recordMistake deve deduplicar questao antiga sem id usando fallback', () => {
+        const question = {
+            domain: 'cloud',
+            question: 'Qual servico armazena objetos?',
+            options: ['EC2', 'S3'],
+            correct: 1,
+        };
+
+        storage.recordMistake(question, 0, { certId: 'clf-c02' });
+        storage.recordMistake(question, 0, { certId: 'clf-c02' });
+
+        const mistakes = storage.getMistakes('clf-c02');
+        expect(mistakes).toHaveLength(1);
+        expect(mistakes[0].questionId).toMatch(/^fallback:/);
+        expect(mistakes[0].wrongCount).toBe(2);
+    });
+
+    test('getMistakes deve diferenciar certificacoes', () => {
+        storage.recordMistake(
+            { id: 'q1', domain: 'cloud', question: 'Q1', options: ['A', 'B'], correct: 1 },
+            0,
+            { certId: 'clf-c02' },
+        );
+        storage.recordMistake(
+            { id: 'q1', domain: 'arch', question: 'Q1', options: ['A', 'B'], correct: 1 },
+            0,
+            { certId: 'saa-c03' },
+        );
+
+        expect(storage.getMistakes('clf-c02')).toHaveLength(1);
+        expect(storage.getMistakes('saa-c03')).toHaveLength(1);
+        expect(storage.getMistakes()).toHaveLength(2);
+    });
+
+    test('removeMistake deve remover erro resolvido', () => {
+        const question = {
+            id: 'q1',
+            domain: 'cloud',
+            question: 'Qual servico armazena objetos?',
+            options: ['EC2', 'S3'],
+            correct: 1,
+        };
+
+        storage.recordMistake(question, 0, { certId: 'clf-c02' });
+        expect(storage.hasMistakes('clf-c02')).toBe(true);
+
+        const removed = storage.removeMistake(question, 'clf-c02');
+
+        expect(removed).toBe(true);
+        expect(storage.getMistakes('clf-c02')).toEqual([]);
+        expect(storage.hasMistakes('clf-c02')).toBe(false);
+    });
+
+    test('clearMistakes deve manter lista vazia quando nao ha erros', () => {
+        expect(storage.getMistakes('clf-c02')).toEqual([]);
+        expect(storage.hasMistakes('clf-c02')).toBe(false);
+
+        storage.recordMistake(
+            { id: 'q1', domain: 'cloud', question: 'Q1', options: ['A', 'B'], correct: 1 },
+            0,
+            { certId: 'clf-c02' },
+        );
+
+        expect(storage.clearMistakes('clf-c02')).toBe(true);
+        expect(storage.getMistakes('clf-c02')).toEqual([]);
+    });
+
     test('removeHistoryItem deve remover apenas uma sessao e preservar as demais', () => {
         storage.saveQuizResult({
             attemptId: 'attempt-1',

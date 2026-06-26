@@ -178,6 +178,67 @@ export class StorageManager {
     }
   }
 
+  _normalizeCertId(certId) {
+    return certId ? String(certId).toLowerCase().trim() : "";
+  }
+
+  _hashString(value) {
+    const text = String(value || "");
+    let hash = 0;
+
+    for (let i = 0; i < text.length; i++) {
+      hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
+    }
+
+    return hash.toString(36);
+  }
+
+  _getQuestionIdentity(question) {
+    if (!question || typeof question !== "object") return "";
+    if (question.id) return String(question.id);
+    if (question.question_id) return String(question.question_id);
+
+    return `fallback:${this._hashString(
+      `${question.domain || ""}|${question.question || ""}`,
+    )}`;
+  }
+
+  _resolveAnswerText(question, answer) {
+    const options = Array.isArray(question?.options) ? question.options : [];
+
+    if (Array.isArray(answer)) {
+      return answer.map((index) => options[index] ?? index);
+    }
+
+    return options[answer] ?? answer;
+  }
+
+  _getMistakesStore() {
+    try {
+      const key = this._getKey("mistakes");
+      const data = localStorage.getItem(key);
+      if (!data) return {};
+
+      const parsed = JSON.parse(data);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+        ? parsed
+        : {};
+    } catch (error) {
+      console.error("Erro ao carregar erros registrados:", error);
+      return {};
+    }
+  }
+
+  _saveMistakesStore(store) {
+    try {
+      localStorage.setItem(this._getKey("mistakes"), JSON.stringify(store));
+      return true;
+    } catch (error) {
+      console.error("Erro ao salvar erros registrados:", error);
+      return false;
+    }
+  }
+
   /**
    * Salva resultado do quiz (último resultado + histórico)
    * @param {Object} result - Objeto com certId, score, total, percentage, passed, domainScores, weakDomains, answers
@@ -387,6 +448,126 @@ export class StorageManager {
     } catch (error) {
       console.error("Erro ao remover item do histórico:", error);
       return null;
+    }
+  }
+
+  /**
+   * Registra uma questao respondida incorretamente para revisao futura.
+   * A mesma questao por certificacao e atualizada, nao duplicada.
+   *
+   * @param {Object} question - Questao normalizada usada no quiz
+   * @param {number|number[]} userAnswer - Alternativa(s) escolhida(s)
+   * @param {Object} context - Metadados do fluxo atual
+   * @returns {Object|null} Registro salvo ou null se nao houver dados minimos
+   */
+  recordMistake(question, userAnswer, context = {}) {
+    try {
+      const certId = this._normalizeCertId(
+        context.certId || context.certification || question?.certId,
+      );
+      const questionId = this._getQuestionIdentity(question);
+
+      if (!certId || !questionId) return null;
+
+      const store = this._getMistakesStore();
+      const certMistakes = store[certId] || {};
+      const existing = certMistakes[questionId] || {};
+      const now = new Date().toISOString();
+      const correctAnswer = question.correct ?? question.correct_answer;
+
+      const record = {
+        ...existing,
+        questionId,
+        certification: certId,
+        certId,
+        domain: question.domain || question.domainId || "",
+        difficulty: question.difficulty || "",
+        question: question.question || question.question_text || "",
+        options: Array.isArray(question.options) ? question.options : [],
+        selectedAnswer: userAnswer,
+        selectedAnswerText: this._resolveAnswerText(question, userAnswer),
+        correctAnswer,
+        correctAnswerText: this._resolveAnswerText(question, correctAnswer),
+        wrongCount: (existing.wrongCount || 0) + 1,
+        firstWrongAt: existing.firstWrongAt || now,
+        lastWrongAt: now,
+        source: context.source || context.mode || "quiz",
+        attemptId: context.attemptId || existing.attemptId || null,
+        quizId: context.quizId || existing.quizId || null,
+        resolved: false,
+        resolvedAt: null,
+      };
+
+      certMistakes[questionId] = record;
+      store[certId] = certMistakes;
+
+      return this._saveMistakesStore(store) ? record : null;
+    } catch (error) {
+      console.error("Erro ao registrar questao errada:", error);
+      return null;
+    }
+  }
+
+  getMistakes(certificationId) {
+    const store = this._getMistakesStore();
+    const certId = this._normalizeCertId(certificationId);
+
+    const mistakes = certId
+      ? Object.values(store[certId] || {})
+      : Object.values(store).flatMap((items) => Object.values(items || {}));
+
+    return mistakes
+      .filter((mistake) => mistake && mistake.resolved !== true)
+      .sort((a, b) => new Date(b.lastWrongAt || 0) - new Date(a.lastWrongAt || 0));
+  }
+
+  hasMistakes(certificationId) {
+    return this.getMistakes(certificationId).length > 0;
+  }
+
+  removeMistake(questionOrId, certificationId) {
+    try {
+      const certId = this._normalizeCertId(certificationId);
+      if (!certId) return false;
+
+      const questionId =
+        typeof questionOrId === "object"
+          ? this._getQuestionIdentity(questionOrId)
+          : String(questionOrId || "");
+
+      if (!questionId) return false;
+
+      const store = this._getMistakesStore();
+      if (!store[certId] || !store[certId][questionId]) return false;
+
+      delete store[certId][questionId];
+      if (Object.keys(store[certId]).length === 0) {
+        delete store[certId];
+      }
+
+      return this._saveMistakesStore(store);
+    } catch (error) {
+      console.error("Erro ao remover erro registrado:", error);
+      return false;
+    }
+  }
+
+  clearMistakes(certificationId) {
+    try {
+      const certId = this._normalizeCertId(certificationId);
+
+      if (!certId) {
+        localStorage.removeItem(this._getKey("mistakes"));
+        return true;
+      }
+
+      const store = this._getMistakesStore();
+      delete store[certId];
+
+      return this._saveMistakesStore(store);
+    } catch (error) {
+      console.error("Erro ao limpar erros registrados:", error);
+      return false;
     }
   }
 

@@ -16,7 +16,7 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] Validacao persiste status, validador, data, motivo de rejeicao e logs JSONB.
 - [x] Seguranca basica aplicada na API: Helmet, CORS, rate limit e error handler.
 - [x] `npm test` passou em 2026-06-25: 9 suites, 82 testes.
-- [x] `npm test -- --runInBand` passou em 2026-06-26: 9 suites, 89 testes, incluindo regressao de finalizacao duplicada, progresso por historico e remocao individual de sessao.
+- [x] `npm test -- --runInBand` passou em 2026-06-26: 9 suites, 95 testes, incluindo regressao de finalizacao duplicada, progresso por historico, remocao individual de sessao e persistencia de erros.
 - [x] `npm run build` passou em 2026-06-25.
 - [x] `npm run build` passou em 2026-06-26 apos correcao do fluxo de finalizacao do simulado.
 - [x] `npm run build` passou em 2026-06-26 apos exclusao individual de historico e bump do Service Worker.
@@ -24,6 +24,7 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] API local com PGlite seedado respondeu `GET /api/health` e `GET /api/questions/pending?limit=2` com HTTP 200.
 - [ ] Validacao manual completa em navegador com API + PGlite seedado.
 - [x] `npm run lint` passou em 2026-06-25 com 0 erros e 77 warnings antigos de `console`.
+- [x] `npm run lint` passou em 2026-06-26 com 0 erros e 85 warnings de `console`.
 - [x] `npm run format:check` passou em 2026-06-18.
 - [x] `npm audit --omit=dev` passou em 2026-06-18 com 0 vulnerabilidades de producao.
 
@@ -44,11 +45,12 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] Internacionalizacao PT/EN.
 - [x] Historico, progresso e erros via `localStorage`.
 - [x] Historico permite remover uma sessao individual sem limpar todo o historico local.
+- [x] Erros reais do usuario sao persistidos em `aws_sim_mistakes` por certificacao.
 - [x] Gamificacao local: badges, streak, leaderboard e trilha.
 - [x] Sprint de estudo de 14 dias.
 - [x] Desafios interativos em `data/gamificacao/interactive-challenges.json`.
 - [x] Card lateral "O Que Estudar Agora" com recomendacao por dominios fracos.
-- [x] Task 3.1 / Issue #39 documentada em `docs/error-lifecycle.md`: origem dos erros, fonte de verdade local e riscos para revisao.
+- [x] Task 3.1 / Issue #39 documentada e iniciada em `docs/error-lifecycle.md`: origem dos erros, fonte de verdade local e persistencia em `aws_sim_mistakes`.
 - [ ] Task 3.2: implementar revisao real de erros respeitando `localStorage`/`StorageManager` como fonte local-first.
 - [ ] Testes e2e dos fluxos principais no navegador.
 - [ ] Auditoria completa de acessibilidade.

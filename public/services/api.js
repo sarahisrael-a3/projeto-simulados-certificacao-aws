@@ -13,11 +13,22 @@
 /**
  * Base configuration for the API service
  */
+function getConfiguredApiUrl() {
+  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  if (typeof window !== 'undefined') {
+    const hostname = window.location?.hostname || '';
+    if (hostname.endsWith('github.io')) return '';
+  }
+
+  return 'http://localhost:3001';
+}
+
 const API_CONFIG = {
-  // Use environment variable if available, fallback to localhost:3001
-  BASE_URL: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) 
-    ? import.meta.env.VITE_API_URL 
-    : 'http://localhost:3001',
+  // GitHub Pages is static; avoid calling the visitor's own localhost in production.
+  BASE_URL: getConfiguredApiUrl(),
   TIMEOUT: 2000,
   RETRY_ATTEMPTS: 1,
 };
@@ -35,6 +46,7 @@ function createError(message, statusCode = 0, details = {}) {
     message,
     statusCode,
     details,
+    apiDisabled: Boolean(details.apiDisabled),
     timestamp: new Date().toISOString(),
   };
 }
@@ -82,6 +94,13 @@ function normalizeResponse(body, status) {
  * @returns {Promise<object>} Parsed response or error
  */
 async function fetchWithRetry(endpoint, options = {}) {
+  if (!API_CONFIG.BASE_URL) {
+    throw createError('API disabled for static deployment', 0, {
+      apiDisabled: true,
+      endpoint,
+    });
+  }
+
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
   const { timeout = API_CONFIG.TIMEOUT, ...fetchOptions } = options;
   
@@ -178,7 +197,7 @@ export const apiService = {
       const response = await fetchWithRetry('/api/health');
       return response;
     } catch (error) {
-      console.error('Health check failed:', error);
+      if (!error.apiDisabled) console.error('Health check failed:', error);
       throw error;
     }
   },
@@ -215,7 +234,7 @@ export const apiService = {
       const response = await fetchWithRetry(`/api/questions?${params}`);
       return response;
     } catch (error) {
-      console.error('Failed to load questions:', error);
+      if (!error.apiDisabled) console.error('Failed to load questions:', error);
       throw error;
     }
   },
@@ -232,7 +251,7 @@ export const apiService = {
       const response = await fetchWithRetry(`/api/questions/${questionId}`);
       return response;
     } catch (error) {
-      console.error('Failed to get question:', error);
+      if (!error.apiDisabled) console.error('Failed to get question:', error);
       throw error;
     }
   },
@@ -263,7 +282,7 @@ export const apiService = {
 
       return response;
     } catch (error) {
-      console.error('Failed to create user:', error);
+      if (!error.apiDisabled) console.error('Failed to create user:', error);
       throw error;
     }
   },
@@ -280,7 +299,7 @@ export const apiService = {
       const response = await fetchWithRetry(`/api/users/${userId}/stats`);
       return response;
     } catch (error) {
-      console.error('Failed to get user stats:', error);
+      if (!error.apiDisabled) console.error('Failed to get user stats:', error);
       throw error;
     }
   },
@@ -299,7 +318,7 @@ export const apiService = {
       const response = await fetchWithRetry(`/api/users/${userId}/weak-domains?threshold=${threshold}`);
       return response;
     } catch (error) {
-      console.error('Failed to get weak domains:', error);
+      if (!error.apiDisabled) console.error('Failed to get weak domains:', error);
       throw error;
     }
   },
@@ -338,7 +357,7 @@ export const apiService = {
 
       return response;
     } catch (error) {
-      console.error('Failed to start quiz:', error);
+      if (!error.apiDisabled) console.error('Failed to start quiz:', error);
       throw error;
     }
   },
@@ -376,7 +395,7 @@ export const apiService = {
 
       return response;
     } catch (error) {
-      console.error('Failed to record answer:', error);
+      if (!error.apiDisabled) console.error('Failed to record answer:', error);
       throw error;
     }
   },
@@ -393,7 +412,7 @@ export const apiService = {
       const response = await fetchWithRetry(`/api/quiz/${quizId}/results`);
       return response;
     } catch (error) {
-      console.error('Failed to get quiz results:', error);
+      if (!error.apiDisabled) console.error('Failed to get quiz results:', error);
       throw error;
     }
   },
@@ -410,7 +429,7 @@ export const apiService = {
       const response = await fetchWithRetry(`/api/quiz/${quizId}`);
       return response;
     } catch (error) {
-      console.error('Failed to get quiz:', error);
+      if (!error.apiDisabled) console.error('Failed to get quiz:', error);
       throw error;
     }
   },
@@ -431,7 +450,7 @@ export const apiService = {
       const response = await fetchWithRetry(`/api/leaderboard?limit=${limit}`);
       return response;
     } catch (error) {
-      console.error('Failed to get leaderboard:', error);
+      if (!error.apiDisabled) console.error('Failed to get leaderboard:', error);
       throw error;
     }
   },
@@ -443,6 +462,8 @@ export const apiService = {
    * @returns {Promise<boolean>} True if API is reachable
    */
   async isAvailable() {
+    if (!API_CONFIG.BASE_URL) return false;
+
     try {
       const response = await fetchWithRetry('/api/health', {
         timeout: 1500,

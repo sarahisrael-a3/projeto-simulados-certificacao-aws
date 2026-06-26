@@ -4,7 +4,7 @@ Atualizado em: 2026-06-26
 
 ## Contexto
 
-A issue #39 faz parte do Epico 3 (#38), "Revisao de erros completa". Esta task nao implementa o quiz de erros. Ela documenta a origem atual dos erros, a fonte de verdade recomendada e os riscos que a Task 3.2 deve respeitar antes de implementar a revisao real.
+A issue #39 faz parte do Epico 3 (#38), "Revisao de erros completa". A primeira rodada documentou a origem dos erros. A rodada atual implementa a base local persistida para erros reais do usuario, sem montar ainda o quiz real de revisao.
 
 ## Escopo
 
@@ -13,6 +13,7 @@ Incluido:
 - Mapear onde as respostas erradas existem hoje.
 - Documentar gravacao, leitura e limpeza.
 - Definir a fonte de verdade atual e a recomendada para a proxima task.
+- Implementar persistencia local dedicada para erros pendentes.
 - Descrever um teste manual esperado para o fluxo errar -> revisar -> acertar -> sair da lista.
 - Registrar riscos tecnicos.
 
@@ -49,25 +50,54 @@ Fora do escopo:
 
 ### Fonte atual
 
-A fonte real atual do fluxo local e o `localStorage`.
+A fonte real atual do fluxo local e o `localStorage`, centralizada em `StorageManager`.
 
-Na pratica, os erros existem em dois lugares locais:
+Os erros pendentes agora usam uma chave dedicada:
+
+- `aws_sim_mistakes`: mapa por certificacao e questao, escrito por `storageManager.recordMistake()`.
+
+Estrutura resumida:
+
+```json
+{
+  "clf-c02": {
+    "question-id": {
+      "questionId": "question-id",
+      "certification": "clf-c02",
+      "domain": "cloud",
+      "question": "...",
+      "options": ["...", "..."],
+      "selectedAnswer": 0,
+      "selectedAnswerText": "...",
+      "correctAnswer": 1,
+      "correctAnswerText": "...",
+      "wrongCount": 2,
+      "firstWrongAt": "2026-06-26T00:00:00.000Z",
+      "lastWrongAt": "2026-06-26T00:10:00.000Z",
+      "source": "simulation",
+      "attemptId": "attempt_...",
+      "quizId": "local_quiz_...",
+      "resolved": false
+    }
+  }
+}
+```
+
+Dados complementares continuam existindo em:
 
 - `aws_sim_history`: historico de sessoes finalizadas salvo por `StorageManager.saveQuizResult()`. Cada sessao contem `answers`, e cada resposta tem `isCorrect`.
 - `aws_sim_quiz_answers_<quizId>`: log por quiz salvo diretamente por `quizManager._saveAnswerLocally()`, quando existe `quizManager.currentQuizId` e a questao tem `id`.
-
-Nao existe hoje uma chave dedicada como `aws_sim_mistakes`, nem uma lista persistida de "erros pendentes de revisao".
 
 ### Fonte recomendada para a Task 3.2
 
 Para a proxima task, a fonte de verdade recomendada continua sendo localStorage, por compatibilidade com a arquitetura local-first:
 
-- base de leitura: `aws_sim_history`;
+- base de leitura: `aws_sim_mistakes`;
 - acesso centralizado: `storageManager.js`;
-- criterio de pendencia: respostas com `isCorrect === false`, filtradas por `certId`;
-- identificador minimo recomendado: `certId + question.id`, quando houver `id`; fallback temporario: `certId + domain + question`.
+- criterio de pendencia: registros em `aws_sim_mistakes[certId]`;
+- identificador: `question.id`/`question_id`, quando houver; fallback deterministico por `domain + question`.
 
-O log `aws_sim_quiz_answers_<quizId>` nao deve ser a fonte principal da revisao nesta fase, porque depende de `question.id`. Os JSONs principais em `data/*.json` nao possuem `id` estavel nas questoes, entao esse log pode simplesmente nao existir no fallback local.
+`aws_sim_history` segue importante para relatorios e auditoria, mas nao deve ser a fonte primaria da lista de erros pendentes.
 
 ### Fonte futura possivel
 
@@ -87,12 +117,14 @@ Motivo:
 
 1. O usuario confirma uma resposta em `submitAnswer()`.
 2. `QuizEngine.submitAnswer()` calcula `isCorrect` no frontend e adiciona a resposta em `engine.state.answers`.
-3. Se existir `quizManager.currentQuizId` e a questao tiver `id`, `quizManager.recordAnswer()` e chamado.
-4. `quizManager.recordAnswer()` sempre tenta gravar uma copia local em `aws_sim_quiz_answers_<quizId>`.
-5. Se a API estiver disponivel e o quiz nao for `local_`, a resposta tambem e enviada para `POST /api/quiz/:id/answer`.
-6. No backend, `backend/database/db.js` calcula a corretude contra `questions.correct_answer` e grava em `answers`.
+3. Se a resposta estiver errada, `syncMistakeRecord()` chama `storageManager.recordMistake()`.
+4. `recordMistake()` grava ou atualiza `aws_sim_mistakes[certId][questionId]`.
+5. Se a mesma questao for errada novamente na mesma certificacao, `wrongCount` e incrementado e `lastWrongAt` atualizado.
+6. Se existir `quizManager.currentQuizId` e a questao tiver `id`, `quizManager.recordAnswer()` tambem e chamado.
+7. `quizManager.recordAnswer()` sempre tenta gravar uma copia local em `aws_sim_quiz_answers_<quizId>`.
+8. Se a API estiver disponivel e o quiz nao for `local_`, a resposta tambem e enviada para `POST /api/quiz/:id/answer`.
 
-Observacao: no fluxo JSON/local, as questoes principais nao possuem `id`, entao o passo 3 pode nao acontecer. Ainda assim, a resposta fica em `engine.state.answers` ate a finalizacao.
+Observacao: no fluxo JSON/local, quando a questao nao tem `id`, `recordMistake()` usa fallback deterministico por dominio + texto da questao. Isso permite deduplicar sem depender do backend.
 
 ### Gravacao ao finalizar
 
@@ -103,30 +135,34 @@ Observacao: no fluxo JSON/local, as questoes principais nao possuem `id`, entao 
    - `aws_sim_last_<certId>` com o ultimo resultado completo daquela certificacao;
    - `aws_sim_history` com a sessao no historico.
 
-Hoje, `aws_sim_history` e o registro local mais completo e consistente para reconstruir erros depois de uma sessao finalizada.
+`aws_sim_history` continua registrando a sessao finalizada, mas a lista de erros pendentes ja nao depende da finalizacao do quiz.
 
 ### Leitura atual
 
-O fluxo de revisao de erros nao le erros hoje.
+O fluxo visual de revisao ainda nao monta um quiz de erros, mas a base ja pode ser lida por `storageManager.getMistakes(certId)`.
 
 O que existe:
 
-- `public/index.html` tem botoes `btn-practice-mistakes` e `btn-clear-mistakes`, ambos inicialmente ocultos.
+- `public/index.html` tem botoes `btn-practice-mistakes` e `btn-clear-mistakes`, exibidos quando ha erros pendentes na certificacao atual.
 - `wireUIActions()` liga esses botoes a `startMistakesQuiz()` e `clearMistakes()`.
-- `startMistakesQuiz()` apenas exibe a mensagem traduzida `mistakes_feature_coming`.
-- `clearMistakes()` apenas mostra confirmacao, alerta sucesso e esconde botoes; nao remove dados do `localStorage`.
+- `startMistakesQuiz()` ainda apenas exibe a mensagem traduzida `mistakes_feature_coming`.
+- `clearMistakes()` remove `aws_sim_mistakes[certId]`, atualiza contador/botoes e nao apaga historico, gamificacao ou relatorios.
 
-Portanto, a revisao de erros esta parcial/apenas com estado vazio amigavel. Ela nao inicia quiz, nao busca perguntas erradas e nao remove erros acertados.
+Portanto, a revisao de erros esta com persistencia real, mas ainda nao inicia quiz nem busca perguntas para execucao.
 
 ### Limpeza/remocao atual
 
-Nao existe limpeza real de erros.
+Existe limpeza real de erros pendentes por certificacao.
 
 Fluxos existentes:
 
-- `clearMistakes()` nao remove nenhuma chave do `localStorage`.
+- `storageManager.removeMistake(questionOrId, certId)` remove uma questao pendente.
+- `storageManager.clearMistakes(certId)` remove os erros pendentes de uma certificacao.
+- `storageManager.clearMistakes()` remove toda a chave `aws_sim_mistakes`.
 - `storageManager.clearHistory()` remove `aws_sim_history`, mas isso limpa todo o historico de sessoes, nao apenas erros.
 - `storageManager.clearAll()` remove todas as chaves com prefixo `aws_sim_`.
+
+Ao acertar uma questao em modo `review` ou `mistakes-review`, `syncMistakeRecord()` chama `removeMistake()`. O modo `mistakes-review` ainda sera usado pela proxima task quando o quiz real de erros for implementado.
 
 ## Comportamento esperado para a revisao
 
@@ -146,7 +182,7 @@ Quando a Task 3.2 implementar a revisao real:
 2. Iniciar um simulado curto.
 3. Errar uma questao conhecida.
 4. Finalizar o simulado.
-5. Verificar que a questao errada aparece como pendente na fonte local definida para erros.
+5. Verificar em DevTools > Application > Local Storage que `aws_sim_mistakes` contem a questao errada.
 6. Clicar em "Praticar Questoes Erradas".
 7. Confirmar que o quiz de revisao inicia apenas com erros da certificacao atual.
 8. Acertar a questao em revisao.
@@ -156,11 +192,9 @@ Quando a Task 3.2 implementar a revisao real:
 
 ## Riscos e bugs encontrados
 
-- Nao ha lista dedicada de erros pendentes.
 - `startMistakesQuiz()` ainda nao le dados nem inicia quiz.
-- `clearMistakes()` informa sucesso sem apagar dados reais.
 - Erros antigos ficariam presos para sempre se a Task 3.2 apenas acumulasse dados sem regra de resolucao.
-- Os JSONs principais nao possuem `id` estavel de questao, entao a remocao por erro precisa de fallback consistente.
+- Os JSONs principais podem nao ter `id` estavel de questao; a implementacao atual usa fallback por dominio + texto, que pode mudar se o enunciado for editado.
 - A mesma questao pode ser registrada varias vezes se a lista futura nao fizer deduplicacao por certificacao e identificador de questao.
 - O historico local e a tabela `answers` podem divergir quando a API estiver indisponivel ou quando a questao nao tiver `id`.
 - O log `aws_sim_quiz_answers_<quizId>` nao e filtrado por certificacao dentro da propria chave; a certificacao precisa vir do quiz/sessao associada.
@@ -190,9 +224,9 @@ Se a Task 3.2 optar por usar backend, antes sera necessario criar contrato de AP
 
 ## Proximos passos
 
-1. Criar helpers no `StorageManager` para listar, contar, limpar e resolver erros pendentes.
-2. Definir identificador estavel para questoes sem `id`.
-3. Implementar `startMistakesQuiz()` consumindo a fonte local definida.
-4. Implementar remocao ao acertar em revisao.
-5. Adicionar testes unitarios para errar -> revisar -> acertar -> sair da lista.
+1. Implementar `startMistakesQuiz()` consumindo `storageManager.getMistakes(certId)`.
+2. Montar o quiz real apenas com questoes pendentes da certificacao atual.
+3. Usar modo `mistakes-review` para remover erro ao acertar sem confundir com simulado normal.
+4. Definir UX quando uma questao pendente nao puder mais ser encontrada nos JSONs.
+5. Planejar sincronizacao futura com `answers`, sem bloquear o fluxo local.
 6. Planejar sincronizacao futura com `answers`, sem bloquear o fluxo local.
