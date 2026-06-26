@@ -1,6 +1,6 @@
 # Guia De Contribuicao
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Obrigado por contribuir com o Cloud Certification Study Tool. Este projeto e um laboratorio colaborativo para aprender Cloud, Dados, UX e Desenvolvimento de Software na pratica.
 
@@ -113,6 +113,7 @@ Regras praticas:
 
 - Preserve fallback offline.
 - Preserve `src/` como fonte e `public/` como artefato de build.
+- Ao mexer em diagnostico ou recomendacoes, confirme que o quiz normal continua usando `startQuiz()` e `QuizEngine.loadQuestions()`.
 - Rode testes relevantes.
 - Atualize docs quando mudar contrato, comando ou fluxo.
 

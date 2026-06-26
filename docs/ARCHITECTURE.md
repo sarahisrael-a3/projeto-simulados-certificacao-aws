@@ -1,6 +1,6 @@
 # Arquitetura Do Projeto
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 O Cloud Certification Study Tool usa uma arquitetura local-first. O frontend funciona com JSON/localStorage para preservar PWA/offline e, quando disponivel, conversa com uma API Express local que usa PGlite.
 
@@ -29,7 +29,7 @@ Navegador
 
 | Camada | Fonte | Artefato/execucao | Responsabilidade |
 | --- | --- | --- | --- |
-| Frontend | `src/frontend/` | `public/` | UI, quiz, dashboard, flashcards, PWA |
+| Frontend | `src/frontend/` | `public/` | UI, quiz, diagnostico, dashboard, flashcards, recomendacoes, PWA |
 | Cliente API | `src/services/api.js` | `public/services/api.js` | HTTP, timeout e fallback |
 | Dados | `data/` | `public/data/` e PGlite seedado | Questoes, diagnosticos, desafios |
 | API | `backend/api/` | Node/Express | Rotas REST |
@@ -52,7 +52,16 @@ Artefato servido:
 - `public/services/`
 - `public/data/`
 
-O build copia a fonte para `public/`. Mudancas permanentes devem nascer em `src/`, `data/` ou `validation/`.
+O build copia a fonte para `public/`, incluindo subpastas como `src/frontend/js/recommendations/`.
+Mudancas permanentes devem nascer em `src/`, `data/` ou `validation/`.
+
+Fluxos relevantes no frontend:
+
+- quiz normal: `startQuiz()` -> `QuizEngine.loadQuestions()`;
+- diagnostico: `startDiagnostic()` -> `QuizEngine.loadDiagnostic()`;
+- simulado personalizado do diagnostico: `renderDiagnosticReport()` exibe o CTA e `startPersonalizedDiagnosticQuiz()` chama `QuizEngine.loadPersonalizedQuestions()`;
+- recomendacao lateral "O Que Estudar Agora": `src/frontend/js/recommendations/studyNow.js`;
+- persistencia local: `storageManager.js` e `localStorage`.
 
 ## Dados JSON
 
@@ -63,7 +72,7 @@ Os JSONs em `data/` sao fonte versionada e alimentam:
 - seed para PGlite;
 - scripts Python de validacao e manutencao.
 
-Contagem principal em 2026-06-18:
+Contagem principal em 2026-06-25:
 
 - CLF-C02: 402 PT + 402 EN.
 - SAA-C03: 295 PT + 293 EN.
@@ -138,14 +147,15 @@ Ele normaliza campos, adiciona tags de origem/idioma e evita duplicidade por `ce
 
 ## Testes E Build
 
-Verificado em 2026-06-18:
+Verificado em 2026-06-25:
 
 ```bash
-npm test -- --runInBand
+npm test
 npm run build
+npm run lint
 ```
 
-Resultado: 9 suites e 77 testes passaram; build concluiu com sucesso.
+Resultado registrado: 9 suites e 82 testes passaram; build concluiu com sucesso; lint passou com 0 erros e 77 warnings de `console`.
 
 ## Riscos Arquitetonicos
 
@@ -154,3 +164,4 @@ Resultado: 9 suites e 77 testes passaram; build concluiu com sucesso.
 - O contrato de resposta da API ainda nao e totalmente uniforme.
 - `validation/backend/` precisa de decisao: remover, arquivar ou reintegrar.
 - Falta teste e2e real no navegador.
+- O diagnostico personalizado usa aliases de dominio no frontend porque alguns JSONs de nivelamento usam IDs diferentes dos bancos principais.

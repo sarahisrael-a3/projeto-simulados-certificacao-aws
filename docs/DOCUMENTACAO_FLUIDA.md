@@ -1,6 +1,6 @@
 # Documentacao Fluida
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Este documento explica o projeto em linguagem continua, para leitura de contexto.
 
@@ -24,6 +24,7 @@ Arquivos importantes:
 - `quizEngine.js`: regras do simulado.
 - `quizManager.js`: fluxo de quiz.
 - `storageManager.js`: persistencia local.
+- `recommendations/studyNow.js`: card lateral "O Que Estudar Agora".
 - `flashcards.js`: modo flashcards.
 - `pomodoroManager.js`: modo Pomodoro.
 - `chartManager.js`: graficos.
@@ -135,8 +136,9 @@ Checklist antes de apresentar:
 - [ ] Fluxo de simulado manual.
 - [ ] Fluxo de validacao manual, se for demonstrar painel.
 
-Verificacao de 2026-06-18:
+Verificacao de 2026-06-25:
 
-- [x] Testes: 9 suites, 77 testes.
+- [x] Testes: 9 suites, 82 testes.
 - [x] Build: sucesso.
 - [ ] Teste manual completo: pendente.
+O diagnostico agora tambem gera um proximo passo pratico: a tela de resultado lista os dominios fracos e oferece o CTA "Praticar dominios fracos". Esse CTA inicia um simulado personalizado em modo revisao, priorizando questoes dos dominios fracos e completando com questoes gerais quando necessario.

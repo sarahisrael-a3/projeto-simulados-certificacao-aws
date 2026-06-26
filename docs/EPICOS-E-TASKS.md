@@ -1,6 +1,6 @@
 # Epicos e Tasks
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 Este documento substitui o plano antigo como fonte de status real do projeto.
 Ele registra o que esta entregue, o que esta funcional no MVP, o que ainda esta parcial e o que permanece como decisao ou backlog tecnico.
@@ -32,7 +32,7 @@ Ele registra o que esta entregue, o que esta funcional no MVP, o que ainda esta 
 | 4. Socket/start integrado | Decisao pendente | Scripts antigos existem, mas nao sao fluxo oficial do app completo |
 | 5. Validacao de questoes | MVP tecnico concluido | Express + PGlite persistem aprovacao/rejeicao; endpoint foi verificado, falta teste manual no navegador |
 | 6. Trilha/gamificacao | MVP implementado | Trilha, sprint, badges e desafios existem; falta validacao UX/E2E |
-| 7. Gaps/recomendacoes | Parcial | Backend calcula dominios fracos; UI ainda precisa explorar melhor |
+| 7. Gaps/recomendacoes | MVP funcional | Backend calcula dominios fracos; frontend tem "O Que Estudar Agora" e diagnostico gera simulado focado |
 | 8. PDF/exportacao | MVP implementado | Relatorio PDF existe; template final pode evoluir |
 | 9. Testes com usuarios/staging | Pendente | Falta staging formal e feedback estruturado |
 
@@ -40,11 +40,11 @@ Ele registra o que esta entregue, o que esta funcional no MVP, o que ainda esta 
 
 ## Estado Atual de Qualidade
 
-Ultima verificacao registrada em 2026-06-18:
+Ultima verificacao registrada em 2026-06-25:
 
 * `npm run format:check`: passou.
-* `npm run lint`: 0 erros e 72 warnings de `console`.
-* `npm test -- --runInBand`: 9 suites e 77 testes passando.
+* `npm run lint`: 0 erros e 77 warnings de `console` ainda presentes.
+* `npm test`: 9 suites e 82 testes passando.
 * `npm run build`: concluido com sucesso.
 * `npm run db:seed`: 2.545 registros lidos e ja presentes no PGlite persistente.
 * API local com PGlite seedado: `GET /api/health` e `GET /api/questions/pending?limit=2` retornaram HTTP 200.
@@ -234,7 +234,7 @@ Status: funcional.
 
 * [x] Testes de integracao em `__tests__/api.integration.test.js`.
 * [x] Testes de validacao em `__tests__/api.validation.test.js`.
-* [x] Suite completa passou em 2026-06-18: 9 suites, 77 testes.
+* [x] Suite completa passou em 2026-06-25: 9 suites, 82 testes.
 
 ### Pendencias
 
@@ -245,15 +245,16 @@ Status: funcional.
 
 ## Task 3.7 - Documentacao da API
 
-Status: parcial.
+Status: MVP funcional.
 
 ### Entregue
 
 * [x] Rotas reais documentadas em `docs/ROUTES_AND_INTEGRATIONS.md`.
+* [x] Contrato principal documentado em `docs/API.md`.
 
 ### Pendencias
 
-* [ ] Criar `docs/API.md` ou OpenAPI.
+* [ ] Criar OpenAPI, se necessario.
 * [ ] Adicionar exemplos completos de erro e sucesso por endpoint.
 
 ---
@@ -369,21 +370,28 @@ Ainda falta validar experiencia final, acessibilidade e fluxo completo em navega
 
 # Epico 7 - Gaps e Recomendacoes
 
-Status: parcial.
+Status: MVP funcional.
 
-O backend ja calcula dominios fracos, mas a interface ainda precisa transformar esse dado em recomendacoes claras de estudo.
+O backend ja calcula dominios fracos e o frontend ja transforma parte desse resultado em acoes praticas.
+Existem duas frentes implementadas: card lateral "O Que Estudar Agora" e simulado personalizado a partir do diagnostico.
 
 ## Entregue
 
 * [x] `getWeakDomains(userId, threshold)` no banco.
 * [x] Endpoint `GET /api/users/:id/weak-domains`.
 * [x] Insights locais no frontend.
+* [x] Card lateral "O Que Estudar Agora" em `src/frontend/js/recommendations/studyNow.js`.
+* [x] Diagnostico identifica dominios fracos com threshold de 60%.
+* [x] Tela de resultado do diagnostico lista dominios fracos.
+* [x] CTA "Praticar dominios fracos" inicia simulado personalizado em modo revisao.
+* [x] Simulado personalizado prioriza dominios fracos e completa com questoes gerais da mesma certificacao.
+* [x] Aliases de dominio tratados em `DIAGNOSTIC_DOMAIN_ALIASES` para alinhar IDs do diagnostico com IDs do banco principal.
 
 ## Pendencias
 
-* [ ] Conectar recomendacoes principais aos dominios fracos da API.
-* [ ] Criar card "o que estudar agora" baseado em backend.
-* [ ] Adicionar links oficiais AWS por dominio.
+* [ ] Conectar todas as recomendacoes principais aos dominios fracos da API quando o backend estiver disponivel.
+* [ ] Persistir historico do diagnostico, se entrar no escopo futuro.
+* [ ] Evoluir de simulado focado para plano de estudo completo.
 
 ---
 
@@ -441,14 +449,14 @@ Itens abaixo sao importantes, mas nao bloqueiam o MVP atual.
 
 ## Qualidade de Codigo
 
-* [ ] Reduzir ou justificar warnings de `console` reportados pelo lint.
+* [ ] Reduzir ou justificar os 77 warnings de `console` reportados pelo lint.
 * [ ] Definir politica para logs de desenvolvimento.
 * [ ] Avaliar coverage minimo.
 * [ ] Separar warnings aceitaveis de problemas reais.
 
 ## Documentacao
 
-* [ ] Criar `docs/API.md`.
+* [x] Criar `docs/API.md`.
 * [ ] Adicionar exemplos de request/response por endpoint.
 * [ ] Atualizar README com status real, badges e instrucoes completas.
 * [ ] Documentar estrategia de fallback offline.
@@ -489,9 +497,9 @@ Validar o app completo em ambiente local, fechar pendencias operacionais do Epic
    * `npm test -- --runInBand`
    * `npm run build`
    * `npm audit --omit=dev`
-6. Criar `docs/API.md` com exemplos reais de sucesso e erro.
+6. Evoluir `docs/API.md` com mais exemplos de erro/sucesso ou OpenAPI.
 7. Criar E2E minimo de navegador para fluxo principal.
-8. Reduzir ou justificar warnings de `console`.
+8. Reduzir ou justificar os 77 warnings de `console`.
 9. Auditar qualidade PT/EN.
 
 ## Criterio de encerramento da sprint

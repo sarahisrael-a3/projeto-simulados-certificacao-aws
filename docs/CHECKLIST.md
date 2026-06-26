@@ -1,8 +1,8 @@
 # Checklist Do Projeto
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
-Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias usadas: `package.json`, `src/frontend/`, `src/services/api.js`, `backend/api/`, `backend/database/`, `scripts/`, `validation/`, `data/`, `__tests__/` e execucao de testes/build.
+Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias usadas: `package.json`, `src/frontend/`, `src/services/api.js`, `backend/api/`, `backend/database/`, `scripts/`, `validation/`, `data/`, `__tests__/` e execucao de testes/build.
 
 ## Status Executivo
 
@@ -15,12 +15,14 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] Painel de validacao conectado a endpoints Express reais.
 - [x] Validacao persiste status, validador, data, motivo de rejeicao e logs JSONB.
 - [x] Seguranca basica aplicada na API: Helmet, CORS, rate limit e error handler.
-- [x] `npm test -- --runInBand` passou em 2026-06-18: 9 suites, 77 testes.
-- [x] `npm run build` passou em 2026-06-18.
+- [x] `npm test` passou em 2026-06-25: 9 suites, 82 testes.
+- [x] `npm test -- --runInBand` passou em 2026-06-26: 9 suites, 85 testes, incluindo regressao de finalizacao duplicada e progresso por historico.
+- [x] `npm run build` passou em 2026-06-25.
+- [x] `npm run build` passou em 2026-06-26 apos correcao do fluxo de finalizacao do simulado.
 - [x] `npm run db:seed` passou em 2026-06-18: 2.545 registros lidos e ja presentes no PGlite.
 - [x] API local com PGlite seedado respondeu `GET /api/health` e `GET /api/questions/pending?limit=2` com HTTP 200.
 - [ ] Validacao manual completa em navegador com API + PGlite seedado.
-- [x] `npm run lint` passou em 2026-06-18 com 0 erros e 72 warnings antigos de `console`.
+- [x] `npm run lint` passou em 2026-06-25 com 0 erros e 77 warnings antigos de `console`.
 - [x] `npm run format:check` passou em 2026-06-18.
 - [x] `npm audit --omit=dev` passou em 2026-06-18 com 0 vulnerabilidades de producao.
 
@@ -30,6 +32,9 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] PWA com manifest e service worker.
 - [x] Simulados por certificacao.
 - [x] Testes diagnosticos por certificacao.
+- [x] Resultado do diagnostico lista dominios fracos.
+- [x] Diagnostico oferece CTA para simulado personalizado.
+- [x] Simulado personalizado prioriza dominios fracos e usa fallback para questoes gerais.
 - [x] Flashcards.
 - [x] Pomodoro.
 - [x] Relatorio PDF.
@@ -40,6 +45,7 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] Gamificacao local: badges, streak, leaderboard e trilha.
 - [x] Sprint de estudo de 14 dias.
 - [x] Desafios interativos em `data/gamificacao/interactive-challenges.json`.
+- [x] Card lateral "O Que Estudar Agora" com recomendacao por dominios fracos.
 - [ ] Testes e2e dos fluxos principais no navegador.
 - [ ] Auditoria completa de acessibilidade.
 - [ ] Revisao mobile em dispositivos reais.
@@ -79,19 +85,22 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] Validacao de questoes: `POST /api/questions/:id/validate`.
 - [ ] Request ID para rastreamento.
 - [ ] Contrato unico de resposta `{ success, data, error }` em todas as rotas.
-- [ ] OpenAPI/Swagger ou `docs/API.md` dedicado.
+- [x] `docs/API.md` dedicado.
+- [ ] OpenAPI/Swagger, se necessario.
 - [ ] Tabela normalizada de auditoria de validacao, caso `validation_logs` JSONB deixe de ser suficiente.
 
 ## Integracao Frontend + API
 
 - [x] `apiService` centralizado com timeout, normalizacao e fallback.
 - [x] Quiz tenta API e usa JSON local como fallback.
+- [x] Diagnostico tenta API e usa JSON local como fallback.
+- [x] Simulado personalizado do diagnostico usa banco de questoes da mesma certificacao.
 - [x] Usuario, quiz e leaderboard usam API quando disponivel.
 - [x] Modo offline preservado.
 - [x] Painel de validacao usa API real por padrao.
 - [ ] Fluxos principais ainda precisam de validacao manual integrada.
 - [ ] Algumas telas seguem dependentes de JSON/localStorage por desenho local-first.
-- [ ] Recomendacoes de estudo ainda nao consomem plenamente dominios fracos da API.
+- [ ] Recomendacoes de estudo ainda nao consomem plenamente dominios fracos da API em todos os pontos.
 
 ## Epicos E Roadmap
 
@@ -102,7 +111,7 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] Epico 5 - Validacao colaborativa: concluido tecnicamente via Express + PGlite.
 - [x] Epico 6 - Trilha visual/gamificacao: implementado parcialmente no produto atual.
 - [x] Epico 8 - Exportacao PDF: implementado como relatorio atual.
-- [ ] Epico 7 - Recomendacoes/gaps via backend: parcial.
+- [x] Epico 7 - Recomendacoes/gaps: MVP funcional no frontend e parcial na integracao backend.
 - [ ] Epico 9 - Testes com usuarios/staging: pendente.
 
 ## Verificacoes Desta Revisao
@@ -112,9 +121,9 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 - [x] Inspecao de `backend/database/schema.sql` e `db.js`.
 - [x] Inspecao dos arquivos de validacao.
 - [x] Contagem dos JSONs principais em `data/`.
-- [x] `npm test -- --runInBand`: passou, 9 suites, 77 testes.
+- [x] `npm test`: passou, 9 suites, 82 testes.
 - [x] `npm run build`: passou.
-- [x] `npm run lint`: passou com 0 erros e 72 warnings de `console`.
+- [x] `npm run lint`: passou com 0 erros e 77 warnings de `console`.
 - [x] `npm run format:check`: passou.
 - [x] `npm run db:seed`: passou, 2.545 registros lidos e ja presentes no PGlite.
 - [x] `npm audit --omit=dev`: passou, 0 vulnerabilidades de producao.
@@ -125,8 +134,8 @@ Este checklist reflete a leitura real do repositorio em 2026-06-18. Evidencias u
 ## Proximos Passos Praticos
 
 - [ ] Rodar validacao manual completa com API + PGlite + frontend.
-- [ ] Reduzir ou justificar os 72 warnings de `console` reportados pelo lint.
-- [ ] Documentar exemplos de request/response da API em arquivo dedicado.
+- [ ] Reduzir ou justificar os 77 warnings de `console` reportados pelo lint.
+- [x] Documentar exemplos principais de request/response da API em arquivo dedicado.
 - [ ] Criar suite e2e para fluxos: iniciar simulado, responder, finalizar, validar questao.
 - [ ] Auditar conteudo PT/EN e divergencias de contagem.
 - [ ] Decidir se o backend FastAPI em `validation/backend/` sera removido, arquivado ou reintegrado.

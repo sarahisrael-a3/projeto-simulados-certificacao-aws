@@ -1,6 +1,6 @@
 # PGlite Setup
 
-Atualizado em: 2026-06-18
+Atualizado em: 2026-06-25
 
 PGlite e a camada de banco local usada pela API Express. Ela permite demonstrar persistencia sem depender de um PostgreSQL externo.
 
@@ -111,7 +111,7 @@ npm test -- __tests__/api.validation.test.js --runInBand
 npm test -- --runInBand
 ```
 
-Em 2026-06-18, a suite completa passou com 9 suites e 77 testes.
+Em 2026-06-25, a suite completa passou com 9 suites e 82 testes.
 
 ## Troubleshooting
 
