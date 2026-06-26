@@ -1,7 +1,7 @@
 # Estratégia de Persistência e Sincronização (Decisão D2)
 
 **Data:** 2026-06-26
-**Versão:** 1.0
+**Versão:** 2.0
 **Issue:** #43
 **Épico:** #41 — Melhorar persistência do progresso
 **Depende de:** #42 — Mapeamento de tabelas e endpoints do backend
@@ -10,111 +10,161 @@
 
 ## 1. Contexto da Decisão
 
-| Fato técnico | Impacto na decisão |
-|---|---|
-| App é um PWA com `sw.js` usando cache-first para assets | Funcionamento offline é requisito de produto |
-| No GitHub Pages, `public/services/api.js` define `BASE_URL = ''`, desabilitando a API | Produção já opera 100% sem backend |
-| Backend usa **PGlite** (PostgreSQL via WASM em memória) — não um servidor PostgreSQL persistente externo | O banco não sobrevive entre reinicializações sem configuração de persistência em disco |
-| `public/js/storageManager.js` implementa toda a persistência via `localStorage` | Local-first já é a realidade operacional do projeto |
-| `public/js/userManager.js` tenta criar usuário via API e faz fallback para `localStorage` em caso de falha | O padrão try-API-then-local já está implementado |
-| Usuários são anônimos — sem autenticação ou login | Identidade é gerada e custodiada no dispositivo do usuário |
+| Fato técnico | Fonte | Impacto |
+|---|---|---|
+| `quizManager.recordAnswer()` sempre salva localmente antes de tentar a API | `public/js/quizManager.js:112` | Escrita local é obrigatória, não opcional |
+| `quizManager.startQuiz()` tenta API primeiro, cria quiz local em caso de falha | `public/js/quizManager.js:54` | Leitura prefere API quando disponível |
+| "O backend calcula `is_correct`" | `docs/API.md`, `docs/ROUTES_AND_INTEGRATIONS.md` | Backend é autoritativo para correção quando ativo |
+| Em produção (GitHub Pages), `BASE_URL = ''` desabilita a API automaticamente | `public/services/api.js:23` | Produção opera 100% offline |
+| PGlite persiste em disco via `DB_DATA_DIR` — obrigatório fora de testes | `docs/PGLITE_SETUP.md` | Backend não é volátil em desenvolvimento |
+| `apiService.loadQuestions()` tenta API, fallback para `data/{certId}.json` | `docs/ROUTES_AND_INTEGRATIONS.md:187` | Questões: backend-first com fallback estático |
+| Gamificação não tem endpoints no backend ainda | `docs/ROUTES_AND_INTEGRATIONS.md:221` | Gamificação é 100% local por ora |
+| App é PWA com `sw.js` — funcionamento offline é requisito de produto | `public/sw.js` | Offline não pode ser ponto de falha |
 
 ---
 
 ## 2. Prós e Contras de Cada Estratégia
 
-### Local-First (localStorage como fonte de verdade)
+### Local-First puro (localStorage como única fonte de verdade)
 
 **Prós:**
-- Latência zero — operações síncronas no `localStorage`
-- Funciona 100% offline — requisito PWA garantido
-- Já implementado e coberto por testes (`__tests__/storageManager.test.js`)
-- Independente do estado do servidor PGlite (que é volátil em memória)
-- Compatível com usuários anônimos — sem necessidade de auth
-- Resiliente — app funciona mesmo se o backend estiver indisponível
+- Latência zero — operações síncronas
+- Offline garantido em qualquer cenário
+- Já implementado e testado
 
 **Contras:**
-- Dados presos no dispositivo — perdidos ao limpar cache ou trocar de navegador
-- Limite prático de ~5–10 MB no `localStorage` (mitigado: histórico limitado a 50 entradas)
-- Sem sincronização entre dispositivos
-- Sem dados centralizados para analytics ou leaderboard real
+- Abandona o cálculo de correção no backend — cliente vira fonte de verdade para `is_correct`, o que a própria documentação do projeto proíbe
+- Inutiliza o leaderboard e a análise de domínios fracos (que dependem de dados agregados no banco)
+- Dados presos no dispositivo — perdidos ao limpar cache
+- Contradiz a arquitetura já construída (API Express + PGlite com endpoints funcionais)
 
-### Backend-First (PGlite como fonte de verdade)
+### Backend-First puro (API como única fonte de verdade)
 
 **Prós:**
-- Dados centralizados habilitam leaderboard real e analytics
-- Sem limite prático de armazenamento
+- Backend calcula correção de forma autoritativa
+- Leaderboard e analytics reais
+- Dados portáveis entre dispositivos
 
 **Contras:**
-- Viola o requisito PWA offline — operações bloqueariam sem conexão ativa
-- O PGlite em memória perde dados entre reinicializações sem configuração de persistência em disco
-- Em produção (GitHub Pages) a API é desabilitada — backend-first tornaria o app não funcional em produção
-- Requer gerenciamento de identidade anônima server-side
-- Latência em cada operação de leitura/escrita
+- Quebra produção (GitHub Pages): API é desabilitada em `public/services/api.js` quando `hostname.endsWith('github.io')`
+- Qualquer indisponibilidade do servidor interrompe o app
+- Contradiz o requisito PWA de funcionamento offline
+
+### Dual-Write com leitura API-first (estratégia atual do código)
+
+**Prós:**
+- Offline garantido — escrita local sempre acontece primeiro
+- Backend é autoritativo para correção quando disponível
+- Leaderboard e analytics funcionam quando o servidor está ativo
+- Resiliente — queda do servidor não bloqueia o usuário
+- Consistente com o que o código já implementa
+
+**Contras:**
+- Maior complexidade de implementação (já absorvida pelo `quizManager.js`)
+- Possível divergência temporária entre dados locais e backend (resolvida pela política de conflito)
+- Gamificação ainda sem sincronização (endpoint pendente)
 
 ---
 
-## 3. Decisão D2: Local-First com Sincronização Opcional
+## 3. Decisão D2: Dual-Write com Leitura API-First
 
-**Estratégia adotada: LOCAL-FIRST.**
+**Estratégia adotada: DUAL-WRITE com leitura API-first.**
 
-A sincronização com o backend é oportunista e não-bloqueante: executada quando o servidor está disponível, silenciosamente ignorada quando não está.
+Esta é a estratégia que o código já implementa e que melhor equilibra os requisitos do projeto.
 
 **Justificativa:**
 
-1. **Requisito de produto não negociável.** O app deve funcionar offline. Em produção (GitHub Pages), a API é explicitamente desabilitada pelo `api.js`. Backend-first quebraria o app em produção.
+1. **O código já define a estratégia.** `quizManager.recordAnswer()` sempre persiste localmente antes de tentar a API. `quizManager.startQuiz()` e `getQuizResults()` preferem a API quando disponível. Documentar outra estratégia seria contrariar a implementação existente.
 
-2. **Backend volátil por natureza.** O PGlite opera em memória. Sem configuração de persistência em disco, dados do backend não sobrevivem entre reinicializações do servidor. `localStorage` é mais durável que o banco atual em cenários de uso real.
+2. **Backend é autoritativo para correção.** A documentação do projeto é explícita: "O backend calcula `is_correct`; o cliente não deve ser fonte de verdade para correção." Local-first puro violaria essa regra.
 
-3. **Padrão já implementado.** O `userManager.js` já adota try-API-then-local. Formalizar local-first documenta e consolida o que já existe, sem forçar mudança arquitetural.
+3. **Offline é requisito não negociável.** Em produção (GitHub Pages), a API não existe. Backend-first puro quebraria o app em produção. A escrita dupla garante que o app funciona independente do estado do servidor.
 
-4. **Modelo de usuário anônimo.** Não há autenticação. A identidade do usuário (`aws_sim_user_id`) é gerada no cliente e representa a âncora de qualquer sincronização futura.
+4. **Dois modos de operação:**
 
----
-
-## 4. Regras de Sincronização
-
-### 4.1 Identificação do Usuário
-
-- Na primeira carga, gera-se um UUID v4 persistido em `localStorage` com a chave `aws_sim_user_id`
-- Ao tentar criar usuário via `POST /api/users`, o UUID retornado pelo servidor é armazenado localmente
-- Se a API falhar, um UUID é gerado localmente com prefixo `fallback:` (ver `storageManager.js`)
-- O UUID nunca é regenerado na mesma instalação
-
-### 4.2 Quando Sincronizar
-
-| Gatilho | Ação |
+| Modo | Comportamento |
 |---|---|
-| Conclusão de quiz | Tentar `POST /api/quiz` com o resultado; em caso de falha, enfileirar |
-| App volta ao foreground após período offline | Processar fila de operações pendentes |
-| Verificação de disponibilidade (`api.isAvailable()`) retorna `true` | Processar fila de operações pendentes |
-
-### 4.3 Política de Retry
-
-- Timeout por request: 2 segundos (conforme `API_CONFIG.TIMEOUT`)
-- 1 tentativa imediata (conforme `API_CONFIG.RETRY_ATTEMPTS`)
-- Em caso de falha: item permanece na fila local; app continua normalmente
-- Sem limite de tempo para itens na fila — dados locais são preservados indefinidamente
-
-### 4.4 Disponibilidade da API
-
-A função `apiService.isAvailable()` (em `public/services/api.js`) deve ser consultada antes de qualquer operação de sincronização. Ela retorna `false` automaticamente quando:
-- `BASE_URL` está vazio (produção no GitHub Pages)
-- O health check em `GET /api/health` falha ou expira
+| **Desenvolvimento / self-hosted** | API ativa → dual-write (local + API); leituras preferem API |
+| **Produção (GitHub Pages)** | API desabilitada → escrita e leitura 100% locais |
 
 ---
 
-## 5. Resolução de Conflitos
+## 4. Fluxo de Dados por Operação
 
-Conflitos só ocorrem quando o mesmo usuário opera em múltiplos dispositivos ou após limpar e recriar `localStorage`. A estratégia por tipo de dado:
+### Carregar questões
+```
+apiService.loadQuestions()
+  → API disponível? → GET /api/questions  ✓
+  → API indisponível? → data/{certId}.json (fallback estático)
+```
+
+### Iniciar quiz
+```
+quizManager.startQuiz()
+  → API disponível? → POST /api/quiz/start → quizId do backend
+  → API indisponível? → gera local_quiz_{id} localmente
+```
+
+### Registrar resposta
+```
+quizManager.recordAnswer()
+  → SEMPRE: salva em localStorage (aws_sim_quiz_answers_{quizId})
+  → SE API disponível E quizId não é "local_*":
+      → POST /api/quiz/:id/answer (backend calcula is_correct)
+  → Em caso de falha na API: continua — backup local cobre
+```
+
+### Obter resultados
+```
+quizManager.getQuizResults()
+  → API disponível E quizId do backend? → GET /api/quiz/:id/results
+  → Fallback: calcula localmente a partir das respostas no localStorage
+```
+
+### Gamificação (estado atual)
+```
+storageManager.updateGamification()
+  → 100% localStorage (sem endpoint de backend ainda)
+  → Endpoints GET/PUT /api/users/:id/gamification estão pendentes
+```
+
+---
+
+## 5. Regras de Sincronização
+
+### 5.1 Identificação do Usuário
+
+- Na primeira carga, tenta `POST /api/users` para criar usuário no backend
+- UUID retornado é armazenado em `localStorage` (`aws_sim_user_id`, `aws_sim_user_name`)
+- Se a API falhar, gera UUID local com prefixo `fallback:` via `storageManager.js`
+- UUID nunca é regenerado na mesma instalação — é o elo de identidade entre dispositivo e backend
+
+### 5.2 Política de Retry (conforme `api.js`)
+
+- Timeout por request: **2 segundos** (`API_CONFIG.TIMEOUT`)
+- **1 tentativa** por operação (`API_CONFIG.RETRY_ATTEMPTS`)
+- Falha silenciosa: o backup local cobre; app continua normalmente
+- Sem fila de retry automático atualmente — a implementação de fila é melhoria futura do Épico 4
+
+### 5.3 Verificação de Disponibilidade
+
+`apiService.isAvailable()` deve ser consultado pelo `quizManager` na inicialização. Retorna `false` quando:
+- `BASE_URL` está vazio (produção no GitHub Pages)
+- `GET /api/health` falha ou expira no timeout de 2s
+
+---
+
+## 6. Resolução de Conflitos
+
+Conflitos podem ocorrer quando o usuário alterna entre modo online e offline, ou entre dispositivos. Estratégia por tipo de dado:
 
 | Dado | Tipo de conflito | Estratégia |
 |---|---|---|
-| `quiz_history` / `answers` | Append-only — sem conflito real | Inserir no backend se não existir (idempotência por timestamp) |
+| `quiz_history` / `answers` | Append-only — sem conflito real | Inserir no backend se não existir (verificar por `quiz_id`) |
 | `gamification.totalQuizzes` | Contadores podem divergir | Tomar o valor máximo |
-| `gamification.bestScore` | Scores diferentes por dispositivo | Tomar o valor máximo |
+| `gamification.bestScore` | Scores diferentes por contexto | Tomar o valor máximo |
 | `gamification.currentStreak` + `lastDate` | Streaks divergentes | Tomar o registro com `lastDate` mais recente |
-| `gamification.badges` | Badges desbloqueados em dispositivos distintos | União dos conjuntos (nunca revogar badge) |
+| `gamification.badges` | Badges desbloqueados em contextos distintos | União dos conjuntos — nunca revogar badge |
 | `gamification.completedStages` / `unlockedStages` | Progresso de trilha divergente | União dos conjuntos |
 | `focus_sessions` | Append-only — sem conflito real | Inserir no backend se não existir |
 
@@ -122,13 +172,24 @@ Conflitos só ocorrem quando o mesmo usuário opera em múltiplos dispositivos o
 
 ---
 
-## 6. Resumo
+## 7. Lacunas Identificadas
 
-| Item | Status |
+| Lacuna | Impacto | Resolução esperada |
+|---|---|---|
+| Gamificação sem endpoint de backend | Progresso de gamificação não sincroniza | Implementar `GET/PUT /api/users/:id/gamification` (listado em rotas planejadas) |
+| Sem fila de retry para operações offline | Dados locais podem não chegar ao backend após reconexão | Implementar fila com Background Sync API (melhoria futura do Épico 4) |
+| `is_correct` enviado pelo cliente para API | Contradiz "backend calcula `is_correct`" | Backend deve recalcular com base em `question_id` + `user_answer`, ignorando valor do cliente |
+
+---
+
+## 8. Resumo
+
+| Item | Decisão |
 |---|---|
-| Estratégia | Local-first com sync opcional |
-| Fonte de verdade | `localStorage` (via `storageManager.js`) |
-| Sincronização | Oportunista, não-bloqueante, via `apiService` |
-| Produção (GitHub Pages) | 100% local — API desabilitada |
-| Desenvolvimento local | Try-API → fallback localStorage |
+| Estratégia | Dual-write com leitura API-first |
+| Escrita | Sempre local primeiro → API em seguida (não-bloqueante) |
+| Leitura | API primeiro → fallback local/JSON |
+| Correção de quiz | Backend autoritativo quando disponível |
+| Produção (GitHub Pages) | 100% local — API desabilitada automaticamente |
+| Desenvolvimento / self-hosted | Dual-write ativo |
 | Resolução de conflitos | Maior valor vence; conjuntos são unidos |
