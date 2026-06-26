@@ -71,6 +71,8 @@ let uiState = {
   lives: 3,
   qTimerInterval: null,
   qTimeRemaining: 45,
+  isFinishing: false,
+  hasFinished: false,
 };
 
 let lastRenderedResult = null;
@@ -213,6 +215,22 @@ function bindClick(id, handler) {
   }
 }
 
+function setFinishButtonLoading(isLoading) {
+  const btnFinish = document.getElementById("btn-finish");
+  if (!btnFinish) return;
+
+  btnFinish.disabled = isLoading;
+  btnFinish.innerHTML = isLoading
+    ? `<i class="fa-solid fa-spinner fa-spin mr-2"></i>${t("loading", uiState.language)}`
+    : `${t("view_result", uiState.language)} <i class="fa-solid fa-flag-checkered ml-2" aria-hidden="true"></i>`;
+}
+
+function resetFinishState() {
+  uiState.isFinishing = false;
+  uiState.hasFinished = false;
+  setFinishButtonLoading(false);
+}
+
 /**
  * Suprime temporariamente o efeito hover nos option-cards e botões de ação
  * do quiz após navegação por teclado (Enter). Remove a supressão assim que
@@ -324,6 +342,8 @@ async function startWeakestDomainQuiz(domainId, certId) {
 }
 
 async function startQuiz() {
+  resetFinishState();
+
   const certSelect = document.getElementById("certification-select");
   const quantityInput =
     document.querySelector('input[name="question-quantity"]:checked')?.value ||
@@ -345,6 +365,7 @@ async function startQuiz() {
     const certId = certSelect.value;
     const currentCertInfo = certificationPaths[certId];
     uiState.currentCertificationInfo = currentCertInfo;
+    uiState.currentMode = modeInput;
 
     // START QUIZ ON BACKEND
     const userId = userManager.getUserId();
@@ -436,6 +457,8 @@ async function startQuiz() {
 
 // MOTOR DO DIAGNÓSTICO (NIVELAMENTO)
 async function startDiagnostic() {
+  resetFinishState();
+
   const certSelect = document.getElementById("certification-select");
   if (!certSelect) return;
 
@@ -496,6 +519,8 @@ async function startDiagnostic() {
 }
 
 async function startPersonalizedDiagnosticQuiz() {
+  resetFinishState();
+
   if (
     !lastDiagnosticRecommendation ||
     !lastDiagnosticRecommendation.certificationId ||
@@ -759,7 +784,10 @@ function loadQuestionUI() {
   }
   if (explanationBox) explanationBox.classList.add("hidden");
   if (btnNext) btnNext.classList.add("hidden");
-  if (btnFinish) btnFinish.classList.add("hidden");
+  if (btnFinish) {
+    btnFinish.classList.add("hidden");
+    setFinishButtonLoading(false);
+  }
 
   const flagBtn = document.getElementById("btn-flag");
   if (flagBtn) flagBtn.classList.remove("text-orange-500");
@@ -1028,16 +1056,26 @@ function nextQuestion() {
 }
 
 function finishQuiz() {
+  // Trava para evitar execução múltipla por cliques rápidos
+  if (uiState.isFinishing || uiState.hasFinished) return;
+  uiState.isFinishing = true;
+  uiState.hasFinished = true;
+
+  setFinishButtonLoading(true);
+
   if (uiState.timerInterval) clearInterval(uiState.timerInterval);
   if (uiState.qTimerInterval) clearInterval(uiState.qTimerInterval);
 
   saveQuizResult();
   updateHistoryDisplay();
   loadLastScore();
+  updateSidebarProgress();
 
   if (typeof renderGlobalRadarChart === "function") {
     renderGlobalRadarChart();
   }
+
+  if (typeof renderBadges === "function") renderBadges();
 
   const results = engine.getFinalResults();
   const btnNextMission = document.getElementById("btn-next-mission");
@@ -1049,15 +1087,12 @@ function finishQuiz() {
       const stageId = uiState.currentMissionStageId;
 
       if (stageId) {
-        // Chama a sua função oficial do trailManager
         if (typeof window.unlockNextModule === "function") {
           window.unlockNextModule(stageId);
         }
       }
 
-      updateSidebarProgress();
       if (typeof renderTrail === "function") renderTrail();
-      if (typeof renderBadges === "function") renderBadges();
 
       if (btnNextMission) {
         btnNextMission.classList.remove("hidden");
@@ -1075,6 +1110,7 @@ function finishQuiz() {
 
   showResultsScreen();
   refreshStudyNow();
+  uiState.isFinishing = false;
 }
 
 function toggleFlag() {
@@ -1502,7 +1538,10 @@ function saveQuizResult() {
   if (uiState.currentMode === "diagnostic") return;
 
   const results = engine.getFinalResults();
-  storageManager.saveQuizResult(results);
+  const saved = storageManager.saveQuizResult({
+    ...results,
+    quizId: results.quizId || quizManager?.currentQuizId,
+  });
 
   // Confirm backend sync if quiz was started via API
   if (quizManager && quizManager.currentQuizId) {
@@ -1511,7 +1550,13 @@ function saveQuizResult() {
     );
   }
 
-  updateGamification(results.percentage);
+  if (saved) {
+    updateGamification(results.percentage);
+  } else {
+    console.warn("Resultado duplicado ignorado no histÃ³rico.");
+  }
+
+  return saved;
 }
 
 function loadLastScore() {
@@ -1988,6 +2033,7 @@ function goHome() {
   // ========================================================================
   if (uiState.timerInterval) clearInterval(uiState.timerInterval);
   if (uiState.qTimerInterval) clearInterval(uiState.qTimerInterval);
+  resetFinishState();
 
   // ========================================================================
   // RESTAURAÇÃO DO ESTADO ORIGINAL (CRÍTICO PARA EVITAR REGRESSÕES)
@@ -2237,9 +2283,7 @@ function updateSidebarTexts() {
 }
 
 function updateSidebarProgress() {
-  const gamification = JSON.parse(
-    localStorage.getItem("aws_sim_gamification"),
-  ) || { completedStages: [], unlockedStages: [] };
+  const gamification = storageManager.getGamification();
   const certSelect = document.getElementById("certification-select");
   const currentLang =
     uiState.language || localStorage.getItem("aws_sim_lang") || "pt";
@@ -2279,9 +2323,14 @@ function updateSidebarProgress() {
   }
 
   const certPrefix = currentCertId.split("-")[0];
-  const completedCount = (gamification.completedStages || []).filter((id) =>
+  const completedStagesCount = (gamification.completedStages || []).filter((id) =>
     id.startsWith(certPrefix),
   ).length;
+  const historyProgress = storageManager.getProgressFromHistory(currentCertId, 5);
+  const completedCount = Math.max(
+    completedStagesCount,
+    historyProgress.completedCount,
+  );
 
   const totalModules = 5;
   const percentage = Math.min(
@@ -2312,7 +2361,7 @@ function updateSidebarProgress() {
 
   const streakValue = document.getElementById("sidebar-streak-value");
   if (streakValue) {
-    const days = gamification.currentStreak || 1;
+    const days = gamification.currentStreak || 0;
     streakValue.textContent =
       currentLang === "en"
         ? `${days} ${days === 1 ? "day" : "days"}`
@@ -2370,6 +2419,8 @@ window.resetPomodoro = resetPomodoro;
  * window.startMission('clf-1'); // Inicia o módulo "Conceitos Cloud" do CLF-C02
  */
 window.startMission = async function (stageId) {
+  resetFinishState();
+
   // ========================================================================
   // FASE 1: VALIDAÇÕES DE SEGURANÇA
   // ========================================================================
@@ -2656,6 +2707,8 @@ function renderStudyPlanBanner() {
 // LÓGICA DE GAMIFICAÇÃO: MODO MISSÃO (TRILHA)
 
 window.startTrailMission = async function (stageId, stageTitle) {
+  resetFinishState();
+
   const certSelect = document.getElementById("certification-select");
   if (!certSelect) return;
 

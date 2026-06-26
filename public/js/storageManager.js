@@ -29,6 +29,120 @@ export class StorageManager {
     return `${this.prefix}${suffix}`;
   }
 
+  _getResultIdentity(result) {
+    if (!result || typeof result !== "object") return "";
+    if (result.attemptId) return `attempt:${result.attemptId}`;
+    if (result.quizId) return `quiz:${result.quizId}`;
+
+    const answers = Array.isArray(result.answers)
+      ? result.answers.map((answer) => ({
+          id: answer.id || answer.question_id || answer.question,
+          userSelection: answer.userSelection,
+          isCorrect: answer.isCorrect,
+        }))
+      : [];
+
+    return JSON.stringify({
+      certId: result.certId,
+      score: result.score,
+      total: result.total,
+      percentage: result.percentage,
+      answers,
+    });
+  }
+
+  _getUniqueCompletedSessions(certId) {
+    const history = this.getHistory();
+    const seen = new Set();
+
+    return history.filter((session) => {
+      if (!session || !session.certId || session.percentage === undefined) {
+        return false;
+      }
+      if (certId && session.certId !== certId) return false;
+
+      const identity = this._getResultIdentity(session);
+      if (identity && seen.has(identity)) return false;
+      if (identity) seen.add(identity);
+
+      return true;
+    });
+  }
+
+  getCompletedQuizCount(certId) {
+    return this._getUniqueCompletedSessions(certId).length;
+  }
+
+  getProgressFromHistory(certId, totalModules = 5) {
+    const completedCount = this.getCompletedQuizCount(certId);
+    return {
+      completedCount,
+      percentage: Math.min(
+        Math.round((completedCount / totalModules) * 100),
+        100,
+      ),
+    };
+  }
+
+  _calculateStreakFromHistory(sessions) {
+    const passedDates = [
+      ...new Set(
+        sessions
+          .filter((session) => Number(session.percentage) >= 70 && session.date)
+          .map((session) => new Date(session.date).toISOString().split("T")[0]),
+      ),
+    ].sort((a, b) => new Date(b) - new Date(a));
+
+    if (passedDates.length === 0) return 0;
+
+    let streak = 1;
+    let previous = new Date(`${passedDates[0]}T00:00:00.000Z`);
+
+    for (let i = 1; i < passedDates.length; i++) {
+      const current = new Date(`${passedDates[i]}T00:00:00.000Z`);
+      const diffDays = Math.round((previous - current) / 86400000);
+      if (diffDays !== 1) break;
+      streak++;
+      previous = current;
+    }
+
+    return streak;
+  }
+
+  _mergeGamificationWithHistory(gamification) {
+    const sessions = this._getUniqueCompletedSessions();
+    if (sessions.length === 0) return gamification;
+
+    const bestScore = sessions.reduce(
+      (best, session) => Math.max(best, Number(session.percentage) || 0),
+      0,
+    );
+    const historyStreak = this._calculateStreakFromHistory(sessions);
+    const badges = new Set(
+      Array.isArray(gamification.badges) ? gamification.badges : [],
+    );
+
+    if (bestScore === 100) badges.add("perfect");
+    if (sessions.length >= 10) badges.add("dedicated");
+    if (historyStreak >= 5) badges.add("streak");
+
+    return {
+      ...gamification,
+      totalQuizzes: Math.max(gamification.totalQuizzes || 0, sessions.length),
+      bestScore: Math.max(gamification.bestScore || 0, bestScore),
+      currentStreak: Math.max(gamification.currentStreak || 0, historyStreak),
+      lastDate:
+        gamification.lastDate ||
+        sessions
+          .map((session) => session.date)
+          .filter(Boolean)
+          .sort()
+          .at(-1) ||
+        "",
+      badges: [...badges],
+    };
+  }
+
   /**
    * Salva resultado do quiz (último resultado + histórico)
    * @param {Object} result - Objeto com certId, score, total, percentage, passed, domainScores, weakDomains, answers
@@ -63,11 +177,21 @@ export class StorageManager {
       };
 
       // Salva como último resultado da certificação
+      const resultIdentity = this._getResultIdentity(resultWithDate);
       const lastKey = this._getKey(`last_${result.certId}`);
-      localStorage.setItem(lastKey, JSON.stringify(resultWithDate));
 
       // Adiciona ao histórico
       const history = this.getHistory();
+      const duplicate = history.find(
+        (item) => this._getResultIdentity(item) === resultIdentity,
+      );
+
+      if (duplicate) {
+        localStorage.setItem(lastKey, JSON.stringify(duplicate));
+        return false;
+      }
+
+      localStorage.setItem(lastKey, JSON.stringify(resultWithDate));
       history.unshift(resultWithDate);
 
       // Limita histórico a 50 entradas
@@ -213,30 +337,42 @@ export class StorageManager {
    * // Retorna: { totalQuizzes: 10, bestScore: 85, currentStreak: 3, badges: ['perfect'] }
    */
   getGamification() {
+    const fallback = {
+      totalQuizzes: 0,
+      bestScore: 0,
+      currentStreak: 0,
+      lastDate: "",
+      badges: [],
+      completedStages: [],
+      unlockedStages: [],
+    };
+
     try {
       const gamificationKey = this._getKey("gamification");
       const data = localStorage.getItem(gamificationKey);
 
       if (!data) {
-        return {
-          totalQuizzes: 0,
-          bestScore: 0,
-          currentStreak: 0,
-          lastDate: "",
-          badges: [],
-        };
+        return this._mergeGamificationWithHistory(fallback);
       }
 
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      return this._mergeGamificationWithHistory({
+        totalQuizzes: parsed.totalQuizzes || 0,
+        bestScore: parsed.bestScore || 0,
+        currentStreak: parsed.currentStreak || 0,
+        lastDate: parsed.lastDate || "",
+        badges: Array.isArray(parsed.badges) ? parsed.badges : [],
+        completedStages: Array.isArray(parsed.completedStages)
+          ? parsed.completedStages
+          : [],
+        unlockedStages: Array.isArray(parsed.unlockedStages)
+          ? parsed.unlockedStages
+          : [],
+        labsCompleted: parsed.labsCompleted || 0,
+      });
     } catch (error) {
       console.error("Erro ao carregar gamificação:", error);
-      return {
-        totalQuizzes: 0,
-        bestScore: 0,
-        currentStreak: 0,
-        lastDate: "",
-        badges: [],
-      };
+      return this._mergeGamificationWithHistory(fallback);
     }
   }
 
@@ -254,7 +390,10 @@ export class StorageManager {
       const gamification = this.getGamification();
       const today = new Date().toISOString().split("T")[0];
 
-      gamification.totalQuizzes += 1;
+      const historyQuizCount = this.getCompletedQuizCount();
+      if (historyQuizCount === 0 || gamification.totalQuizzes < historyQuizCount) {
+        gamification.totalQuizzes += 1;
+      }
 
       if (percentage > gamification.bestScore) {
         gamification.bestScore = percentage;

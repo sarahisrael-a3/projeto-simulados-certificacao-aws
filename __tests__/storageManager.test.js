@@ -57,6 +57,73 @@ describe('StorageManager - Persistência de Dados', () => {
         expect(history[1].certId).toBe('clf-c02');
     });
 
+    test('Deve ignorar salvamento duplicado da mesma tentativa', () => {
+        const result = {
+            attemptId: 'attempt-duplicado',
+            certId: 'clf-c02',
+            score: 9,
+            total: 10,
+            percentage: 90,
+            passed: true,
+            domainScores: { compute: { total: 10, correct: 9 } },
+            answers: [{ id: 'q1', userSelection: 0, isCorrect: true }],
+        };
+
+        expect(storage.saveQuizResult(result)).toBe(true);
+        expect(storage.saveQuizResult(result)).toBe(false);
+
+        const history = storage.getHistory();
+        expect(history).toHaveLength(1);
+        expect(history[0].attemptId).toBe('attempt-duplicado');
+    });
+
+    test('Deve calcular progresso por certificacao a partir de sessoes concluidas unicas', () => {
+        storage.saveQuizResult({
+            attemptId: 'attempt-1',
+            certId: 'clf-c02',
+            score: 8,
+            total: 10,
+            percentage: 80,
+        });
+        storage.saveQuizResult({
+            attemptId: 'attempt-1',
+            certId: 'clf-c02',
+            score: 8,
+            total: 10,
+            percentage: 80,
+        });
+        storage.saveQuizResult({
+            attemptId: 'attempt-2',
+            certId: 'saa-c03',
+            score: 7,
+            total: 10,
+            percentage: 70,
+        });
+
+        expect(storage.getProgressFromHistory('clf-c02', 5)).toEqual({
+            completedCount: 1,
+            percentage: 20,
+        });
+    });
+
+    test('getGamification deve derivar badges e totais do historico existente', () => {
+        storage.saveQuizResult({
+            attemptId: 'attempt-perfect',
+            certId: 'clf-c02',
+            score: 10,
+            total: 10,
+            percentage: 100,
+            date: '2026-06-25T10:00:00.000Z',
+        });
+
+        const gamification = storage.getGamification();
+
+        expect(gamification.totalQuizzes).toBe(1);
+        expect(gamification.bestScore).toBe(100);
+        expect(gamification.currentStreak).toBe(1);
+        expect(gamification.badges).toContain('perfect');
+    });
+
     test('updateGamification deve atualizar streak e conceder badge "perfect" para 100%', () => {
         // Primeiro quiz com 100%
         const gamification = storage.updateGamification(100);

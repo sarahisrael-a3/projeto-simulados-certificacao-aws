@@ -16,7 +16,9 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] Validacao persiste status, validador, data, motivo de rejeicao e logs JSONB.
 - [x] Seguranca basica aplicada na API: Helmet, CORS, rate limit e error handler.
 - [x] `npm test` passou em 2026-06-25: 9 suites, 82 testes.
+- [x] `npm test -- --runInBand` passou em 2026-06-26: 9 suites, 85 testes, incluindo regressao de finalizacao duplicada e progresso por historico.
 - [x] `npm run build` passou em 2026-06-25.
+- [x] `npm run build` passou em 2026-06-26 apos correcao do fluxo de finalizacao do simulado.
 - [x] `npm run db:seed` passou em 2026-06-18: 2.545 registros lidos e ja presentes no PGlite.
 - [x] API local com PGlite seedado respondeu `GET /api/health` e `GET /api/questions/pending?limit=2` com HTTP 200.
 - [ ] Validacao manual completa em navegador com API + PGlite seedado.

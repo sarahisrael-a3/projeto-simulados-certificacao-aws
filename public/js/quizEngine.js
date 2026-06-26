@@ -82,6 +82,7 @@ export class QuizEngine {
 
   resetState() {
     this.state = {
+      attemptId: null,
       certId: null,
       questions: [],
       currentIndex: 0,
@@ -96,6 +97,7 @@ export class QuizEngine {
   // 1. CARREGAMENTO E FILTRAGEM
   async loadQuestions(certId, domainsConfig, filters, language = "pt") {
     this.resetState();
+    this.state.attemptId = this._generateAttemptId();
     this.state.certId = certId;
     this.state.mode = filters.mode || "exam";
 
@@ -171,6 +173,7 @@ export class QuizEngine {
     language = "pt",
   ) {
     this.resetState();
+    this.state.attemptId = this._generateAttemptId();
     this.state.certId = certId;
     this.state.mode = "review";
 
@@ -242,6 +245,7 @@ export class QuizEngine {
   // 1.5 CARREGAMENTO DO DIAGNÓSTICO DE NIVELAMENTO
   async loadDiagnostic(certId, domainsConfig, language = "pt") {
     this.resetState();
+    this.state.attemptId = this._generateAttemptId();
     this.state.certId = certId;
     this.state.mode = "diagnostic"; // Isola o estado do simulado real
 
@@ -408,6 +412,8 @@ export class QuizEngine {
     }
 
     return {
+      attemptId: this.state.attemptId,
+      quizId: this.state.quizId,
       certId: this.state.certId,
       score: this.state.score,
       total: total,
@@ -441,6 +447,12 @@ export class QuizEngine {
       // Keep original fields as fallback
       ...q,
     };
+  }
+
+  _generateAttemptId() {
+    const timestamp = Date.now().toString(36);
+    const random = Math.random().toString(36).slice(2, 10);
+    return `attempt_${timestamp}_${random}`;
   }
 
   /**
