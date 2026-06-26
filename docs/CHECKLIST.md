@@ -46,6 +46,8 @@ Este checklist reflete a leitura real do repositorio em 2026-06-25. Evidencias u
 - [x] Sprint de estudo de 14 dias.
 - [x] Desafios interativos em `data/gamificacao/interactive-challenges.json`.
 - [x] Card lateral "O Que Estudar Agora" com recomendacao por dominios fracos.
+- [x] Task 3.1 / Issue #39 documentada em `docs/error-lifecycle.md`: origem dos erros, fonte de verdade local e riscos para revisao.
+- [ ] Task 3.2: implementar revisao real de erros respeitando `localStorage`/`StorageManager` como fonte local-first.
 - [ ] Testes e2e dos fluxos principais no navegador.
 - [ ] Auditoria completa de acessibilidade.
 - [ ] Revisao mobile em dispositivos reais.
